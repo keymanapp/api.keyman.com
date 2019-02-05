@@ -1,0 +1,35 @@
+{ 
+  "$schema": "http://json-schema.org/schema#",
+  "$ref": "#/definitions/Search",
+  
+  "definitions": {
+    "Search": {
+      "type": "object",
+      "properties": {
+        "languages": { "type": "array", "items": { "$ref": "#/definitions/SearchLanguage" } },
+        "keyboards": { "type": "array", "items": { "$ref": "/keyboard_info.source.json#/definitions/KeyboardInfo" } },
+        "countries": { "type": "array", "items": { "$ref": "#/definitions/SearchCountry" } },
+        "rangematch": { "type": "string" }
+      }
+    },
+    
+    "SearchCountry": {
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "name": { "type": "string" },
+        "area": { "type": "string" },
+        "languages": { "type": "array", "items": { "$ref": "#/definitions/SearchLanguage" } }
+      }
+    },
+  
+    "SearchLanguage": {
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "name": { "type": "string" },
+        "keyboards": { "type": "array", "items": { "type": "string" } }
+      }
+    }
+  }
+}

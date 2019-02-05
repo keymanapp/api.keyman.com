@@ -1,0 +1,79 @@
+{ 
+  "$schema": "http://json-schema.org/schema#",
+  "$ref": "#/definitions/KeyboardJson",
+  
+  "definitions": {
+    "KeyboardJson": {
+      "type": "object",
+      "properties": {
+        "options": { "$ref": "#/definitions/KeyboardJsonOptions" },
+        "keyboard": { "$ref": "#/definitions/KeyboardJsonKeyboard" }
+      },
+      "additionalProperties": false,
+      "required": [ 
+        "options", "keyboard"
+      ]
+    },
+    
+    "KeyboardJsonOptions": {
+      "type": "object",
+      "properties": {
+        "device": { "type": "string", "enum": [ "windows", "macosx", "iphone", "ipad", "androidphone", "androidtablet", "mobile", "desktop", "tablet", "any" ] },
+        "keyboardBaseUri": { "type": "string" },
+        "fontBaseUri": { "type": "string" }
+      },
+      "additionalProperties": false,
+      "required": [
+        "keyboardBaseUri"
+      ]
+    },
+    
+    "KeyboardJsonKeyboard": {
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "name": { "type": "string" },
+        "filename": { "type": "string", "pattern": "\\.js$" },
+
+        "rtl": { "type": "boolean" },
+
+        "languages": { "type": "array", "items": { "$ref": "#/definitions/KeyboardJsonLanguage" } },
+        
+        "lastModified": { "type": "string", "format": "date-time" },
+        "version": { "type": "string" },
+        
+        
+        "font": { "$ref": "#/definitions/KeyboardJsonFont" },
+        "oskFont": { "$ref": "#/definitions/KeyboardJsonFont" }
+      },
+      "required": [
+        "id",
+        "filename",
+        "version"
+      ],
+      "additionalProperties": false
+    },
+    
+    "KeyboardJsonFont": {
+      "type": "object",
+      "properties": {
+        "family": { "type": "string" },
+        "source": { "anyOf": [ { "type": "string" }, { "type": "array", "items": { "type": "string" } } ] },
+        "size": { "type": "string" }
+      },
+      "required": [
+        "family",
+        "source"
+      ],
+      "additionalProperties": false
+    },
+ 
+    "KeyboardJsonLanguage": {
+      "type": "object",
+      "patternProperties": {
+        ".": { "type": "string" }
+      },
+      "additionalProperties": false
+    }
+  }
+}

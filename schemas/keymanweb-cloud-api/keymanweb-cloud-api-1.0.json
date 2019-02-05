@@ -1,0 +1,82 @@
+{ 
+  "$schema": "http://json-schema.org/schema#",
+  "$ref": "#/definitions/KeymanWebCloud10",
+  
+  "definitions": {
+    "KeymanWebCloud10": {
+      "oneOf": [
+        { "$ref": "#/definitions/Keyboards" },
+        { "$ref": "#/definitions/Keyboard" },
+        { "$ref": "#/definitions/Languages" },
+        { "$ref": "#/definitions/Language" }
+      ]
+    },
+    
+    "Keyboards": {
+      "type": "object",
+      "properties": {
+        "keyboards": { "type": "array", "items": { "$ref": "#/definitions/Keyboard" } }
+      },
+      "required": [ "keyboards" ],
+      "additionalProperties": false
+    },
+
+    "Keyboard": {
+      "type": "object",
+      "properties": {
+        "version": { "type": "string" },
+        "rtl": { "type": "boolean" },
+        "name": { "type": "string" },
+        "fileSize": { "type": "number" },
+        "id": { "type": "string" },
+        "lastModified": { "type": "string", "format": "date-time" },
+        "uri": { "type": "string", "format": "uri" },
+        "languages": { "type": "array", "items": { "$ref": "#/definitions/KeyboardLanguage" } }
+      },
+      "required": [ "id", "languages" ],
+      "additionalProperties": false
+    },
+    
+    "KeyboardLanguage": {
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "name": { "type": "string" }
+      }
+    },
+    
+    "Languages": {
+      "type": "object",
+      "properties": {
+        "languages": { "type": "array", "items": { "$ref": "#/definitions/Language" } }
+      },
+      "required": [ "languages" ],
+      "additionalProperties": false
+    },
+  
+    "Language": {
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "name": { "type": "string" },
+        "keyboards": { "type": "array", "items": { "$ref": "#/definitions/LanguageKeyboard" } }
+      },
+      "required": [ "id", "keyboards" ],
+      "additionalProperties": false
+    },
+    
+    "LanguageKeyboard": {
+      "type": "object",
+      "properties": {
+        "default": { "type": "boolean" },
+        "rtl": { "type": "boolean" },
+        "id": { "type": "string" },
+        "version": { "type": "string" },
+        "fileSize": { "type": "number" },
+        "lastModified": { "type": "string", "format": "date-time" },
+        "name": { "type": "string" },
+        "uri": { "type": "string", "format": "uri" }
+      }
+    }
+  }
+}

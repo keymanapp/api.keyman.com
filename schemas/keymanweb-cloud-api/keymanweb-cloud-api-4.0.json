@@ -1,0 +1,156 @@
+{ 
+  "$schema": "http://json-schema.org/schema#",
+  "$ref": "#/definitions/KeymanWebCloud40",
+  
+  "definitions": {
+    "KeymanWebCloud40": {
+      "allOf": [
+        { "$ref": "#/definitions/Base" },
+      
+        {
+          "oneOf": [
+            { "properties": { "keyboard": { "$ref": "#/definitions/Keyboards" } }, "required": ["keyboard"] },
+            { "properties": { "keyboard": { "$ref": "#/definitions/Keyboard" } }, "required": ["keyboard"] }, 
+            { "properties": { "language": { "$ref": "#/definitions/Language" } }, "required": ["language"] },
+            { "properties": { "languages": { "$ref": "#/definitions/Languages" } }, "required": ["languages"] }
+          ]
+        }
+      ]
+    },
+
+    "Base": {
+      "properties": {
+        "options": { "$ref": "#/definitions/Options" }
+      },
+      "required": ["options"]
+    },
+    
+    "Options": { 
+      "type": "object",
+      "properties": {
+        "context": { "type": "string", "enum": ["keyboard", "language"] },
+        "dateFormat": { "type": "string", "enum": ["standard", "seconds"] },
+        "device": { "type": "string", "enum": ["any", "windows", "macosx", "desktop", "iphone", "ipad", "androidphone", "androidtablet", "mobile", "tablet"] },
+        "keyboardBaseUri": { "type": "string", "format": "uri" },
+        "fontBaseUri": { "type": "string", "format": "uri" },
+        "keyboardVersion": { "type": "string" },
+        "keyboardid": { "type": "string" },
+        "languageid": { "type": "string" }
+      },
+      "required": ["context"],
+      "additionalProperties": false
+    },
+    
+    "Keyboards": {
+      "type": "array",
+      "items": { "oneOf": [ { "$ref": "#/definitions/Keyboard" }, { "type": "array", "items": { "$ref": "#/definitions/Keyboard" } } ] }
+    },
+    
+    "Languages": { 
+      "type": "object",
+      "properties": {
+        "languages": { "type": "array", "items": { "$ref": "#/definitions/Language" } }
+      },
+      "required": ["languages"],
+      "additionalProperties": false
+    },
+
+    "KeyboardBase": {
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "filename": { "type": "string" },
+        "lastModified": { "type": "string", "format": "date-time" },
+        "rtl": { "type": "boolean" },
+        "version": { "type": "string" },
+        "minVersion": { "type": "string" },
+        "maxVersion": { "type": "string" },
+        "fileSize": { "type": "number" }
+      }
+    },
+
+    "Keyboard": {
+      "allOf": [
+        { "$ref": "#/definitions/KeyboardBase" },
+        { 
+          "properties": {
+            "languages": { "type": "array", "items": { "$ref": "#/definitions/KeyboardLanguage" } }
+          },
+          "required": [ "id", "languages" ]
+        }
+      ]
+    },
+
+    "LanguageBase": { 
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "name": { "type": "string" },
+        "region": { "type": "number" }
+      }
+    },
+    
+    "Language": { 
+      "allOf": [
+        { "$ref": "#/definitions/LanguageBase" },
+        {
+          "properties": {
+            "keyboards": { "type": "array", "items": { "$ref": "#/definitions/LanguageKeyboard" } }
+          },
+          "required": [ "id", "keyboards" ]
+        }
+      ]
+    },
+    
+    "KeyboardLanguageBase": {
+      "type": "object",
+      "properties": {
+        "font": { "$ref": "#/definitions/Font" },
+        "oskFont": { "$ref": "#/definitions/Font" },
+        "example": { "$ref": "#/definitions/LanguageExample" }
+      }
+    },
+    
+    "KeyboardLanguage": {
+      "allOf": [
+        { "$ref": "#/definitions/KeyboardLanguageBase" },
+        { "$ref": "#/definitions/LanguageBase" },
+        {
+          "required": ["id", "name"]
+        }
+      ]
+    },
+    
+    "LanguageKeyboard": {
+      "allOf": [
+        { "$ref": "#/definitions/KeyboardLanguageBase" },
+        { "$ref": "#/definitions/KeyboardBase" },
+        {
+          "required": ["id", "filename"]
+        }
+      ]
+    },
+
+    "LanguageExample": {
+      "type": "object",
+      "properties": {
+        "keys": { "type": "string" },
+        "text": { "type": "string" },
+        "note": { "type": "string" }
+      },
+      "required": ["keys", "text"],
+      "additionalProperties": false
+    },
+    
+    "Font": {
+      "type": "object",
+      "properties": {
+         "family": { "type": "string" },
+         "source": { "type": [ "array", "string" ] },
+         "size": { "type": "string" }
+      },
+      "required": [ "family", "source" ],
+      "additionalProperties": false
+    }
+  }
+}

@@ -1,0 +1,15 @@
+{
+  "$schema": "http://json-schema.org/schema#",
+  "$ref": "#/definitions/version",
+
+  "definitions": {
+    "version": {
+      "type": "object",
+      "properties": {
+        "platform": { "type": "string",  "enum": ["windows", "mac", "android", "ios", "web"] },
+        "level": { "type": "string", "enum": ["stable", "alpha", "beta"] },
+        "version": { "type": "string" }
+      }
+    }
+  }
+}
