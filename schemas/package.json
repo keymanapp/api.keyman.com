@@ -23,6 +23,9 @@
         "keyboards": {
           "$ref": "#/definitions/keyboards"
         },
+        "lexicalModels": {
+          "$ref": "#/definitions/lexicalModels"
+        },
         "info": {
           "$ref": "#/definitions/info"
         }
@@ -238,6 +241,42 @@
       "additionalProperties": false,
       "required": [
         "description"
+      ]
+    },
+    "lexicalModels": {
+      "type": "array",
+      "items": {
+        "$ref": "#/definitions/lexicalModel"
+      }
+    },
+    "lexicalModel": {
+      "type": "object",
+      "properties": {
+        "name": {
+          "type": "string"
+        },
+        "id": {
+          "type": "string"
+        },
+        "version": {
+          "type": "string"
+        },
+        "rtl": {
+          "type": "boolean"
+        },
+        "languages": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/keyboardLanguage"
+          }
+        }
+      },
+      "additionalProperties": false,
+      "required": [
+        "name",
+        "id",
+        "version",
+        "languages"
       ]
     }
   }

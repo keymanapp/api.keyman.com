@@ -69,6 +69,9 @@ Documentation at https://help.keyman.com/developer/10.0/reference/file-types/met
 
 # package.json version history
 
+## 2019-01-31 1.1.0
+* Add lexicalModels properties
+
 ## 2018-02-13 1.0.2
 * Add rtl property for keyboard layouts
 
@@ -108,3 +111,19 @@ Documentation at https://help.keyman.com/developer/cloud/
 
 ## 2018-01-31
 * Created schema files for existing json api endpoints
+
+------------------------------------------------------------
+
+# model_info
+
+* model_info.source.json
+* model_info.distribution.json
+
+Documentation at https://help.keyman.com/developer/cloud/model_info
+
+New versions should be deployed to 
+- **keymanapp/keyman/windows/src/global/inst/model_info** 
+- **keymanapp/lexical-models/tools**
+
+## 2019-01-31 1.0 beta
+* Initial version
