@@ -1,0 +1,8 @@
+{ 
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "type": "object",
+  "allOf": [
+    { "$ref": "/model_info.source.json#/definitions/ModelInfo" },
+    { "required": [ "id", "name", "license", "languages", "lastModifiedDate" ] }
+  ]
+}
