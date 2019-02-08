@@ -11,8 +11,8 @@
 
   header('Content-Type: text/plain');
   
-  $github_user = $_ENV['api_keyman_com_github_user'];
-  $github_repo = $_ENV['api_keyman_com_github_repo'];
+  $github_user = $_SERVER['api_keyman_com_github_user'];
+  $github_repo = $_SERVER['api_keyman_com_github_repo'];
 
   $crashid = $_REQUEST['CrashID'];
   $text = $_REQUEST['Text'];
