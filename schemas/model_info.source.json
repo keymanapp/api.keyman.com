@@ -20,7 +20,7 @@
         "jsFilename": { "type": "string", "pattern": "\\.model\\.js$" },
         "jsFileSize": { "type": "number" },
         "isRTL": { "type": "boolean" },
-        "packageIncludes": { "type": "array", "items": { "type": "string", "enum": ["documentation"] }, "additionalItems": false },
+        "packageIncludes": { "type": "array", "items": { "type": "string", "enum": ["fonts"] }, "additionalItems": false },
         "version": { "type": "string" },
         "minKeymanVersion": { "type": "string", "pattern": "^\\d+\\.0$" },
         "helpLink": { "type": "string", "pattern": "^https://help\\.keyman\\.com/lexical-model/" },
