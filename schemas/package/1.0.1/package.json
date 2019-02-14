@@ -170,9 +170,6 @@
         "displayFont": {
           "type": "string"
         },
-        "rtl": {
-          "type": "boolean"
-        },
         "languages": {
           "type": "array",
           "items": {

@@ -1,0 +1,61 @@
+{ 
+  "$schema": "http://json-schema.org/schema#",
+  "$ref": "#/definitions/ModelInfo",
+  
+  "definitions": {
+    "ModelInfo": {
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "name": { "type": "string" },
+        "authorName": { "type": "string" },
+        "authorEmail": { "type": "string", "format": "email" },
+        "description": { "type": "string" },
+        "license": { "type": "string", "enum": ["mit"] },
+        "languages": { "type": "array", "items": { "type": "string" }, "uniqueItems": true },
+        "lastModifiedDate": { "type": "string", "format": "date-time" },
+        "links": { "type": "array", "items": { "$ref": "#/definitions/ModelLinkInfo" } },
+        "packageFilename": { "type": "string", "pattern": "\\.model\\.kmp$" },
+        "packageFileSize": { "type": "number" },
+        "jsFilename": { "type": "string", "pattern": "\\.model\\.js$" },
+        "jsFileSize": { "type": "number" },
+        "isRTL": { "type": "boolean" },
+        "packageIncludes": { "type": "array", "items": { "type": "string", "enum": ["fonts"] }, "additionalItems": false },
+        "version": { "type": "string" },
+        "minKeymanVersion": { "type": "string", "pattern": "^\\d+\\.0$" },
+        "helpLink": { "type": "string", "pattern": "^https://help\\.keyman\\.com/lexical-model/" },
+        "sourcePath": { "type": "string", "pattern": "^(release|experimental)/.+/.+$" },
+        "related": { "type": "object", "patternProperties": { 
+          ".": { "$ref": "#/definitions/ModelRelatedInfo" }
+          },
+          "additionalProperties": false
+        }
+      },
+      "required": [
+        "license", "languages"
+      ],
+      "additionalProperties": false
+    },
+          
+    "ModelLinkInfo": {
+      "type": "object",
+      "properties": {
+        "name": { "type": "string" },
+        "url": { "type": "string" }
+      },
+      "required": ["name", "url"],
+      "additionalProperties": false
+    },
+        
+    "ModelRelatedInfo": {
+      "type": "object",
+      "properties": {
+        "deprecates": { "type": "boolean" },
+        "deprecatedBy": { "type": "boolean" },
+        "note": { "type": "string" }
+      },
+      "required": [],
+      "additionalProperties": false
+    }
+  }
+}

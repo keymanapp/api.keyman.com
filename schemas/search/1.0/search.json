@@ -1,0 +1,25 @@
+{ 
+  "$schema": "http://json-schema.org/schema#",
+  "$ref": "#/definitions/Search",
+  
+  "definitions": {
+    "Search": {
+      "type": "object",
+      "properties": {
+        "languages": { "type": "array", "items": { "$ref": "#/definitions/SearchLanguage" } },
+        "keyboards": { "type": "array", "items": { "$ref": "/keyboard_info.source.json#/definitions/KeyboardInfo" } },
+        "countries": { "type": "array" },
+        "rangematch": { "type": "string" }
+      }
+    },
+  
+    "SearchLanguage": {
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "name": { "type": "string" },
+        "keyboards": { "type": "array", "items": { "type": "string" } }
+      }
+    }
+  }
+}
