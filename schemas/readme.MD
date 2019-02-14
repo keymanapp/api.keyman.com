@@ -91,7 +91,7 @@ Documentation at https://help.keyman.com/developer/cloud/version/2.0
 
 ## version.json version history
 
-## 2018-03-07 1.0 beta
+## 2018-03-07 2.0 beta
 * Initial version
 
 ------------------------------------------------------------
