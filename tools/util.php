@@ -7,7 +7,7 @@
     header("HTTP/1.0 $code Fail: $s");
     if($is_json_response) {
       $error = array("message" => $s);
-      /*if(isset($mysql)) { <-- enable this on test sites if you are debugging mysql issues
+      /*if(isset($mysql)) { // <-- enable this on test sites if you are debugging mysql issues
         $error['mysql'] = $mysql->error;
       }*/
       if(!empty($log)) {
@@ -57,6 +57,10 @@
   
   function get_site_url_downloads() {
     return 'https://downloads.keyman.com';
+  }
+
+  function get_model_download_url($id, $version, $filename) {
+    return get_site_url_downloads() . "/models/{$id}/{$version}/{$filename}";
   }
 
 ?>
