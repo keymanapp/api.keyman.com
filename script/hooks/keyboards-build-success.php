@@ -27,8 +27,8 @@
     fail('Invalid token');
   }
 
-  $log = "Triggered database build for keymanapp/keyboards\n".
-         "================================================\n\n";
+  $log = "Triggered database build for keymanapp/keyboards and keymanapp/lexical-models\n".
+         "=============================================================================\n\n";
   
   function build_log($message) {
     global $log;

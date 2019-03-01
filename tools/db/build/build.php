@@ -4,6 +4,7 @@
   require_once(dirname(__FILE__).'/../servervars.php');
   require_once('build_standards_data_script.php');
   require_once('build_keyboards_script.php');
+  require_once('build_models_script.php');
 
   function BuildDatabase($do_force) {
     global $mysqldb;
@@ -16,8 +17,12 @@
     $builder = new build_keyboards_sql();
     $builder->execute($data_path, $do_force) || fail("Unable to build keyboards data scripts");
 
+    $builder = new build_models_sql();
+    $builder->execute($data_path, $do_force) || fail("Unable to build lexical models data scripts");
+
     sqlrun(dirname(__FILE__)."/search.sql");
     sqlrun(dirname(__FILE__)."/search-queries.sql");
+    sqlrun(dirname(__FILE__)."/model-queries.sql");
     sqlrun(dirname(__FILE__)."/legacy-queries.sql");
     sqlrun("${data_path}language-subtag-registry.sql", $mysqldb);
     sqlrun("${data_path}iso639-3.sql", $mysqldb);
@@ -26,6 +31,7 @@
     sqlrun("${data_path}ethnologue_country_codes.sql", $mysqldb);
     sqlrun("${data_path}ethnologue_language_index.sql", $mysqldb);
     sqlrun("${data_path}keyboards.sql", $mysqldb);
+    sqlrun("${data_path}models.sql", $mysqldb);
     sqlrun(dirname(__FILE__)."/search-prepare-data.sql", $mysqldb);
     
     return true;

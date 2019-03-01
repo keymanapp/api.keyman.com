@@ -24,13 +24,16 @@ CREATE TABLE IF NOT EXISTS t_script (
   name varchar(64)
 );
 
-/*
+/*====================================================================
+
  Keyboard data, unpacked from keyboard_info json for searching.
  Original .keyboard_info is stored in the keyboard_info column so
  we are not reconstructing the json from the data on each query. This
  also ensures we do not lose data if the keyboard_info format is
  extended in the future.
-*/
+
+====================================================================*/
+
 CREATE TABLE IF NOT EXISTS t_keyboard (
   keyboard_id varchar(256) not null primary key,
   name varchar(256),
@@ -107,6 +110,84 @@ CREATE TABLE IF NOT EXISTS t_keyboard_related (
   
   foreign key (keyboard_id) references t_keyboard (keyboard_id)
 );
+
+/*====================================================================
+
+ Model data, unpacked from model_info json for searching.
+ Original .model_info is stored in the model_info column so
+ we are not reconstructing the json from the data on each query. This
+ also ensures we do not lose data if the model_info format is
+ extended in the future.
+
+====================================================================*/
+
+CREATE TABLE IF NOT EXISTS t_model (
+  model_id varchar(256) not null primary key,
+  name varchar(256),
+  author_name varchar(256),
+  author_email varchar(256),
+  description text,
+  license varchar(32),
+  last_modified date,
+
+  version varchar(64),
+  min_keyman_version varchar(64),
+  min_keyman_version_1 int,
+  min_keyman_version_2 int,
+  
+  package_filename varchar(256),
+  package_filesize int,
+  js_filename varchar(256),
+  js_filesize int,
+
+  is_rtl bit,
+  
+  includes_fonts bit,
+   
+  model_info json
+);
+
+/*
+ A language entry for a given model. If there is a 
+ matching language + region + script, then these will be populated,
+ but the bcp47 column is the master identifier for the language entry.
+ For example, the language_id may be qxx for an invented language.
+*/
+CREATE TABLE IF NOT EXISTS t_model_language (
+  model_id varchar(256),
+  bcp47 varchar(64), 
+  language_id varchar(3),
+  region_id char(2),
+  script_id char(4),
+  description varchar(256), /* use when bcp47 is broader than lang+reg+scr? */
+    
+  foreign key (model_id) references t_model (model_id)
+  /*foreign key (language_id) references t_language (language_id),
+  foreign key (region_id) references t_region (region_id),
+  foreign key (script_id) references t_script (script_id)*/
+);
+
+CREATE TABLE IF NOT EXISTS t_model_link (
+  model_id varchar(256),
+  url varchar(1024),
+  name varchar(256),
+  
+  foreign key (model_id) references t_model (model_id)
+);
+
+CREATE TABLE IF NOT EXISTS t_model_related (
+  model_id varchar(256),
+  related_model_id varchar(256), /* we don't use a fk constraint because the related model may not exist here */
+  deprecates bit,
+  
+  foreign key (model_id) references t_model (model_id)
+);
+
+/*====================================================================
+
+Standards Data
+
+====================================================================*/
 
 CREATE TABLE IF NOT EXISTS t_iso639_3 (
   Id      char(3) NOT NULL,  /* The three-letter 639-3 identifier*/
