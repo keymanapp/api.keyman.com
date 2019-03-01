@@ -128,7 +128,7 @@ END;
           $minKeymanVersion1 = $matches[1];
           $minKeymanVersion2 = $matches[2];
         } else {
-          $minKeymanVersion1 = 9;
+          $minKeymanVersion1 = 12;
           $minKeymanVersion2 = 0;
         }
 
