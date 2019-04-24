@@ -51,21 +51,31 @@
       // Check each of the tiers for the one that matches the major version.
       // This gets us upgrades on alpha, beta and stable tiers.
       $tiers = get_object_vars($DownloadVersions->$platform);
-      foreach($tiers as $tier => $tierdata) {
-        if($this->IsSameMajorVersion($tierdata->version, $InstalledVersion)) {
-          // TODO: We offer upgrades for MAJOR.x.x.x versions. We want users to stay on the
-          // same tier. Note, if we decide to do an alpha release for a minor version update then
-          // we may have a problem: right now  there would be no way to tell if the user is on 
-          // an alpha, beta or stable tier except by looking up the version in downloads.keyman.com 
-          // (which is not currently supported, but would be easy enough to support).
-          
-          $files = get_object_vars($tierdata->files);
-          foreach($files as $file => $filedata) {
-            // This is currently tied to Windows -- for other platforms we need to change this
-            if(preg_match($this->installerRegex, $file)) {
-              $filedata->url = get_site_url_downloads() . "/$platform/$tier/{$filedata->version}/{$file}";
-              return $filedata;
-            }
+      
+      $match = $this->CheckVersionResponse('stable', $tiers, $platform, $InstalledVersion);
+      if($match === FALSE)
+        $match = $this->CheckVersionResponse('beta', $tiers, $platform, $InstalledVersion);
+      if($match === FALSE)
+        $match = $this->CheckVersionResponse('alpha', $tiers, $platform, $InstalledVersion);
+      return $match;
+    }
+    
+    private function CheckVersionResponse($tier, $tiers, $platform, $InstalledVersion) {
+      if(!isset($tiers[$tier])) return FALSE;
+      $tierdata = $tiers[$tier];
+      if($this->IsSameMajorVersion($tierdata->version, $InstalledVersion)) {
+        // TODO: Offer upgrades for MAJOR.x.x.x versions.
+        // We still don't support staying on alpha or beta tier once a version
+        // hits stable. We need to review the upgrade strategies for these.
+        // Once a version is older than latest stable, we also don't offer updates for it; 
+        // this is probably also wrong.
+        
+        $files = get_object_vars($tierdata->files);
+        foreach($files as $file => $filedata) {
+          // This is currently tied to Windows -- for other platforms we need to change this
+          if(preg_match($this->installerRegex, $file)) {
+            $filedata->url = get_site_url_downloads() . "/$platform/$tier/{$filedata->version}/{$file}";
+            return $filedata;
           }
         }
       }
