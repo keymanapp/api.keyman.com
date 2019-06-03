@@ -30,7 +30,7 @@ BEGIN
       )
     ) OR (
       prmMatchType = 2 AND (
-        EXISTS (SELECT * FROM t_model_language ml WHERE ml.model_id = m.model_id AND ml.language_id = prmSearchPlain)
+        EXISTS (SELECT * FROM t_model_language ml WHERE ml.model_id = m.model_id AND ml.bcp47 = prmSearchPlain)
       )
     )
   ORDER BY
