@@ -3,10 +3,10 @@
 
   // http://www-01.sil.org/iso639-3/iso-639-3.tab <-- for iso639-3 -> iso639-1 mappings
   // http://www-01.sil.org/iso639-3/iso-639-3_Name_Index.tab <-- for language name index
-  // https://www.iana.org/assignments/language-subtag-registry <-- for language subtag registry
+  // https://www.iana.org/assignments/language-subtag-registry/language-subtag-registry <-- for language subtag registry
   // Todo: filter pejorative names
   
-  define('URI_LANGUAGE_SUBTAG_REGISTRY', 'https://www.iana.org/assignments/language-subtag-registry');
+  define('URI_LANGUAGE_SUBTAG_REGISTRY', 'https://www.iana.org/assignments/language-subtag-registry/language-subtag-registry');
   define('URI_ISO639_3_TAB', 'http://www-01.sil.org/iso639-3/iso-639-3.tab');
   define('URI_ISO639_3_NAME_INDEX_TAB', 'http://www-01.sil.org/iso639-3/iso-639-3_Name_Index.tab');
   define('ETHNOLOGUE_LANGUAGE_CODES_TAB', 'https://www.ethnologue.com/sites/default/files/LanguageCodes.tab');

@@ -10,7 +10,7 @@
     if($local_force) $duration = 0;
     if(!file_exists($filename) || time()-filemtime($filename) > $duration) {
       echo "Downloading $url\n";
-      if(($file = file_get_contents($url)) === FALSE) {
+      if(($file = @file_get_contents($url)) === FALSE) {
         if(!file_exists($filename)) {
           echo "Failed to download $url\n"; //todo to stderr
           return false;
