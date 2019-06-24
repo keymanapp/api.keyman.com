@@ -13,7 +13,11 @@
       if(!is_dir($this->cache_path)) {
         mkdir($this->cache_path, 0777, true) || fail("Unable to create folder " . $this->cache_path);
       }
-      
+
+      if(is_dir($this->keyboards_path)) {
+        deleteDir($this->keyboards_path) || fail("Unable to remove folder " . $this->keyboards_path);
+      }
+
       if(!is_dir($this->keyboards_path)) {
         mkdir($this->keyboards_path, 0777, true) || fail("Unable to create folder " . $this->keyboards_path);
       }
