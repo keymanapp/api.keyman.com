@@ -13,6 +13,10 @@
       if(!is_dir($this->cache_path)) {
         mkdir($this->cache_path, 0777, true) || fail("Unable to create folder " . $this->cache_path);
       }
+
+      if(is_dir($this->models_path)) {
+        deleteDir($this->models_path) || fail("Unable to remove folder " . $this->models_path);
+      }
       
       if(!is_dir($this->models_path)) {
         mkdir($this->models_path, 0777, true) || fail("Unable to create folder " . $this->models_path);
