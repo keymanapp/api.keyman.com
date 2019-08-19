@@ -127,3 +127,15 @@ New versions should be deployed to
 
 ## 2019-01-31 1.0 beta
 * Initial version
+
+------------------------------------------------------------
+
+# visualkeyboard
+
+* visualkeyboard.dtd
+
+XML Document Type Defintion for the .kvks file format. Previously, this was 
+at http://tavultesoft.com/keymandev/visualkeyboard.dtd.
+
+## 2019-08-20
+* Moved to api.keyman.com (redirect on tavultesoft.com)
