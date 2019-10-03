@@ -5,8 +5,8 @@
 
 Documentation at https://help.keyman.com/developer/cloud/keyboard_info
 
-New versions should be deployed to 
-- **keymanapp/keyman/windows/src/global/inst/keyboard_info** 
+New versions should be deployed to
+- **keymanapp/keyman/windows/src/global/inst/data/keyboard_info**
 - **keymanapp/keyboards/tools**
 - **keymanapp/keyboards-starter/tools**
 
@@ -70,7 +70,7 @@ Documentation at https://help.keyman.com/developer/10.0/reference/file-types/met
 # package.json version history
 
 ## 2019-01-31 1.1.0
-* Add lexicalModels properties
+* Add lexicalModels properties (note: `version` is optional and currently unused)
 
 ## 2018-02-13 1.0.2
 * Add rtl property for keyboard layouts
@@ -121,8 +121,8 @@ Documentation at https://help.keyman.com/developer/cloud/
 
 Documentation at https://help.keyman.com/developer/cloud/model_info
 
-New versions should be deployed to 
-- **keymanapp/keyman/windows/src/global/inst/model_info** 
+New versions should be deployed to
+- **keymanapp/keyman/windows/src/global/inst/model_info**
 - **keymanapp/lexical-models/tools**
 
 ## 2019-01-31 1.0 beta
@@ -134,7 +134,7 @@ New versions should be deployed to
 
 * visualkeyboard.dtd
 
-XML Document Type Defintion for the .kvks file format. Previously, this was 
+XML Document Type Defintion for the .kvks file format. Previously, this was
 at http://tavultesoft.com/keymandev/visualkeyboard.dtd.
 
 ## 2019-08-20
