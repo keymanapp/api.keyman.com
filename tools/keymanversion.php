@@ -24,7 +24,7 @@
 
       // Get from cached file first. Otherwise using downloads.keyman.com
       $json = @file_get_contents($this->versionJsonFilename);
-      if ($json === NULL) {
+      if ($json === NULL || $json === FALSE) {
         $json = @file_get_contents("{$this->downloadsApiVersionUrl}/$platform");
       }
 

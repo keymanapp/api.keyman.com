@@ -16,7 +16,7 @@
    *
    * https://api.keyman.com/schemas/version.json is JSON schema
    *
-   * @param platform    p-string  string of Keyman platform: android, ios, mac, windows, web.
+   * @param platform    p-string  string of Keyman platform: android, ios, linux, mac, windows, web.
    * If not provided, the platform 'web' will be used.
    * @param level       l-string  string of release tier: stable, beta, alpha.
    * If not provided, the level 'stable' will be used.
@@ -53,8 +53,8 @@
 
   if (!empty($_REQUEST['platform'])) {
     $platform = $_REQUEST['platform'];
-    if (!preg_match('/^(android|ios|mac|windows|web)$/', $platform)) {
-      fail('Invalid platform parameter - android, ios, mac, windows or web expected');
+    if (!preg_match('/^(android|ios|linux|mac|windows|web)$/', $platform)) {
+      fail('Invalid platform parameter - android, ios, linux, mac, windows or web expected');
     }
   } else {
     $platform = 'web';
