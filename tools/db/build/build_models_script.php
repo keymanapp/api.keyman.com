@@ -192,7 +192,7 @@ END;
           $result .= <<<END
 $comma
               ({$this->sqlv($model, 'id')},
-              {$this->sqlv(null, $id)},
+              {$this->sqlv(null, strtolower($id))},
               {$this->sqlv(null, $lang)},
               {$this->sqlv(null, $region)},
               {$this->sqlv(null, $script)})
