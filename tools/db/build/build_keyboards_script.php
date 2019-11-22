@@ -369,9 +369,9 @@ END;
         return false;
       }
       
-      if(isset($matches['language'])) $lang = $matches['language'];
-      if(isset($matches['region'])) $region = $matches['region'];
-      if(isset($matches['script'])) $script = $matches['script'];
+      if(isset($matches['language'])) $lang = strtolower($matches['language']);
+      if(isset($matches['region'])) $region = strtolower($matches['region']);
+      if(isset($matches['script'])) $script = strtolower($matches['script']);
       return true;
     }
   }

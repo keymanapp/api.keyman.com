@@ -182,16 +182,20 @@ END;
         return; 
       }
       if(isset($row['Scope']) && $row['Scope'] == 'private-use') return;
-      
+
+      // We'll work with all subtags as lower case for search etc
+      if(!isset($row['Subtag'])) return;
+      $subtag = strtolower($row['Subtag']);
+
       switch($row['Type']) {
       case 'language':
-        $this->languages[$row['Subtag']] = $row['Description'];
+        $this->languages[$subtag] = $row['Description'];
         break;
       case 'script':
-        $this->scripts[$row['Subtag']] = $row['Description'];
+        $this->scripts[$subtag] = $row['Description'];
         break;
       case 'region':
-        $this->regions[$row['Subtag']] = $row['Description'];
+        $this->regions[$subtag] = $row['Description'];
         break;
       }
     }
