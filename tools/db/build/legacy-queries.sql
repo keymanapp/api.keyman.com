@@ -63,6 +63,74 @@ BEGIN
     COALESCE(elc.Name, li.Ref_Name, kl.bcp47);
 END;
 
+DROP PROCEDURE IF EXISTS sp_legacy10_all_keyboard_languages;
+
+CREATE PROCEDURE sp_legacy10_all_keyboard_languages (
+ IN keyboard_id VARCHAR(256)
+)
+READS SQL DATA
+BEGIN
+  SELECT
+    kl.keyboard_id,
+    kl.bcp47,
+    elc.CountryID region_id, -- maps to t_region
+    ec.Area legacy_region,   -- roughly, continent name, mapped in the php layer to a legacy numeric identifier
+    COALESCE(elc.Name, li.Ref_Name, kl.bcp47) name  -- this name is inverted, e.g. "Arabic, Standard", not "Standard Arabic". 
+      -- Some names are missing from Ethnologue, e.g. Ancient and macrolanguages, for those we have no region and
+      -- so we will end up with 'world'
+  FROM
+    t_keyboard_language kl LEFT JOIN
+    -- This join is imperfect because we are ignoring the region part of the bcp47 tag, for now. We should join across that
+    -- and then prioritise that region.
+    t_iso639_3 li ON li.CanonicalId = kl.language_id LEFT JOIN -- Join across normalised language id
+    t_ethnologue_language_codes elc ON li.Id = elc.LangID LEFT JOIN
+    t_ethnologue_country_codes ec ON elc.CountryID = ec.CountryID
+  WHERE
+    kl.keyboard_id = keyboard_id OR keyboard_id IS NULL
+  ORDER BY
+    kl.keyboard_id,
+    COALESCE(elc.Name, li.Ref_Name, kl.bcp47);
+END;
+
+DROP PROCEDURE IF EXISTS sp_legacy10_languages_for_keyboards_for_language;
+
+CREATE PROCEDURE sp_legacy10_languages_for_keyboards_for_language (
+ IN bcp47 VARCHAR(256)
+)
+READS SQL DATA
+BEGIN
+  SELECT
+    kl.keyboard_id,
+    kl.bcp47,
+    elc.CountryID region_id, -- maps to t_region
+    ec.Area legacy_region,   -- roughly, continent name, mapped in the php layer to a legacy numeric identifier
+    COALESCE(elc.Name, li.Ref_Name, kl.bcp47) name  -- this name is inverted, e.g. "Arabic, Standard", not "Standard Arabic". 
+      -- Some names are missing from Ethnologue, e.g. Ancient and macrolanguages, for those we have no region and
+      -- so we will end up with 'world'
+  FROM
+    t_keyboard_language kl LEFT JOIN
+    -- This join is imperfect because we are ignoring the region part of the bcp47 tag, for now. We should join across that
+    -- and then prioritise that region.
+    t_iso639_3 li ON li.CanonicalId = kl.language_id LEFT JOIN -- Join across normalised language id
+    t_ethnologue_language_codes elc ON li.Id = elc.LangID LEFT JOIN
+    t_ethnologue_country_codes ec ON elc.CountryID = ec.CountryID
+  WHERE
+    kl.keyboard_id IN (
+      SELECT
+        k.keyboard_id
+      FROM
+        t_keyboard k
+      WHERE
+        k.js_filename IS NOT NULL AND
+        EXISTS(SELECT * FROM t_keyboard_language kl WHERE kl.keyboard_id = k.keyboard_id AND kl.bcp47 = bcp47)
+    )
+  ORDER BY
+    kl.keyboard_id,
+    COALESCE(elc.Name, li.Ref_Name, kl.bcp47);
+END;
+
+
+
 DROP PROCEDURE IF EXISTS sp_legacy10_keyboard;
 
 CREATE PROCEDURE sp_legacy10_keyboard (
