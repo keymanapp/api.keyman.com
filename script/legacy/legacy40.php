@@ -308,10 +308,7 @@ function getKeyboardInfo($keyboard, $languageid, $allKeyboardLanguages) {
     // Load languages
 
     $jslanguages = array();
-    $languages = [];
-    foreach($allKeyboardLanguages as $akl) {
-      if($akl['keyboard_id'] == $keyboard['keyboard_id']) array_push($languages, $akl);
-    }
+    $languages = $allKeyboardLanguages[$keyboard['keyboard_id']];
     $output_languageid = translateLanguageIdToOutputFormat($languageid);
     foreach($languages as $language) {
       $langid = translateLanguageIdToOutputFormat($language['bcp47']);

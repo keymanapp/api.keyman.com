@@ -60,7 +60,7 @@
     $data = $result->fetch_all(MYSQLI_ASSOC);
     $result->free();
     $stmt->close();
-    return $data;
+    return DB_ExplodeByKeyboardID($data);
   }
 
   function DB_LoadAllKeyboardLanguages($id) {
@@ -74,9 +74,22 @@
     $data = $result->fetch_all(MYSQLI_ASSOC);
     $result->free();
     $stmt->close();
+    return DB_ExplodeByKeyboardID($data);
+  }
 
-    DB_LogStats("DB_LoadAllKeyboardLanguages($id)");
-    return $data;
+  function DB_ExplodeByKeyboardID($data) {
+    $result = [];
+    $keyboard_id = null;
+    foreach($data as $row) {
+      if($row['keyboard_id'] != $keyboard_id) {
+        if(isset($languages)) $result[$keyboard_id] = $languages;
+        $languages = [];
+        $keyboard_id = $row['keyboard_id'];
+      }
+      array_push($languages, $row);
+    }
+    if(isset($languages)) $result[$keyboard_id] = $languages;
+    return $result;
   }
 
   function DB_LoadLanguages($id) {
