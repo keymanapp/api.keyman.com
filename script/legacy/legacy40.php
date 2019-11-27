@@ -169,8 +169,6 @@
         continue;
       }
 
-      $keyboard = $keyboards[$language['keyboard_id']];
-
       $langid = translateLanguageIdToOutputFormat($language['bcp47']);
       if($LastID != $langid) {
         if(isset($reslang) && !empty($reslang)) {
@@ -190,6 +188,8 @@
       if(!empty($keyboardid) && $language['keyboard_id'] != $keyboardid) {
         continue;
       }
+
+      $keyboard = $keyboards[$language['keyboard_id']];
 
       $reskbd = array(
         'id' => $language['keyboard_id'],

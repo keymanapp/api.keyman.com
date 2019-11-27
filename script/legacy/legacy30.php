@@ -109,14 +109,15 @@
       $keyboards[$row['keyboard_id']] = $row;
     }
 
+    $reslang = null;
+    $reskbds = null;
+
     $LastID = '';
     $res = array();
     foreach($languages as $language) {
       if(isKeyboardFiltered($language['keyboard_id'])) {
         continue;
       }
-
-      $keyboard = $keyboards[$language['keyboard_id']];
 
       $langid = translateLanguageIdToOutputFormat($language['bcp47']);
       if($LastID != $langid) {
@@ -133,6 +134,8 @@
         continue;
       }
       
+      $keyboard = $keyboards[$language['keyboard_id']];
+
       $reskbd = array(
         'id' => $language['keyboard_id'], 
         'name' => $keyboard['name'], 
