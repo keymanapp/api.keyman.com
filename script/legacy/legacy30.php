@@ -102,15 +102,21 @@
   function getLanguages($id, $keyboardid) {
     global $device;
 
+    $languages = DB_LoadLanguages_0($id);
+    $keyboards_0 = DB_LoadLanguages_0_Keyboards($id);
+    $keyboards = [];
+    foreach($keyboards_0 as $row) {
+      $keyboards[$row['keyboard_id']] = $row;
+    }
 
-    $languages = DB_LoadLanguages($id);
-    
     $LastID = '';
     $res = array();
     foreach($languages as $language) {
       if(isKeyboardFiltered($language['keyboard_id'])) {
         continue;
       }
+
+      $keyboard = $keyboards[$language['keyboard_id']];
 
       $langid = translateLanguageIdToOutputFormat($language['bcp47']);
       if($LastID != $langid) {
@@ -129,13 +135,13 @@
       
       $reskbd = array(
         'id' => $language['keyboard_id'], 
-        'name' => $language['name'], 
-        'filename' => getKeyboardURI($language['keyboard_id'], $language['version']),
-        'lastModified' => dateFormat($language['last_modified']),
-        'version' => $language['version'],
-        'fileSize' => $language['js_filesize']);
+        'name' => $keyboard['name'], 
+        'filename' => getKeyboardURI($keyboard['keyboard_id'], $keyboard['version']),
+        'lastModified' => dateFormat($keyboard['last_modified']),
+        'version' => $keyboard['version'],
+        'fileSize' => $keyboard['js_filesize']);
       
-      $keyboard_info = json_decode($language['keyboard_info']);
+      $keyboard_info = json_decode($keyboard['keyboard_info']);
 
       // TODO: minVersion, maxVersion
       //if(!empty($language->MinKeymanWebVersion)) $reskbd['minVersion'] = $language->MinKeymanWebVersion;
@@ -143,7 +149,7 @@
             
       addFontAndExample($reskbd, $language['bcp47'], $keyboard_info, $device);
       
-      if($language['is_rtl']) {
+      if($keyboard['is_rtl']) {
         $reskbd['rtl'] = true;
       }
       
@@ -174,8 +180,9 @@
 *   
 * @param CRM_CloudKeyboardVersion $keyboard
 * @param string $languageid
+* @param CRM_AllKeyboardLanguages $allKeyboardLanguages
 */
-  function getKeyboardInfo($keyboard, $languageid) {
+  function getKeyboardInfo($keyboard, $languageid, $allKeyboardLanguages) {
     global $device;
     
     $jskeyboard = array(
@@ -196,7 +203,7 @@
     
     // Load languages
     $jslanguages = array();
-    $languages = DB_LoadKeyboardLanguages($keyboard['keyboard_id']);
+    $languages = $allKeyboardLanguages[$keyboard['keyboard_id']];
     foreach($languages as $language) {
       $item = array(
         'id' => translateLanguageIdToOutputFormat($language['bcp47']), 
@@ -215,21 +222,25 @@
     if(empty($languageid) && empty($keyboardid)) {
       // All keyboards, root level
       $keyboards = DB_LoadKeyboards(null);
+      $allKeyboardLanguages = DB_LoadAllKeyboardLanguages(null);
     } else if(empty($languageid)) {
       // Specific keyboard, root level -- return single keyboard
       $keyboards = DB_LoadKeyboards($keyboardid);
+      $allKeyboardLanguages = DB_LoadAllKeyboardLanguages($keyboardid);
       if(sizeof($keyboards) > 0) {
-        return getKeyboardInfo($keyboards[0], '');
+        return getKeyboardInfo($keyboards[0], '', $allKeyboardLanguages);
       }
       fail('Keyboard not found', 404);
     } else if(empty($keyboardid)) {
       // Keyboards for specific language, child level
       $keyboards = DB_LoadKeyboardsForLanguage($languageid);
+      $allKeyboardLanguages = DB_LoadAllKeyboardLanguagesByLanguage($languageid);
     } else {
       // Specific keyboard, root level -- return single keyboard
       $keyboards = DB_LoadKeyboards($keyboardid);
+      $allKeyboardLanguages = DB_LoadAllKeyboardLanguages($keyboardid);
       if(sizeof($keyboards) > 0) {
-        return getKeyboardInfo($keyboards[0], $languageid);
+        return getKeyboardInfo($keyboards[0], $languageid, $allKeyboardLanguages);
       }
       fail("Keyboard not found", 404);
     }
@@ -240,7 +251,7 @@
       if(isKeyboardFiltered($keyboard['keyboard_id'])) {
         continue;
       }
-      $jskeyboard = getKeyboardInfo($keyboard, '');
+      $jskeyboard = getKeyboardInfo($keyboard, '', $allKeyboardLanguages);
       array_push($jskeyboards, $jskeyboard);
     }
 
@@ -291,6 +302,8 @@
       return;
     }
     
+    if(!isset($keyboard_info->languages->$lang)) return;
+
     $jsonlanguage = $keyboard_info->languages->$lang;
       
     // fontToObject -- oskFont, font

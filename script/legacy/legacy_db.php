@@ -106,4 +106,37 @@
     $stmt->close();
     return $data;
   }
+
+  /* Optimised version of DB_LoadLanguages -- splits keyboard and language queries so we have less data */
+
+  function DB_LoadLanguages_0($id) {
+    if(empty($id)) $id = null;
+    global $version1, $version2;
+    $stmt = new_query('CALL sp_legacy10_language_0(?, ?, ?)');
+    $stmt->bind_param('sii', $id, $version1, $version2) || fail('Could not bind parameters for sp_legacy10_language_0');
+    $stmt->execute() || fail('Unable to execute sp_legacy10_language_0 load');
+    if(($result = $stmt->get_result()) === FALSE) {
+      fail('Unable to get query results');
+    }
+    $data = $result->fetch_all(MYSQLI_ASSOC);
+    $result->free();
+    $stmt->close();
+    return $data;
+  }
+
+  function DB_LoadLanguages_0_Keyboards($id) {
+    if(empty($id)) $id = null;
+    global $version1, $version2;
+    $stmt = new_query('CALL sp_legacy10_language_0_keyboards(?, ?, ?)');
+    $stmt->bind_param('sii', $id, $version1, $version2) || fail('Could not bind parameters for sp_legacy10_language_0_keyboards');
+    $stmt->execute() || fail('Unable to execute sp_legacy10_language_0_keyboards load');
+    if(($result = $stmt->get_result()) === FALSE) {
+      fail('Unable to get query results');
+    }
+    $data = $result->fetch_all(MYSQLI_ASSOC);
+    $result->free();
+    $stmt->close();
+    return $data;
+  }
+
 ?>

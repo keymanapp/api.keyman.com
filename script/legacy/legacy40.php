@@ -152,8 +152,12 @@
   function getLanguages($id, $keyboardid) {
     global $device, $kmw;
 
-
-    $languages = DB_LoadLanguages($id);
+    $languages = DB_LoadLanguages_0($id);
+    $keyboards_0 = DB_LoadLanguages_0_Keyboards($id);
+    $keyboards = [];
+    foreach($keyboards_0 as $row) {
+      $keyboards[$row['keyboard_id']] = $row;
+    }
 
     $reslang = null;
     $reskbds = null;
@@ -164,6 +168,8 @@
       if(isKeyboardFiltered($language['keyboard_id'])) {
         continue;
       }
+
+      $keyboard = $keyboards[$language['keyboard_id']];
 
       $langid = translateLanguageIdToOutputFormat($language['bcp47']);
       if($LastID != $langid) {
@@ -187,20 +193,20 @@
 
       $reskbd = array(
         'id' => $language['keyboard_id'],
-        'name' => $language['name'],
-        'filename' => getKeyboardURI($language['keyboard_id'], $language['version']),
-        'version' => $language['version']
+        'name' => $keyboard['name'],
+        'filename' => getKeyboardURI($keyboard['keyboard_id'], $keyboard['version']),
+        'version' => $keyboard['version']
       );
 
-      $keyboard_info = json_decode($language['keyboard_info']);
+      $keyboard_info = json_decode($keyboard['keyboard_info']);
 
       if(isset($keyboard_info->sourcePath)) {
         $reskbd['source'] = GITHUB_ROOT . $keyboard_info->sourcePath;
       }
 
       if(!$kmw) {
-        $reskbd['lastModified'] = dateFormat($language['last_modified']);
-        $reskbd['fileSize'] = $language['js_filesize'];
+        $reskbd['lastModified'] = dateFormat($keyboard['last_modified']);
+        $reskbd['fileSize'] = $keyboard['js_filesize'];
       }
 
 
