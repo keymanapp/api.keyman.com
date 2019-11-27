@@ -39,9 +39,13 @@
     private function BuildKeymanDesktopVersionResponse($InstalledVersion) {
       $platform = $this->platform;
       
-      $DownloadVersions = @json_decode(file_get_contents(get_site_url_downloads() . "/api/version/$this->platform/2.0"));
-      if($DownloadVersions === NULL) {
+      $DownloadVersions = @file_get_contents(get_site_url_downloads() . "/api/version/$this->platform/2.0");
+      if($DownloadVersions === FALSE) {
         fail('Unable to retrieve version data from '.get_site_url_downloads(), 500);
+      }
+      $DownloadVersions = @json_decode($DownloadVersions);
+      if($DownloadVersions === NULL) {
+        fail('Unable to decode version data from '.get_site_url_downloads(), 500);
       }
       
       if(!isset($DownloadVersions->$platform)) {
@@ -113,9 +117,14 @@
     
     private function BuildKeyboardResponse($id, $version, $appVersion) {
       $platform = $this->platform;
-      $KeyboardDownload = json_decode(file_get_contents(get_site_url_api()."/keyboard/$id"));
-      if($KeyboardDownload === NULL) {
+      $KeyboardDownload = @file_get_contents(get_site_url_api()."/keyboard/$id");
+      if($KeyboardDownload === FALSE) {
         // not found
+        return FALSE;
+      }
+      $KeyboardDownload = @json_decode($KeyboardDownload);
+      if($KeyboardDownload === NULL) {
+        // invalid json
         return FALSE;
       }
       
@@ -165,7 +174,11 @@
     }
     
     private function BuildKeyboardDownloadPath($id, $version) {
-      $data = @json_decode(file_get_contents(get_site_url_downloads() . "/api/keyboard/$id"));
+      $data = @file_get_contents(get_site_url_downloads() . "/api/keyboard/$id");
+      if($data === FALSE) {
+        return FALSE;
+      }
+      $data = @json_decode($data);
       if($data === NULL) {
         return FALSE;
       }

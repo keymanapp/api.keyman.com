@@ -418,6 +418,10 @@ function getKeyboardInfo($keyboard, $languageid, $allKeyboardLanguages) {
       return;
     }
     
+    if(!isset($keyboard_info->languages->$lang)) {
+      return;
+    }
+
     $jsonlanguage = $keyboard_info->languages->$lang;
 
     // fontToObject -- oskFont, font
