@@ -225,7 +225,7 @@
 
       addFontAndExample($reskbd, $language['bcp47'], $keyboard_info, $device);
 
-      if((!$kmw) && $language['is_rtl']) {
+      if((!$kmw) && $keyboard['is_rtl']) {
         $reskbd['rtl'] = true;
       }
 
