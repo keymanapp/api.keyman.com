@@ -38,6 +38,8 @@ BEGIN
     k.platform_ios,
     k.platform_android,
     k.platform_web,
+    k.platform_linux,
+    k.deprecated,
     k.keyboard_info
     
   FROM
@@ -62,6 +64,7 @@ BEGIN
       )
     )
   ORDER BY
+    k.deprecated ASC,
     k.is_unicode DESC,
     k.name;
 END;
