@@ -10,9 +10,20 @@
     if($local_force) $duration = 0;
     if(!file_exists($filename) || time()-filemtime($filename) > $duration) {
       echo "Downloading $url\n";
-      if(($file = @file_get_contents($url)) === FALSE) {
+      
+      // Create a stream
+      $opts = array(
+        'http'=>array(
+          'method'=>"GET",
+          'header'=>"User-Agent: api-keyman-com Mozilla/5.0 (iPad; CPU OS 11_0 like Mac OS X) AppleWebKit/604.1.34 (KHTML, like Gecko) Version/11.0 Mobile/15A5341f Safari/604.1\r\n"
+        )
+      );      
+
+      $context = stream_context_create($opts);      
+
+      if(($file = @file_get_contents($url, false, $context)) === FALSE) {
         if(!file_exists($filename)) {
-          echo "Failed to download $url\n"; //todo to stderr
+          echo "Failed to download $url: $php_errormsg\n"; //todo to stderr
           return false;
         }
       } else {
@@ -42,4 +53,3 @@
     }
     return rmdir($dirPath);
   }
-?>

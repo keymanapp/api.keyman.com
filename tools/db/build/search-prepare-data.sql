@@ -52,8 +52,8 @@ drop table t_pejorative_index;
 
 update t_keyboard 
   set deprecated = 1
-  where exists (select * from t_keyboard_related kr where kr.related_keyboard_id = t_keyboard.keyboard_id)
+  where exists (select * from t_keyboard_related kr where kr.related_keyboard_id = t_keyboard.keyboard_id);
 
 update t_model
   set deprecated = 1
-  where exists (select * from t_model_related mr where mr.related_model_id = t_model.model_id)
+  where exists (select * from t_model_related mr where mr.related_model_id = t_model.model_id);

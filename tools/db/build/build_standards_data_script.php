@@ -25,27 +25,39 @@
         mkdir($this->script_path, 0777, true) || fail("Unable to create folder {$this->script_path}");
       }
   
+      reportTime();
+
       if(($v = $this->build_sql_data_script_subtags()) === FALSE) {
         fail("Failed to build language subtag registry sql");
       }
       
       file_put_contents($this->script_path . "language-subtag-registry.sql", $v) || fail("Unable to write language-subtag-registry.sql to {$this->script_path}");
 
+      reportTime();
+
       if(!$this->cache_iso639_3_file(URI_ISO639_3_TAB, 'iso639-3.tab', 'iso639-3.sql', 't_iso639_3')) {
         fail("Failed to download iso639-3.tab");
       }
       
+      reportTime();
+
       if(!$this->cache_iso639_3_file(URI_ISO639_3_NAME_INDEX_TAB, 'iso639-3_Name_Index.tab', 'iso639-3-name-index.sql', 't_iso639_3_names')) {
         fail("Failed to download iso639-3.tab");
       }
+
+      reportTime();
 
       if(!$this->cache_ethnologue_language_index(ETHNOLOGUE_LANGUAGE_CODES_TAB, 'ethnologue_language_codes.tab', 'ethnologue_language_codes.sql', 't_ethnologue_language_codes')) {
         fail("Failed to download ethnologue_language_codes.tab");
       }
 
+      reportTime();
+
       if(!$this->cache_ethnologue_language_index(ETHNOLOGUE_COUNTRY_CODES_TAB, 'ethnologue_country_codes.tab', 'ethnologue_country_codes.sql', 't_ethnologue_country_codes')) {
         fail("Failed to download ethnologue_country_codes.tab");
       }
+
+      reportTime();
 
       if(!$this->cache_ethnologue_language_index(ETHNOLOGUE_LANGUAGE_INDEX_TAB, 'ethnologue_language_index.tab', 'ethnologue_language_index.sql', 't_ethnologue_language_index')) {
         fail("Failed to download ethnologue_language_index.tab");
