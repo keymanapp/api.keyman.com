@@ -7,7 +7,7 @@
       "type": "object",
       "properties": {
         "languages": { "type": "array", "items": { "$ref": "#/definitions/SearchLanguage" } },
-        "keyboards": { "type": "array", "items": { "$ref": "/keyboard_info.source/1.0.4/keyboard_info.source.json#/definitions/KeyboardInfo" } },
+        "keyboards": { "type": "array", "items": { "$ref": "/keyboard_info.source/1.0.5/keyboard_info.source.json#/definitions/KeyboardInfo" } },
         "countries": { "type": "array", "items": { "$ref": "#/definitions/SearchCountry" } },
         "rangematch": { "type": "string" }
       }
