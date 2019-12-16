@@ -4,7 +4,7 @@
   function fail($s, $code=400) {
     global $is_json_response, $mysql;
     global $log;
-    header("HTTP/1.0 $code Fail: $s");
+    header("HTTP/1.0 $code Failure");
     if($is_json_response) {
       $error = array("message" => $s);
       /*if(isset($mysql)) { // <-- enable this on test sites if you are debugging mysql issues
@@ -62,5 +62,3 @@
   function get_model_download_url($id, $version, $filename) {
     return get_site_url_downloads() . "/models/{$id}/{$version}/{$filename}";
   }
-
-?>

@@ -22,6 +22,8 @@
         mkdir($this->models_path, 0777, true) || fail("Unable to create folder " . $this->models_path);
       }
 
+      reportTime();
+
       cache(URI_MODEL_INFO_ZIP, $this->cache_path . 'model_info.zip', 60 * 60 * 24 * 7, $this->force) || fail("Unable to download model_info.zip");
       
       $this->unzip() || fail("Unable to extract model_info.zip");
@@ -29,6 +31,8 @@
       if(($v = $this->build()) === false) 
         fail("Unable to build models.sql");
       file_put_contents($this->cache_path . "models.sql", $v) || fail("Unable to write models.sql to " . $this->cache_path);
+
+      reportTime();
       
       return true;
     }

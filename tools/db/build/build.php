@@ -6,8 +6,18 @@
   require_once('build_keyboards_script.php');
   require_once('build_models_script.php');
 
+  function reportTime() {
+    global $report_last_time;
+    $new_time = microtime(true);
+    build_log("Timestamp: ".sprintf("%0.02f", ($new_time-$report_last_time)));
+    $report_last_time = $new_time;
+  }
+
   function BuildDatabase($do_force) {
     global $mysqldb;
+
+    global $report_last_time;
+    $report_last_time = microtime(true);
     
     $data_path = dirname(dirname(dirname(dirname(__FILE__)))) . "/.data/";
 
@@ -41,13 +51,14 @@
     $filename = basename($url);
     build_log("Downloading $filename");
     if(($data = file_get_contents($url)) === false) {
-      fail("Unable to download $url");
+      fail("Unable to download $url: $php_errormsg");
     }
     file_put_contents($filename, $data);
     return true;
   }
   
   function sqlrun($sql, $db = '') {
+    reportTime();
     build_log("Running $sql");
     global $mysqlhost, $mysqlpw, $mysqldb, $mysqluser;
     $s = file_get_contents($sql);
@@ -64,4 +75,3 @@
     $m->close();
   }
   
-?>

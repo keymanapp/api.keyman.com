@@ -70,7 +70,9 @@ CREATE TABLE IF NOT EXISTS t_keyboard (
   platform_ios tinyint,
   platform_android tinyint,
   platform_web tinyint,
-  /*platform_linux tinyint,*/
+  platform_linux tinyint,
+
+  deprecated bit,
   
   keyboard_info json
 );
@@ -143,6 +145,8 @@ CREATE TABLE IF NOT EXISTS t_model (
   is_rtl bit,
   
   includes_fonts bit,
+
+  deprecated bit,
    
   model_info json
 );

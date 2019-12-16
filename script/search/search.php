@@ -356,7 +356,10 @@
       if(($result = $stmt->get_result()) === FALSE) fail('Unable to get search result for keyboard');
 
       while(($row = $result->fetch_assoc()) !== NULL) {
-        array_push($data, json_decode($row['keyboard_info']));
+        // Append 'deprecated' to the model data
+        $rowdata = json_decode($row['keyboard_info']);
+        if($row['deprecated']) $rowdata->deprecated = true;
+        array_push($data, $rowdata);
       }
       
       $result->free();
