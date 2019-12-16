@@ -86,7 +86,14 @@
       }
       
       $keyboard = json_decode($data);
-      $keyboard->json = $data;
+
+      /* Transform all BCP47 to lower case */
+      if(isset($keyboard->languages)) {
+        $temp = (array)$keyboard->languages;
+        $keyboard->languages = (object)array_combine(array_map('strtolower', array_keys($temp)), $temp);
+      }
+      $json = json_encode($keyboard, JSON_UNESCAPED_SLASHES | JSON_PRETTY_PRINT);
+      $keyboard->json = $json;
       
       array_push($this->keyboards, $keyboard);     
       return true;
