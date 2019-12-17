@@ -22,8 +22,6 @@
         mkdir($this->keyboards_path, 0777, true) || fail("Unable to create folder " . $this->keyboards_path);
       }
 
-      reportTime();
-
       cache(URI_KEYBOARD_INFO_ZIP, $this->cache_path . 'keyboard_info.zip', 60 * 60 * 24 * 7, $this->force) || fail("Unable to download keyboard_info.zip");
       
       $this->unzip() || fail("Unable to extract keyboard_info.zip");
@@ -31,8 +29,6 @@
       if(($v = $this->build()) === false) 
         fail("Unable to build keyboards.sql");
       file_put_contents($this->cache_path . "keyboards.sql", $v) || fail("Unable to write keyboards.sql to " . $this->cache_path);
-
-      reportTime();
       
       return true;
     }
@@ -93,8 +89,12 @@
 
       /* Transform all BCP47 to lower case */
       if(isset($keyboard->languages)) {
-        $temp = (array)$keyboard->languages;
-        $keyboard->languages = (object)array_combine(array_map('strtolower', array_keys($temp)), $temp);
+        if(is_array($keyboard->languages)) {
+          $keyboard->languages = array_map('strtolower', $keyboard->languages);
+        } else {
+          $temp = (array)$keyboard->languages;
+          $keyboard->languages = (object)array_combine(array_map('strtolower', array_keys($temp)), $temp);
+        }
       }
       $json = json_encode($keyboard, JSON_UNESCAPED_SLASHES | JSON_PRETTY_PRINT);
       $keyboard->json = $json;

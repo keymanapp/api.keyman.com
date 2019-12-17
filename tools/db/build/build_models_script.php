@@ -90,7 +90,18 @@
       }
       
       $model = json_decode($data);
-      $model->json = $data;
+
+      /* Transform all BCP47 to lower case */
+      if(isset($model->languages)) {
+        if(is_array($model->languages)) {
+          $model->languages = array_map('strtolower', $model->languages);
+        } else {
+          $temp = (array)$model->languages;
+          $model->languages = (object)array_combine(array_map('strtolower', array_keys($temp)), $temp);
+        }
+      }
+      $json = json_encode($model, JSON_UNESCAPED_SLASHES | JSON_PRETTY_PRINT);
+      $model->json = $json;
       
       array_push($this->models, $model);     
       return true;
