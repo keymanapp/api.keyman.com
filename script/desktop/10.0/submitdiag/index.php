@@ -23,9 +23,9 @@
 
   // create a new case in Discourse
 
-  $discourse_key = $_ENV['api_keyman_com_discourse_key'];
-  $discourse_site = $_ENV['api_keyman_com_discourse_site'];
-  $discourse_username = $_ENV['api_keyman_com_discourse_username'];
+  $discourse_key = $_SERVER['api_keyman_com_discourse_key'];
+  $discourse_site = $_SERVER['api_keyman_com_discourse_site'];
+  $discourse_username = $_SERVER['api_keyman_com_discourse_username'];
 
   $discourse_token = "api_key=$discourse_key&api_username=$discourse_username";
 
