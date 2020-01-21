@@ -5,7 +5,7 @@
   require_once('legacy_db.php');
   require_once('legacy_fontutils.php');
   require_once('legacy_utils.php');
-  
+
   allow_cors();
   json_response();
 
@@ -14,7 +14,7 @@
   } else {
     $context = 'language';
   }
-  
+
   validateVersion(isset($_REQUEST['version']) ? $_REQUEST['version'] : '');
 
   if(isset($_REQUEST['keyboardid'])) {
@@ -29,15 +29,15 @@
   }
 
   if(isset($_REQUEST['device'])) {
-    $device = strtolower($_REQUEST['device']); 
+    $device = strtolower($_REQUEST['device']);
   } else {
     $device = 'any';
   }
-  
+
   switch($device) {
     case 'windows':
-    case 'macosx': 
-    case 'desktop': 
+    case 'macosx':
+    case 'desktop':
       $isMobileDevice = false; break;
     case 'iphone':
     case 'ipad':
@@ -50,9 +50,9 @@
       $isMobileDevice = false;
       $device = 'any';
   }
-  
+
   $dateFormatSeconds = isset($_REQUEST['dateformat']) && $_REQUEST['dateformat'] == 'seconds';
-  
+
   $options = array(
     'context' => $context,
     'dateFormat' => $dateFormatSeconds ? 'seconds' : 'standard',
@@ -60,7 +60,7 @@
     'keyboardBaseUri' => 'https://s.keyman.com/keyboard/',
     'fontBaseUri' => 'https://s.keyman.com/font/deploy/'
   );
-  
+
   if(!empty($keyboardid)) {
     $options['keyboardid'] = $keyboardid;
   }
@@ -68,9 +68,9 @@
     $options['languageid'] = translateLanguageIdToOutputFormat($languageid);
   }
   $options['keyboardVersion'] = 'current';
-  
+
   $response = array('options' => $options);
-  
+
   if($context == 'language') {
     if(empty($languageid)) {
       $response['languages'] = getLanguages($languageid, $keyboardid);
@@ -86,19 +86,19 @@
   } else {
     fail('Invalid function', 400);
   }
-  
+
   echo json_encode($response);
 
   function isKeyboardFiltered($keyboard_id) {
     global $isMobileDevice;
-      
+
     return $isMobileDevice && (
-      $keyboard_id == 'european' || 
-      $keyboard_id == 'chinese' || 
-      $keyboard_id == 'japanese' || 
+      $keyboard_id == 'european' ||
+      $keyboard_id == 'chinese' ||
+      $keyboard_id == 'japanese' ||
       $keyboard_id == 'korean_rr');
-  }   
-  
+  }
+
   function getLanguages($id, $keyboardid) {
     global $device;
 
@@ -129,68 +129,68 @@
         $reskbds = array();
         $LastID = $langid;
       }
-      
+
       if(!empty($keyboardid) && $language['keyboard_id'] != $keyboardid) {
         continue;
       }
-      
+
       $keyboard = $keyboards[$language['keyboard_id']];
 
       $reskbd = array(
-        'id' => $language['keyboard_id'], 
-        'name' => $keyboard['name'], 
+        'id' => $language['keyboard_id'],
+        'name' => $keyboard['name'],
         'filename' => getKeyboardURI($keyboard['keyboard_id'], $keyboard['version']),
         'lastModified' => dateFormat($keyboard['last_modified']),
         'version' => $keyboard['version'],
         'fileSize' => $keyboard['js_filesize']);
-      
+
       $keyboard_info = json_decode($keyboard['keyboard_info']);
 
       // TODO: minVersion, maxVersion
       //if(!empty($language->MinKeymanWebVersion)) $reskbd['minVersion'] = $language->MinKeymanWebVersion;
       //if(!empty($language->MaxKeymanWebVersion)) $reskbd['maxVersion'] = $language->MaxKeymanWebVersion;
-            
+
       addFontAndExample($reskbd, $language['bcp47'], $keyboard_info, $device);
-      
+
       if($keyboard['is_rtl']) {
         $reskbd['rtl'] = true;
       }
-      
+
       // TODO: Default
       //if($language->DefaultForLanguage)
       //  $reskbd['default'] = true;
       array_push($reskbds, $reskbd);
     }
-    
+
     if(isset($reslang) && !empty($reslang)) {
       $reslang['keyboards'] = $reskbds;
       array_push($res, $reslang);
     }
-    
+
     if(empty($id)) {
       return array('languages' => $res);
     }
-    
+
     if(count($res) == 1) {
       return $res[0];
     }
-      
+
     return $res;
   }
-  
+
 /**
 * getKeyboardInfo
-*   
+*
 * @param CRM_CloudKeyboardVersion $keyboard
 * @param string $languageid
 * @param CRM_AllKeyboardLanguages $allKeyboardLanguages
 */
   function getKeyboardInfo($keyboard, $languageid, $allKeyboardLanguages) {
     global $device;
-    
+
     $jskeyboard = array(
-      'id' => $keyboard['keyboard_id'], 
-      'filename' => getKeyboardURI($keyboard['keyboard_id'], $keyboard['version']), 
+      'id' => $keyboard['keyboard_id'],
+      'filename' => getKeyboardURI($keyboard['keyboard_id'], $keyboard['version']),
       'version' => $keyboard['version'],
       'lastModified' => dateFormat($keyboard['last_modified'])
     );
@@ -203,24 +203,26 @@
     //if(!empty($keyboard->MaxKeymanWebVersion)) $jskeyboard['maxVersion'] = $keyboard->MaxKeymanWebVersion;
 
     $keyboard_info = json_decode($keyboard['keyboard_info']);
-    
+
     // Load languages
     $jslanguages = array();
-    $languages = $allKeyboardLanguages[$keyboard['keyboard_id']];
-    foreach($languages as $language) {
-      $item = array(
-        'id' => translateLanguageIdToOutputFormat($language['bcp47']), 
-        'name' => $language['name']
-      );
-      
-      addFontAndExample($item, $language['bcp47'], $keyboard_info, $device);
-      array_push($jslanguages, $item);
+    if(array_key_exists($keyboard['keyboard_id'], $allKeyboardLanguages)) {
+      $languages = $allKeyboardLanguages[$keyboard['keyboard_id']];
+      foreach($languages as $language) {
+        $item = array(
+          'id' => translateLanguageIdToOutputFormat($language['bcp47']),
+          'name' => $language['name']
+        );
+
+        addFontAndExample($item, $language['bcp47'], $keyboard_info, $device);
+        array_push($jslanguages, $item);
+      }
     }
 
     $jskeyboard['languages'] = $jslanguages;
     return $jskeyboard;
   }
-  
+
   function getKeyboards($keyboardid, $languageid) {
     if(empty($languageid) && empty($keyboardid)) {
       // All keyboards, root level
@@ -264,12 +266,12 @@
   function getKeyboardURI($name, $version) {
     return "$name/$version/$name-$version.js";
   }
-  
+
   function keyboardInfoFontToObject($font, $device) {
     $res = [
       "family" => $font->family
     ];
-    
+
     $source = is_array($font->source) ? $font->source : [$font->source];
 
     $res['source'] = array_values(array_filter($source, function($s) use ($device) {
@@ -284,7 +286,7 @@
     }
     return $res;
   }
-  
+
   function keyboardInfoExampleKeysToAPI($keys) {
     if(!is_array($keys)) {
       return $keys;
@@ -294,36 +296,36 @@
   }
   function keyboardInfoExampleToObject($example) {
     return [
-      'keys' => keyboardInfoExampleKeysToAPI($example->keys), 
-      'text' => $example->text, 
+      'keys' => keyboardInfoExampleKeysToAPI($example->keys),
+      'text' => $example->text,
       'note' => $example->note
     ];
   }
-  
+
   function addFontAndExample(&$item, $lang, $keyboard_info, $device) {
     if(is_array($keyboard_info->languages)) {
       return;
     }
-    
+
     if(!isset($keyboard_info->languages->$lang)) {
       return;
     }
 
     $jsonlanguage = $keyboard_info->languages->$lang;
-      
+
     // fontToObject -- oskFont, font
     if(isset($jsonlanguage->font)) {
       $item['font'] = keyboardInfoFontToObject($jsonlanguage->font, $device);
     }
-    
+
     if(isset($jsonlanguage->oskFont)) {
       $item['oskFont'] = keyboardInfoFontToObject($jsonlanguage->oskFont, $device);
     }
-    
+
     // example -- keys, text, note
     if(isset($jsonlanguage->example)) {
       $item['example'] = keyboardInfoExampleToObject($jsonlanguage->example);
     }
   }
-  
+
 ?>
