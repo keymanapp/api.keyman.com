@@ -61,5 +61,7 @@
       if($u1 == '') $u1 = '[]'; else $u1 .= ']';
     }
 
+    $mysql->close();
+
     echo "Keyboard_japanese_obj.showCandidates(" . $id . ",'$kana'," . $t . "," . $t1 . "," . $u . "," . $u1 . ");";
   }
