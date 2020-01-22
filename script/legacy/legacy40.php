@@ -314,19 +314,21 @@ function getKeyboardInfo($keyboard, $languageid, $allKeyboardLanguages) {
     // Load languages
 
     $jslanguages = array();
-    $languages = $allKeyboardLanguages[$keyboard['keyboard_id']];
-    $output_languageid = translateLanguageIdToOutputFormat($languageid);
-    foreach($languages as $language) {
-      $langid = translateLanguageIdToOutputFormat($language['bcp47']);
-      if(empty($languageid) || $langid == $output_languageid) {
-        $item = array(
-          'id' => $langid,
-          'name' => $language['name'],
-          'region' => mapEthnologueRegionToLegacyRegion($language['legacy_region'])
-        );
+    if(array_key_exists($keyboard['keyboard_id'], $allKeyboardLanguages)) {
+      $languages = $allKeyboardLanguages[$keyboard['keyboard_id']];
+      $output_languageid = translateLanguageIdToOutputFormat($languageid);
+      foreach($languages as $language) {
+        $langid = translateLanguageIdToOutputFormat($language['bcp47']);
+        if(empty($languageid) || $langid == $output_languageid) {
+          $item = array(
+            'id' => $langid,
+            'name' => $language['name'],
+            'region' => mapEthnologueRegionToLegacyRegion($language['legacy_region'])
+          );
 
-        addFontAndExample($item, $language['bcp47'], $keyboard_info, $device);
-        array_push($jslanguages, $item);
+          addFontAndExample($item, $language['bcp47'], $keyboard_info, $device);
+          array_push($jslanguages, $item);
+        }
       }
     }
 
@@ -417,7 +419,7 @@ function getKeyboardInfo($keyboard, $languageid, $allKeyboardLanguages) {
     if(is_array($keyboard_info->languages)) {
       return;
     }
-    
+
     if(!isset($keyboard_info->languages->$lang)) {
       return;
     }
