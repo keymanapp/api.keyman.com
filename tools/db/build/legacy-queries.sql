@@ -26,7 +26,7 @@ BEGIN
   FROM
     t_keyboard k
   WHERE
-    k.deprecated = 0 AND
+    -- (k.deprecated = 0 OR bcp47 IS NOT NULL) AND list deprecated keyboards last
     k.js_filename IS NOT NULL AND
     (
       k.min_keyman_version_1 < minKeymanVersion1 OR
@@ -34,6 +34,7 @@ BEGIN
     ) AND
     EXISTS(SELECT * FROM t_keyboard_language kl WHERE kl.keyboard_id = k.keyboard_id AND kl.bcp47 = bcp47)
   ORDER BY
+    k.deprecated ASC,
     k.keyboard_id;
 END;
 
@@ -89,8 +90,9 @@ BEGIN
     t_ethnologue_country_codes ec ON elc.CountryID = ec.CountryID
   WHERE
     (kl.keyboard_id = keyboard_id OR keyboard_id IS NULL) AND
-    k.deprecated = 0
+    (k.deprecated = 0 OR keyboard_id IS NOT NULL)
   ORDER BY
+    k.deprecated ASC,
     kl.keyboard_id,
     COALESCE(elc.Name, li.Ref_Name, kl.bcp47);
 END;
@@ -124,7 +126,7 @@ BEGIN
       FROM
         t_keyboard k
       WHERE
-        k.deprecated = 0 AND
+        -- k.deprecated = 0 AND ... don't exclude deprecated keyboards here
         k.js_filename IS NOT NULL AND
         EXISTS(SELECT * FROM t_keyboard_language kl WHERE kl.keyboard_id = k.keyboard_id AND kl.bcp47 = bcp47)
     )
@@ -161,7 +163,7 @@ BEGIN
   FROM
     t_keyboard k
   WHERE
-    k.deprecated = 0 AND
+    (k.deprecated = 0 OR keyboard_id IS NOT NULL) AND
     k.js_filename IS NOT NULL AND
     (
       k.min_keyman_version_1 < minKeymanVersion1 OR
@@ -169,6 +171,7 @@ BEGIN
     ) AND
     (k.keyboard_id = keyboard_id OR keyboard_id IS NULL)
   ORDER BY
+    k.deprecated ASC,
     k.keyboard_id;
 END;
 
@@ -220,7 +223,7 @@ BEGIN
     t_region r ON kl.region_id = r.region_id LEFT JOIN
     t_script s ON kl.script_id = s.script_id
   WHERE
-    k.deprecated = 0 AND
+    (k.deprecated = 0 OR bcp47 IS NOT NULL) AND
     (kl.bcp47 = bcp47 OR bcp47 IS NULL) AND
     (
       k.min_keyman_version_1 < minKeymanVersion1 OR
@@ -228,6 +231,7 @@ BEGIN
     ) AND
     (k.js_filename IS NOT NULL)
   ORDER BY
+    k.deprecated ASC,
     COALESCE(elc.Name, li.Ref_Name, kl.bcp47),
     kl.bcp47,
     k.keyboard_id;
@@ -267,7 +271,7 @@ BEGIN
     t_region r ON kl.region_id = r.region_id LEFT JOIN
     t_script s ON kl.script_id = s.script_id
   WHERE
-    k.deprecated = 0 AND
+    (k.deprecated = 0 OR bcp47 IS NOT NULL) AND
     (kl.bcp47 = bcp47 OR bcp47 IS NULL) AND
     (
       k.min_keyman_version_1 < minKeymanVersion1 OR
@@ -275,6 +279,7 @@ BEGIN
     ) AND
     (k.js_filename IS NOT NULL)
   ORDER BY
+    k.deprecated ASC,
     COALESCE(elc.Name, li.Ref_Name, kl.bcp47),
     kl.bcp47,
     k.keyboard_id;
@@ -306,7 +311,7 @@ BEGIN
   FROM
     t_keyboard k
   WHERE
-    k.deprecated = 0 AND
+    (k.deprecated = 0 OR bcp47 IS NOT NULL) AND
     k.keyboard_id IN (
       SELECT
         kl.keyboard_id
@@ -321,5 +326,6 @@ BEGIN
     ) AND
     (k.js_filename IS NOT NULL)
   ORDER BY
+    k.deprecated ASC,
     k.keyboard_id;
 END;
