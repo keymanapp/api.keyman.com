@@ -1,6 +1,6 @@
 DROP DATABASE IF EXISTS keyboards;
 
-CREATE DATABASE IF NOT EXISTS keyboards;
+CREATE DATABASE IF NOT EXISTS keyboards DEFAULT CHARSET=utf8mb4;
 
 USE keyboards;
 
@@ -48,7 +48,7 @@ CREATE TABLE IF NOT EXISTS t_keyboard (
   min_keyman_version_1 int,
   min_keyman_version_2 int,
   legacy_id int,
-  
+
   package_filename varchar(256),
   package_filesize int,
   js_filename varchar(256),
@@ -59,12 +59,12 @@ CREATE TABLE IF NOT EXISTS t_keyboard (
   is_rtl bit,
   is_unicode bit,
   is_ansi bit,
-  
+
   includes_welcome bit,
   includes_documentation bit,
   includes_fonts bit,
   includes_visual_keyboard bit,
-  
+
   platform_windows tinyint,
   platform_macos tinyint,
   platform_ios tinyint,
@@ -73,24 +73,24 @@ CREATE TABLE IF NOT EXISTS t_keyboard (
   platform_linux tinyint,
 
   deprecated bit,
-  
+
   keyboard_info json
 );
 
 /*
- A language entry for a given keyboard. If there is a 
+ A language entry for a given keyboard. If there is a
  matching language + region + script, then these will be populated,
  but the bcp47 column is the master identifier for the language entry.
  For example, the language_id may be qxx for an invented language.
 */
 CREATE TABLE IF NOT EXISTS t_keyboard_language (
   keyboard_id varchar(256),
-  bcp47 varchar(64), 
+  bcp47 varchar(64),
   language_id varchar(3),
   region_id char(2),
   script_id char(4),
   description varchar(256), /* use when bcp47 is broader than lang+reg+scr? */
-    
+
   foreign key (keyboard_id) references t_keyboard (keyboard_id)
   /*foreign key (language_id) references t_language (language_id),
   foreign key (region_id) references t_region (region_id),
@@ -101,7 +101,7 @@ CREATE TABLE IF NOT EXISTS t_keyboard_link (
   keyboard_id varchar(256),
   url varchar(1024),
   name varchar(256),
-  
+
   foreign key (keyboard_id) references t_keyboard (keyboard_id)
 );
 
@@ -109,7 +109,7 @@ CREATE TABLE IF NOT EXISTS t_keyboard_related (
   keyboard_id varchar(256),
   related_keyboard_id varchar(256), /* we don't use a fk constraint because the related keyboard may not exist here */
   deprecates bit,
-  
+
   foreign key (keyboard_id) references t_keyboard (keyboard_id)
 );
 
@@ -136,35 +136,35 @@ CREATE TABLE IF NOT EXISTS t_model (
   min_keyman_version varchar(64),
   min_keyman_version_1 int,
   min_keyman_version_2 int,
-  
+
   package_filename varchar(256),
   package_filesize int,
   js_filename varchar(256),
   js_filesize int,
 
   is_rtl bit,
-  
+
   includes_fonts bit,
 
   deprecated bit,
-   
+
   model_info json
 );
 
 /*
- A language entry for a given model. If there is a 
+ A language entry for a given model. If there is a
  matching language + region + script, then these will be populated,
  but the bcp47 column is the master identifier for the language entry.
  For example, the language_id may be qxx for an invented language.
 */
 CREATE TABLE IF NOT EXISTS t_model_language (
   model_id varchar(256),
-  bcp47 varchar(64), 
+  bcp47 varchar(64),
   language_id varchar(3),
   region_id char(2),
   script_id char(4),
   description varchar(256), /* use when bcp47 is broader than lang+reg+scr? */
-    
+
   foreign key (model_id) references t_model (model_id)
   /*foreign key (language_id) references t_language (language_id),
   foreign key (region_id) references t_region (region_id),
@@ -175,7 +175,7 @@ CREATE TABLE IF NOT EXISTS t_model_link (
   model_id varchar(256),
   url varchar(1024),
   name varchar(256),
-  
+
   foreign key (model_id) references t_model (model_id)
 );
 
@@ -183,7 +183,7 @@ CREATE TABLE IF NOT EXISTS t_model_related (
   model_id varchar(256),
   related_model_id varchar(256), /* we don't use a fk constraint because the related model may not exist here */
   deprecates bit,
-  
+
   foreign key (model_id) references t_model (model_id)
 );
 
@@ -231,14 +231,14 @@ CREATE TABLE IF NOT EXISTS t_ethnologue_language_codes (
    Name    varchar(75) NOT NULL   /* Primary name in that country */
 );
 
-/* As of writing, t_ethnologue_country_codes is a subset of t_region, i.e. 
+/* As of writing, t_ethnologue_country_codes is a subset of t_region, i.e.
    there are no codes in t_ethnologue_country_codes that are not in t_region */
 CREATE TABLE IF NOT EXISTS t_ethnologue_country_codes (
    CountryID  char(2) NOT NULL,  /* Two-letter code from ISO3166 */
    Name   varchar(75) NOT NULL,  /* Country name */
    Area   varchar(10) NOT NULL   /* World area */
 );
-   
+
 CREATE TABLE IF NOT EXISTS t_ethnologue_language_index (
   LangID    char(3) NOT NULL,  /* The three-letter 639-3 identifier*/
   CountryID char(2) NOT NULL, /* Lookup from t_ethnologue_country_codes */
