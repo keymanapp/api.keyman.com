@@ -6,15 +6,15 @@
    * Endpoint for getting keyboard and lexical model versions. The results will
    * contain latest versions and links to the .kmp or .model.kmp packages.
    *
-   * https://api.keyman.com/schemas/package-version.json is JSON schema
+   * https://api.keyman.com/schemas/package-version.json is JSON schema for valid responses
    *
-   * @param keyboard   keyboard id, can be repeated (either with comma or repeated param)
-   * @param model      model id, can be repeated (either with comma or repeated param)
-   * @param platform   which platform must be supported for updates:
+   * @param keyboard   Optional. keyboard id, can be repeated (either with comma or repeated param).
+   * @param model      Optional. model id, can be repeated (either with comma or repeated param).
+   * @param platform   Optional. Filter by platform support for keyboards:
    *                   android, ios, linux, mac, [web], windows (web does not currently support .kmp)
-   *                   This stops the API returning packages that are invalid for the target platform.
-   *                   If not supplied, does not filter by platform support.
-   * @return           JSON blob or HTTP/400 on invalid parameters
+   *                   This stops the API returning keyboard packages that are invalid for the target
+   *                   platform. If not supplied, does not filter by platform support.
+   * @return           JSON blob or HTTP/400 (with JSON error) on invalid parameters
    *                   The valid blob will contain latest version and url for the keyboards/lexical models.
    */
 
@@ -26,51 +26,11 @@
 
   header('Link: <https://api.keyman.com/schemas/package-version.json#>; rel="describedby"');
 
-  // Get both , delimited and repeated parameters for `keyboard` and `model`
   $params = fix_array_params($_SERVER['QUERY_STRING']);
 
-  function explode_array_by_comma($array) {
-    $items = [];
-    foreach($array as $item) {
-      $a = explode(',', $item);
-      $items = array_merge($items, $a);
-    }
-    return $items;
-  }
-
-  function fix_array_params($q) {
-    $res = [];
-    $q = preg_replace('/\bkeyboard=/', 'keyboard[]=', $q);
-    $q = preg_replace('/\model=/', 'model[]=', $q);
-
-    parse_str($q, $res);
-    if(array_key_exists('keyboard', $res)) {
-      $res['keyboard'] = explode_array_by_comma($res['keyboard']);
-    }
-
-    if(array_key_exists('model', $res)) {
-      $res['model'] = explode_array_by_comma($res['model']);
-    }
-
-    return $res;
-  }
-
-  function keyboard_download_url($id, $version, $package) {
-    $id = urlencode($id);
-    $version = urlencode($version);
-    $package = urlencode($package);
-    return "https://download.keyman.com/keyboards/$id/$version/$package";
-  }
-
-  function model_download_url($id, $version, $package) {
-    $id = urlencode($id);
-    $version = urlencode($version);
-    $package = urlencode($package);
-    return "https://download.keyman.com/models/$id/$version/$package";
-  }
+  // Validate parameters
 
   $available_platforms = ['android','ios','linux','mac','web','windows'];
-  //var_dump($params);
 
   foreach($params as $param => $value) {
     if(!in_array($param, ['keyboard', 'model', 'platform'])) {
@@ -158,3 +118,59 @@
   $mysql->close();
 
   echo json_encode($json, JSON_UNESCAPED_SLASHES | JSON_PRETTY_PRINT);
+
+  //
+  // End of main
+  //
+
+  // Get both comma-delimited and repeated parameters for `keyboard` and `model`
+  // PHP doesn't natively support repeated parameters without '[]' appended to their key
+  // which is really ugly for 3rd party use, so reimplement the query string parsing
+  // ourselves, and at the same time allow for either method of specifying the ids.
+  function fix_array_params($q) {
+    $res = [];
+    $q = preg_replace('/\bkeyboard=/', 'keyboard[]=', $q);
+    $q = preg_replace('/\model=/', 'model[]=', $q);
+
+    parse_str($q, $res);
+    if(array_key_exists('keyboard', $res)) {
+      $res['keyboard'] = explode_array_by_comma($res['keyboard']);
+    }
+
+    if(array_key_exists('model', $res)) {
+      $res['model'] = explode_array_by_comma($res['model']);
+    }
+
+    return $res;
+  }
+
+  function explode_array_by_comma($array) {
+    $items = [];
+    foreach($array as $item) {
+      $a = explode(',', $item);
+      $items = array_merge($items, $a);
+    }
+    return $items;
+  }
+
+  //
+  // Hard-coded path to keyboards so we don't have to query
+  // downloads.keyman.com/api/keyboard for each keyboard
+  //
+  function keyboard_download_url($id, $version, $package) {
+    $id = urlencode($id);
+    $version = urlencode($version);
+    $package = urlencode($package);
+    return "https://downloads.keyman.com/keyboards/$id/$version/$package";
+  }
+
+  //
+  // Hard-coded path to models so we don't have to query
+  // downloads.keyman.com/api/keyboard for each keyboard
+  //
+  function model_download_url($id, $version, $package) {
+    $id = urlencode($id);
+    $version = urlencode($version);
+    $package = urlencode($package);
+    return "https://downloads.keyman.com/models/$id/$version/$package";
+  }
