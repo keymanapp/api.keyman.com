@@ -148,3 +148,14 @@ at http://tavultesoft.com/keymandev/visualkeyboard.dtd.
 
 ## 2019-08-20
 * Moved to api.keyman.com (redirect on tavultesoft.com)
+
+------------------------------------------------------------
+
+# package-version
+
+* package-version.json
+
+Documentation at https://github.com/keymanapp/keyman/wiki/api.keyman.com-keyboard-model-package-version-API. Will move to help.keyman.com when the API hits stable.
+
+## 2020-04-30
+* Initial version 1.0 (alpha)
