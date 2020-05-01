@@ -1,0 +1,40 @@
+{
+  "$schema": "http://json-schema.org/schema#",
+  "$ref": "#/definitions/package-version",
+
+  "definitions": {
+    "package-version": {
+      "type": "object",
+      "properties": {
+        "keyboard": {
+          "ref": "#/definitions/package-version-package"
+        },
+        "model": {
+          "ref": "#/definitions/package-version-package"
+        },
+        "additionalProperties": false
+      }
+    },
+
+    "package-version-package": {
+      "type": "object",
+      "patternProperties": {
+        "^.+$": {
+          "type": "object",
+          "properties": {
+            "version": {
+              "type": "string"
+            },
+            "kmp": {
+              "type": "string"
+            },
+            "error": {
+              "type": "string"
+            },
+            "additionalProperties": false
+          }
+        }
+      }
+    }
+  }
+}
