@@ -1,5 +1,33 @@
 -- This drops all FK constraints across the database before attempting to drop tables
-exec sp_MSforeachtable "declare @name nvarchar(max); set @name = parsename('?', 1); exec sp_MSdropconstraints @name";
+
+DECLARE @name SYSNAME
+DECLARE @object_name SYSNAME
+
+DECLARE table_cursor CURSOR FOR
+SELECT
+    c.name,
+    object_name(c.parent_object_id)
+FROM
+    sys.foreign_keys c
+WHERE
+    object_name(c.parent_object_id) LIKE 't[_]%'
+
+OPEN table_cursor
+FETCH NEXT FROM table_cursor INTO @name, @object_name
+
+DECLARE @cmd varchar(200)
+WHILE @@FETCH_STATUS = 0
+BEGIN
+    SET @cmd = 'alter table '+QUOTENAME(@object_name)+' DROP CONSTRAINT '+QUOTENAME(@name)
+    PRINT @cmd
+    EXEC( @cmd )
+    FETCH NEXT FROM table_cursor INTO @name, @object_name
+END
+
+CLOSE table_cursor
+DEALLOCATE table_cursor
+
+-- Recreate tables
 
 DROP TABLE IF EXISTS t_language;
 
