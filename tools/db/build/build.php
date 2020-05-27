@@ -62,23 +62,19 @@
     return true;
   }
 
-  function sqlrun($sql, $db = '') {
+  function sqlrun($sql, $db = 'master') {
     reportTime();
     build_log("Running $sql");
     $s = file_get_contents($sql);
     $s = preg_split('/^\s*GO\s*$/m', $s);
 
-    global $mssqlconninfo_master, $mysqluser, $mysqlpw;
+    global $mssqlconninfo, $mysqluser, $mysqlpw;
     try {
-      $mssql = new PDO($mssqlconninfo_master, $mysqluser, $mysqlpw, NULL);
+      $mssql = new PDO($mssqlconninfo . $db, $mysqluser, $mysqlpw, NULL);
       $mssql->setAttribute( PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION );
     }
     catch( PDOException $e ) {
       die( "Error connecting to SQL Server: " . $e );
-    }
-
-    if(!empty($db)) {
-      $mssql->exec("USE $db");
     }
 
     foreach($s as $cmd) {
