@@ -1,5 +1,5 @@
 <?php
-  require_once('../common.php');
+  require_once(__DIR__ . '/../common.php');
   // Import chinese_pinyin.txt and japanese.txt into database
 
   class build_cjk_data extends build_common {
