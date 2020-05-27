@@ -202,7 +202,7 @@
               $comma = ',';
             }
           }
-          $sql .= ")\n";
+          $sql .= ")\nGO\n";
         }
 
         file_put_contents($this->script_path . $sqlfilename, $sql) || fail("Unable to write $sqlfilename to {$this->script_path}");
