@@ -30,7 +30,9 @@
     $builder = new build_models_sql();
     $builder->execute($data_path, $do_force) || fail("Unable to build lexical models data scripts");
 
-    sqlrun(dirname(__FILE__)."/create-database.sql");
+    global $mssqlconninfo_master;
+    if(isset($mssqlconninfo_master))
+      sqlrun(dirname(__FILE__)."/create-database.sql");
     sqlrun(dirname(__FILE__)."/search.sql", $mssqldb);
     sqlrun(dirname(__FILE__)."/langtags.sql", $mssqldb);
     sqlrun(dirname(__FILE__)."/search-queries.sql", $mssqldb);

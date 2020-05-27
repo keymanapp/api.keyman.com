@@ -7,6 +7,10 @@
   if(!isset($mysqlhost)) $mysqlhost=$_SERVER['api_keyman_com_mysql_host'];
   if(!isset($mysqldb)) $mysqldb="keyboards";
 
+  if(!isset($mssqldb0)) $mssqldb0=$_SERVER['api_keyman_com_mssqldb0'];
+  if(!isset($mssqldb1)) $mssqldb1=$_SERVER['api_keyman_com_mssqldb0'];
+  if(!isset($mssqlconninfo)) $mssqlconninfo=$_SERVER['api_keyman_com_mssqlconninfo'];
+
   define('URI_KEYBOARD_INFO_ZIP', $_SERVER['api_keyman_com_keyboard_info_zip']);
   define('URI_MODEL_INFO_ZIP', $_SERVER['api_keyman_com_model_info_zip']);
 
