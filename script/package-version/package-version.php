@@ -53,36 +53,28 @@
     $json['keyboards'] = [];
 
     foreach($params['keyboard'] as $keyboard) {
-      if(($stmt = $mysql->prepare(
+      $stmt = $mssql->prepare(
           'SELECT
             version, package_filename,
             platform_android, platform_linux, platform_macos, platform_ios, platform_web, platform_windows
           FROM
             t_keyboard
           WHERE
-            keyboard_id = ?')) === false) {
-        fail("Failed to prepare query: {$mysql->error}", 500);
-      }
-
-      $stmt->bind_param("s", $keyboard);
-
-      if($stmt->execute()) {
-        $result = $stmt->get_result();
-        $data = $result->fetch_all();
-        if(count($data) == 0) {
+            keyboard_id = ?');
+      $stmt->bindParam(1, $keyboard);
+      $stmt->execute();
+      $data = $stmt->fetchAll();
+      if(count($data) == 0) {
+        $json["keyboards"][$keyboard] = ['error' => 'not found'];
+      } else {
+        if(isset($platform) && !$data[0][array_search($platform, $available_platforms)+2]) {
           $json["keyboards"][$keyboard] = ['error' => 'not found'];
         } else {
-          if(isset($platform) && !$data[0][array_search($platform, $available_platforms)+2]) {
-            $json["keyboards"][$keyboard] = ['error' => 'not found'];
-          } else {
-            $json["keyboards"][$keyboard] = [
-              'version' => $data[0][0],
-              'kmp' => keyboard_download_url($keyboard, $data[0][0], $data[0][1])
-            ];
-          }
+          $json["keyboards"][$keyboard] = [
+            'version' => $data[0][0],
+            'kmp' => keyboard_download_url($keyboard, $data[0][0], $data[0][1])
+          ];
         }
-      } else {
-        fail("Failed to execute query: {$mysql->error}", 500);
       }
     }
   }
@@ -91,31 +83,21 @@
     $json['models'] = [];
 
     foreach($params['model'] as $model) {
-      if(($stmt = $mysql->prepare('SELECT version, package_filename FROM t_model WHERE model_id = ?')) === false) {
-        fail("Failed to prepare query: {$mysql->error}", 500);
-      }
-
-      $stmt->bind_param("s", $model);
-
-      if($stmt->execute()) {
-        $result = $stmt->get_result();
-        $data = $result->fetch_all();
-        if(count($data) == 0) {
-          $json["models"][$model] = ['error' => 'not found'];
-        } else {
-          // Note: we don't currently test platform for models
-          $json["models"][$model] = [
-            'version' => $data[0][0],
-            'kmp' => model_download_url($model, $data[0][0], $data[0][1])
-          ];
-        }
+      $stmt = $mssql->prepare('SELECT version, package_filename FROM t_model WHERE model_id = ?');
+      $stmt->bindParam(1, $model);
+      $stmt->execute();
+      $data = $stmt->fetchAll();
+      if(count($data) == 0) {
+        $json["models"][$model] = ['error' => 'not found'];
       } else {
-        fail("Failed to execute query: {$mysql->error}", 500);
+        // Note: we don't currently test platform for models
+        $json["models"][$model] = [
+          'version' => $data[0][0],
+          'kmp' => model_download_url($model, $data[0][0], $data[0][1])
+        ];
       }
     }
   }
-
-  $mysql->close();
 
   echo json_encode($json, JSON_UNESCAPED_SLASHES | JSON_PRETTY_PRINT);
 

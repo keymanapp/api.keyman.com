@@ -15,8 +15,8 @@
 
   $log = '';
 
-  
-  BuildDatabase(count($argv) > 1 && $argv[1] == '-f');
-  
+
+  BuildCJKTables($activedb->get_swap(), count($argv) > 1 && $argv[1] == '-f');
+
   //echo $log;
 ?>

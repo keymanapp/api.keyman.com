@@ -1,5 +1,6 @@
 <?php
   require_once('build.php');
+  require_once('cjk/build.php');
 
   // CLI version of fail
   function fail($s) {
@@ -15,8 +16,13 @@
 
   $log = '';
 
-  
-  BuildDatabase(count($argv) > 1 && $argv[1] == '-f');
-  
+
+  $mssqldb = $activedb->get_swap();
+
+  BuildDatabase($mssqldb, count($argv) > 1 && $argv[1] == '-f');
+  BuildCJKTables($mssqldb, count($argv) > 1 && $argv[1] == '-f');
+
+  $activedb->set($mssqldb);
+
   //echo $log;
 ?>

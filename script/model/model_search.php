@@ -1,10 +1,10 @@
 <?php
   require_once('../../tools/db/db.php');
   require_once('../../tools/util.php');
-  
+
   allow_cors();
   json_response();
-  
+
   // TODO: We probably need to describe this with a schema
   //header('Link: <https://api.keyman.com/schemas/model_info.distribution.json#>; rel="describedby"');
 
@@ -13,29 +13,19 @@
   }
 
   $q = $_REQUEST['q'];
-  
+
   /**
-    https://api.keyman.com/model?q=search
-    
-    Returns search results for the models matching `search`.
-    
-    @param search    the search string
-  */
-  
-  if(($stmt = $mysql->prepare('CALL sp_model_search(?, ?, ?)')) === false) {
-    fail("Failed to prepare query: {$mysql->error}\n");
-  }
-  
-        
+   * https://api.keyman.com/model?q=search
+   *
+   * Returns search results for the models matching `search`.
+   *
+   * @param search    the search string
+   */
+
+  $stmt = $mssql->prepare('EXEC sp_model_search :prmSearchRegex, :prmSearchPlain, :prmMatchType');
+
   function RegexEscape($text) {
-    $result = '[[:<:]]';
-    for($i = 0; $i < strlen($text); $i++) {
-      if(ord($text[$i]) < 128) {
-        $result .= "\\" . $text[$i];
-      } else {
-        $result .= $text[$i];
-      }
-    }
+    $result = $text . '%';
     return $result;
   }
 
@@ -51,21 +41,17 @@
   }
 
   $qr = RegexEscape($q);
-  $stmt->bind_param("ssi", $qr, $q, $m);
-    
-  if($stmt->execute()) {
-    $result = $stmt->get_result();
-    $data = $result->fetch_all(MYSQLI_ASSOC);
+  $stmt->bindParam(":prmSearchRegex", $qr);
+  $stmt->bindParam(":prmSearchPlain", $q);
+  $stmt->bindParam(":prmMatchType", $m, PDO::PARAM_INT);
 
-    foreach($data as &$model) {
-      $model = json_decode($model['model_info']);
-      $model->packageFilename = get_model_download_url($model->id, $model->version, $model->packageFilename);
-      $model->jsFilename = get_model_download_url($model->id, $model->version, $model->jsFilename);
-      }
-    json_print($data);
-  } else {
-    fail("Failed to run: {$mysql->error}\n");
-  }      
-    
-  $mysql->close();
+  $stmt->execute();
+  $data = $stmt->fetchAll();
+
+  foreach($data as &$model) {
+    $model = json_decode($model['model_info']);
+    $model->packageFilename = get_model_download_url($model->id, $model->version, $model->packageFilename);
+    $model->jsFilename = get_model_download_url($model->id, $model->version, $model->jsFilename);
+    }
+  json_print($data);
 ?>
