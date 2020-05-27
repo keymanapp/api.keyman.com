@@ -28,6 +28,7 @@
       $json = json_decode(file_get_contents($cache_file));
 
       $sql = '';
+      $n = 0;
       foreach($json as $obj) {
         switch($obj->tag) {
           case '_globalvar': $sql .= $this->process_globalvar($obj); break;
@@ -35,6 +36,7 @@
           case '_version': $sql .= $this->process_version($obj); break;
           default: $sql .= $this->process_entry($obj); break;
         }
+        if((++$n) % 100 == 0) $sql .= "\nGO\n";
       }
 
       file_put_contents($this->script_path . $sqlfilename, $sql) || fail("Unable to write $sqlfilename to {$this->script_path}");
@@ -55,7 +57,6 @@
           {$this->sqlv($obj, 'tag')}, {$this->sqlv($obj, 'full')}, {$this->sqlv($obj, 'iso639_3')}, {$this->sqlv($obj, 'region')},
           {$this->sqlv($obj, 'regionname')}, {$this->sqlv($obj, 'name')}, {$this->sqlb($obj, 'sldr')},
           {$this->sqlb($obj, 'nophonvars')}, {$this->sqlv($obj, 'script')}, {$this->sqlb($obj, 'suppress')}, {$this->sqlv($obj, 'windows')};
-GO
       ";
 
       // Note: we don't add localname here as it's always in the localnames array
@@ -97,7 +98,7 @@ GO
       foreach($names as $name) {
         $namekd = Normalizer::normalize($name, Normalizer::FORM_KD);
         $namekd = preg_replace('/\p{Mn}/u', '', $namekd);
-        $sql .= "INSERT t_langtag_name (tag, name, name_kd, nametype) SELECT {$this->sqlv0($tag)}, {$this->sqlv0($name)}, {$this->sqlv0($namekd)}, {$this->sqlv0($nametype)};\nGO\n";
+        $sql .= "INSERT t_langtag_name (tag, name, name_kd, nametype) SELECT {$this->sqlv0($tag)}, {$this->sqlv0($name)}, {$this->sqlv0($namekd)}, {$this->sqlv0($nametype)};\n";
       }
       return $sql;
     }
@@ -105,7 +106,7 @@ GO
     private function process_entry_tags($alttagtype, $tag, $alttags) {
       $sql = '';
       foreach($alttags as $alttag) {
-        $sql .= "INSERT t_langtag_tag (tag, alttag, alttagtype) SELECT {$this->sqlv0($tag)}, {$this->sqlv0($alttag)}, {$this->sqlv0($alttagtype)};\nGO\n";
+        $sql .= "INSERT t_langtag_tag (tag, alttag, alttagtype) SELECT {$this->sqlv0($tag)}, {$this->sqlv0($alttag)}, {$this->sqlv0($alttagtype)};\n";
       }
       return $sql;
     }
@@ -113,7 +114,7 @@ GO
     private function process_entry_regions($tag, $regions) {
       $sql = '';
       foreach($regions as $region) {
-        $sql .= "INSERT t_langtag_region (tag, region) SELECT {$this->sqlv0($tag)}, {$this->sqlv0($region)};\nGO\n";
+        $sql .= "INSERT t_langtag_region (tag, region) SELECT {$this->sqlv0($tag)}, {$this->sqlv0($region)};\n";
       }
       return $sql;
     }

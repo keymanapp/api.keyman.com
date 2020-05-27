@@ -21,6 +21,8 @@
 
   BuildDatabase($mssqldb, count($argv) > 1 && $argv[1] == '-f');
   BuildCJKTables($mssqldb, count($argv) > 1 && $argv[1] == '-f');
+  reportTime();
+  build_log("Success");
 
   $activedb->set($mssqldb);
 

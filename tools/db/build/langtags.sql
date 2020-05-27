@@ -38,6 +38,3 @@ CREATE TABLE t_langtag_region (
   foreign key (tag) REFERENCES t_langtag (tag)
 );
 
-CREATE INDEX ix_langtag_tag ON t_langtag_tag (alttag);
-CREATE INDEX ix_langtag_name ON t_langtag_name (name);
-

@@ -188,6 +188,8 @@
         $sql = '';
         $coldef = $cols ? '(' . implode(',', $cols) . ')' : '';
 
+        $n = 0;
+
         foreach($data as $line) {
           $sql .= "INSERT $table $coldef VALUES(";
           $row = str_getcsv($line,"\t",'',"");
@@ -202,7 +204,9 @@
               $comma = ',';
             }
           }
-          $sql .= ")\nGO\n";
+          $sql .= ")\n";
+          if((++$n) % 100 == 0)
+            $sql .= "GO\n";
         }
 
         file_put_contents($this->script_path . $sqlfilename, $sql) || fail("Unable to write $sqlfilename to {$this->script_path}");

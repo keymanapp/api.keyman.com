@@ -38,7 +38,6 @@
     sqlrun(dirname(__FILE__)."/search-queries.sql", $mssqldb);
     sqlrun(dirname(__FILE__)."/model-queries.sql", $mssqldb);
     sqlrun(dirname(__FILE__)."/legacy-queries.sql", $mssqldb);
-    sqlrun(dirname(__FILE__)."/full-text-indexes.sql", $mssqldb );
     sqlrun("${data_path}langtags.json.sql", $mssqldb);
     sqlrun("${data_path}language-subtag-registry.sql", $mssqldb);
     sqlrun("${data_path}iso639-3.sql", $mssqldb);
@@ -49,6 +48,8 @@
     sqlrun("${data_path}keyboards.sql", $mssqldb);
     sqlrun("${data_path}models.sql", $mssqldb);
     sqlrun(dirname(__FILE__)."/search-prepare-data.sql", $mssqldb);
+    sqlrun(dirname(__FILE__)."/indexes.sql", $mssqldb);
+    sqlrun(dirname(__FILE__)."/full-text-indexes.sql", $mssqldb, false);
     return true;
   }
 
@@ -62,7 +63,7 @@
     return true;
   }
 
-  function sqlrun($sql, $db = 'master') {
+  function sqlrun($sql, $db = 'master', $transaction = true) {
     reportTime();
     build_log("Running $sql");
     $s = file_get_contents($sql);
@@ -72,22 +73,26 @@
     try {
       $mssql = new PDO($mssqlconninfo . $db, $mysqluser, $mysqlpw, NULL);
       $mssql->setAttribute( PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION );
+      $mssql->setAttribute( PDO::SQLSRV_ATTR_DIRECT_QUERY, true);
     }
     catch( PDOException $e ) {
       die( "Error connecting to SQL Server: " . $e );
     }
 
-    foreach($s as $cmd) {
-      if(trim($cmd) == '') continue;
-      try {
-        if(($res = $mssql->exec($cmd)) === FALSE) {
-        }
-      } catch(PDOException $e) {
-        $ei = $mssql->errorInfo();
-        print_r($ei);
-        fail("Failure: {$e}\n\n");
+    try {
+      if($transaction) $mssql->beginTransaction();
+
+      foreach($s as $cmd) {
+        if(trim($cmd) == '') continue;
+        $mssql->exec($cmd);
+        //build_log("$res rows affected\n");
       }
-      //build_log("$res rows affected\n");
+
+      if($transaction) $mssql->commit();
+    } catch(PDOException $e) {
+      $ei = $mssql->errorInfo();
+      print_r($ei);
+      fail("Failure: {$e}\n\n");
     }
   }
 
