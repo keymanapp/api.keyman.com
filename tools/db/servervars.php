@@ -2,13 +2,11 @@
   if(file_exists(dirname(__FILE__) . '/localenv.php')) {
     require_once(dirname(__FILE__) . '/localenv.php');
   }
-  if(!isset($mysqlpw)) $mysqlpw=$_SERVER['api_keyman_com_mysql_pw'];
-  if(!isset($mysqluser)) $mysqluser=$_SERVER['api_keyman_com_mysql_user'];
-  if(!isset($mysqlhost)) $mysqlhost=$_SERVER['api_keyman_com_mysql_host'];
-  if(!isset($mysqldb)) $mysqldb="keyboards";
+  if(!isset($mysqlpw)) $mysqlpw=$_SERVER['api_keyman_com_mssql_pw'];
+  if(!isset($mysqluser)) $mysqluser=$_SERVER['api_keyman_com_mssql_user'];
 
   if(!isset($mssqldb0)) $mssqldb0=$_SERVER['api_keyman_com_mssqldb0'];
-  if(!isset($mssqldb1)) $mssqldb1=$_SERVER['api_keyman_com_mssqldb0'];
+  if(!isset($mssqldb1)) $mssqldb1=$_SERVER['api_keyman_com_mssqldb1'];
   if(!isset($mssqlconninfo)) $mssqlconninfo=$_SERVER['api_keyman_com_mssqlconninfo'];
 
   define('URI_KEYBOARD_INFO_ZIP', $_SERVER['api_keyman_com_keyboard_info_zip']);
