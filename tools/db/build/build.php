@@ -76,7 +76,7 @@
       $mssql->setAttribute( PDO::SQLSRV_ATTR_DIRECT_QUERY, true);
     }
     catch( PDOException $e ) {
-      die( "Error connecting to SQL Server: " . $e );
+      die( "Error connecting to SQL Server: " . $e->getMessage() );
     }
 
     try {

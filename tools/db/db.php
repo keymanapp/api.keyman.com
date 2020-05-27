@@ -6,7 +6,7 @@
     $mssql->setAttribute( PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION );
   }
   catch( PDOException $e ) {
-    die( "Error connecting to SQL Server: " . $e );
+    die( "Error connecting to SQL Server: " . $e->getMessage() );
  }
 
 ?>
