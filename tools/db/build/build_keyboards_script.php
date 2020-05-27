@@ -219,7 +219,9 @@ $insert
           0,
 
           {$this->sqlv($keyboard, 'json')});
+
 GO
+
 END;
       }
 
@@ -256,7 +258,9 @@ $insert
               {$this->sqlv(null, $lang)},
               {$this->sqlv(null, $region)},
               {$this->sqlv(null, $script)});
+
 GO
+
 END;
         }
       }
@@ -285,7 +289,9 @@ $insert
           ({$this->sqlv($keyboard, 'id')},
           {$this->sqlv($link, 'url')},
           {$this->sqlv($link, 'name')});
+
 GO
+
 END;
         }
       }
@@ -316,7 +322,9 @@ $insert
           ({$this->sqlv($keyboard, 'id')},
           {$this->sqlv(null, $id)},
           {$this->sqlb(null, $deprecates)});
+
 GO
+
 END;
         }
       }

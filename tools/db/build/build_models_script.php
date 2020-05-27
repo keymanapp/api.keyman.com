@@ -175,7 +175,9 @@ $insert
           {$this->sqlb(null, $includesFonts)},
 
           {$this->sqlv($model, 'json')});
+
 GO
+
 END;
       }
 
@@ -207,7 +209,9 @@ $insert
               {$this->sqlv(null, $lang)},
               {$this->sqlv(null, $region)},
               {$this->sqlv(null, $script)});
+
 GO
+
 END;
         }
       }
@@ -236,7 +240,9 @@ $insert
           ({$this->sqlv($model, 'id')},
           {$this->sqlv($link, 'url')},
           {$this->sqlv($link, 'name')});
+
 GO
+
 END;
         }
       }
