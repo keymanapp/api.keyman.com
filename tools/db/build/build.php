@@ -87,7 +87,7 @@
         print_r($ei);
         fail("Failure: {$e}\n\n");
       }
-      build_log("$res rows affected\n");
+      //build_log("$res rows affected\n");
     }
   }
 
