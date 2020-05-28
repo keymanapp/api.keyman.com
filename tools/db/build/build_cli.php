@@ -1,8 +1,8 @@
 <?php
-  require_once('../../base.inc.php');
+  require_once(__DIR__ . '/../../base.inc.php');
 
-  require_once('build.php');
-  require_once('cjk/build.php');
+  require_once(__DIR__ . '/build.php');
+  require_once(__DIR__ . '/cjk/build.php');
 
   // CLI version of fail
   function fail($s) {
