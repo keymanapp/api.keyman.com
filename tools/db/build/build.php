@@ -19,6 +19,8 @@
     global $report_last_time;
     $report_last_time = microtime(true);
 
+    wakeUpDatabaseServer($mssqldb);
+
     $data_path = dirname(dirname(dirname(dirname(__FILE__)))) . "/.data/";
 
     $builder = new build_sql_standards_data();
@@ -95,4 +97,23 @@
       fail("Failure: {$e}\n\n");
     }
   }
+
+  function wakeUpDatabaseServer($db) {
+    global $mssqlconninfo, $mysqluser, $mysqlpw;
+    $tries = 1;
+    while(true) {
+      build_log("Attempting to wake $db (attempt $tries/5)");
+      try {
+        $mssql = new PDO($mssqlconninfo . $db, $mysqluser, $mysqlpw, NULL);
+        return true;
+      }
+      catch( PDOException $e ) {
+        $tries++;
+        if($tries > 5) {
+          die( "Unable to wake SQL Server $db after 5 attempts: " . $e->getMessage() );
+        }
+      }
+    }
+  }
+
 

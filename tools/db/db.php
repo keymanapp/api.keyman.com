@@ -1,4 +1,5 @@
 <?php
+  require_once('../util.php');
   require_once('servervars.php');
 
   try {
@@ -6,7 +7,5 @@
     $mssql->setAttribute( PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION );
   }
   catch( PDOException $e ) {
-    die( "Error connecting to SQL Server: " . $e->getMessage() );
- }
-
-?>
+    fail( "Error connecting to SQL Server: " . $e->getMessage(), 500 );
+  }
