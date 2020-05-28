@@ -1,9 +1,10 @@
 <?php
-  require_once('../../tools/db/db.php');
   require_once('../../tools/util.php');
 
   allow_cors();
   javascript_response();
+
+  require_once('../../tools/db/db.php');
 
   if(isset($_GET['kana'])) {
     $kana=$_GET["kana"]; $id = 0;

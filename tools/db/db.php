@@ -1,6 +1,6 @@
 <?php
-  require_once('../util.php');
-  require_once('servervars.php');
+  require_once(__DIR__ . '/../util.php');
+  require_once(__DIR__ . '/servervars.php');
 
   try {
     $mssql = new PDO($mssqlconninfo . $activedb->get(), $mysqluser, $mysqlpw, NULL);

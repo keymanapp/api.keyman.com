@@ -1,6 +1,7 @@
 <?php
+  require_once('../../../../tools/base.inc.php');
   define('CACERT_PATH', $_SERVER['DOCUMENT_ROOT'].'/tools/cacert.pem');
-  if(!isset($_REQUEST['Text']) || 
+  if(!isset($_REQUEST['Text']) ||
     !isset($_REQUEST['Details']) ||
     !isset($_REQUEST['Version']) ||
     !isset($_REQUEST['Application']) ||
@@ -10,7 +11,7 @@
   }
 
   header('Content-Type: text/plain');
-  
+
   $github_user = $_SERVER['api_keyman_com_github_user'];
   $github_repo = $_SERVER['api_keyman_com_github_repo'];
 
@@ -19,11 +20,11 @@
   $details = $_REQUEST['Details'];
   $version = $_REQUEST['Version'];
   $app = $_REQUEST['Application'];
-  
+
   $github_report = '';
-  
+
   // Query GH API for existing issue number
-  
+
   $issue_data = CallGitHub("/search/issues?q=in:title%20CrashID:$crashid%20repo:$github_repo", null);
   //var_dump($issue_data);
   //var_dump($github_report);
@@ -38,7 +39,7 @@
   } else {
     $issue_id = $issue_data->items[0]->number;
   }
-    
+
   $report = FormatCrashReport();
   $data = Json(array(
     "body" => $report
@@ -48,8 +49,8 @@
     echo "Failed:\n\n$github_report\n";
     exit;
   }
-  
-  /* 
+
+  /*
     Export attachments to GitHub
   */
 
@@ -66,7 +67,7 @@
     UploadFile($_FILES['ErrLog'.$i]['name'], $_FILES['ErrLog'.$i]['tmp_name'], "/repos/$github_repo/contents/gh$issue_id/$comment_id/");
     $i++;
   }
-  
+
   $data = Json(array(
     "body" => $report
   ));
@@ -87,18 +88,18 @@
       $report .= "* [$name](https://github.com/$github_repo/blob/master/gh$issue_id/$comment_id/$name?raw=true)\n";
     }
   }
- 
+
   echo "<result><text>Issue logged with ID GH$issue_id</text><id>GH$issue_id</id><doc>$comment_id</doc></result>";
 
   function FormatCrashReport() {
     global $crashid, $text, $details, $version, $app;
-    
+
     if(preg_match("/^\d+\.\d+/", $version, $pr)) {
       $majorVersion = $pr[0];
     } else {
       $majorVersion = "unknown-version";
     }
-    
+
     $report = <<<END
 ````
 Crash Identifier: $crashid
@@ -113,7 +114,7 @@ $app-$version $app-$majorVersion $app $version $majorVersion
 END;
     return $report;
   }
-  
+
   function ImportIssue($data) {
     global $github_repo;
     $res = CallGitHub("/repos/$github_repo/issues", $data);
@@ -122,7 +123,7 @@ END;
     }
     return $res->number;
   }
-  
+
   function ImportDocument($id, $data) {
     global $github_repo;
     $res = CallGitHub("/repos/$github_repo/issues/$id/comments", $data);
@@ -135,11 +136,11 @@ END;
   function Json($array) {
     return json_encode($array, JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE);
   }
-  
+
   function CallGitHub($path, $data, $method = 'GET') {
     global $github_user, $github_report;
     $url = "https://$github_user@api.github.com$path";
-    $ch = curl_init($url); 
+    $ch = curl_init($url);
     //var_dump($url);
     curl_setopt($ch, CURLOPT_CAINFO, CACERT_PATH);
     if(!empty($data)) {

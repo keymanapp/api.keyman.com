@@ -1,4 +1,5 @@
 <?php
+  require_once('../../../../tools/base.inc.php');
   if(!isset($_SERVER['argv'])) {
     if(!isset($_REQUEST['Username']) || !isset($_REQUEST['Title']) || !isset($_REQUEST['Body']))
     {

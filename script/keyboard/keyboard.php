@@ -1,9 +1,10 @@
 <?php
-  require_once('../../tools/db/db.php');
   require_once('../../tools/util.php');
 
   allow_cors();
   json_response();
+
+  require_once('../../tools/db/db.php');
 
   header('Link: <https://api.keyman.com/schemas/keyboard_info.distribution.json#>; rel="describedby"');
 

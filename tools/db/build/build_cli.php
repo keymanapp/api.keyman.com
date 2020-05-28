@@ -1,4 +1,6 @@
 <?php
+  require_once('../../base.inc.php');
+
   require_once('build.php');
   require_once('cjk/build.php');
 

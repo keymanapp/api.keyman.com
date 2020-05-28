@@ -1,4 +1,6 @@
 <?php
+  require_once('base.inc.php');
+
   $is_json_response = false;
 
   function fail($s, $code=400) {

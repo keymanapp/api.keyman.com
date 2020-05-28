@@ -1,6 +1,5 @@
 <?php
   /* Download files from downloads.keyman.com/db/data/ and downloads.keyman/com/db/scripts/ */
-
   require_once(dirname(__FILE__).'/../servervars.php');
   require_once('build_standards_data_script.php');
   require_once('build_keyboards_script.php');

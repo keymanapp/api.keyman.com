@@ -1,9 +1,10 @@
 <?php
-  require_once('../../tools/db/db.php');
   require_once('../../tools/util.php');
 
   allow_cors();
   json_response();
+
+  require_once('../../tools/db/db.php');
 
   // TODO: We probably need to describe this with a schema
   //header('Link: <https://api.keyman.com/schemas/model_info.distribution.json#>; rel="describedby"');
