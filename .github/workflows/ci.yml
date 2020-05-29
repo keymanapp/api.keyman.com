@@ -9,10 +9,12 @@ jobs:
     env:
       api_keyman_com_mssql_pw:
       api_keyman_com_mssql_user:
-      api_keyman_com_mssqlconninfo: sqlsrv:Server=(localdb)\keymanapi;Integrated Security=true;Database=
-      api_keyman_com_mssqlconninfo_master: sqlsrv:Server=(localdb)\keymanapi;Integrated Security=true;Database=master
+      api_keyman_com_mssqlconninfo: sqlsrv:Server=(localdb)\keymanapi;Database=
+      api_keyman_com_mssqlconninfo_master: sqlsrv:Server=(localdb)\keymanapi;Database=master
       api_keyman_com_mssqldb0: keyboards
       api_keyman_com_mssqldb1: keyboards_1
+      api_keyman_com_keyboard_info_zip: https://downloads.keyman.com/data/keyboard_info.zip
+      api_keyman_com_model_info_zip: https://downloads.keyman.com/data/model_info.zip
 
     steps:
     - uses: actions/checkout@v2
