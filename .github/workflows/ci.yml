@@ -18,7 +18,7 @@ jobs:
 
     steps:
     - uses: actions/checkout@v2
-    - name: Create keymanapi Database
+    - name: Download and install SQL Server Express
       shell: cmd
       run: |
         choco install sql-server-express -ia "/IACCEPTSQLSERVERLICENSETERMS /Q /ACTION=install /INSTANCEID=KEYMANAPI /INSTANCENAME=KEYMANAPI /SAPWD=Password1! /SECURITYMODE=SQL /UPDATEENABLED=FALSE /FEATURES=SQLEngine,FullText" -o -y
@@ -34,8 +34,8 @@ jobs:
         Invoke-WebRequest -outfile pdo.zip https://github.com/microsoft/msphpsql/releases/download/v5.8.0/Windows-7.4.zip
         Expand-Archive pdo.zip -DestinationPath pdo\
         copy pdo\Windows-7.4\x64\php_pdo_sqlsrv_74_nts.dll c:\tools\php\ext\
-        Add-Content -path c:\tools\php\php.ini -value '','extension=php_pdo_sqlsrv_74_nts.dll','mssql.secure_connection=Off'
-    - name:  Build keymanapi database
+        Add-Content -path c:\tools\php\php.ini -value '','extension=php_pdo_sqlsrv_74_nts.dll','mssql.secure_connection=Off','extension=php_intl.dll'
+    - name:  Build keyboards and keyboards_1 database
       shell: cmd
       run:   php tools\db\build\build_cli.php
     - name:  Run unit tests
