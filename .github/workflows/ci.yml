@@ -1,15 +1,13 @@
 name: CI
 
-on: [push, pull_request]
+on: [pull_request]
 
 jobs:
 
   build-test:
     runs-on: windows-latest
     steps:
-    - uses: actions/checkout@v1
-    - uses: php-actions/composer@v1 # or alternative dependency management
-    - uses: php-actions/phpunit@v1
+    - uses: actions/checkout@v2
     - name: Install keymanapi Database
       run: |
         "C:\Program Files\Microsoft SQL Server\130\Tools\Binn\SqlLocalDB.exe" create keymanapi
@@ -26,4 +24,4 @@ jobs:
         php tools\db\build\build_cli.php
     - name: Run unit tests
       run: |
-        phpunit tests
+        vendor\bin\phpunit tests
