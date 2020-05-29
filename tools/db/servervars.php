@@ -8,6 +8,7 @@
   if(!isset($mssqldb0)) $mssqldb0=$_SERVER['api_keyman_com_mssqldb0'];
   if(!isset($mssqldb1)) $mssqldb1=$_SERVER['api_keyman_com_mssqldb1'];
   if(!isset($mssqlconninfo)) $mssqlconninfo=$_SERVER['api_keyman_com_mssqlconninfo'];
+  if(!isset($mssqlconninfo_master) && isset($_SERVER['api_keyman_com_mssqlconninfo_master'])) $mssqlconninfo_master=$_SERVER['api_keyman_com_mssqlconninfo_master'];
 
   define('URI_KEYBOARD_INFO_ZIP', $_SERVER['api_keyman_com_keyboard_info_zip']);
   define('URI_MODEL_INFO_ZIP', $_SERVER['api_keyman_com_model_info_zip']);

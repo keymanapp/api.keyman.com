@@ -6,6 +6,14 @@ jobs:
 
   build-test:
     runs-on: windows-latest
+    env:
+      api_keyman_com_mssql_pw:
+      api_keyman_com_mssql_user:
+      api_keyman_com_mssqlconninfo: sqlsrv:Server=(localdb)\keymanapi;Integrated Security=true;Database=
+      api_keyman_com_mssqlconninfo_master: sqlsrv:Server=(localdb)\keymanapi;Integrated Security=true;Database=master
+      api_keyman_com_mssqldb0: keyboards
+      api_keyman_com_mssqldb1: keyboards_1
+
     steps:
     - uses: actions/checkout@v2
     - name: Create keymanapi Database
@@ -13,17 +21,12 @@ jobs:
       run: |
         "C:\Program Files\Microsoft SQL Server\130\Tools\Binn\SqlLocalDB.exe" create keymanapi
         "C:\Program Files\Microsoft SQL Server\130\Tools\Binn\SqlLocalDB.exe" start keymanapi
-    - name: Install dependencies
+    - name:  Install dependencies
       shell: cmd
-      run: |
-        composer install
-    - name: Build keymanapi database
+      run:   composer install
+    - name:  Build keymanapi database
       shell: cmd
-      run: |
-        call .github\workflows\prepenv.cmd
-        type tools\db\localenv.php
-        php tools\db\build\build_cli.php
-    - name: Run unit tests
+      run:   php tools\db\build\build_cli.php
+    - name:  Run unit tests
       shell: cmd
-      run: |
-        vendor\bin\phpunit tests
+      run:   vendor\bin\phpunit tests
