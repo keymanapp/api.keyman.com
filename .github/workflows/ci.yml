@@ -21,7 +21,7 @@ jobs:
     - name: Download and install SQL Server Express
       shell: cmd
       run: |
-        choco install sql-server-express -ia "/IACCEPTSQLSERVERLICENSETERMS /Q /ACTION=install /INSTANCEID=KEYMANAPI /INSTANCENAME=KEYMANAPI /SAPWD=Password1! /SECURITYMODE=SQL /UPDATEENABLED=FALSE /FEATURES=SQLEngine,FullText" -o -y
+        choco install sql-server-2019 -ia "/IACCEPTSQLSERVERLICENSETERMS /Q /ACTION=install /INSTANCEID=KEYMANAPI /INSTANCENAME=KEYMANAPI /SAPWD=Password1! /SECURITYMODE=SQL /UPDATEENABLED=FALSE /FEATURES=SQLEngine,FullText" -o -y
         rem "C:\Program Files\Microsoft SQL Server\130\Tools\Binn\SqlLocalDB.exe" create keymanapi
         rem "C:\Program Files\Microsoft SQL Server\130\Tools\Binn\SqlLocalDB.exe" start keymanapi
         rem "C:\Program Files\Microsoft SQL Server\130\Tools\Binn\SqlLocalDB.exe" start
