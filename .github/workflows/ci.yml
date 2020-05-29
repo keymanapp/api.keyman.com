@@ -16,6 +16,7 @@ jobs:
         "C:\Program Files\Microsoft SQL Server\130\Tools\Binn\SqlLocalDB.exe" create keymanapi
         "C:\Program Files\Microsoft SQL Server\130\Tools\Binn\SqlLocalDB.exe" start keymanapi
     - name: Install dependencies
+      run: |
         composer install
     - name: Build keymanapi database
       run: |
