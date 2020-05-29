@@ -23,14 +23,14 @@ jobs:
         "C:\Program Files\Microsoft SQL Server\130\Tools\Binn\SqlLocalDB.exe" start keymanapi
     - name:  Install dependencies
       shell: cmd
-      run:   composer install
+      run:   composer install --no-progress
     - name:  Install PHP mssql PDO Driver
       shell: powershell
       run: |
         Invoke-WebRequest -outfile pdo.zip https://github.com/microsoft/msphpsql/releases/download/v5.8.0/Windows-7.4.zip
-        Expand-Archive pdo.zip
-        copy pdo\Windows-7.4\x64\php_pdo_sqlsrv_74_nts_x64.dll c:\tools\php\ext\
-        Add-Content -path c:\tools\php\php.ini -value '','extension=php_pdo_sqlsrv_74_nts_x64.dll','mssql.secure_connection=Off'
+        Expand-Archive pdo.zip -DestinationPath pdo\
+        copy pdo\Windows-7.4\x64\php_pdo_sqlsrv_74_nts.dll c:\tools\php\ext\
+        Add-Content -path c:\tools\php\php.ini -value '','extension=php_pdo_sqlsrv_74_nts.dll','mssql.secure_connection=Off'
     - name:  Build keymanapi database
       shell: cmd
       run:   php tools\db\build\build_cli.php
