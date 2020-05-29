@@ -1,0 +1,29 @@
+name: CI
+
+on: [push, pull_request]
+
+jobs:
+
+  build-test:
+    runs-on: windows-latest
+    needs: build-cli
+    steps:
+    - uses: actions/checkout@v1
+    - uses: php-actions/composer@v1 # or alternative dependency management
+    - uses: php-actions/phpunit@v1
+    - name: Install keymanapi Database
+      run: |
+        "C:\Program Files\Microsoft SQL Server\130\Tools\Binn\SqlLocalDB.exe" create keymanapi
+        "C:\Program Files\Microsoft SQL Server\130\Tools\Binn\SqlLocalDB.exe" start keymanapi
+    - name: Install dependencies
+        composer install
+    - name: Build keymanapi database
+      run: |
+        echo $mssqlconninfo="sqlsrv:Server=(localdb)\keymanapi;Integrated Security=true;Database="; > tools\db\localenv.php
+        echo $mssqlconninfo_master="sqlsrv:Server=(localdb)\keymanapi;Integrated Security=true;Database=master"; >> tools\db\localenv.php
+        echo $mssqldb0 = 'keyboards'; >> tools\db\localenv.php
+        echo $mssqldb1 = 'keyboards_1'; >> tools\db\localenv.php
+        php tools\db\build\build_cli.php
+    - name: Run unit tests
+      run: |
+        phpunit tests
