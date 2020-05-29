@@ -21,12 +21,15 @@
 
   $mssqldb = $activedb->get_swap();
 
-  BuildDatabase($mssqldb, count($argv) > 1 && $argv[1] == '-f');
-  BuildCJKTables($mssqldb, count($argv) > 1 && $argv[1] == '-f');
-  reportTime();
-  build_log("Success");
+  try {
+    BuildDatabase($mssqldb, count($argv) > 1 && $argv[1] == '-f');
+    BuildCJKTables($mssqldb, count($argv) > 1 && $argv[1] == '-f');
+    reportTime();
+    build_log("Success");
 
-  $activedb->set($mssqldb);
-
+    $activedb->set($mssqldb);
+  } catch(Exception $e) {
+    fail($e->getMessage());
+  }
   //echo $log;
 ?>

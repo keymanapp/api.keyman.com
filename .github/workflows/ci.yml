@@ -7,8 +7,8 @@ jobs:
   build-test:
     runs-on: windows-latest
     env:
-      api_keyman_com_mssql_pw: sa
-      api_keyman_com_mssql_user: Password1!
+      api_keyman_com_mssql_pw: Password1!
+      api_keyman_com_mssql_user: sa
       api_keyman_com_mssqlconninfo: sqlsrv:Server=(local)\KEYMANAPI; Database=
       api_keyman_com_mssql_create_databases: true
       api_keyman_com_mssqldb0: keyboards
