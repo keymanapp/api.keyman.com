@@ -7,10 +7,10 @@ jobs:
   build-test:
     runs-on: windows-latest
     env:
-      api_keyman_com_mssql_pw:
-      api_keyman_com_mssql_user:
-      api_keyman_com_mssqlconninfo: sqlsrv:Server=(localdb)\keymanapi;Database=
-      api_keyman_com_mssqlconninfo_master: sqlsrv:Server=(localdb)\keymanapi;Database=master
+      api_keyman_com_mssql_pw: sa
+      api_keyman_com_mssql_user: Password1!
+      api_keyman_com_mssqlconninfo: sqlsrv:Server=(local)\KEYBOARDS; Database=
+      api_keyman_com_mssql_create_databases: true
       api_keyman_com_mssqldb0: keyboards
       api_keyman_com_mssqldb1: keyboards_1
       api_keyman_com_keyboard_info_zip: https://downloads.keyman.com/data/keyboard_info.zip
@@ -21,12 +21,14 @@ jobs:
     - name: Create keymanapi Database
       shell: cmd
       run: |
-        "C:\Program Files\Microsoft SQL Server\130\Tools\Binn\SqlLocalDB.exe" create keymanapi
-        "C:\Program Files\Microsoft SQL Server\130\Tools\Binn\SqlLocalDB.exe" start keymanapi
+        choco install sql-server-express -ia "/IACCEPTSQLSERVERLICENSETERMS /Q /ACTION=install /INSTANCEID=KEYMANAPI /INSTANCENAME=KEYMANAPI /SAPWD=Password1! /SECURITYMODE=SQL /UPDATEENABLED=FALSE /FEATURES=SQLEngine,FullText" -o -y
+        rem "C:\Program Files\Microsoft SQL Server\130\Tools\Binn\SqlLocalDB.exe" create keymanapi
+        rem "C:\Program Files\Microsoft SQL Server\130\Tools\Binn\SqlLocalDB.exe" start keymanapi
+        rem "C:\Program Files\Microsoft SQL Server\130\Tools\Binn\SqlLocalDB.exe" start
     - name:  Install dependencies
       shell: cmd
       run:   composer install --no-progress
-    - name:  Install PHP mssql PDO Driver
+    - name:  Install PHP SQL Server PDO Driver
       shell: powershell
       run: |
         Invoke-WebRequest -outfile pdo.zip https://github.com/microsoft/msphpsql/releases/download/v5.8.0/Windows-7.4.zip

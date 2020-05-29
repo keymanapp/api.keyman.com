@@ -2,13 +2,17 @@
   if(file_exists(dirname(__FILE__) . '/localenv.php')) {
     require_once(dirname(__FILE__) . '/localenv.php');
   }
-  if(!isset($mysqlpw)) $mysqlpw=$_SERVER['api_keyman_com_mssql_pw'];
-  if(!isset($mysqluser)) $mysqluser=$_SERVER['api_keyman_com_mssql_user'];
+
+  if(!isset($mysqlpw))
+    $mysqlpw=isset($_SERVER['api_keyman_com_mssql_pw']) ? $_SERVER['api_keyman_com_mssql_pw'] : null;
+  if(!isset($mysqluser))
+    $mysqluser=isset($_SERVER['api_keyman_com_mssql_user']) ? $_SERVER['api_keyman_com_mssql_user'] : null;
 
   if(!isset($mssqldb0)) $mssqldb0=$_SERVER['api_keyman_com_mssqldb0'];
   if(!isset($mssqldb1)) $mssqldb1=$_SERVER['api_keyman_com_mssqldb1'];
   if(!isset($mssqlconninfo)) $mssqlconninfo=$_SERVER['api_keyman_com_mssqlconninfo'];
-  if(!isset($mssqlconninfo_master) && isset($_SERVER['api_keyman_com_mssqlconninfo_master'])) $mssqlconninfo_master=$_SERVER['api_keyman_com_mssqlconninfo_master'];
+  if(!isset($mssql_create_databases) && isset($_SERVER['api_keyman_com_mssql_create_databases'])) $mssql_create_databases=$_SERVER['api_keyman_com_mssql_create_databases'];
+  $mssql_full_text_search = true; //!empty($mssql_full_text_search) || isset($_SERVER['api_keyman_com_full_text_search']);
 
   define('URI_KEYBOARD_INFO_ZIP', $_SERVER['api_keyman_com_keyboard_info_zip']);
   define('URI_MODEL_INFO_ZIP', $_SERVER['api_keyman_com_model_info_zip']);

@@ -18,7 +18,7 @@
     global $report_last_time;
     $report_last_time = microtime(true);
 
-    wakeUpDatabaseServer($mssqldb);
+    wakeUpDatabaseServer('master'); //$mssqldb);
 
     $data_path = dirname(dirname(dirname(dirname(__FILE__)))) . "/.data/";
 
@@ -31,9 +31,9 @@
     $builder = new build_models_sql();
     $builder->execute($data_path, $do_force) || fail("Unable to build lexical models data scripts");
 
-    global $mssqlconninfo_master;
-    if(isset($mssqlconninfo_master))
-      sqlrun(dirname(__FILE__)."/create-database.sql");
+    global $mssql_create_databases;
+    if(isset($mssql_create_databases))
+      sqlrun(dirname(__FILE__)."/create-database.sql", 'master', false);
     sqlrun(dirname(__FILE__)."/search.sql", $mssqldb);
     sqlrun(dirname(__FILE__)."/langtags.sql", $mssqldb);
     sqlrun(dirname(__FILE__)."/search-queries.sql", $mssqldb);
@@ -50,7 +50,10 @@
     sqlrun("${data_path}models.sql", $mssqldb);
     sqlrun(dirname(__FILE__)."/search-prepare-data.sql", $mssqldb);
     sqlrun(dirname(__FILE__)."/indexes.sql", $mssqldb);
-    sqlrun(dirname(__FILE__)."/full-text-indexes.sql", $mssqldb, false);
+
+    global $mssql_full_text_search;
+    if($mssql_full_text_search)
+      sqlrun(dirname(__FILE__)."/full-text-indexes.sql", $mssqldb, false);
     return true;
   }
 
