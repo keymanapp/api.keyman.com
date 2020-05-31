@@ -1,4 +1,6 @@
 <?php
+  require_once(__DIR__ . '/datasources.inc.php');
+
   /*
    Caches the URL into the file path; if the file is older than
    two weeks, tries again. If it fails to download, uses the cached
@@ -125,6 +127,11 @@
 
     class build_common {
       public $force, $script_path;
+      protected DBDataSources $DBDataSources;
+
+      function __construct(DBDataSources $DBDataSources) {
+        $this->DBDataSources = $DBDataSources;
+      }
 
       function sqlv($o, $p) {
         return sqlv($o, $p);

@@ -1,5 +1,5 @@
 <?php
-  require_once('common.php');
+  require_once(__DIR__ . '/common.inc.php');
 
   class build_keyboards_sql extends build_common {
 

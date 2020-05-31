@@ -1,9 +1,9 @@
 <?php
   /* Download files from downloads.keyman.com/db/data/ and downloads.keyman/com/db/scripts/ */
   require_once(dirname(__FILE__).'/../servervars.php');
-  require_once('build_standards_data_script.php');
-  require_once('build_keyboards_script.php');
-  require_once('build_models_script.php');
+  require_once('build_standards_data_script.inc.php');
+  require_once('build_keyboards_script.inc.php');
+  require_once('build_models_script.inc.php');
 
   function reportTime() {
     global $report_last_time;
@@ -12,7 +12,9 @@
     $report_last_time = $new_time;
   }
 
-  function BuildDatabase($mssqldb, $do_force) {
+  // TODO: convert to class
+
+  function BuildDatabase($DBDataSources, $mssqldb, $do_force) {
     build_log("Building database $mssqldb");
 
     global $report_last_time;
@@ -22,14 +24,16 @@
 
     $data_path = dirname(dirname(dirname(dirname(__FILE__)))) . "/.data/";
 
-    $builder = new build_sql_standards_data();
+    $builder = new build_sql_standards_data($DBDataSources);
     $builder->execute($data_path, false) || fail("Unable to build standards data scripts");
 
-    $builder = new build_keyboards_sql();
+    $builder = new build_keyboards_sql($DBDataSources);
     $builder->execute($data_path, $do_force) || fail("Unable to build keyboards data scripts");
 
-    $builder = new build_models_sql();
+    $builder = new build_models_sql($DBDataSources);
     $builder->execute($data_path, $do_force) || fail("Unable to build lexical models data scripts");
+
+    buildDBDataSources($data_path, $DBDataSources);
 
     global $mssql_create_databases;
     if(isset($mssql_create_databases))
@@ -50,11 +54,29 @@
     sqlrun("${data_path}models.sql", $mssqldb);
     sqlrun(dirname(__FILE__)."/search-prepare-data.sql", $mssqldb);
     sqlrun(dirname(__FILE__)."/indexes.sql", $mssqldb);
+    sqlrun("${data_path}dbdatasources.sql", $mssqldb);
 
     global $mssql_full_text_search;
     if($mssql_full_text_search)
       sqlrun(dirname(__FILE__)."/full-text-indexes.sql", $mssqldb, false);
     return true;
+  }
+
+  function buildDBDataSources($data_path, DBDataSources $DBDataSources) {
+    $sql = <<<SQL
+      CREATE TABLE t_dbdatasources (
+        uri NVARCHAR(260) NOT NULL,
+        filename NVARCHAR(260) NOT NULL
+      )
+      GO
+
+SQL;
+
+    foreach($DBDataSources as $field => $value) {
+      $sql .= "\nINSERT t_dbdatasources SELECT ".sqlv($DBDataSources, $field).", ".sqlv(null, basename($DBDataSources->$field))."\n";
+    }
+
+    file_put_contents("${data_path}dbdatasources.sql", $sql);
   }
 
   function download($url) {

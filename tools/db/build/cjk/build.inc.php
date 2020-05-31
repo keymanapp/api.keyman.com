@@ -1,13 +1,13 @@
 <?php
-  require_once(dirname(__FILE__).'/../../servervars.php');
-  require_once('build_cjk_data_script.php');
+  require_once(__DIR__ . '/../../servervars.php');
+  require_once(__DIR__ . '/build_cjk_data_script.inc.php');
 
-  function BuildCJKTables($mssqldb, $do_force) {
-    $data_path = dirname(__FILE__).'/';
+  function BuildCJKTables($DBDataSources, $mssqldb, $do_force) {
+    $data_path = __DIR__ . '/';
 
     sqlrun("${data_path}cjk_database.sql", $mssqldb);
 
-    $builder = new build_cjk_data();
+    $builder = new build_cjk_data($DBDataSources);
     $builder->execute($data_path, $do_force) || fail("Unable to build cjk data");
 
     sqlrun("${data_path}chinese_pinyin_import.sql", $mssqldb);

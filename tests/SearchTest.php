@@ -5,14 +5,22 @@
   require_once(__DIR__ . '/../tools/base.inc.php');
   require_once(__DIR__ . '/../script/search/search.inc.php');
   require_once(__DIR__ . '/TestUtils.inc.php');
+  require_once(__DIR__ . '/TestDBBuild.inc.php');
 
-  use PHPUnit\Framework\TestCase;
+use DBDataSources;
+use PHPUnit\Framework\TestCase;
   use Swaggest\JsonSchema\Schema;
   use Swaggest\JsonSchema\Context;
+
 
   final class SearchTest extends TestCase
   {
     private const SchemaFilename = "/search/1.0.2/search.json";
+
+    private function setUpBeforeClass() {
+      TestDBBuild::Build();
+    }
+
 
     public function testSimpleSearchResultValidatesAgainstSchema(): void
     {
@@ -38,6 +46,8 @@
       // Once we get here we know this test has passed so make PHPUnit happy
       $this->assertTrue(true);
     }
+
+    public function testSearchResult
   }
 
 
