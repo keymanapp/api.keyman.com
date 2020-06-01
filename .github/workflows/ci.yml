@@ -21,7 +21,7 @@ jobs:
     - name: Download and install SQL Server Express
       shell: cmd
       run: |
-        choco --no-progress install sql-server-2019 --params "'/INSTANCEID=KEYMANAPI /INSTANCENAME=KEYMANAPI /SAPWD=Password1! /SECURITYMODE=SQL /UPDATEENABLED=FALSE /FEATURES=SQLENGINE,FULLTEXT'"
+        choco --verbose --no-progress install sql-server-2019 --params "'/INSTANCEID=KEYMANAPI /INSTANCENAME=KEYMANAPI /SAPWD=Password1! /SECURITYMODE=SQL /UPDATEENABLED=FALSE /FEATURES=SQLENGINE,FULLTEXT'"
         rem Can't use localdb because it doesn't support FullText
         rem "C:\Program Files\Microsoft SQL Server\130\Tools\Binn\SqlLocalDB.exe" create keymanapi
         rem "C:\Program Files\Microsoft SQL Server\130\Tools\Binn\SqlLocalDB.exe" start keymanapi

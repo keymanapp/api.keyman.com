@@ -19,15 +19,9 @@ namespace com\keyman\api\tests {
   {
     function __construct()
     {
-      $this->uriLanguageSubtagRegistry = $this->fileFromTestDataDir($this->uriLanguageSubtagRegistry);
-      $this->uriIso6393 = $this->fileFromTestDataDir($this->uriIso6393);
-      $this->uriIso6393NameIndex = $this->fileFromTestDataDir($this->uriIso6393NameIndex);
-      $this->uriEthnologueLanguageCodes = $this->fileFromTestDataDir($this->uriEthnologueLanguageCodes);
-      $this->uriEthnologueCountryCodes = $this->fileFromTestDataDir($this->uriEthnologueCountryCodes);
-      $this->uriEthnologueLanguageIndex = $this->fileFromTestDataDir($this->uriEthnologueLanguageIndex);
-      $this->uriLangTags = $this->fileFromTestDataDir($this->uriLangTags);
-      $this->uriKeyboardInfo = $this->fileFromTestDataDir($this->uriKeyboardInfo);
-      $this->uriModelInfo = $this->fileFromTestDataDir($this->uriModelInfo);
+      foreach($this as $field => $value) {
+        $this->$field = $this->fileFromTestDataDir($this->$field);
+      }
     }
 
     private function fileFromTestDataDir($uri)
