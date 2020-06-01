@@ -9,7 +9,7 @@ require_once(__DIR__ . '/TestDBBuild.inc.php');
 
 use PHPUnit\Framework\TestCase;
 
-final class ModelSea_rchTest extends TestCase
+final class ModelSearchTest extends TestCase
 {
   private const SchemaFilename = "/search/1.0.2/search.json";
 
