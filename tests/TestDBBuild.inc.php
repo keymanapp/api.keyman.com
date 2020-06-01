@@ -34,10 +34,10 @@ namespace com\keyman\api\tests {
   {
     static function Build()
     {
-      global $mssqldb0, $mssql, $activedb;
+      global $mssql, $activedb;
 
       // Always work on the first database in the pair
-      $activedb->set($mssqldb0);
+      $db = $activedb->get();
 
       // First, test the existing database to see its data sources
       $DBDataSources = new TestDBDataSources();
@@ -47,8 +47,8 @@ namespace com\keyman\api\tests {
       if (sizeof($data) == 1 && $data[0]['uri'] === $DBDataSources->uriLangTags) return;
 
       // Database sources are not from our test resources, so rebuild them
-      BuildDatabase($DBDataSources, $mssqldb0, true);
-      BuildCJKTables($DBDataSources, $mssqldb0, true);
+      BuildDatabase($DBDataSources, $db, true);
+      BuildCJKTables($DBDataSources, $db, true);
     }
   }
 }
