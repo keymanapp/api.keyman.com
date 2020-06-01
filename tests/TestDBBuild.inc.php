@@ -42,7 +42,7 @@ namespace com\keyman\api\tests {
       // First, test the existing database to see its data sources
       $DBDataSources = new TestDBDataSources();
 
-      $q = $mssql->query("SELECT uri FROM t_dbdatasources WHERE filename = 'langtags.json'");
+      $q = $mssql->query("IF OBJECT_ID('t_dbdatasources') IS NULL SELECT '' uri ELSE SELECT uri FROM t_dbdatasources WHERE filename = 'langtags.json'");
       $data = $q->fetchAll();
       if (sizeof($data) == 1 && $data[0]['uri'] === $DBDataSources->uriLangTags) return;
 
