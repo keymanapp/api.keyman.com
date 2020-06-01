@@ -24,7 +24,7 @@
 
       reportTime();
 
-      cache(URI_MODEL_INFO_ZIP, $this->cache_path . 'model_info.zip', 60 * 60 * 24 * 7, $this->force) || fail("Unable to download model_info.zip");
+      cache($this->DBDataSources->uriModelInfo, $this->cache_path . 'model_info.zip', 60 * 60 * 24 * 7, $this->force) || fail("Unable to download model_info.zip");
 
       $this->unzip() || fail("Unable to extract model_info.zip");
 

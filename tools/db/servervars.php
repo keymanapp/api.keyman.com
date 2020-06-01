@@ -14,9 +14,6 @@
   if(!isset($mssql_create_databases) && isset($_SERVER['api_keyman_com_mssql_create_databases'])) $mssql_create_databases=$_SERVER['api_keyman_com_mssql_create_databases'];
   $mssql_full_text_search = true; //!empty($mssql_full_text_search) || isset($_SERVER['api_keyman_com_full_text_search']);
 
-  define('URI_KEYBOARD_INFO_ZIP', $_SERVER['api_keyman_com_keyboard_info_zip']);
-  define('URI_MODEL_INFO_ZIP', $_SERVER['api_keyman_com_model_info_zip']);
-
   class ActiveDB {
     private $activedb;
     private function filename() {

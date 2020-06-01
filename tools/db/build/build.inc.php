@@ -25,7 +25,7 @@
     $data_path = dirname(dirname(dirname(dirname(__FILE__)))) . "/.data/";
 
     $builder = new build_sql_standards_data($DBDataSources);
-    $builder->execute($data_path, false) || fail("Unable to build standards data scripts");
+    $builder->execute($data_path, $do_force) || fail("Unable to build standards data scripts");
 
     $builder = new build_keyboards_sql($DBDataSources);
     $builder->execute($data_path, $do_force) || fail("Unable to build keyboards data scripts");
@@ -63,14 +63,7 @@
   }
 
   function buildDBDataSources($data_path, DBDataSources $DBDataSources) {
-    $sql = <<<SQL
-      CREATE TABLE t_dbdatasources (
-        uri NVARCHAR(260) NOT NULL,
-        filename NVARCHAR(260) NOT NULL
-      )
-      GO
-
-SQL;
+    $sql = '';
 
     foreach($DBDataSources as $field => $value) {
       $sql .= "\nINSERT t_dbdatasources SELECT ".sqlv($DBDataSources, $field).", ".sqlv(null, basename($DBDataSources->$field))."\n";
@@ -83,7 +76,7 @@ SQL;
     $filename = basename($url);
     build_log("Downloading $filename");
     if(($data = file_get_contents($url)) === false) {
-      fail("Unable to download $url: $php_errormsg");
+      fail("Unable to download $url");
     }
     file_put_contents($filename, $data);
     return true;

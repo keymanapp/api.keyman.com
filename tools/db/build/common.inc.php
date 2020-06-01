@@ -9,7 +9,7 @@
   function cache($url, $filename, $duration = 60 * 60 * 24 * 7, $do_force = false) {
     global $force;
     $local_force = $force || $do_force;
-    if($local_force) $duration = 0;
+    if($local_force && file_exists($filename)) unlink($filename);
     if(!file_exists($filename) || time()-filemtime($filename) > $duration) {
       echo "Downloading $url\n";
 
@@ -25,7 +25,7 @@
 
       if(($file = @file_get_contents($url, false, $context)) === FALSE) {
         if(!file_exists($filename)) {
-          echo "Failed to download $url: $php_errormsg\n"; //todo to stderr
+          echo "Failed to download $url\n"; //todo to stderr
           return false;
         }
       } else {

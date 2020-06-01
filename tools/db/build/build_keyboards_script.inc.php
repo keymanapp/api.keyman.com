@@ -22,7 +22,7 @@
         mkdir($this->keyboards_path, 0777, true) || fail("Unable to create folder " . $this->keyboards_path);
       }
 
-      cache(URI_KEYBOARD_INFO_ZIP, $this->cache_path . 'keyboard_info.zip', 60 * 60 * 24 * 7, $this->force) || fail("Unable to download keyboard_info.zip");
+      cache($this->DBDataSources->uriKeyboardInfo, $this->cache_path . 'keyboard_info.zip', 60 * 60 * 24 * 7, $this->force) || fail("Unable to download keyboard_info.zip");
 
       $this->unzip() || fail("Unable to extract keyboard_info.zip");
 
