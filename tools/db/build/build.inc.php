@@ -55,10 +55,7 @@
     sqlrun(dirname(__FILE__)."/search-prepare-data.sql", $mssqldb);
     sqlrun(dirname(__FILE__)."/indexes.sql", $mssqldb);
     sqlrun("${data_path}dbdatasources.sql", $mssqldb);
-
-    global $mssql_full_text_search;
-    if($mssql_full_text_search)
-      sqlrun(dirname(__FILE__)."/full-text-indexes.sql", $mssqldb, false);
+    sqlrun(dirname(__FILE__)."/full-text-indexes.sql", $mssqldb, false);
     return true;
   }
 

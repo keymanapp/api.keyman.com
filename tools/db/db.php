@@ -1,11 +1,23 @@
 <?php
+
+namespace Keyman\Site\com\keyman\api\Tools\DB {
   require_once(__DIR__ . '/../util.php');
   require_once(__DIR__ . '/servervars.php');
 
-  try {
-    $mssql = new PDO($mssqlconninfo . $activedb->get(), $mysqluser, $mysqlpw, NULL);
-    $mssql->setAttribute( PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION );
+  class DBConnect
+  {
+    static function Connect()
+    {
+      $activedb = new \ActiveDB();
+
+      global $mssqlconninfo, $mysqluser, $mysqlpw;
+      try {
+        $mssql = new \PDO($mssqlconninfo . $activedb->get(), $mysqluser, $mysqlpw, NULL);
+        $mssql->setAttribute(\PDO::ATTR_ERRMODE, \PDO::ERRMODE_EXCEPTION);
+      } catch (\PDOException $e) {
+        fail("Error connecting to SQL Server: " . $e->getMessage(), 500);
+      }
+      return $mssql;
+    }
   }
-  catch( PDOException $e ) {
-    fail( "Error connecting to SQL Server: " . $e->getMessage(), 500 );
-  }
+}

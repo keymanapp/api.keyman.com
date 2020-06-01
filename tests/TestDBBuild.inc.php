@@ -1,6 +1,8 @@
 <?php
 
 namespace {
+  require_once(__DIR__ . '/../tools/db/servervars.php');
+  require_once(__DIR__ . '/../tools/db/db.php');
   require_once(__DIR__ . '/../tools/db/build/datasources.inc.php');
   require_once(__DIR__ . '/../tools/db/build/build.inc.php');
   require_once(__DIR__ . '/../tools/db/build/cjk/build.inc.php');
@@ -38,7 +40,8 @@ namespace Keyman\Site\com\keyman\api\tests {
   {
     static function Build()
     {
-      global $mssql, $activedb;
+      $mssql = \Keyman\Site\com\keyman\api\Tools\DB\DBConnect::Connect();
+      $activedb = new \ActiveDB();
 
       // Always work on the first database in the pair
       $db = $activedb->get();

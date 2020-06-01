@@ -24,6 +24,7 @@
   json_response();
 
   require_once('../../tools/db/db.php');
+  $mssql = Keyman\Site\com\keyman\api\Tools\DB\DBConnect::Connect();
 
   header('Link: <https://api.keyman.com/schemas/package-version.json#>; rel="describedby"');
 

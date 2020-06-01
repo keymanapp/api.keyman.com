@@ -1,6 +1,7 @@
 <?php
   require_once(__DIR__ . '/../../tools/util.php');
   require_once(__DIR__ . '/../../tools/db/db.php');
+  $mssql = Keyman\Site\com\keyman\api\Tools\DB\DBConnect::Connect();
 
   define('rmAll', 7);
   define('rmCountry', 1);
