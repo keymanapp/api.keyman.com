@@ -1,6 +1,6 @@
 <?php
 
-  namespace com\keyman\api\tests;
+  namespace Keyman\Site\com\keyman\api\tests;
 
   use Swaggest\JsonSchema\RemoteRefProvider;
 

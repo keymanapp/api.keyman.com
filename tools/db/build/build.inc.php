@@ -66,7 +66,7 @@
     $sql = '';
 
     foreach($DBDataSources as $field => $value) {
-      $sql .= "\nINSERT t_dbdatasources SELECT ".sqlv($DBDataSources, $field).", ".sqlv(null, basename($DBDataSources->$field))."\n";
+      $sql .= "\nINSERT t_dbdatasources SELECT ".sqlv($DBDataSources, $field).", ".sqlv(null, basename($DBDataSources->$field)). ", " . $DBDataSources->downloadDate($value) ."\n";
     }
 
     file_put_contents("${data_path}dbdatasources.sql", $sql);

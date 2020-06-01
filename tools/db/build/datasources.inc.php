@@ -29,4 +29,8 @@
     public $uriLangTags = DBDataSources::LANGTAGS;
     public $uriKeyboardInfo = DBDataSources::URI_KEYBOARD_INFO_ZIP;
     public $uriModelInfo = DBDataSources::URI_MODEL_INFO_ZIP;
+
+    public function downloadDate($uri) {
+      return time();
+    }
   }

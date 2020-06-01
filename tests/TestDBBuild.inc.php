@@ -13,7 +13,7 @@ namespace {
   }
 }
 
-namespace com\keyman\api\tests {
+namespace Keyman\Site\com\keyman\api\tests {
 
   final class TestDBDataSources extends \DBDataSources
   {
@@ -27,6 +27,10 @@ namespace com\keyman\api\tests {
     private function fileFromTestDataDir($uri)
     {
       return __DIR__ . '/data/' . basename($uri);
+    }
+
+    public function downloadDate($uri) {
+      return filemtime($uri);
     }
   }
 
@@ -42,10 +46,17 @@ namespace com\keyman\api\tests {
       // First, test the existing database to see its data sources
       $DBDataSources = new TestDBDataSources();
 
-      $q = $mssql->query("IF OBJECT_ID('t_dbdatasources') IS NULL SELECT '' uri ELSE SELECT uri FROM t_dbdatasources WHERE filename = 'langtags.json'");
-      $data = $q->fetchAll();
-      if (sizeof($data) == 1 && $data[0]['uri'] === $DBDataSources->uriLangTags) return;
+      try {
+        $q = $mssql->query("IF OBJECT_ID('t_dbdatasources') IS NULL SELECT '' uri, 0 date ELSE SELECT uri, date FROM t_dbdatasources WHERE filename = 'langtags.json'");
+        $data = $q->fetchAll();
+        $date = filemtime(__DIR__ . '/data/langtags.json');
+        if (sizeof($data) == 1 && $data[0]['uri'] === $DBDataSources->uriLangTags && $data[0]['date'] == $date) return;
+      } catch(\Exception $e) {
+        // Let's assume that the database is not in an expected state, and try and rebuild
+        \build_log("Error checking state of database $db: {$e->getMessage()}. Attempting to rebuild for test.");
+      }
 
+      \build_log("Database $db is not currently in a valid state for testing. Rebuilding.\n");
       // Database sources are not from our test resources, so rebuild them
       BuildDatabase($DBDataSources, $db, true);
       BuildCJKTables($DBDataSources, $db, true);

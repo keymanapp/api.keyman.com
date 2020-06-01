@@ -2,7 +2,7 @@
 
 //declare(strict_types=1);
 
-namespace com\keyman\api\tests;
+namespace Keyman\Site\com\keyman\api\tests;
 
 require_once(__DIR__ . '/../tools/base.inc.php');
 require_once(__DIR__ . '/../script/search/search.inc.php');
@@ -47,5 +47,16 @@ final class SearchTest extends TestCase
 
     // Once we get here we know this test has passed so make PHPUnit happy
     $this->assertTrue(true);
+  }
+
+  public function testSimpleSearchResultContentsConsistent() {
+    $s = new \KeyboardSearch();
+    if (!empty($platform)) {
+      $s->SetPlatform($platform);
+    }
+    $s->GetSearchMatches('khmer');
+    $json = $s->WriteSearchResults();
+    // TODO(lowpri): find a way to skip this by emitting clean JSON object from WriteSearchResults()
+    $this->assertJsonStringEqualsJsonFile(__DIR__ . '/fixtures/Search.khmer.json', json_encode($json), "Search for 'khmer' gives same results as Search.khmer.json");
   }
 }

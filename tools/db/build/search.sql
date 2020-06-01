@@ -298,5 +298,6 @@ CREATE TABLE t_ethnologue_language_index (
 DROP TABLE IF EXISTS t_dbdatasources;
 CREATE TABLE t_dbdatasources (
   uri NVARCHAR(260) NOT NULL,
-  filename NVARCHAR(260) NOT NULL
+  filename NVARCHAR(260) NOT NULL,
+  date INT NOT NULL
 );
