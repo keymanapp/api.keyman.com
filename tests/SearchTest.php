@@ -31,9 +31,6 @@ final class SearchTest extends TestCase
     $schema = Schema::import(SearchTest::SchemaFilename, $options);
 
     $s = new \KeyboardSearch();
-    if (!empty($platform)) {
-      $s->SetPlatform($platform);
-    }
     $s->GetSearchMatches('thai');
     $json = $s->WriteSearchResults();
 
@@ -50,10 +47,11 @@ final class SearchTest extends TestCase
   }
 
   public function testSimpleSearchResultContentsConsistent() {
+    $this->markTestIncomplete(
+      'Waiting on rewrite of search with langtags.json`.'
+    );
+
     $s = new \KeyboardSearch();
-    if (!empty($platform)) {
-      $s->SetPlatform($platform);
-    }
     $s->GetSearchMatches('khmer');
     $json = $s->WriteSearchResults();
     // TODO(lowpri): find a way to skip this by emitting clean JSON object from WriteSearchResults()

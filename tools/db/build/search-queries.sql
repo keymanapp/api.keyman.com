@@ -111,7 +111,7 @@ BEGIN
   ELSE
   BEGIN
     IF @prmMatchType = 0
-	BEGIN
+    BEGIN
       --
       -- Results for codes only
       --
@@ -125,11 +125,11 @@ BEGIN
       WHERE
         iso6393.Part1 = @prmSearchPlain OR
         iso6393.Id = @prmSearchPlain;
-	END
+    END
     ELSE
-	BEGIN
+    BEGIN
       IF @prmMatchType = 1
-	  BEGIN
+      BEGIN
         --
         -- Results for languages with matching names
         --
@@ -162,9 +162,9 @@ BEGIN
           iso.Id = @prmSearchPlain
         --GROUP BY
         --  iso.CanonicalId;
-	  END
+      END
       ELSE -- prmMatchType = 2
-	  BEGIN
+      BEGIN
         --
         -- Results for languages for country id in prmSearchPlain
         --
@@ -247,7 +247,7 @@ BEGIN
   ELSE
   BEGIN
     IF @prmMatchType = 2
-	BEGIN
+    BEGIN
       -- Search for region only
       INSERT INTO
         #countries
@@ -259,9 +259,9 @@ BEGIN
         t_ethnologue_country_codes ecc
       WHERE
         ecc.Area LIKE @prmSearchRegEx;
-	END
+    END
     ELSE -- prmMatchType = 1
-	BEGIN
+    BEGIN
       -- Search for name or code
       INSERT INTO
         #countries
