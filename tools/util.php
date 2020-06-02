@@ -3,7 +3,7 @@
 
   $is_json_response = false;
 
-  function fail($s, $code=400) {
+  function fail($s, $code=400, $debug_log=null) {
     global $is_json_response;
     global $log;
 
@@ -12,15 +12,18 @@
         echo $log . "\n";
       }
       echo $s;
+      if(!empty($debug_log)) {
+        echo "\n" . $debug_log . "\n";
+      }
       exit(99);
     }
 
     header("HTTP/1.0 $code Failure");
     if($is_json_response) {
       $error = array("message" => $s);
-      if(!empty($log)) {
+      /*if(!empty($log)) {
         $error["log"] = $log;
-      }
+      }*/
       json_print($error);
     } else {
       if(!empty($log)) {
