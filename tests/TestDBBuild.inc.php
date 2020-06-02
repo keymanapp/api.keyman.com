@@ -57,10 +57,11 @@ namespace Keyman\Site\com\keyman\api\tests {
       $DBDataSources = new TestDBDataSources();
 
       try {
-        $q = $mssql->query("USE $db; IF OBJECT_ID('t_dbdatasources') IS NULL SELECT '' uri, 0 date ELSE SELECT uri, date FROM t_dbdatasources WHERE filename = 'langtags.json'");
+        $mssql->exec("USE $db");
+        $q = $mssql->query("IF OBJECT_ID('t_dbdatasources') IS NULL SELECT '' uri, 0 date ELSE SELECT uri, date FROM t_dbdatasources WHERE filename = 'langtags.json'");
         $data = $q->fetchAll();
         $date = filemtime(__DIR__ . '/data/langtags.json');
-        if (sizeof($data) == 1 && $data[0]['uri'] === $DBDataSources->uriLangTags && $data[0]['date'] == $date) return;
+        if (sizeof($data) == 1 && $data[0]['uri'] === $DBDataSources->uriLangTags && $data[0]['date'] == $date) return $mssql;
       } catch(\Exception $e) {
         // Let's assume that the database is not in an expected state, and try and rebuild
         \build_log("Error checking state of database $db: {$e->getMessage()}. Attempting to rebuild for test.");
@@ -70,6 +71,9 @@ namespace Keyman\Site\com\keyman\api\tests {
       // Database sources are not from our test resources, so rebuild them
       BuildDatabase($DBDataSources, $db, true);
       BuildCJKTables($DBDataSources, $db, true);
+
+      $mssql->exec("USE $db");
+      return $mssql;
     }
   }
 }

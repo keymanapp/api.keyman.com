@@ -23,8 +23,9 @@ namespace Keyman\Site\com\keyman\api\tests {
     public function testSimpleSearchResultValidatesAgainstSchema(): void
     {
       $schema = TestUtils::LoadJSONSchema(SearchTest::SchemaFilename);
+      $mssql = \Keyman\Site\com\keyman\api\Tools\DB\DBConnect::Connect();
 
-      $s = new \KeyboardSearch();
+      $s = new \KeyboardSearch($mssql);
       $s->GetSearchMatches('thai');
       $json = $s->WriteSearchResults();
 
@@ -46,7 +47,8 @@ namespace Keyman\Site\com\keyman\api\tests {
         'Waiting on rewrite of search with langtags.json.'
       );
 
-      $s = new \KeyboardSearch();
+      $mssql = \Keyman\Site\com\keyman\api\Tools\DB\DBConnect::Connect();
+      $s = new \KeyboardSearch($mssql);
       $s->GetSearchMatches('khmer');
       $json = $s->WriteSearchResults();
       // TODO(lowpri): find a way to skip this by emitting clean JSON object from WriteSearchResults()

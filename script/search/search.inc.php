@@ -1,7 +1,6 @@
 <?php
   require_once(__DIR__ . '/../../tools/util.php');
   require_once(__DIR__ . '/../../tools/db/db.php');
-  $mssql = Keyman\Site\com\keyman\api\Tools\DB\DBConnect::Connect();
 
   define('rmAll', 7);
   define('rmCountry', 1);
@@ -18,6 +17,11 @@
     private $ksw, $result;
     private $redirection, $fNoRedirect;
     public $platform;
+    private $mssql;
+
+    function __construct($mssql) {
+      $this->mssql = $mssql;
+    }
 
     function SetPlatform($platform) {
       if(in_array($platform, array('macos', 'windows', 'linux', 'android', 'ios', 'desktopWeb', 'mobileWeb'))) {
@@ -192,8 +196,7 @@
     }
 
     function new_query($s) {
-      global $mssql;
-      return $mssql->prepare($s);
+      return $this->mssql->prepare($s);
     }
 
     function RegexEscape($text) {
