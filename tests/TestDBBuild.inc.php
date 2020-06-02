@@ -40,16 +40,24 @@ namespace Keyman\Site\com\keyman\api\tests {
   {
     static function Build()
     {
-      $mssql = \Keyman\Site\com\keyman\api\Tools\DB\DBConnect::Connect();
+      // Connect to database. TODO: refactor with DBConnect
+      global $mssqlconninfo, $mysqluser, $mysqlpw;
       $activedb = new \ActiveDB();
 
       $db = $activedb->get();
+      try {
+        $mssql = new \PDO($mssqlconninfo . 'master', $mysqluser, $mysqlpw, NULL);
+        $mssql->setAttribute(\PDO::ATTR_ERRMODE, \PDO::ERRMODE_EXCEPTION);
+      } catch (\PDOException $e) {
+        \build_log("Could not connect to server\n");
+        throw $e;
+      }
 
       // First, test the existing database to see its data sources
       $DBDataSources = new TestDBDataSources();
 
       try {
-        $q = $mssql->query("IF OBJECT_ID('t_dbdatasources') IS NULL SELECT '' uri, 0 date ELSE SELECT uri, date FROM t_dbdatasources WHERE filename = 'langtags.json'");
+        $q = $mssql->query("USE $db; IF OBJECT_ID('t_dbdatasources') IS NULL SELECT '' uri, 0 date ELSE SELECT uri, date FROM t_dbdatasources WHERE filename = 'langtags.json'");
         $data = $q->fetchAll();
         $date = filemtime(__DIR__ . '/data/langtags.json');
         if (sizeof($data) == 1 && $data[0]['uri'] === $DBDataSources->uriLangTags && $data[0]['date'] == $date) return;
