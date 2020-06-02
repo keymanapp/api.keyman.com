@@ -2,8 +2,6 @@
 
 namespace {
 
-  echo "ServerVars: ".__NAMESPACE__."\n";
-
   if (file_exists(dirname(__FILE__) . '/localenv.php')) {
     require_once(dirname(__FILE__) . '/localenv.php');
   }

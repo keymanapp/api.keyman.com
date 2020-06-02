@@ -10,8 +10,6 @@ namespace {
 namespace Keyman\Site\com\keyman\api\tests {
 
   use PHPUnit\Framework\TestCase;
-  use Swaggest\JsonSchema\Schema;
-  use Swaggest\JsonSchema\Context;
 
   final class SearchTest extends TestCase
   {
@@ -24,9 +22,7 @@ namespace Keyman\Site\com\keyman\api\tests {
 
     public function testSimpleSearchResultValidatesAgainstSchema(): void
     {
-      $options = new Context();
-      $options->remoteRefProvider = new ResolveLocalSchemas();
-      $schema = Schema::import(SearchTest::SchemaFilename, $options);
+      $schema = TestUtils::LoadJSONSchema(SearchTest::SchemaFilename);
 
       $s = new \KeyboardSearch();
       $s->GetSearchMatches('thai');

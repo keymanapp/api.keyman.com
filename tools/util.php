@@ -6,6 +6,15 @@
   function fail($s, $code=400) {
     global $is_json_response;
     global $log;
+
+    if(php_sapi_name() == 'cli') {
+      if(!empty($log)) {
+        echo $log . "\n";
+      }
+      echo $s;
+      exit(99);
+    }
+
     header("HTTP/1.0 $code Failure");
     if($is_json_response) {
       $error = array("message" => $s);

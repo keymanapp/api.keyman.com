@@ -43,7 +43,6 @@ namespace Keyman\Site\com\keyman\api\tests {
       $mssql = \Keyman\Site\com\keyman\api\Tools\DB\DBConnect::Connect();
       $activedb = new \ActiveDB();
 
-      // Always work on the first database in the pair
       $db = $activedb->get();
 
       // First, test the existing database to see its data sources

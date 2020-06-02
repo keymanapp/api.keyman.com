@@ -3,6 +3,16 @@
   namespace Keyman\Site\com\keyman\api\tests;
 
   use Swaggest\JsonSchema\RemoteRefProvider;
+  use Swaggest\JsonSchema\Schema;
+  use Swaggest\JsonSchema\Context;
+
+  class TestUtils {
+    static function LoadJSONSchema($filename) {
+      $options = new Context();
+      $options->remoteRefProvider = new ResolveLocalSchemas();
+      return Schema::import($filename, $options);
+    }
+  }
 
   class ResolveLocalSchemas implements RemoteRefProvider
   {
