@@ -3,7 +3,7 @@
 
   /*
    Caches the URL into the file path; if the file is older than
-   two weeks, tries again. If it fails to download, uses the cached
+   one week, tries again. If it fails to download, uses the cached
    version; if no file can be retrieved then dies.
   */
   function cache($url, $filename, $duration = 60 * 60 * 24 * 7, $do_force = false) {
