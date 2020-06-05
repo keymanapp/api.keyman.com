@@ -21,15 +21,16 @@ jobs:
     - name: Download and install SQL Server Express
       shell: cmd
       run: |
-        rem temporarily use our clone of the sql server 2019 installer to skip reboot
-        mkdir ss2019
-        cd ss2019
-        git clone https://github.com/mcdurdin/au-packages
-        cd au-packages
-        git checkout patch-1
-        cd sql-server-2019
-        choco pack
-        choco install sql-server-2019 -s . --no-progress --params "'/IGNOREPENDINGREBOOT /INSTANCEID=KEYMANAPI /INSTANCENAME=KEYMANAPI /SAPWD=Password1! /SECURITYMODE=SQL /UPDATEENABLED=FALSE /FEATURES=SQLENGINE,FULLTEXT'"
+        rem no longer temporarily use our clone of the sql server 2019 installer to skip reboot
+        rem mkdir ss2019
+        rem cd ss2019
+        rem git clone https://github.com/mcdurdin/au-packages
+        rem cd au-packages
+        rem git checkout patch-1
+        rem cd sql-server-2019
+        rem choco pack
+        rem choco install sql-server-2019 -s . --no-progress --params "'/IGNOREPENDINGREBOOT /INSTANCEID=KEYMANAPI /INSTANCENAME=KEYMANAPI /SAPWD=Password1! /SECURITYMODE=SQL /UPDATEENABLED=FALSE /FEATURES=SQLENGINE,FULLTEXT'"
+        choco install sql-server-2019 --no-progress --params "'/IGNOREPENDINGREBOOT /INSTANCEID=KEYMANAPI /INSTANCENAME=KEYMANAPI /SAPWD=Password1! /SECURITYMODE=SQL /UPDATEENABLED=FALSE /FEATURES=SQLENGINE,FULLTEXT'"
     - name:  Install dependencies
       shell: cmd
       run:   composer install --no-progress
