@@ -295,3 +295,8 @@ CREATE TABLE t_ethnologue_language_index (
   Name  nvarchar(75) NOT NULL  /* The name */
 );
 
+DROP TABLE IF EXISTS t_dbdatasources;
+CREATE TABLE t_dbdatasources (
+  uri NVARCHAR(260) NOT NULL,
+  filename NVARCHAR(260) NOT NULL
+);

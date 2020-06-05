@@ -1,18 +1,7 @@
 <?php
-  require_once('common.php');
-  require_once('build_langtags_data_script.php');
-
-  // http://www-01.sil.org/iso639-3/iso-639-3.tab <-- for iso639-3 -> iso639-1 mappings
-  // http://www-01.sil.org/iso639-3/iso-639-3_Name_Index.tab <-- for language name index
-  // https://www.iana.org/assignments/language-subtag-registry/language-subtag-registry <-- for language subtag registry
-  // Todo: filter pejorative names
-
-  define('URI_LANGUAGE_SUBTAG_REGISTRY', 'https://www.iana.org/assignments/language-subtag-registry/language-subtag-registry');
-  define('URI_ISO639_3_TAB', 'http://www-01.sil.org/iso639-3/iso-639-3.tab');
-  define('URI_ISO639_3_NAME_INDEX_TAB', 'http://www-01.sil.org/iso639-3/iso-639-3_Name_Index.tab');
-  define('ETHNOLOGUE_LANGUAGE_CODES_TAB', 'https://www.ethnologue.com/sites/default/files/LanguageCodes.tab');
-  define('ETHNOLOGUE_COUNTRY_CODES_TAB', 'https://www.ethnologue.com/sites/default/files/CountryCodes.tab');
-  define('ETHNOLOGUE_LANGUAGE_INDEX_TAB', 'https://www.ethnologue.com/sites/default/files/LanguageIndex.tab');
+  require_once(__DIR__ . '/common.inc.php');
+  require_once(__DIR__ . '/build_langtags_data_script.inc.php');
+  require_once(__DIR__ . '/datasources.inc.php');
 
   class build_sql_standards_data extends build_common {
 
@@ -34,7 +23,7 @@
 
       reportTime();
 
-      if(!$this->cache_iso639_3_file(URI_ISO639_3_TAB, 'iso639-3.tab', 'iso639-3.sql', 't_iso639_3',
+      if(!$this->cache_iso639_3_file($this->DBDataSources->uriIso6393, 'iso639-3.tab', 'iso639-3.sql', 't_iso639_3',
         [ 'Id', 'Part2B', 'Part2T', 'Part1', '_Scope', '_Type', 'Ref_Name', '_Comment' ])) {
         // include fields because of inconsistent row lengths
         fail("Failed to download iso639-3.tab");
@@ -42,32 +31,32 @@
 
       reportTime();
 
-      if(!$this->cache_iso639_3_file(URI_ISO639_3_NAME_INDEX_TAB, 'iso639-3_Name_Index.tab', 'iso639-3-name-index.sql', 't_iso639_3_names',
+      if(!$this->cache_iso639_3_file($this->DBDataSources->uriIso6393NameIndex, 'iso639-3_Name_Index.tab', 'iso639-3-name-index.sql', 't_iso639_3_names',
         [ 'Id', 'Print_Name', 'Inverted_Name' ])) {
         fail("Failed to download iso639-3_Name_Index.tab");
       }
 
       reportTime();
 
-      if(!$this->cache_ethnologue_language_index(ETHNOLOGUE_LANGUAGE_CODES_TAB, 'ethnologue_language_codes.tab', 'ethnologue_language_codes.sql', 't_ethnologue_language_codes')) {
+      if(!$this->cache_ethnologue_language_index($this->DBDataSources->uriEthnologueLanguageCodes, 'ethnologue_language_codes.tab', 'ethnologue_language_codes.sql', 't_ethnologue_language_codes')) {
         fail("Failed to download ethnologue_language_codes.tab");
       }
 
       reportTime();
 
-      if(!$this->cache_ethnologue_language_index(ETHNOLOGUE_COUNTRY_CODES_TAB, 'ethnologue_country_codes.tab', 'ethnologue_country_codes.sql', 't_ethnologue_country_codes')) {
+      if(!$this->cache_ethnologue_language_index($this->DBDataSources->uriEthnologueCountryCodes, 'ethnologue_country_codes.tab', 'ethnologue_country_codes.sql', 't_ethnologue_country_codes')) {
         fail("Failed to download ethnologue_country_codes.tab");
       }
 
       reportTime();
 
-      if(!$this->cache_ethnologue_language_index(ETHNOLOGUE_LANGUAGE_INDEX_TAB, 'ethnologue_language_index.tab', 'ethnologue_language_index.sql', 't_ethnologue_language_index')) {
+      if(!$this->cache_ethnologue_language_index($this->DBDataSources->uriEthnologueLanguageIndex, 'ethnologue_language_index.tab', 'ethnologue_language_index.sql', 't_ethnologue_language_index')) {
         fail("Failed to download ethnologue_language_index.tab");
       }
 
       reportTime();
 
-      $langtags = new build_sql_standards_data_langtags();
+      $langtags = new build_sql_standards_data_langtags($this->DBDataSources);
         $langtags->execute($data_root, $do_force);
 
       return true;
@@ -99,7 +88,7 @@
      */
     function build_sql_data_script_subtags() {
       $cache_file = $this->script_path . "language-subtag-registry";
-      if(!cache(URI_LANGUAGE_SUBTAG_REGISTRY, $cache_file, 60 * 60 * 24 * 7, $this->force)) {
+      if(!cache($this->DBDataSources->uriLanguageSubtagRegistry, $cache_file, 60 * 60 * 24 * 7, $this->force)) {
         return false;
       }
 

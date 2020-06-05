@@ -35,9 +35,12 @@
     $log .= $message . "\n";
   }
 
-  require_once('../../tools/db/build/build.php');
+  require_once('../../tools/db/build/build.inc.php');
+  require_once('../../tools/db/build/datasources.inc.php');
 
-  BuildDatabase(true);
+  $DBDataSources = new DBDataSources();
+
+  BuildDatabase($DBDataSources, $mssqldb, true);
 
   if($format === 'application/json') {
     echo json_encode(array("log" => $log));

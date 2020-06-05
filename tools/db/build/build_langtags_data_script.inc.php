@@ -1,10 +1,6 @@
 <?php
-  require_once('common.php');
-
-  //define('LANGTAGS', 'https://ldml.api.sil.org/langtags.json');
-  // 2020-05-25: LANGTAGS 1.1.1 is currently in staging. Once it hits release, use link above instead.
-  // We want the windows and suppress tags which are only in 1.1.1
-  define('LANGTAGS', 'https://raw.githubusercontent.com/silnrsi/langtags/master/pub/langtags.json');
+  require_once(__DIR__ . '/common.inc.php');
+  require_once(__DIR__ . '/datasources.inc.php');
 
   class build_sql_standards_data_langtags extends build_common {
 
@@ -12,7 +8,7 @@
       $this->script_path = $data_root;
       $this->force = $do_force;
 
-      if(!$this->cache_langtags(LANGTAGS, 'langtags.json')) {
+      if(!$this->cache_langtags($this->DBDataSources->uriLangTags, 'langtags.json')) {
         fail("Failed to download langtags.json");
       }
     }

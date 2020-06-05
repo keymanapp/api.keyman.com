@@ -1,8 +1,8 @@
 <?php
   require_once(__DIR__ . '/../../base.inc.php');
-
-  require_once(__DIR__ . '/build.php');
-  require_once(__DIR__ . '/cjk/build.php');
+  require_once(__DIR__ . '/datasources.inc.php');
+  require_once(__DIR__ . '/build.inc.php');
+  require_once(__DIR__ . '/cjk/build.inc.php');
 
   // CLI version of fail
   function fail($s) {
@@ -21,9 +21,11 @@
 
   $mssqldb = $activedb->get_swap();
 
+  $DBDataSources = new DBDataSources();
+
   try {
-    BuildDatabase($mssqldb, count($argv) > 1 && $argv[1] == '-f');
-    BuildCJKTables($mssqldb, count($argv) > 1 && $argv[1] == '-f');
+    BuildDatabase($DBDataSources, $mssqldb, count($argv) > 1 && $argv[1] == '-f');
+    BuildCJKTables($DBDataSources, $mssqldb, count($argv) > 1 && $argv[1] == '-f');
     reportTime();
     build_log("Success");
 
