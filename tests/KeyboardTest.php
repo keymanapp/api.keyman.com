@@ -3,7 +3,7 @@
 namespace Keyman\Site\com\keyman\api\tests;
 
 require_once(__DIR__ . '/../tools/base.inc.php');
-//require_once(__DIR__ . '/../script/search/search.inc.php');
+require_once(__DIR__ . '/../script/keyboard/keyboard.inc.php');
 require_once(__DIR__ . '/TestUtils.inc.php');
 require_once(__DIR__ . '/TestDBBuild.inc.php');
 
@@ -23,8 +23,8 @@ final class KeyboardTest extends TestCase
     $schema = TestUtils::LoadJSONSchema(KeyboardTest::SchemaFilename);
     $mssql = \Keyman\Site\com\keyman\api\Tools\DB\DBConnect::Connect();
 
-    $m = new \Keyman\Site\com\keyman\api\Model();
-    $json = $m->getModelJson($mssql, 'gff.am.gff_amharic');
+    $k = new \Keyman\Site\com\keyman\api\Keyboard();
+    $json = $k->execute($mssql, 'newa_traditional');
     $this->assertNotNull($json);
 
     // This will throw an exception if it does not pass
