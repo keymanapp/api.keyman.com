@@ -11,7 +11,7 @@ use PHPUnit\Framework\TestCase;
 
 final class KeyboardTest extends TestCase
 {
-  private const SchemaFilename = "/search/1.0.2/search.json";
+  private const SchemaFilename = "/keyboard_info.distribution/1.0.6/keyboard_info.distribution.json";
 
   static function setUpBeforeClass(): void
   {
@@ -20,8 +20,17 @@ final class KeyboardTest extends TestCase
 
   public function testSimpleResultValidatesAgainstSchema(): void
   {
-    $this->markTestIncomplete(
-      'Finish this'
-    );
+    $schema = TestUtils::LoadJSONSchema(KeyboardTest::SchemaFilename);
+    $mssql = \Keyman\Site\com\keyman\api\Tools\DB\DBConnect::Connect();
+
+    $m = new \Keyman\Site\com\keyman\api\Model();
+    $json = $m->getModelJson($mssql, 'gff.am.gff_amharic');
+    $this->assertNotNull($json);
+
+    // This will throw an exception if it does not pass
+    $schema->in($json);
+
+    // Once we get here we know this test has passed so make PHPUnit happy
+    $this->assertTrue(true);
   }
 }
