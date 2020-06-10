@@ -1,3 +1,6 @@
+# Install Chocolatey
+Set-ExecutionPolicy Bypass -Scope Process -Force; [System.Net.ServicePointManager]::SecurityProtocol = [System.Net.ServicePointManager]::SecurityProtocol -bor 3072; iex ((New-Object System.Net.WebClient).DownloadString('https://chocolatey.org/install.ps1'))
+
 
 # Install latest PHP in chocolatey
 $installDir = "c:\tools\php"
@@ -15,4 +18,4 @@ copy pdo\Windows-7.4\x64\php_pdo_sqlsrv_74_nts.dll c:\tools\php\ext\
 Add-Content -path c:\tools\php\php.ini -value '','extension=php_pdo_sqlsrv_74_nts.dll','mssql.secure_connection=Off','extension=php_intl.dll'
 
 # Install SQL Server
-choco --no-progress install sql-server-2019 --params "'/INSTANCEID=KEYMANAPI /INSTANCENAME=KEYMANAPI /SAPWD=Password1! /SECURITYMODE=SQL /UPDATEENABLED=FALSE /FEATURES=SQLENGINE,FULLTEXT'"
+choco install sql-server-2019 --no-progress --params "'/IGNOREPENDINGREBOOT /INSTANCEID=KEYMANAPI /INSTANCENAME=KEYMANAPI /SAPWD=Password1! /SECURITYMODE=SQL /UPDATEENABLED=FALSE /FEATURES=SQLENGINE,FULLTEXT'"
