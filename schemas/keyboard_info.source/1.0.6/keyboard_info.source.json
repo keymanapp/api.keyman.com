@@ -61,7 +61,9 @@
         "oskFont": { "$ref": "#/definitions/KeyboardFontInfo" },
         "example": { "$ref": "#/definitions/KeyboardExampleInfo" },
         "displayName": { "type": "string" },
-        "languageName": { "type": "string" }
+        "languageName": { "type": "string" },
+        "scriptName": { "type": "string" },
+        "regionName": { "type": "string" }
       },
       "required": [],
       "additionalProperties": false
