@@ -32,6 +32,7 @@ jobs:
         Import-Module WebAdministration
         New-WebAppPool -name "NewWebSiteAppPool"  -force
         New-WebSite -name "NewWebSite" -PhysicalPath "c:\ws\api.keyman.com" -ApplicationPool "NewWebSiteAppPool" -port 8888 -force
+        set-WebConfiguration -filter 'system.web/customErrors' -Value @{mode='Off'}
 
     # This step Configures FastCGI according to the documentation at https://www.php.net/manual/en/install.windows.manual.php
     # This alternative doesn't work: New-WebHandler -name "PHP" -Path *.php -Modules FastCgiModule -ScriptProcessor "c:\tools\php\php-cgi.exe" -Verb 'GET,POST' -Force
@@ -59,7 +60,7 @@ jobs:
     - name: Download and install SQL Server Express
       shell: cmd
       run: |
-        choco install sql-server-2019 --no-progress --params "'/IGNOREPENDINGREBOOT /INSTANCEID=KEYMANAPI /INSTANCENAME=KEYMANAPI /SAPWD=Password1! /SECURITYMODE=SQL /UPDATEENABLED=FALSE /FEATURES=SQLENGINE,FULLTEXT'"
+        rem choco install sql-server-2019 --no-progress --params "'/IGNOREPENDINGREBOOT /INSTANCEID=KEYMANAPI /INSTANCENAME=KEYMANAPI /SAPWD=Password1! /SECURITYMODE=SQL /UPDATEENABLED=FALSE /FEATURES=SQLENGINE,FULLTEXT'"
 
     # Install website dependencies
     - name:  Install dependencies
