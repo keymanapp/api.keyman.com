@@ -7,10 +7,19 @@
   use Swaggest\JsonSchema\Context;
 
   class TestUtils {
+    private const DefaultHostname = 'http://api.keyman.com.local';
+
     static function LoadJSONSchema($filename) {
       $options = new Context();
       $options->remoteRefProvider = new ResolveLocalSchemas();
       return Schema::import($filename, $options);
+    }
+
+    static function Hostname() {
+      if(isset($_SERVER['api_keyman_com_host'])) {
+        return $_SERVER['api_keyman_com_host'];
+      }
+      return TestUtils::DefaultHostname;
     }
   }
 
