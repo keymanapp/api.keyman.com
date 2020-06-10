@@ -28,7 +28,7 @@ jobs:
         Enable-WindowsOptionalFeature -Online -FeatureName IIS-CGI -NoRestart
         Enable-WindowsOptionalFeature -Online -FeatureName IIS-ISAPIExtensions -NoRestart
         Enable-WindowsOptionalFeature -Online -FeatureName IIS-ISAPIFilter -NoRestart
-        choco install urlrewrite
+        choco install --no-progress urlrewrite
         Import-Module WebAdministration
         New-WebAppPool -name "NewWebSiteAppPool"  -force
         New-WebSite -name "NewWebSite" -PhysicalPath "c:\ws\api.keyman.com" -ApplicationPool "NewWebSiteAppPool" -port 8888 -force
@@ -59,15 +59,6 @@ jobs:
     - name: Download and install SQL Server Express
       shell: cmd
       run: |
-        rem no longer temporarily use our clone of the sql server 2019 installer to skip reboot
-        rem mkdir ss2019
-        rem cd ss2019
-        rem git clone https://github.com/mcdurdin/au-packages
-        rem cd au-packages
-        rem git checkout patch-1
-        rem cd sql-server-2019
-        rem choco pack
-        rem choco install sql-server-2019 -s . --no-progress --params "'/IGNOREPENDINGREBOOT /INSTANCEID=KEYMANAPI /INSTANCENAME=KEYMANAPI /SAPWD=Password1! /SECURITYMODE=SQL /UPDATEENABLED=FALSE /FEATURES=SQLENGINE,FULLTEXT'"
         choco install sql-server-2019 --no-progress --params "'/IGNOREPENDINGREBOOT /INSTANCEID=KEYMANAPI /INSTANCENAME=KEYMANAPI /SAPWD=Password1! /SECURITYMODE=SQL /UPDATEENABLED=FALSE /FEATURES=SQLENGINE,FULLTEXT'"
 
     # Install website dependencies

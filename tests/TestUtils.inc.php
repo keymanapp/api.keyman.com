@@ -16,8 +16,8 @@
     }
 
     static function Hostname() {
-      if(isset($_ENV['api_keyman_com_host'])) {
-        return $_ENV['api_keyman_com_host'];
+      if(isset($_SERVER['api_keyman_com_host'])) {
+        return $_SERVER['api_keyman_com_host'];
       }
       return TestUtils::DefaultHostname;
     }
