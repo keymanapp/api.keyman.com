@@ -225,8 +225,7 @@
           "$ref": "#/definitions/infoItem"
         }
       },
-      "additionalProperties": false,
-      "required": []
+      "additionalProperties": false
     },
     "infoItem": {
       "type": "object",
