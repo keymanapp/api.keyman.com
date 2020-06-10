@@ -1,7 +1,7 @@
 <?php
-  require_once('common.php');
+  require_once(__DIR__ . '/common.inc.php');
 
-  class build_keyboards_sql {
+  class build_keyboards_sql extends build_common {
 
     private $keyboards_path, $cache_path;
 
@@ -22,7 +22,7 @@
         mkdir($this->keyboards_path, 0777, true) || fail("Unable to create folder " . $this->keyboards_path);
       }
 
-      cache(URI_KEYBOARD_INFO_ZIP, $this->cache_path . 'keyboard_info.zip', 60 * 60 * 24 * 7, $this->force) || fail("Unable to download keyboard_info.zip");
+      cache($this->DBDataSources->uriKeyboardInfo, $this->cache_path . 'keyboard_info.zip', 60 * 60 * 24 * 7, $this->force) || fail("Unable to download keyboard_info.zip");
 
       $this->unzip() || fail("Unable to extract keyboard_info.zip");
 
@@ -56,8 +56,6 @@
       import into the database
     */
     function build() {
-      $this->link = new mysqli();
-
       if(empty($this->keyboards_path)) {
         return false;
       }
@@ -107,7 +105,7 @@
       Generate an SQL script to insert entries in to the t_keyboard table
     */
     function generate_keyboard_inserts() {
-      $result = <<<END
+      $insert = <<<END
         INSERT t_keyboard (
           keyboard_id,
           name,
@@ -152,6 +150,7 @@
         ) VALUES
 END;
 
+      $result = '';
       $comma = '';
       foreach($this->keyboards as $keyboard) {
         $isUnicode = isset($keyboard->encodings) && in_array('unicode', $keyboard->encodings);
@@ -179,7 +178,7 @@ END;
         $platform_linux = isset($keyboard->platformSupport->linux) && $keyboard->platformSupport->linux != 'none';
 
         $result .= <<<END
-$comma
+$insert
           ({$this->sqlv($keyboard, 'id')},
           {$this->sqlv($keyboard, 'name')},
           {$this->sqlv($keyboard, 'authorName')},
@@ -201,38 +200,39 @@ $comma
           {$this->sqlv($keyboard, 'documentationFilename')},
           {$this->sqli($keyboard, 'documentationFileSize')},
 
-          {$this->sqlb($isRTL)},
-          {$this->sqlb($isUnicode)},
-          {$this->sqlb($isANSI)},
+          {$this->sqlb(null, $isRTL)},
+          {$this->sqlb(null, $isUnicode)},
+          {$this->sqlb(null, $isANSI)},
 
-          {$this->sqlb($includesWelcome)},
-          {$this->sqlb($includesDocumentation)},
-          {$this->sqlb($includesFonts)},
-          {$this->sqlb($includesVisualKeyboard)},
+          {$this->sqlb(null, $includesWelcome)},
+          {$this->sqlb(null, $includesDocumentation)},
+          {$this->sqlb(null, $includesFonts)},
+          {$this->sqlb(null, $includesVisualKeyboard)},
 
-          {$this->sqlb($platform_windows)},
-          {$this->sqlb($platform_macos)},
-          {$this->sqlb($platform_ios)},
-          {$this->sqlb($platform_android)},
-          {$this->sqlb($platform_web)},
-          {$this->sqlb($platform_linux)},
+          {$this->sqlb(null, $platform_windows)},
+          {$this->sqlb(null, $platform_macos)},
+          {$this->sqlb(null, $platform_ios)},
+          {$this->sqlb(null, $platform_android)},
+          {$this->sqlb(null, $platform_web)},
+          {$this->sqlb(null, $platform_linux)},
 
           0,
 
-          {$this->sqlv($keyboard, 'json')})
+          {$this->sqlv($keyboard, 'json')});
+
+GO
+
 END;
-        $comma=',';
       }
 
-      if($comma == '') return ''; // no entries found
-      return $result . ";\n";
+      return $result;
     }
 
     /**
       Generate an SQL script to insert entries in to the t_keyboard_language table
     */
     function generate_keyboard_language_inserts() {
-      $result = <<<END
+      $insert = <<<END
         INSERT t_keyboard_language (
           keyboard_id,
           bcp47,
@@ -242,7 +242,7 @@ END;
         ) VALUES
 END;
 
-      $comma = '';
+      $result = '';
       foreach($this->keyboards as $keyboard) {
         if(is_array($keyboard->languages)) {
           $array = $keyboard->languages;
@@ -252,26 +252,27 @@ END;
         foreach($array as $id) {
           $this->parse_bcp47($id, $lang, $region, $script);
           $result .= <<<END
-$comma
+$insert
               ({$this->sqlv($keyboard, 'id')},
               {$this->sqlv(null, strtolower($id))},
               {$this->sqlv(null, $lang)},
               {$this->sqlv(null, $region)},
-              {$this->sqlv(null, $script)})
+              {$this->sqlv(null, $script)});
+
+GO
+
 END;
-          $comma = ',';
         }
       }
 
-      if($comma == '') return ''; // no entries found
-      return $result . ";\n";
+      return $result;
     }
 
     /**
       Generate an SQL script to insert entries in to the t_keyboard_link table
     */
     function generate_keyboard_link_inserts() {
-      $result = <<<END
+      $insert = <<<END
         INSERT t_keyboard_link (
           keyboard_id,
           url,
@@ -279,29 +280,30 @@ END;
         ) VALUES
 END;
 
-      $comma = '';
+      $result = '';
       foreach($this->keyboards as $keyboard) {
         if(!isset($keyboard->links)) continue;
         foreach($keyboard->links as $link) {
           $result .= <<<END
-$comma
+$insert
           ({$this->sqlv($keyboard, 'id')},
           {$this->sqlv($link, 'url')},
-          {$this->sqlv($link, 'name')})
+          {$this->sqlv($link, 'name')});
+
+GO
+
 END;
-          $comma = ',';
         }
       }
 
-      if($comma == '') return ''; // no entries found
-      return $result . ";\n";
+      return $result;
     }
 
     /**
       Generate an SQL script to insert entries in to the t_keyboard_related table
     */
     function generate_keyboard_related_inserts() {
-      $result = <<<END
+      $insert = <<<END
         INSERT t_keyboard_related (
           keyboard_id,
           related_keyboard_id,
@@ -309,88 +311,25 @@ END;
         ) VALUES
 END;
 
-      $comma = '';
+      $result = '';
       foreach($this->keyboards as $keyboard) {
         if(!isset($keyboard->related)) continue;
         $relatedobj = get_object_vars($keyboard->related);
         foreach($relatedobj as $id => $related) {
           $deprecates = isset($related->deprecates) && $related->deprecates;
           $result .= <<<END
-$comma
+$insert
           ({$this->sqlv($keyboard, 'id')},
           {$this->sqlv(null, $id)},
-          {$this->sqlb($deprecates)})
+          {$this->sqlb(null, $deprecates)});
+
+GO
+
 END;
-          $comma = ',';
         }
       }
 
-      if($comma == '') return ''; // no entries found
-      return $result . ";\n";
-    }
-
-    /**
-      Safe-quotes a SQL string
-    */
-    function sqlv($o, $s) {
-      if($o !== null) {
-        if(isset($o->$s)) $s = $o->$s;
-        else return 'null';
-      }
-      if($s === null) return 'null';
-
-      $v = strpos($s, "\0");
-      if($v !== FALSE) {
-        $s = substr($s, 0, strpos($s, "\0"));
-      }
-      $s = iconv("UTF-8", "UTF-8//IGNORE", $s); // Strip invalid UTF-8 characters
-      //return "'" . mysql_real_escape_string($s) . "'";
-      return
-        "'" .
-        str_replace(["'",   "\"",   "\r",  "\n",  "\b",  "\t"],
-                    ["\\'", "\\\"", "\\r", "\\n", "\\b", "\\t"],
-                    str_replace("\\", "\\\\", $s) ) .
-        "'";
-    }
-
-    /**
-      Safe-quotes a SQL date
-    */
-    function sqld($o, $s) {
-      if(isset($o->$s)) $s = $o->$s;
-      else return 'null';
-      if($s === null) return 'null';
-      $s = substr($s, 0, 19);
-      return $this->sqlv(null, $s);
-    }
-
-    function sqli($o, $s) {
-      if(isset($o->$s)) $s = $o->$s;
-      else return 'null';
-
-      if(!is_numeric($s)) die('Expecting numeric $s');
-      return $s;
-    }
-
-    function sqlb($b) {
-      return $b ? '1' : '0';
-    }
-
-    function parse_bcp47($bcp47, &$lang, &$region, &$script) {
-      $lang = null;
-      $region = null;
-      $script = null;
-
-      // RegEx from https://stackoverflow.com/questions/7035825/regular-expression-for-a-language-tag-as-defined-by-bcp47, https://stackoverflow.com/a/34775980/1836776
-      $re = preg_match("/^(?<grandfathered>(?:en-GB-oed|i-(?:ami|bnn|default|enochian|hak|klingon|lux|mingo|navajo|pwn|t(?:a[oy]|su))|sgn-(?:BE-(?:FR|NL)|CH-DE))|(?:art-lojban|cel-gaulish|no-(?:bok|nyn)|zh-(?:guoyu|hakka|min(?:-nan)?|xiang)))|(?:(?<language>(?:[A-Za-z]{2,3}(?:-(?<extlang>[A-Za-z]{3}(?:-[A-Za-z]{3}){0,2}))?)|[A-Za-z]{4}|[A-Za-z]{5,8})(?:-(?<script>[A-Za-z]{4}))?(?:-(?<region>[A-Za-z]{2}|[0-9]{3}))?(?:-(?<variant>[A-Za-z0-9]{5,8}|[0-9][A-Za-z0-9]{3}))*(?:-(?<extension>[0-9A-WY-Za-wy-z](?:-[A-Za-z0-9]{2,8})+))*)(?:-(?<privateUse>x(?:-[A-Za-z0-9]{1,8})+))?$/Di", $bcp47, $matches);
-      if($re === FALSE) {
-        return false;
-      }
-
-      if(isset($matches['language'])) $lang = strtolower($matches['language']);
-      if(isset($matches['region'])) $region = strtolower($matches['region']);
-      if(isset($matches['script'])) $script = strtolower($matches['script']);
-      return true;
+      return $result;
     }
   }
 ?>
