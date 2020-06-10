@@ -6,6 +6,8 @@
 
   require_once('../../tools/db/db.php');
 
+  $mssql = Keyman\Site\com\keyman\api\Tools\DB\DBConnect::Connect();
+
   header('Link: <https://api.keyman.com/schemas/keyboard_info.distribution.json#>; rel="describedby"');
 
   if(!isset($_REQUEST['id'])) {

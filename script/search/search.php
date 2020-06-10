@@ -29,10 +29,13 @@
     fail('Query string must be set');
   }
 
+  require_once(__DIR__ . '/../../tools/db/db.php');
+  $mssql = Keyman\Site\com\keyman\api\Tools\DB\DBConnect::Connect();
+
   $q = $_REQUEST['q'];
   $platform = isset($_REQUEST['platform']) ? $_REQUEST['platform'] : null;
 
-  $s = new KeyboardSearch();
+  $s = new KeyboardSearch($mssql);
   if(!empty($platform)) {
     $s->SetPlatform($platform);
   }

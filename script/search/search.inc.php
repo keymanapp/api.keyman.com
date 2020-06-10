@@ -17,6 +17,11 @@
     private $ksw, $result;
     private $redirection, $fNoRedirect;
     public $platform;
+    private $mssql;
+
+    function __construct($mssql) {
+      $this->mssql = $mssql;
+    }
 
     function SetPlatform($platform) {
       if(in_array($platform, array('macos', 'windows', 'linux', 'android', 'ios', 'desktopWeb', 'mobileWeb'))) {
@@ -191,8 +196,7 @@
     }
 
     function new_query($s) {
-      global $mssql;
-      return $mssql->prepare($s);
+      return $this->mssql->prepare($s);
     }
 
     function RegexEscape($text) {

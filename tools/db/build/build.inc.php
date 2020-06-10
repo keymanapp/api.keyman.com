@@ -55,10 +55,7 @@
     sqlrun(dirname(__FILE__)."/search-prepare-data.sql", $mssqldb);
     sqlrun(dirname(__FILE__)."/indexes.sql", $mssqldb);
     sqlrun("${data_path}dbdatasources.sql", $mssqldb);
-
-    global $mssql_full_text_search;
-    if($mssql_full_text_search)
-      sqlrun(dirname(__FILE__)."/full-text-indexes.sql", $mssqldb, false);
+    sqlrun(dirname(__FILE__)."/full-text-indexes.sql", $mssqldb, false);
     return true;
   }
 
@@ -66,7 +63,7 @@
     $sql = '';
 
     foreach($DBDataSources as $field => $value) {
-      $sql .= "\nINSERT t_dbdatasources SELECT ".sqlv($DBDataSources, $field).", ".sqlv(null, basename($DBDataSources->$field))."\n";
+      $sql .= "\nINSERT t_dbdatasources SELECT ".sqlv($DBDataSources, $field).", ".sqlv(null, basename($DBDataSources->$field)). ", " . $DBDataSources->downloadDate($value) ."\n";
     }
 
     file_put_contents("${data_path}dbdatasources.sql", $sql);

@@ -18,7 +18,7 @@
 
   $log = '';
 
-
+  $activedb = new \ActiveDB();
   $mssqldb = $activedb->get_swap();
 
   $DBDataSources = new DBDataSources();

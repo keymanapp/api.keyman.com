@@ -1,5 +1,6 @@
 <?php
   require_once('../../tools/db/db.php');
+  $mssql = Keyman\Site\com\keyman\api\Tools\DB\DBConnect::Connect();
 
   function new_query($s) {
     global $mssql;

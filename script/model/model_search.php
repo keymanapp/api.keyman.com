@@ -5,6 +5,7 @@
   json_response();
 
   require_once('../../tools/db/db.php');
+  $mssql = Keyman\Site\com\keyman\api\Tools\DB\DBConnect::Connect();
 
   // TODO: We probably need to describe this with a schema
   //header('Link: <https://api.keyman.com/schemas/model_info.distribution.json#>; rel="describedby"');
