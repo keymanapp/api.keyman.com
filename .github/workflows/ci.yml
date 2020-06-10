@@ -26,8 +26,8 @@ jobs:
       run: |
         Enable-WindowsOptionalFeature -Online -FeatureName IIS-WebServerRole -NoRestart
         Enable-WindowsOptionalFeature -Online -FeatureName IIS-CGI -NoRestart
-	      Enable-WindowsOptionalFeature -Online -FeatureName IIS-ISAPIExtensions -NoRestart
-	      Enable-WindowsOptionalFeature -Online -FeatureName IIS-ISAPIFilter -NoRestart
+        Enable-WindowsOptionalFeature -Online -FeatureName IIS-ISAPIExtensions -NoRestart
+        Enable-WindowsOptionalFeature -Online -FeatureName IIS-ISAPIFilter -NoRestart
         choco install urlrewrite
         Import-Module WebAdministration
         New-WebAppPool -name "NewWebSiteAppPool"  -force
@@ -38,7 +38,7 @@ jobs:
     - name: Setup FastCGI
       shell: cmd
       run: |
-          set phpdir=c:\tools
+        set phpdir=c:\tools
         set phppath=php
 
         REM Clear current PHP handlers
