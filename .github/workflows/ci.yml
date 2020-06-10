@@ -32,7 +32,7 @@ jobs:
         Import-Module WebAdministration
         New-WebAppPool -name "NewWebSiteAppPool"  -force
         New-WebSite -name "NewWebSite" -PhysicalPath "$ENV:GITHUB_WORKSPACE" -ApplicationPool "NewWebSiteAppPool" -port 8888 -force
-        set-WebConfiguration -filter 'system.web/customErrors' -Value @{mode='Off'}
+        Set-WebConfigurationproperty -filter "system.webServer/httpErrors" -pspath "MACHINE/WEBROOT/APPHOST" -name errorMode -value Detailed
 
     # This step Configures FastCGI according to the documentation at https://www.php.net/manual/en/install.windows.manual.php
     # This alternative doesn't work: New-WebHandler -name "PHP" -Path *.php -Modules FastCgiModule -ScriptProcessor "c:\tools\php\php-cgi.exe" -Verb 'GET,POST' -Force
