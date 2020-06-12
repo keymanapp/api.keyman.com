@@ -61,7 +61,8 @@ BEGIN
   WHERE
     kl.keyboard_id = @keyboard_id
   ORDER BY
-    COALESCE(elc.Name, li.Ref_Name, kl.bcp47);
+    COALESCE(elc.Name, li.Ref_Name, kl.bcp47),
+    kl.bcp47;
 END;
 GO
 
@@ -94,7 +95,8 @@ BEGIN
   ORDER BY
     k.deprecated ASC,
     kl.keyboard_id,
-    COALESCE(elc.Name, li.Ref_Name, kl.bcp47);
+    COALESCE(elc.Name, li.Ref_Name, kl.bcp47),
+    kl.bcp47;
 END;
 GO
 
@@ -133,7 +135,8 @@ BEGIN
     )
   ORDER BY
     kl.keyboard_id,
-    COALESCE(elc.Name, li.Ref_Name, kl.bcp47);
+    COALESCE(elc.Name, li.Ref_Name, kl.bcp47),
+    kl.bcp47;
 END;
 GO
 
