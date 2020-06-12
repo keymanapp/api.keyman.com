@@ -64,6 +64,20 @@ jobs:
         %windir%\system32\inetsrv\appcmd.exe set config -section:system.webServer/fastCgi /+"[fullPath='%phpdir%\%phppath%\php-cgi.exe'].environmentVariables.[name='PHPRC',value='%phpdir%\%phppath%\php.ini']"
 
     #
+    # Write environment to localenv.php (so PHP under IIS can see it as env is not available)
+    #
+    - name: Setup localenv.php
+      shell: cmd
+      run: |
+        echo ^<?php > tools\db\localenv.php
+        echo $mysqlpw='Password1!';' >> tools\db\localenv.php
+        echo $mysqluser='sa'; >> tools\db\localenv.php
+        echo $mssqldb0 = 'keyboards'; >> tools\db\localenv.php
+        echo $mssqldb1 = 'keyboards_1'; >> tools\db\localenv.php
+        echo $mssqlconninfo="sqlsrv:Server=(local)\KEYMANAPI;Database="; >> tools\db\localenv.php
+        echo $mssql_create_databases = true; >> tools\db\localenv.php
+
+    #
     # Install SQL Server Developer Edition with FullText Search module
     #
     - name: Download and install SQL Server Express
