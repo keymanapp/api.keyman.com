@@ -38,6 +38,21 @@ class RestTestCase extends TestCase
     $this->assertEquals("*", $cors[0]);
   }
 
+  protected function assertStandardJavascriptRestResponses($response): void
+  {
+    $this->assertEquals(200, $response->getStatusCode());
+
+    $headers = $response->getHeaders();
+
+    $contentType = $headers["Content-Type"];
+    $this->assertCount(1, $contentType);
+    $this->assertEquals("application/javascript; charset=utf-8", $contentType[0]);
+
+    $cors = $headers["Access-Control-Allow-Origin"];
+    $this->assertCount(1, $cors);
+    $this->assertEquals("*", $cors[0]);
+  }
+
   protected function assertStandardJsonRestResponses($response): void
   {
     $this->assertEquals(200, $response->getStatusCode());
