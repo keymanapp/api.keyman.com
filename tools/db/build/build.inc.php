@@ -87,9 +87,10 @@
 
     global $mssqlconninfo, $mysqluser, $mysqlpw;
     try {
-      $mssql = new PDO($mssqlconninfo . $db, $mysqluser, $mysqlpw, NULL);
+      $mssql = new PDO($mssqlconninfo . $db, $mysqluser, $mysqlpw, [ "CharacterSet" => "UTF-8" ]);
       $mssql->setAttribute( PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION );
       $mssql->setAttribute( PDO::SQLSRV_ATTR_DIRECT_QUERY, true);
+      $mssql->setAttribute( PDO::SQLSRV_ATTR_ENCODING, PDO::SQLSRV_ENCODING_UTF8 );
     }
     catch( PDOException $e ) {
       die( "Error connecting to SQL Server: " . $e->getMessage() );
@@ -118,7 +119,7 @@
     while(true) {
       build_log("Attempting to wake $db (attempt $tries/5)");
       try {
-        $mssql = new PDO($mssqlconninfo . $db, $mysqluser, $mysqlpw, NULL);
+        $mssql = new PDO($mssqlconninfo . $db, $mysqluser, $mysqlpw, [ "CharacterSet" => "UTF-8" ]);
         return true;
       }
       catch( PDOException $e ) {

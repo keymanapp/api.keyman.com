@@ -30,7 +30,7 @@ BEGIN
       k.min_keyman_version_1 < @minKeymanVersion1 OR
       (k.min_keyman_version_1 = @minKeymanVersion1 AND k.min_keyman_version_2 <= @minKeymanVersion2)
     ) AND
-    EXISTS(SELECT * FROM t_keyboard_language kl WHERE kl.keyboard_id = k.keyboard_id AND kl.bcp47 = bcp47)
+    EXISTS(SELECT * FROM t_keyboard_language kl WHERE kl.keyboard_id = k.keyboard_id AND kl.bcp47 = @bcp47)
   ORDER BY
     k.deprecated ASC,
     k.keyboard_id;
@@ -203,15 +203,14 @@ BEGIN
     kl.bcp47,
     elc.CountryID region_id, -- see notes from sp_legacy10_keyboard_languages
     ec.Area legacy_region,   -- see notes from sp_legacy10_keyboard_languages
-    CONCAT(
-      COALESCE(
-        elc.Name, li.Ref_Name, kl.bcp47),
-      COALESCE(
-        CONCAT(' (',s.name,', ',r.name,')'),
-        CONCAT(' (',r.name,')'),
-        CONCAT(' (',s.name,')'),
-        '')
-    ) language_name            -- see notes from sp_legacy10_keyboard_languages
+    COALESCE(
+      elc.Name, li.Ref_Name, kl.bcp47) +
+    COALESCE(
+      ' (' + s.name + ', ' + r.name + ')',
+      ' (' + r.name + ')',
+      ' (' + s.name + ')',
+      '')
+    language_name            -- see notes from sp_legacy10_keyboard_languages
   FROM
     t_keyboard k INNER JOIN
     t_keyboard_language kl ON k.keyboard_id = kl.keyboard_id LEFT JOIN
@@ -252,15 +251,14 @@ BEGIN
     kl.bcp47,
     elc.CountryID region_id, -- see notes from sp_legacy10_keyboard_languages
     ec.Area legacy_region,   -- see notes from sp_legacy10_keyboard_languages
-    CONCAT(
-      COALESCE(
-        elc.Name, li.Ref_Name, kl.bcp47),
-      COALESCE(
-        CONCAT(' (',s.name,', ',r.name,')'),
-        CONCAT(' (',r.name,')'),
-        CONCAT(' (',s.name,')'),
-        '')
-    ) language_name            -- see notes from sp_legacy10_keyboard_languages
+    COALESCE(
+      elc.Name, li.Ref_Name, kl.bcp47) +
+    COALESCE(
+      ' (' + s.name + ', ' + r.name + ')',
+      ' (' + r.name + ')',
+      ' (' + s.name + ')',
+      '')
+    language_name            -- see notes from sp_legacy10_keyboard_languages
   FROM
     t_keyboard k INNER JOIN
     t_keyboard_language kl ON k.keyboard_id = kl.keyboard_id LEFT JOIN

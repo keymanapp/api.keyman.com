@@ -77,7 +77,7 @@
         $s = substr($s, 0, strpos($s, "\0"));
       }
       $s = iconv("UTF-8", "UTF-8//IGNORE", $s); // Strip invalid UTF-8 characters
-      return "'" . str_replace("'", "''", $s) . "'";
+      return "N'" . str_replace("'", "''", $s) . "'";
     }
 
     /**

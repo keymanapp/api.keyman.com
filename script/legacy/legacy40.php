@@ -270,7 +270,7 @@ function removeKeyboardsFromLanguages($res) {
 *
 * @param CRM_CloudKeyboardVersion $keyboard
 * @param string $languageid
-* @param CRM_AllKeyboardLanguages $allKeyboardLanguages
+* @param array $allKeyboardLanguages
 */
 function getKeyboardInfo($keyboard, $languageid, $allKeyboardLanguages) {
     global $device, $kmw;
