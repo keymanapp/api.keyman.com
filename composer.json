@@ -9,6 +9,6 @@
         "phpunit/phpunit": "^9"
     },
     "scripts": {
-      "test": "vendor\\bin\\phpunit --color --testdox"
+      "test": "vendor\\bin\\phpunit --testdox"
     }
 }
