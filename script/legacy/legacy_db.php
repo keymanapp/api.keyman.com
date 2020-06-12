@@ -4,7 +4,9 @@
 
   function new_query($s) {
     global $mssql;
-    return $mssql->prepare($s);
+    $stmt = $mssql->prepare($s);
+    $stmt->setAttribute(PDO::SQLSRV_ATTR_FETCHES_NUMERIC_TYPE, true);
+    return $stmt;
   }
 
   function DB_LoadKeyboards($id) {
@@ -68,7 +70,7 @@
   function DB_LoadLanguages($id) {
     if(empty($id)) $id = null;
     global $version1, $version2;
-    $stmt = new_query('CALL sp_legacy10_language(?, ?, ?)');
+    $stmt = new_query('EXEC sp_legacy10_language ?, ?, ?');
     $stmt->bindParam(1, $id);
     $stmt->bindParam(2, $version1, PDO::PARAM_INT);
     $stmt->bindParam(3, $version2, PDO::PARAM_INT);
@@ -81,7 +83,7 @@
   function DB_LoadLanguages_0($id) {
     if(empty($id)) $id = null;
     global $version1, $version2;
-    $stmt = new_query('CALL sp_legacy10_language_0(?, ?, ?)');
+    $stmt = new_query('EXEC sp_legacy10_language_0 ?, ?, ?');
     $stmt->bindParam(1, $id);
     $stmt->bindParam(2, $version1, PDO::PARAM_INT);
     $stmt->bindParam(3, $version2, PDO::PARAM_INT);
@@ -92,12 +94,12 @@
   function DB_LoadLanguages_0_Keyboards($id) {
     if(empty($id)) $id = null;
     global $version1, $version2;
-    $stmt = new_query('CALL sp_legacy10_language_0_keyboards(?, ?, ?)');
+    $stmt = new_query('EXEC sp_legacy10_language_0_keyboards ?, ?, ?');
     $stmt->bindParam(1, $id);
     $stmt->bindParam(2, $version1, PDO::PARAM_INT);
     $stmt->bindParam(3, $version2, PDO::PARAM_INT);
     $stmt->execute();
-    return $stmt->fetchAll();
+    return $stmt->fetchAll(PDO::FETCH_ASSOC );
   }
 
 ?>

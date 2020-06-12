@@ -73,7 +73,7 @@
         "id": { "type": "string" },
         "version": { "type": "string" },
         "fileSize": { "type": "number" },
-        "lastModified": { "type": "string", "format": "date-time" },
+        "lastModified": { "oneOf": [ { "type": "string", "format": "date" }, { "type": "string", "format": "date-time"} ] },
         "name": { "type": "string" },
         "uri": { "type": "string", "format": "uri" }
       }

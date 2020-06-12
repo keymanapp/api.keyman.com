@@ -12,7 +12,7 @@ namespace Keyman\Site\com\keyman\api\Tools\DB {
 
       global $mssqlconninfo, $mysqluser, $mysqlpw;
       try {
-        $mssql = new \PDO($mssqlconninfo . $activedb->get(), $mysqluser, $mysqlpw, NULL);
+        $mssql = new \PDO($mssqlconninfo . $activedb->get(), $mysqluser, $mysqlpw, [ "CharacterSet" => "UTF-8" ]);
         $mssql->setAttribute(\PDO::ATTR_ERRMODE, \PDO::ERRMODE_EXCEPTION);
       } catch (\PDOException $e) {
         fail("Error connecting to SQL Server", 500, "[$mssqlconninfo{$activedb->get()}]: " . $e->getMessage());

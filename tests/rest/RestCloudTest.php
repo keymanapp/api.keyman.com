@@ -89,9 +89,12 @@ final class RestCloudTest extends RestTestCase
 
   public function testSimple20Keyboard(): void
   {
-    $response = $this->http->request('GET','cloud/2.0/keyboards/ta');
+    // Note, the MySQL implementation has a bug with cloud/2.0/keyboards/ta which should return 404 but doesn't!
+    // See _invalid_2.0-keyboard-ta.json
+    // The MSSQL implementation is correct
+    $response = $this->http->request('GET','cloud/2.0/keyboards/tamil');
     $this->assertStandardJsonRestResponses($response);
-    $this->assertJsonSchemaAndEquals($response, RestCloudTest::SchemaFilename20, '2.0-keyboard-ta.json');
+    $this->assertJsonSchemaAndEquals($response, RestCloudTest::SchemaFilename20, '2.0-keyboard-tamil.json');
   }
 
   public function testSimple20Language(): void

@@ -9,6 +9,7 @@
         "phpunit/phpunit": "^9"
     },
     "scripts": {
-      "test": "vendor\\bin\\phpunit --testdox"
+      "test": "vendor\\bin\\phpunit --testdox",
+      "build": "php tools\\db\\build\\build_cli.php"
     }
 }
