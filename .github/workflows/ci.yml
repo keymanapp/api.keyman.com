@@ -70,7 +70,7 @@ jobs:
       shell: cmd
       run: |
         echo ^<?php > tools\db\localenv.php
-        echo $mysqlpw='%api_keyman_com_mssql_pw%';' >> tools\db\localenv.php
+        echo $mysqlpw='%api_keyman_com_mssql_pw%'; >> tools\db\localenv.php
         echo $mysqluser='%api_keyman_com_mssql_user%'; >> tools\db\localenv.php
         echo $mssqldb0 = '%api_keyman_com_mssqldb0%'; >> tools\db\localenv.php
         echo $mssqldb1 = '%api_keyman_com_mssqldb1%'; >> tools\db\localenv.php
