@@ -37,7 +37,7 @@
 
   function text_response() {
     ini_set('html_errors', 0);
-    header('Content-Type: text/plain');
+    header('Content-Type: text/plain; charset=utf-8');
   }
 
   function json_response() {
