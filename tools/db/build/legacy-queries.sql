@@ -30,7 +30,7 @@ BEGIN
       k.min_keyman_version_1 < @minKeymanVersion1 OR
       (k.min_keyman_version_1 = @minKeymanVersion1 AND k.min_keyman_version_2 <= @minKeymanVersion2)
     ) AND
-    EXISTS(SELECT * FROM t_keyboard_language kl WHERE kl.keyboard_id = k.keyboard_id AND kl.bcp47 = bcp47)
+    EXISTS(SELECT * FROM t_keyboard_language kl WHERE kl.keyboard_id = k.keyboard_id AND kl.bcp47 = @bcp47)
   ORDER BY
     k.deprecated ASC,
     k.keyboard_id;
