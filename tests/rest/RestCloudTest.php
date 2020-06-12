@@ -118,6 +118,13 @@ final class RestCloudTest extends RestTestCase
     $this->assertJsonSchemaAndEquals($response, RestCloudTest::SchemaFilename20, '2.0-language-ta.json');
   }
 
+  public function test20KeyboardLanguage(): void
+  {
+    $response = $this->http->request('GET','cloud/2.0/keyboards/canadian_ms/fr');
+    $this->assertStandardJsonRestResponses($response);
+    $this->assertJsonSchemaAndEquals($response, RestCloudTest::SchemaFilename20, '2.0-keyboard-canadian_ms-fr.json');
+  }
+
   // Version 1.0
 
   public function testSimple10Keyboard(): void
