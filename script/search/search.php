@@ -1,5 +1,6 @@
 <?php
-  /**
+  /** TODO: this is wrong
+   * TODO: we need to version this endpoint and continue to return *something* on original queries
    * https://api.keyman.com/search?q=query-string
    *
    * Search for a keyboard. Returns a result that lists all keyboards, languages and countries that match.
@@ -21,25 +22,34 @@
   allow_cors();
   json_response();
 
-  header('Link: <https://api.keyman.com/schemas/search.json#>; rel="describedby"');
-
   require_once(__DIR__ . '/search.inc.php');
+  require_once(__DIR__ . '/../../tools/db/db.php');
+  $mssql = Keyman\Site\com\keyman\api\Tools\DB\DBConnect::Connect();
 
   if(!isset($_REQUEST['q'])) {
     fail('Query string must be set');
   }
 
-  require_once(__DIR__ . '/../../tools/db/db.php');
-  $mssql = Keyman\Site\com\keyman\api\Tools\DB\DBConnect::Connect();
+  header('Link: <https://api.keyman.com/schemas/search.json#>; rel="describedby"');
+  //header('') TODO: add page information to results
 
-  $q = $_REQUEST['q'];
+  $query = $_REQUEST['q'];
   $platform = isset($_REQUEST['platform']) ? $_REQUEST['platform'] : null;
 
-  $s = new KeyboardSearch($mssql);
-  if(!empty($platform)) {
-    $s->SetPlatform($platform);
+  if(isset($_REQUEST['c'])) {
+    $context = $_REQUEST['c'];
+   } else {
+    $context = KeyboardSearchResult::CONTEXT_KEYBOARD;
+   }
+
+  if(isset($_REQUEST['p'])) {
+    $pageNumber = (int)($_REQUEST['p']);
+    if($pageNumber < 1 || $pageNumber > 999) $pageNumber = 1;
+  } else {
+    $pageNumber = 1;
   }
-  $s->GetSearchMatches($q);
-  $json = $s->WriteSearchResults();
+
+  $s = new KeyboardSearch($mssql);
+  $json = $s->GetSearchMatches($context, $platform, $query, $pageNumber);
 
   json_print($json);

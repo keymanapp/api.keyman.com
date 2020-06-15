@@ -14,6 +14,34 @@ CREATE INDEX ix_ethnologue_language_index_langid ON t_ethnologue_language_index 
 CREATE INDEX ix_elc_langid_countryid_name ON t_ethnologue_language_codes (LangID, CountryID, Name);
 CREATE INDEX ix_ecc_countryid ON t_ethnologue_country_codes (CountryID);
 
-CREATE INDEX ix_langtag_tag ON t_langtag_tag (alttag);
-CREATE INDEX ix_langtag_name ON t_langtag_name (name);
+CREATE INDEX ix_langtag_tag ON t_langtag_tag (tag) INCLUDE (base_tag);
+CREATE INDEX ix_langtag_name ON t_langtag_name (name) INCLUDE (tag);
 
+/*
+Missing Index Details from SQLQuery2.sql - (local).keyboards_1 (BARROW\mcdurdin (57))
+The Query Processor estimates that implementing the following index could improve the query cost by 89.7528%.
+*/
+
+CREATE NONCLUSTERED INDEX ix_langtag_region
+ON [dbo].[t_langtag] ([region])
+INCLUDE ([name])
+
+/*
+Missing Index Details from SQLQuery2.sql - (local).keyboards_1 (BARROW\mcdurdin (57))
+The Query Processor estimates that implementing the following index could improve the query cost by 87.7063%.
+*/
+
+CREATE NONCLUSTERED INDEX ix_langtag_script
+ON [dbo].[t_langtag] ([script])
+INCLUDE ([name])
+
+/*
+Missing Index Details from SQLQuery2.sql - (local).keyboards_1 (BARROW\mcdurdin (57))
+The Query Processor estimates that implementing the following index could improve the query cost by 80.0976%.
+*/
+
+CREATE NONCLUSTERED INDEX ix_keyboard_langtag_tag
+ON [dbo].[t_keyboard_langtag] ([tag])
+INCLUDE ([keyboard_id])
+
+CREATE INDEX ix_keyboard_downloads ON t_keyboard_downloads (keyboard_id) INCLUDE (count)

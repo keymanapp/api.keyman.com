@@ -297,7 +297,13 @@ CREATE TABLE t_ethnologue_language_index (
 
 DROP TABLE IF EXISTS t_dbdatasources;
 CREATE TABLE t_dbdatasources (
-  uri NVARCHAR(260) NOT NULL,
-  filename NVARCHAR(260) NOT NULL,
-  date INT NOT NULL
+  uri NVARCHAR(260) NULL,
+  filename NVARCHAR(260) NULL,
+  date INT NULL
 );
+
+DROP TABLE IF EXISTS t_keyboard_downloads;
+CREATE TABLE t_keyboard_downloads (
+  keyboard_id NVARCHAR(260) NOT NULL,
+  count INT NOT NULL
+)

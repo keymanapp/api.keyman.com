@@ -24,6 +24,7 @@ namespace Keyman\Site\com\keyman\api\tests {
       foreach($this as $field => $value) {
         $this->$field = $this->fileFromTestDataDir($this->$field);
       }
+      $this->mockAnalyticsSqlFile = $this->fileFromTestDataDir("analytics.sql");
     }
 
     private function fileFromTestDataDir($uri)

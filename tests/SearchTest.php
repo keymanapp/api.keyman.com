@@ -26,13 +26,14 @@ namespace Keyman\Site\com\keyman\api\tests {
       $mssql = \Keyman\Site\com\keyman\api\Tools\DB\DBConnect::Connect();
 
       $s = new \KeyboardSearch($mssql);
-      $s->GetSearchMatches('thai');
-      $json = $s->WriteSearchResults();
+      $json = $s->GetSearchMatches('keyboard', null, 'thai', 1);
 
       // Whoa, PHP does *not* round-trip JSON cleanly. This however takes our output and transforms it
       // to something that passes our schema validation
       // TODO(lowpri): find a way to skip this by emitting clean JSON object from WriteSearchResults()
       $json = json_decode(json_encode($json));
+
+      // TOOD: hmm, this schema seems to be fairly lax! It shouldn't be passing...
 
       // This will throw an exception if it does not pass
       $schema->in($json);
@@ -43,15 +44,9 @@ namespace Keyman\Site\com\keyman\api\tests {
 
     public function testSimpleSearchResultContentsConsistent()
     {
-      $this->markTestIncomplete(
-        'Waiting on rewrite of search with langtags.json.'
-      );
-
       $mssql = \Keyman\Site\com\keyman\api\Tools\DB\DBConnect::Connect();
       $s = new \KeyboardSearch($mssql);
-      $s->GetSearchMatches('khmer');
-      $json = $s->WriteSearchResults();
-      // TODO(lowpri): find a way to skip this by emitting clean JSON object from WriteSearchResults()
+      $json = $s->GetSearchMatches('keyboard', null, 'khmer', 1);
       $this->assertJsonStringEqualsJsonFile(__DIR__ . '/fixtures/Search.khmer.json', json_encode($json), "Search for 'khmer' gives same results as Search.khmer.json");
     }
   }

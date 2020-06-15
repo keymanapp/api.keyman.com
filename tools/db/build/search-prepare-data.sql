@@ -30,3 +30,16 @@ update t_keyboard
 update t_model
   set deprecated = 1
   where exists (select * from t_model_related mr where mr.related_model_id = t_model.model_id);
+
+--
+-- Canonicalize bcp47 codes into langtags entries
+-- TODO: fixup those that are missing (https://docs.google.com/document/d/1Ox8JKE1yItW31SMNA3fJfrAsiQNh3xq_bDeFgMYzbmg/edit#)
+--
+
+INSERT
+  t_keyboard_langtag
+SELECT
+  kl.keyboard_id, tt.tag
+FROM
+  t_keyboard_language kl INNER JOIN
+  t_langtag_tag tt ON kl.bcp47 = tt.tag

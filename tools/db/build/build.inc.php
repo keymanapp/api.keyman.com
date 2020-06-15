@@ -4,6 +4,7 @@
   require_once('build_standards_data_script.inc.php');
   require_once('build_keyboards_script.inc.php');
   require_once('build_models_script.inc.php');
+  require_once(__DIR__ . '/build_analytics.inc.php');
 
   function reportTime() {
     global $report_last_time;
@@ -33,6 +34,9 @@
     $builder = new build_models_sql($DBDataSources);
     $builder->execute($data_path, $do_force) || fail("Unable to build lexical models data scripts");
 
+    $builder = new build_analytics_sql($DBDataSources);
+    $builder->execute($data_path) || fail("Unable to build analytics data scripts");
+
     buildDBDataSources($data_path, $DBDataSources);
 
     global $mssql_create_databases;
@@ -40,9 +44,6 @@
       sqlrun(dirname(__FILE__)."/create-database.sql", 'master', false);
     sqlrun(dirname(__FILE__)."/search.sql", $mssqldb);
     sqlrun(dirname(__FILE__)."/langtags.sql", $mssqldb);
-    sqlrun(dirname(__FILE__)."/search-queries.sql", $mssqldb);
-    sqlrun(dirname(__FILE__)."/model-queries.sql", $mssqldb);
-    sqlrun(dirname(__FILE__)."/legacy-queries.sql", $mssqldb);
     sqlrun("${data_path}langtags.json.sql", $mssqldb);
     sqlrun("${data_path}language-subtag-registry.sql", $mssqldb);
     sqlrun("${data_path}iso639-3.sql", $mssqldb);
@@ -52,10 +53,19 @@
     sqlrun("${data_path}ethnologue_language_index.sql", $mssqldb);
     sqlrun("${data_path}keyboards.sql", $mssqldb);
     sqlrun("${data_path}models.sql", $mssqldb);
+
+    if(file_exists("${data_path}analytics.sql"))
+      sqlrun("${data_path}analytics.sql", $mssqldb);
+
     sqlrun(dirname(__FILE__)."/search-prepare-data.sql", $mssqldb);
     sqlrun(dirname(__FILE__)."/indexes.sql", $mssqldb);
-    sqlrun("${data_path}dbdatasources.sql", $mssqldb);
+
     sqlrun(dirname(__FILE__)."/full-text-indexes.sql", $mssqldb, false);
+    sqlrun(dirname(__FILE__)."/search-queries.sql", $mssqldb);
+    sqlrun(dirname(__FILE__)."/model-queries.sql", $mssqldb);
+    sqlrun(dirname(__FILE__)."/legacy-queries.sql", $mssqldb);
+
+    sqlrun("${data_path}dbdatasources.sql", $mssqldb);
     return true;
   }
 
