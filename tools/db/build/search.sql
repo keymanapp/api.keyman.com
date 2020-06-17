@@ -248,7 +248,7 @@ CREATE TABLE t_iso639_3 (
                             /* E(xtinct), H(istorical), L(iving), S(pecial)*/
   Ref_Name   nvarchar(150) NOT NULL,   /* Reference language name */
   _Comment    nvarchar(150) NULL,      /* Comment relating to one or more of the columns*/
-  CanonicalId nchar(3) NULL   /* The canonical ID, being either Part1 or Id */
+  CanonicalId nvarchar(3) NULL   /* The canonical ID, being either Part1 or Id */
 );
 
 DROP TABLE IF EXISTS t_iso639_3_names;

@@ -2,7 +2,7 @@ UPDATE t_iso639_3 SET Part2B=NULL WHERE Part2B='';
 UPDATE t_iso639_3 SET Part2T=NULL WHERE Part2T='';
 UPDATE t_iso639_3 SET Part1=NULL WHERE Part1='';
 UPDATE t_iso639_3 SET _Comment=NULL WHERE _Comment='';
-UPDATE t_iso639_3 SET CanonicalId=COALESCE(Part1,Id);
+UPDATE t_iso639_3 SET CanonicalId=COALESCE(CAST(Part1 AS NVARCHAR),CAST(Id AS NVARCHAR))
 
 --
 -- We need to do some sanitisation of the t_language_index and t_iso639_3_names
@@ -39,7 +39,7 @@ update t_model
 INSERT
   t_keyboard_langtag
 SELECT
-  kl.keyboard_id, tt.tag
+  kl.keyboard_id, tt.base_tag
 FROM
   t_keyboard_language kl INNER JOIN
   t_langtag_tag tt ON kl.bcp47 = tt.tag

@@ -13,7 +13,7 @@
     if(isset($_GET['id'])) $id=$_GET["id"];
 
     if(($stmt = $mssql->prepare('
-      SELECT pinyin_key, chinese_text, tip FROM kmw_chinese_pinyin WHERE pinyin_key=? ORDER BY frequency DESC
+      SELECT pinyin_key, chinese_text, tip FROM kmw_chinese_pinyin WHERE pinyin_key=? ORDER BY frequency DESC, id
     ')) === false) {
       fail("Failed to prepare query: {$mssql->errorInfo()}\n");
     }
@@ -37,7 +37,7 @@
     }
 
     if(($stmt = $mssql->prepare('
-      SELECT TOP 20 pinyin_key, chinese_text, tip FROM kmw_chinese_pinyin WHERE pinyin_key LIKE ? AND pinyin_key <> ? ORDER BY frequency DESC
+      SELECT TOP 20 pinyin_key, chinese_text, tip FROM kmw_chinese_pinyin WHERE pinyin_key LIKE ? AND pinyin_key <> ? ORDER BY frequency DESC, id
     ')) === false) {
       fail("Failed to prepare query #2: {$mysql->error}\n");
     }

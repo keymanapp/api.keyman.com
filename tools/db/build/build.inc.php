@@ -62,6 +62,14 @@
 
     sqlrun(dirname(__FILE__)."/full-text-indexes.sql", $mssqldb, false);
     sqlrun(dirname(__FILE__)."/search-queries.sql", $mssqldb);
+
+    // All scripts with sp_ prefixes will be automatically run
+    // TODO: progressively move all stored procedures to this structure
+    $scripts = glob(__DIR__ . '/sp_*.sql');
+    foreach($scripts as $script) {
+      sqlrun($script, $mssqldb);
+    }
+
     sqlrun(dirname(__FILE__)."/model-queries.sql", $mssqldb);
     sqlrun(dirname(__FILE__)."/legacy-queries.sql", $mssqldb);
 

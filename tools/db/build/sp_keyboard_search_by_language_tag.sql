@@ -1,0 +1,91 @@
+/*
+ sp_keyboard_search_by_language_tag: find all keyboards for a given bcp47 base_tag
+*/
+
+DROP PROCEDURE IF EXISTS sp_keyboard_search_by_language_tag
+GO
+
+
+CREATE PROCEDURE sp_keyboard_search_by_language_tag (
+  @prmTag NVARCHAR(250),
+  @prmPlatform NVARCHAR(32),
+  @prmPageNumber INT,
+  @prmPageSize INT
+) AS
+BEGIN
+  DECLARE @varTag NVARCHAR(250)
+  SET @varTag = dbo.f_get_canonical_bcp47(@prmTag)
+
+  -- Get total rows for search
+  SELECT
+    count(*) total_count,
+    @varTag 'base_tag'
+  FROM
+    t_keyboard k
+  WHERE
+    EXISTS (SELECT * FROM t_keyboard_langtag kl WHERE kl.keyboard_id = k.keyboard_id AND kl.tag = @varTag) AND
+    ((@prmPlatform is null) or
+    (@prmPlatform = 'android' and k.platform_android > 0) or
+    (@prmPlatform = 'ios'     and k.platform_ios > 0) or
+    (@prmPlatform = 'linux'   and k.platform_linux > 0) or
+    (@prmPlatform = 'macos'   and k.platform_macos > 0) or
+    (@prmPlatform = 'web'     and k.platform_web > 0) or
+    (@prmPlatform = 'windows' and k.platform_windows > 0))
+
+  -- Result matches
+  SELECT
+    k.name match_name,
+    0 match_type,
+    1 match_weight,
+    COALESCE(kd.count, 0) download_count, -- missing count record = 0 downloads over last 30 days
+    1 final_weight,
+
+    k.keyboard_id,
+    k.name,
+    k.author_name,
+    k.author_email,
+    k.description,
+    k.license,
+    k.last_modified,
+    k.version,
+    k.min_keyman_version,
+    k.legacy_id,
+    k.package_filename,
+    k.js_filename,
+    k.documentation_filename,
+    k.is_ansi,
+    k.is_unicode,
+    k.includes_welcome,
+    k.includes_documentation,
+    k.includes_fonts,
+    k.includes_visual_keyboard,
+    k.platform_windows,
+    k.platform_macos,
+    k.platform_ios,
+    k.platform_android,
+    k.platform_web,
+    k.platform_linux,
+    k.deprecated,
+    k.keyboard_info
+
+  FROM
+    t_keyboard k left join
+    t_keyboard_downloads kd on k.keyboard_id = kd.keyboard_id
+  WHERE
+    EXISTS (SELECT * FROM t_keyboard_langtag kl WHERE kl.keyboard_id = k.keyboard_id AND kl.tag = @varTag) AND
+    ((@prmPlatform is null) or
+    (@prmPlatform = 'android' and k.platform_android > 0) or
+    (@prmPlatform = 'ios'     and k.platform_ios > 0) or
+    (@prmPlatform = 'linux'   and k.platform_linux > 0) or
+    (@prmPlatform = 'macos'   and k.platform_macos > 0) or
+    (@prmPlatform = 'web'     and k.platform_web > 0) or
+    (@prmPlatform = 'windows' and k.platform_windows > 0))
+  ORDER BY
+    k.deprecated ASC,
+    k.is_unicode DESC,
+    k.name
+  offset
+    @prmPageSize * (@prmPageNumber - 1) rows
+  fetch next
+    @prmPageSize rows only
+END

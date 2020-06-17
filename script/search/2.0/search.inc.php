@@ -1,18 +1,25 @@
 <?php
-  require_once(__DIR__ . '/../../tools/util.php');
-  require_once(__DIR__ . '/../../tools/db/db.php');
+  require_once(__DIR__ . '/../../../tools/util.php');
+  require_once(__DIR__ . '/../../../tools/db/db.php');
 
   class KeyboardSearchResult {
+    const FILTER_SEARCH='search'; // default, search for the text string [any context]
+    const FILTER_ALL='all';       // return all possible results ?? TODO: check meaning of this
+    const FILTER_ID='id';         // filter by identifier per context, e.g. keyboard id, language tag, etc. [any context]
+    const FILTER_LEGACY='legacy'; // keyboards only, filter by a legacy id [CONTEXT_KEYBOARD]
+    const FILTER_LANGUAGE='language'; // search string is a language tag; [CONTEXT_KEYBOARD]
+    const FILTER_REGION='region';     // search string is a country identifier; [CONTEXT_LANGUAGE, later:CONTEXT_KEYBOARD]
+
     const CONTEXT_KEYBOARD='keyboard';
     const CONTEXT_LANGUAGE='language';
     const CONTEXT_REGION='region';
 
-    public $context;  // keyboard|language|region
-    public $idmatch;  // if true, searching for an id
-    public $allmatch; // ? not sure if needed
+    public string $filter;   // none|id|legacy|language|region
+    public string $context;  // keyboard|language|region
+
     public $text, $searchtext;
 
-    public $pageNumber, $pageSize, $totalRows;
+    public int $pageNumber, $pageSize, $totalRows;
     public $platform;
 
     public $keyboards, $languages, $regions; // Only one of these can be populated at a time
@@ -21,7 +28,7 @@
   class KeyboardSearch {
     private $mssql;
 
-    const PAGESIZE = 10;
+    const PAGESIZE = 100; //TODO: reduce to 10 once we support pagniation on keyman.com
 
     function __construct($mssql) {
       $this->mssql = $mssql;
@@ -39,19 +46,18 @@
         $result->platform = 'web';
       }
 
-      $result->idmatch = false;
-      $result->allmatch = false;
+      $result->filter = KeyboardSearchResult::FILTER_SEARCH;
       $result->regionmatch = false;
-      $result->legacy = false;
 
       $textparts = explode(':', $query);
 
       for($i = 0; $i < sizeof($textparts) - 1; $i++) {
         $match = strtolower($textparts[$i]);
-        if(!strcmp($match, 'id')) $result->idmatch = true;
+        if(!strcmp($match, 'bcp47')) $result->filter = KeyboardSearchResult::FILTER_LANGUAGE;
+        else if(!strcmp($match, 'id')) $result->filter = KeyboardSearchResult::FILTER_ID;
         else if(!strcmp($match, 'all')) $result->allmatch = true;
         else if(!strcmp($match, 'region')) $result->regionmatch = true;
-        else if(!strcmp($match, 'legacy')) $result->legacy = true;
+        else if(!strcmp($match, 'legacy')) $result->filter = KeyboardSearchResult::FILTER_LEGACY;
       }
 
       $result->text = array_pop($textparts);
@@ -60,35 +66,27 @@
       return $this->WriteSearchResults($result);
     }
 
-    private function GetSearchQueries(KeyboardSearchResult $result) {//}, &$rangetext, &$count, &$countries, &$langs, &$keyboards) {
+    private function GetSearchQueries(KeyboardSearchResult $result) {
       $result->searchtext = strip_tags($result->searchtext);
 
       switch($result->context) {
       case KeyboardSearchResult::CONTEXT_KEYBOARD:
-        if($result->idmatch) {
-          $result->rangetext = "Keyboard with id '{$result->searchtext}'";
-          $result->keyboards = $this->LoadKeyboardSearch($result->text, $result, 2);
-        } else if($result->legacy) {
-          $result->rangetext = "Keyboard with legacy id '{$result->searchtext}'";
-          $result->keyboards = $this->LoadKeyboardSearch($result->text, $result, 3);
-        } else {
-          $result->rangetext = "Keyboards matching '{$result->searchtext}'";
-          $result->keyboards = $this->LoadKeyboardSearch($result->text, $result, 1);
-        }
-        // $rangetext = "Keyboards for language with BCP 47 code '{$result->searchtext}'";
-        //        $keyboards = $this->LoadKeyboardSearch($result->text, 0);
-        break;
+        return $this->LoadKeyboardSearch($result);
 
       case KeyboardSearchResult::CONTEXT_LANGUAGE:
-        if($result->allmatch) {
+        switch($result->filter) {
+        case KeyboardSearchResult::FILTER_ALL:
           $result->rangetext = "All languages matching '{$result->searchtext}'";
           $result->languages = $this->LoadLanguageSearch($result->text, 1, $result->allmatch);
-        } else if($result->idmatch) {
+          break;
+        case KeyboardSearchResult::FILTER_ID:
           $result->rangetext = "Languages with BCP 47 code '{$result->searchtext}'";
           $result->languages = $this->LoadLanguageSearch($result->text, 1, $result->allmatch);
-        } else {
+          break;
+        case KeyboardSearchResult::FILTER_SEARCH:
           $result->rangetext = "Languages matching '{$result->searchtext}'";
           $result->languages = $this->LoadLanguageSearch($result->text, 0, $result->allmatch); //?
+          break;
         }
         break;
 
@@ -125,12 +123,14 @@
       $data['context'] = [
         'range' => $result->rangetext,
         'context' => $result->context,
-        'platform' => $result->platform,
         'pageSize' => $result->pageSize,
         'pageNumber' => $result->pageNumber,
         'totalRows' => $result->totalRows,
         'totalPages' => $totalPages
       ];
+
+      if($result->platform !== null)
+        $data['context']['platform'] = $result->platform;
 
       // TODO: include weighting, matched term, popularity values
 
@@ -262,46 +262,96 @@
      * LoadKeyboardSearch
      */
 
-    function LoadKeyboardSearch($text, KeyboardSearchResult $result, $matchtype) {
-      $data = [];
+    function LoadKeyboardSearch(KeyboardSearchResult $result) {
+      $text = $result->text;
+      switch($result->filter) {
+      case KeyboardSearchResult::FILTER_LANGUAGE:
+        $result->rangetext = "Keyboards for language with BCP 47 code '{$result->searchtext}'";
+        // match on language tag
+        $stmt = $this->new_query('EXEC sp_keyboard_search_by_language_tag ?, ?, ?, ?');
+        $stmt->bindParam(1, $text);
+        $stmt->bindParam(2, $result->platform);
+        $stmt->bindParam(3, $result->pageNumber, PDO::PARAM_INT);
+        $stmt->bindParam(4, $result->pageSize, PDO::PARAM_INT);
+        break;
 
-      switch($matchtype) {
-      case 1: // generic text search
+      case KeyboardSearchResult::FILTER_ID:
+        // match on keyboard id
+        // We ignore platform. Only one row
+        $result->rangetext = "Keyboard with id '{$result->searchtext}'";
+        $stmt = $this->new_query('EXEC sp_keyboard_search_by_id ?');
+        $stmt->bindParam(1, $text);
+        break;
+
+      case KeyboardSearchResult::FILTER_LEGACY:
+        // match on legacy id
+        // We ignore platform. Only one row
+        $result->rangetext = "Keyboard with legacy id '{$result->searchtext}'";
+        $stmt = $this->new_query('EXEC sp_keyboard_search_by_legacy_id ?');
+        $legacy_id = (int) $text;
+        $stmt->bindParam(1, $legacy_id, PDO::PARAM_INT);
+        break;
+
+      case KeyboardSearchResult::FILTER_SEARCH:
+        // generic text search
+        $result->rangetext = "Keyboards matching '{$result->searchtext}'";
         $text = $this->CleanQueryString($text);
         $stmt = $this->new_query('EXEC sp_keyboard_search ?, ?, ?, ?');
         $stmt->bindParam(1, $text);
         $stmt->bindParam(2, $result->platform);
-        $stmt->bindParam(3, $result->pageNumber);
-        $stmt->bindParam(4, $result->pageSize);
+        $stmt->bindParam(3, $result->pageNumber, PDO::PARAM_INT);
+        $stmt->bindParam(4, $result->pageSize, PDO::PARAM_INT);
         break;
 
-      case 0: // match on keyboard id
-      case 2: // match on language tag
-      case 3: // match on legacy id
-        $stmt = $this->new_query('EXEC sp_keyboard_search_alt ?, ?, ?, ?');
-        $stmt->bindParam(1, $text);
-        $stmt->bindParam(2, $matchtype);
-        $stmt->bindParam(3, $result->pageNumber);
-        $stmt->bindParam(4, $result->pageSize);
-        break;
+      default:
+        return false;
       }
 
       $stmt->execute();
-
-      $result->totalRows = $stmt->fetchAll()[0]['total_count'];
-
-      $stmt->nextRowset();
-
-      $result = [];
-
       $data = $stmt->fetchAll();
+
+      // if the result set has a total_count field and just one row, it's a summary set for paginated results
+      if(count($data) == 1 && isset($data[0]['total_count'])) {
+        $result->totalRows = $data[0]['total_count'];
+        if(isset($data[0]['base_tag'])) {
+          // Special case: we normalise the bcp 47 tag when we pass it in.
+          $result->rangetext = "Keyboards for language with BCP 47 code '{$data[0]['base_tag']}'";
+        }
+        $stmt->nextRowset();
+        $data = $stmt->fetchAll();
+      } else {
+        $result->totalRows = count($data);
+      }
+
+      $result->keyboards = [];
+
       for($i = 0; $i < count($data); $i++) {
         $row = $data[$i];
         $rowdata = json_decode($row['keyboard_info']);
         if($row['deprecated']) $rowdata->deprecated = true;
-        array_push($result, $rowdata);
+
+        $rowdata->match = [
+          'name' => $row['match_name'],
+          'type' => $this->match_type_name($row['match_type']),
+          'weight' => $row['match_weight'],
+          'downloads' => $row['download_count'],
+          'final_weight' => $row['final_weight']
+        ];
+
+        array_push($result->keyboards, $rowdata);
       }
 
       return $result;
+    }
+
+    function match_type_name($match_type) {
+      switch($match_type) {
+        case 0: return 'keyboard';
+        case 1: return 'description';
+        case 2: return 'language';
+        case 3: return 'script';
+        case 4: return 'region';
+        default: return 'unknown';
+       }
     }
   }

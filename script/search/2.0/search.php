@@ -17,13 +17,13 @@
    * @param platform            one of 'macos', 'windows', 'linux', 'android', 'ios', 'desktopWeb', 'mobileWeb'
    */
 
-  require_once(__DIR__ . '/../../tools/util.php');
+  require_once(__DIR__ . '/../../../tools/util.php');
 
   allow_cors();
   json_response();
 
   require_once(__DIR__ . '/search.inc.php');
-  require_once(__DIR__ . '/../../tools/db/db.php');
+  require_once(__DIR__ . '/../../../tools/db/db.php');
   $mssql = Keyman\Site\com\keyman\api\Tools\DB\DBConnect::Connect();
 
   if(!isset($_REQUEST['q'])) {
@@ -52,4 +52,7 @@
   $s = new KeyboardSearch($mssql);
   $json = $s->GetSearchMatches($context, $platform, $query, $pageNumber);
 
-  json_print($json);
+  if(isset($_REQUEST['f']))
+    json_print($json);
+  else
+    echo json_encode($json, JSON_UNESCAPED_SLASHES);

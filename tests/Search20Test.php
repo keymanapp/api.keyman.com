@@ -2,7 +2,7 @@
 
 namespace {
   require_once(__DIR__ . '/../tools/base.inc.php');
-  require_once(__DIR__ . '/../script/search/search.inc.php');
+  require_once(__DIR__ . '/../script/search/2.0/search.inc.php');
   require_once(__DIR__ . '/TestUtils.inc.php');
   require_once(__DIR__ . '/TestDBBuild.inc.php');
 }
@@ -11,9 +11,9 @@ namespace Keyman\Site\com\keyman\api\tests {
 
   use PHPUnit\Framework\TestCase;
 
-  final class SearchTest extends TestCase
+  final class Search20Test extends TestCase
   {
-    private const SchemaFilename = "/search/1.0.2/search.json";
+    private const SchemaFilename = "/search/2.0/search.json";
 
     static function setUpBeforeClass(): void
     {
@@ -22,7 +22,7 @@ namespace Keyman\Site\com\keyman\api\tests {
 
     public function testSimpleSearchResultValidatesAgainstSchema(): void
     {
-      $schema = TestUtils::LoadJSONSchema(SearchTest::SchemaFilename);
+      $schema = TestUtils::LoadJSONSchema(Search20Test::SchemaFilename);
       $mssql = \Keyman\Site\com\keyman\api\Tools\DB\DBConnect::Connect();
 
       $s = new \KeyboardSearch($mssql);
@@ -47,7 +47,7 @@ namespace Keyman\Site\com\keyman\api\tests {
       $mssql = \Keyman\Site\com\keyman\api\Tools\DB\DBConnect::Connect();
       $s = new \KeyboardSearch($mssql);
       $json = $s->GetSearchMatches('keyboard', null, 'khmer', 1);
-      $this->assertJsonStringEqualsJsonFile(__DIR__ . '/fixtures/Search.khmer.json', json_encode($json), "Search for 'khmer' gives same results as Search.khmer.json");
+      $this->assertJsonStringEqualsJsonFile(__DIR__ . '/fixtures/Search.2.0.khmer.json', json_encode($json), "Search for 'khmer' gives same results as Search.khmer.json");
     }
   }
 }

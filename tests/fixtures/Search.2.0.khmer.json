@@ -1,5 +1,12 @@
 {
-    "rangetext": "Keyboards matching 'khmer'",
+    "context": {
+        "range": "Keyboards matching 'khmer'",
+        "context": "keyboard",
+        "pageSize": 100,
+        "pageNumber": 1,
+        "totalRows": 7,
+        "totalPages": 1
+    },
     "keyboards": [
         {
             "license": "mit",
@@ -51,6 +58,13 @@
                 "ios": "full",
                 "desktopWeb": "full",
                 "mobileWeb": "full"
+            },
+            "match": {
+                "name": "Khmer",
+                "type": "language",
+                "weight": "160",
+                "downloads": "37",
+                "final_weight": "742.01378555622171"
             }
         },
         {
@@ -90,6 +104,13 @@
                 "ios": "full",
                 "desktopWeb": "full",
                 "mobileWeb": "full"
+            },
+            "match": {
+                "name": "Khmer",
+                "type": "language",
+                "weight": "160",
+                "downloads": "21",
+                "final_weight": "654.56679253733057"
             }
         },
         {
@@ -168,6 +189,13 @@
                 "ios": "full",
                 "desktopWeb": "full",
                 "mobileWeb": "full"
+            },
+            "match": {
+                "name": "Khmer (SIL)",
+                "type": "keyboard",
+                "weight": "270",
+                "downloads": "3",
+                "final_weight": "644.29947750237056"
             }
         },
         {
@@ -209,6 +237,13 @@
                 "linux": "full",
                 "desktopWeb": "full",
                 "mobileWeb": "full"
+            },
+            "match": {
+                "name": "Khmer Basic",
+                "type": "keyboard",
+                "weight": "160",
+                "downloads": "1",
+                "final_weight": "270.90354888959126"
             }
         },
         {
@@ -249,6 +284,13 @@
                 "ios": "full",
                 "desktopWeb": "full",
                 "mobileWeb": "full"
+            },
+            "match": {
+                "name": "Khmer",
+                "type": "script",
+                "weight": "10",
+                "downloads": "1",
+                "final_weight": "16.931471805599454"
             }
         },
         {
@@ -284,7 +326,14 @@
             "authorEmail": "support@tavultesoft.com",
             "sourcePath": "legacy/kbd/kbdkhmr",
             "packageFileSize": 110334,
-            "deprecated": true
+            "deprecated": true,
+            "match": {
+                "name": "Khmer Basic",
+                "type": "keyboard",
+                "weight": "160",
+                "downloads": "0",
+                "final_weight": "160.0"
+            }
         },
         {
             "id": "khmer10",
@@ -325,7 +374,14 @@
             "packageFileSize": 110008,
             "documentationFileSize": 22745,
             "helpLink": "https://help.keyman.com/keyboard/khmer10",
-            "deprecated": true
+            "deprecated": true,
+            "match": {
+                "name": "NiDA Khmer",
+                "type": "keyboard",
+                "weight": "160",
+                "downloads": "0",
+                "final_weight": "160.0"
+            }
         }
     ]
 }
