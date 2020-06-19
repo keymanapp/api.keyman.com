@@ -1,10 +1,9 @@
 <?php
-  /** TODO: this is wrong
-   * TODO: we need to version this endpoint and continue to return *something* on original queries
-   * https://api.keyman.com/search?q=query-string
+  /**
+   * https://api.keyman.com/search/2.0?q=query-string
    *
-   * Search for a keyboard. Returns a result that lists all keyboards, languages and countries that match.
-   * https://api.keyman.com/schemas/search.json is JSON schema
+   * Search for a keyboard. Returns a result that lists all keyboards that match.
+   * https://api.keyman.com/schemas/search/2.0/search.json is JSON schema
    *
    * @param q    query-string   a partial string to search for in keyboard name, id, description, language.
    *                            prefixes:  c:id:<id>   show languages for the country with ISO code <id>

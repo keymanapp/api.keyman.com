@@ -33,8 +33,6 @@ namespace Keyman\Site\com\keyman\api\tests {
       // TODO(lowpri): find a way to skip this by emitting clean JSON object from WriteSearchResults()
       $json = json_decode(json_encode($json));
 
-      // TOOD: hmm, this schema seems to be fairly lax! It shouldn't be passing...
-
       // This will throw an exception if it does not pass
       $schema->in($json);
 
