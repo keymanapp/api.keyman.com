@@ -47,7 +47,23 @@ namespace Keyman\Site\com\keyman\api\tests {
       $mssql = \Keyman\Site\com\keyman\api\Tools\DB\DBConnect::Connect();
       $s = new \KeyboardSearch($mssql);
       $json = $s->GetSearchMatches('keyboard', null, 'khmer', 1);
-      $this->assertJsonStringEqualsJsonFile(__DIR__ . '/fixtures/Search.2.0.khmer.json', json_encode($json), "Search for 'khmer' gives same results as Search.khmer.json");
+      $this->assertJsonStringEqualsJsonFile(__DIR__ . '/fixtures/Search.2.0.khmer.json', json_encode($json), "Search for 'khmer' gives same results as Search.2.0.khmer.json");
+    }
+
+    public function testPhraseSearchResult()
+    {
+      $mssql = \Keyman\Site\com\keyman\api\Tools\DB\DBConnect::Connect();
+      $s = new \KeyboardSearch($mssql);
+      $json = $s->GetSearchMatches('keyboard', null, 'khmer angkor', 1);
+      $this->assertJsonStringEqualsJsonFile(__DIR__ . '/fixtures/Search.2.0.khmer-angkor.json', json_encode($json), "Search for 'khmer angkor' gives same results as Search.2.0.khmer-angkor.json");
+    }
+
+    public function testUnicodeSearchResult()
+    {
+      $mssql = \Keyman\Site\com\keyman\api\Tools\DB\DBConnect::Connect();
+      $s = new \KeyboardSearch($mssql);
+      $json = $s->GetSearchMatches('keyboard', null, 'ት', 1);
+      $this->assertJsonStringEqualsJsonFile(__DIR__ . '/fixtures/Search.2.0.ethiopic.json', json_encode($json), "Search for 'ት' gives same results as Search.2.0.ethiopic.json");
     }
   }
 }

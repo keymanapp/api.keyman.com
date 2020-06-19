@@ -42,7 +42,7 @@
 
       if(in_array($platform, array('macos', 'windows', 'linux', 'android', 'ios'))) {
         $result->platform = $platform;
-      } else if (in_array($platform, ['desktopWeb', 'mobileWeb'])) {
+      } else if (in_array($platform, ['desktopWeb', 'mobileWeb', 'web'])) {
         $result->platform = 'web';
       }
 
@@ -112,7 +112,8 @@
     }
 
     private function WriteSearchResults(KeyboardSearchResult $result) {
-      $this->GetSearchQueries($result);
+      if(!$this->GetSearchQueries($result))
+        return null;
 
       $data = array();
 
@@ -168,7 +169,12 @@
 
     function CleanQueryString($text) {
       // strip out characters we can't use in full text search
-      return preg_replace("/[^a-zA-Z0-9']/", '', $text);
+      if(preg_match_all("/(\\p{L}| )/u", $text, $matches)) {
+        $r = implode('', $matches[0]);
+      } else {
+        $r = "";
+      }
+      return $r;
     }
 
     /**
