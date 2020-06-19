@@ -65,5 +65,25 @@ namespace Keyman\Site\com\keyman\api\tests {
       $json = $s->GetSearchMatches('keyboard', null, 'ት', 1);
       $this->assertJsonStringEqualsJsonFile(__DIR__ . '/fixtures/Search.2.0.ethiopic.json', json_encode($json), "Search for 'ት' gives same results as Search.2.0.ethiopic.json");
     }
+
+    public function testKeyboardIdSearchResult()
+    {
+      $mssql = \Keyman\Site\com\keyman\api\Tools\DB\DBConnect::Connect();
+      $s = new \KeyboardSearch($mssql);
+      $json = json_decode(json_encode($s->GetSearchMatches('keyboard', null, 'khmer_', 1)));
+      $this->assertEquals(1, $json->context->totalRows);
+      $this->assertEquals('khmer_angkor', $json->keyboards[0]->id);
+    }
+
+    public function testDinkaSearchResult() {
+      $mssql = \Keyman\Site\com\keyman\api\Tools\DB\DBConnect::Connect();
+      $s = new \KeyboardSearch($mssql);
+      $json = json_decode(json_encode($s->GetSearchMatches('keyboard', null, 'Thuɔŋjäŋ', 1)));
+      $this->assertEquals(3, $json->context->totalRows);
+      $this->assertEquals('el_dinka', $json->keyboards[0]->id);
+      $this->assertEquals('dlia25bas', $json->keyboards[1]->id);
+      $this->assertEquals('dinkaweb11', $json->keyboards[2]->id);
+    }
+
   }
 }

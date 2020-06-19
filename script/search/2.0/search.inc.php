@@ -169,7 +169,7 @@
 
     function CleanQueryString($text) {
       // strip out characters we can't use in full text search
-      if(preg_match_all("/(\\p{L}| )/u", $text, $matches)) {
+      if(preg_match_all("/(\\p{L}|[ _])/u", $text, $matches)) {
         $r = implode('', $matches[0]);
       } else {
         $r = "";
@@ -357,6 +357,8 @@
         case 2: return 'language';
         case 3: return 'script';
         case 4: return 'region';
+        case 5: return 'keyboard_id';
+        case 6: return 'language_id';
         default: return 'unknown';
        }
     }

@@ -28,7 +28,8 @@ BEGIN
   declare @PageNumber INT = @prmPageNumber
 
   declare @name NVARCHAR(128) = @prmSearchText
-  declare @q NVARCHAR(128) = '"'+@name+'*"'
+  declare @q NVARCHAR(131) = '"'+@name+'*"'
+  declare @likename NVARCHAR(385) = REPLACE(@prmSearchText, '_', '[_]')+'%'
 
   declare @weight_langtag INT = 10
   declare @weight_region INT = 1
@@ -42,6 +43,7 @@ BEGIN
   declare @matchtype_langtag INT = 2
   declare @matchtype_script INT = 3
   declare @matchtype_region INT = 4
+  declare @matchtype_keyboard_id INT = 5
 
   -- #
   -- # Search across language names
@@ -142,6 +144,33 @@ BEGIN
     (@prmPlatform = 'web'     and k.platform_web > 0) or
     (@prmPlatform = 'windows' and k.platform_windows > 0))
 
+  -- #
+  -- # Search across keyboard id (LIKE match only)
+  -- #
+
+  insert
+    #tt_keyboard
+  select
+    k.keyboard_id,
+    k.name,
+    CASE
+      WHEN k.keyboard_id = @name THEN @weight_factor_exact_match -- 3x factor for exact match
+      ELSE 1
+    END * @weight_keyboard,
+    k.keyboard_id,
+    @matchtype_keyboard_id
+  from
+    t_keyboard k
+  where
+    k.keyboard_id LIKE @likename and (
+    (@prmPlatform is null) or
+    (@prmPlatform = 'android' and k.platform_android > 0) or
+    (@prmPlatform = 'ios'     and k.platform_ios > 0) or
+    (@prmPlatform = 'linux'   and k.platform_linux > 0) or
+    (@prmPlatform = 'macos'   and k.platform_macos > 0) or
+    (@prmPlatform = 'web'     and k.platform_web > 0) or
+    (@prmPlatform = 'windows' and k.platform_windows > 0))
+
   -- Add keyboards where the term appears in the description, lower weight
 
   insert
@@ -190,7 +219,7 @@ BEGIN
     (@prmPlatform = 'windows' and k.platform_windows > 0)
 
   -- #
-  -- # Build final list of langtags
+  -- # Build final list of results; two result sets: summary data and current page result
   -- #
 
   -- DEBUG: select * from #tt_keyboard order by weight desc
