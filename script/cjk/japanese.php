@@ -6,20 +6,21 @@
 
   require_once('../../tools/db/db.php');
 
+  $mssql = Keyman\Site\com\keyman\api\Tools\DB\DBConnect::Connect();
+
   if(isset($_GET['kana'])) {
     $kana=$_GET["kana"]; $id = 0;
     if(isset($_GET['id'])) $id=$_GET["id"];
 
-    if(($stmt = $mysql->prepare('
-      SELECT DISTINCT kanji, gloss, pri FROM cjk.kmw_japanese WHERE (kana=?) ORDER BY pri
+    if(($stmt = $mssql->prepare('
+      SELECT DISTINCT kanji, gloss, pri FROM kmw_japanese WHERE (kana=?) ORDER BY pri
     ')) === false) {
       fail("Failed to prepare query: {$mysql->error}\n");
     }
 
-    $stmt->bind_param("s", $kana);
+    $stmt->bindParam(1, $kana);
     if($stmt->execute()) {
-      $result = $stmt->get_result();
-      $data = $result->fetch_all();
+      $data = $stmt->fetchAll(PDO::FETCH_NUM);
 
       $t = ''; $u = '';
       $tt = '[';
@@ -36,17 +37,17 @@
       if($u == '') $u = '[]'; else $u .= ']';
     }
 
-    if(($stmt = $mysql->prepare('
-      SELECT DISTINCT kanji, gloss, pri FROM cjk.kmw_japanese WHERE ((kana LIKE ?) AND (kana <> ?)) ORDER BY pri LIMIT 20
+    if(($stmt = $mssql->prepare('
+      SELECT DISTINCT TOP 20 kanji, gloss, pri FROM kmw_japanese WHERE ((kana LIKE ?) AND (kana <> ?)) ORDER BY pri
     ')) === false) {
       fail("Failed to prepare query: {$mysql->error}\n");
     }
 
     $kanalike = $kana.'%';
-    $stmt->bind_param("ss", $kanalike, $kana);
+    $stmt->bindParam(1, $kanalike);
+    $stmt->bindParam(2, $kana);
     if($stmt->execute()) {
-      $result = $stmt->get_result();
-      $data = $result->fetch_all();
+      $data = $stmt->fetchAll(PDO::FETCH_NUM);
 
       $t1 = ''; $u1 = '';
       $tt = '[';
@@ -61,8 +62,6 @@
       if($t1 == '') $t1 = '[]'; else $t1 .= ']';
       if($u1 == '') $u1 = '[]'; else $u1 .= ']';
     }
-
-    $mysql->close();
 
     echo "Keyboard_japanese_obj.showCandidates(" . $id . ",'$kana'," . $t . "," . $t1 . "," . $u . "," . $u1 . ");";
   }

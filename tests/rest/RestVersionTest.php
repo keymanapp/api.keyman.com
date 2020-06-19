@@ -36,6 +36,6 @@ final class RestVersionTest extends RestTestCase
     $response = $this->http->request('GET', 'version');
     $this->assertStandardTextRestResponses($response);
     $body = $response->getBody()->getContents();
-    $this->assertEquals($body, $LEGACY_WEB_STABLE_VERSION);
+    $this->assertEquals($LEGACY_WEB_STABLE_VERSION, $body);
   }
 }
