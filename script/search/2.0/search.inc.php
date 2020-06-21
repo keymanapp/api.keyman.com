@@ -177,6 +177,10 @@
       return $r;
     }
 
+    function QueryStringToIdSearch($text) {
+      return preg_replace("/[^a-z0-9_. ]/i", '', $text);
+    }
+
     /**
      * LoadRegionSearch
      */
@@ -302,11 +306,13 @@
         // generic text search
         $result->rangetext = "Keyboards matching '{$result->searchtext}'";
         $text = $this->CleanQueryString($text);
-        $stmt = $this->new_query('EXEC sp_keyboard_search ?, ?, ?, ?');
+        $idtext = $this->QueryStringToIdSearch($text);
+        $stmt = $this->new_query('EXEC sp_keyboard_search ?, ?, ?, ?, ?');
         $stmt->bindParam(1, $text);
-        $stmt->bindParam(2, $result->platform);
-        $stmt->bindParam(3, $result->pageNumber, PDO::PARAM_INT);
-        $stmt->bindParam(4, $result->pageSize, PDO::PARAM_INT);
+        $stmt->bindParam(2, $idtext);
+        $stmt->bindParam(3, $result->platform);
+        $stmt->bindParam(4, $result->pageNumber, PDO::PARAM_INT);
+        $stmt->bindParam(5, $result->pageSize, PDO::PARAM_INT);
         break;
 
       default:

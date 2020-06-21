@@ -7,6 +7,7 @@ GO
 
 CREATE PROCEDURE sp_keyboard_search
   @prmSearchText nvarchar(250),
+  @prmIDSearchText nvarchar(250), -- should be ascii (ideally, id only /[a-z][a-z0-9_]*/)
   @prmPlatform nvarchar(32),
   @prmPageNumber int,
   @prmPageSize int
@@ -29,7 +30,8 @@ BEGIN
 
   declare @name NVARCHAR(128) = @prmSearchText
   declare @q NVARCHAR(131) = '"'+@name+'*"'
-  declare @likename NVARCHAR(385) = REPLACE(@prmSearchText, '_', '[_]')+'%'
+
+  declare @likeid NVARCHAR(385) = CASE WHEN @prmIDSearchText='' THEN '' ELSE REPLACE(@prmIDSearchText, '_', '[_]')+'%' END
 
   declare @weight_langtag INT = 10
   declare @weight_region INT = 1
@@ -162,7 +164,7 @@ BEGIN
   from
     t_keyboard k
   where
-    k.keyboard_id LIKE @likename and (
+    k.keyboard_id LIKE @likeid and (
     (@prmPlatform is null) or
     (@prmPlatform = 'android' and k.platform_android > 0) or
     (@prmPlatform = 'ios'     and k.platform_ios > 0) or
