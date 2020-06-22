@@ -42,7 +42,7 @@ AS
     name as name,
     case
       when name = @name or name_kd = @name then @weight_factor_exact_match -- exact match gets 3x weight factor
-      else 1 -- otherwise same weight
+      else 3-log10(len(name)) -- otherwise give slightly greater weight to shorter matches
     end * @weight_langtag as weight,
     name as match_name,
     'language' as match_type
