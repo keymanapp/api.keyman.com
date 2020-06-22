@@ -21,13 +21,13 @@ BEGIN
   declare @weight_factor_exact_match INT = 3
 
   -- #
-  -- # Search across language names, region names and country names
+  -- # Search across language names, country names and country names
   -- #
 
   insert @tt_langtag select * from f_keyboard_search_langtag_by_country_iso3166_code(@prmSearchText, @weight_country)
 
   -- #
-  -- # Add all langtag, script and region matches to the keyboards temp table, with appropriate weights
+  -- # Add all country matches to the keyboards temp table, with appropriate weights
   -- #
 
   insert @tt_keyboard select * from f_keyboard_search_keyboards_from_langtags(@prmPlatform, @tt_langtag)
