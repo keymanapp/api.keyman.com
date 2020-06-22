@@ -42,7 +42,7 @@
 
       if(in_array($platform, array('macos', 'windows', 'linux', 'android', 'ios'))) {
         $result->platform = $platform;
-      } else if (in_array($platform, ['desktopWeb', 'mobileWeb'])) {
+      } else if (in_array($platform, ['desktopWeb', 'mobileWeb', 'web'])) {
         $result->platform = 'web';
       }
 
@@ -112,7 +112,8 @@
     }
 
     private function WriteSearchResults(KeyboardSearchResult $result) {
-      $this->GetSearchQueries($result);
+      if(!$this->GetSearchQueries($result))
+        return null;
 
       $data = array();
 
@@ -168,7 +169,16 @@
 
     function CleanQueryString($text) {
       // strip out characters we can't use in full text search
-      return preg_replace("/[^a-zA-Z0-9']/", '', $text);
+      if(preg_match_all("/(\\p{L}|[ _])/u", $text, $matches)) {
+        $r = implode('', $matches[0]);
+      } else {
+        $r = "";
+      }
+      return $r;
+    }
+
+    function QueryStringToIdSearch($text) {
+      return preg_replace("/[^a-z0-9_. ]/i", '', $text);
     }
 
     /**
@@ -296,11 +306,13 @@
         // generic text search
         $result->rangetext = "Keyboards matching '{$result->searchtext}'";
         $text = $this->CleanQueryString($text);
-        $stmt = $this->new_query('EXEC sp_keyboard_search ?, ?, ?, ?');
+        $idtext = $this->QueryStringToIdSearch($text);
+        $stmt = $this->new_query('EXEC sp_keyboard_search ?, ?, ?, ?, ?');
         $stmt->bindParam(1, $text);
-        $stmt->bindParam(2, $result->platform);
-        $stmt->bindParam(3, $result->pageNumber, PDO::PARAM_INT);
-        $stmt->bindParam(4, $result->pageSize, PDO::PARAM_INT);
+        $stmt->bindParam(2, $idtext);
+        $stmt->bindParam(3, $result->platform);
+        $stmt->bindParam(4, $result->pageNumber, PDO::PARAM_INT);
+        $stmt->bindParam(5, $result->pageSize, PDO::PARAM_INT);
         break;
 
       default:
@@ -351,6 +363,8 @@
         case 2: return 'language';
         case 3: return 'script';
         case 4: return 'region';
+        case 5: return 'keyboard_id';
+        case 6: return 'language_id';
         default: return 'unknown';
        }
     }
