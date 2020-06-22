@@ -54,14 +54,14 @@ AS
 GO
 
 -- #
--- # Search across region tag
+-- # Search across country ISO 3166 code
 -- #
 DROP FUNCTION IF EXISTS f_keyboard_search_langtag_by_country_iso3166_code;
 GO
 
 CREATE FUNCTION f_keyboard_search_langtag_by_country_iso3166_code (
   @q NVARCHAR(131),
-  @weight_region int
+  @weight_country int
 ) RETURNS
 TABLE
 AS
@@ -69,7 +69,7 @@ AS
   select
     t.tag as tag,
     t.name as name,
-    @weight_region as weight,
+    @weight_country as weight,
     t.region as match_name,
     'country_iso3166_code' as match_type
   from
@@ -79,14 +79,14 @@ AS
 GO
 
 -- #
--- # Search across regions
+-- # Search across countries
 -- #
-DROP FUNCTION IF EXISTS f_keyboard_search_langtag_by_region;
+DROP FUNCTION IF EXISTS f_keyboard_search_langtag_by_country;
 GO
 
-CREATE FUNCTION f_keyboard_search_langtag_by_region (
+CREATE FUNCTION f_keyboard_search_langtag_by_country (
   @name NVARCHAR(128), @q NVARCHAR(131),
-  @weight_factor_exact_match int, @weight_region int
+  @weight_factor_exact_match int, @weight_country int
 ) RETURNS
 TABLE
 AS
@@ -94,7 +94,7 @@ AS
   select
     t.tag as tag,
     t.name as name,
-    @weight_region as weight,
+    @weight_country as weight,
     tr.name as match_name,
     'country' as match_type
   from
@@ -398,7 +398,7 @@ BEGIN
   declare @likeid NVARCHAR(385) = CASE WHEN @prmIDSearchText='' THEN '' ELSE REPLACE(@prmIDSearchText, '_', '[_]')+'%' END
 
   declare @weight_langtag INT = 10
-  declare @weight_region INT = 1
+  declare @weight_country INT = 1
   declare @weight_script INT = 5
   declare @weight_keyboard INT = 30
   declare @weight_keyboard_id INT = 25
@@ -406,11 +406,11 @@ BEGIN
   declare @weight_factor_exact_match INT = 3
 
   -- #
-  -- # Search across language names, region names and country names
+  -- # Search across language names, country names and script names
   -- #
 
   insert @tt_langtag select * from f_keyboard_search_langtag_by_language(@prmSearchText, @q, @weight_factor_exact_match, @weight_langtag)
-  insert @tt_langtag select * from f_keyboard_search_langtag_by_region(@prmSearchText, @q, @weight_factor_exact_match, @weight_region)
+  insert @tt_langtag select * from f_keyboard_search_langtag_by_country(@prmSearchText, @q, @weight_factor_exact_match, @weight_country)
   insert @tt_langtag select * from f_keyboard_search_langtag_by_script(@prmSearchText, @q, @weight_factor_exact_match, @weight_script)
 
   -- #
@@ -422,7 +422,7 @@ BEGIN
   insert @tt_keyboard select * from f_keyboard_search_by_description(@prmSearchText, @q, @prmPlatform, @weight_factor_exact_match, @weight_keyboard_description)
 
   -- #
-  -- # Add all langtag, script and region matches to the keyboards temp table, with appropriate weights
+  -- # Add all langtag, country and script matches to the keyboards temp table, with appropriate weights
   -- #
 
   insert @tt_keyboard select * from f_keyboard_search_keyboards_from_langtags(@prmPlatform, @tt_langtag)
