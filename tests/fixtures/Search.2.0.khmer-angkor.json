@@ -62,9 +62,9 @@
             "match": {
                 "name": "Khmer Angkor",
                 "type": "keyboard",
-                "weight": "90",
-                "downloads": "37",
-                "final_weight": "417.3827543753747"
+                "weight": 90,
+                "downloads": 37,
+                "finalWeight": 417.3827543753747
             }
         }
     ]
