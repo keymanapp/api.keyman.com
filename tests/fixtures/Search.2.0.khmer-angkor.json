@@ -2,7 +2,7 @@
     "context": {
         "range": "Keyboards matching 'khmer angkor'",
         "text": "khmer angkor",
-        "pageSize": 100,
+        "pageSize": 10,
         "pageNumber": 1,
         "totalRows": 1,
         "totalPages": 1
