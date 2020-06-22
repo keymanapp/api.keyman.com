@@ -34,12 +34,11 @@ BEGIN
 
   -- Result matches
   SELECT
-    k.name match_name,
+    @varTag match_name,
     0 match_type,
     1 match_weight,
     COALESCE(kd.count, 0) download_count, -- missing count record = 0 downloads over last 30 days
-    1 final_weight,
-
+    1 * (LOG(COALESCE(kd.count+1, 1))+1) final_weight,
     k.keyboard_id,
     k.name,
     k.author_name,
@@ -83,6 +82,7 @@ BEGIN
   ORDER BY
     k.deprecated ASC,
     k.is_unicode DESC,
+    5 DESC, --final_weight
     k.name
   offset
     @prmPageSize * (@prmPageNumber - 1) rows

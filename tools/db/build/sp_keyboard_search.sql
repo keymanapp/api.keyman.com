@@ -2,138 +2,173 @@
  sp_keyboard_search
 */
 
-DROP PROCEDURE IF EXISTS sp_keyboard_search;
+-- These functions must be dropped first because they use the table types
+DROP FUNCTION IF EXISTS f_keyboard_search_keyboards_from_langtags;
 GO
 
-CREATE PROCEDURE sp_keyboard_search
-  @prmSearchText nvarchar(250),
-  @prmIDSearchText nvarchar(250), -- should be ascii (ideally, id only /[a-z][a-z0-9_]*/)
-  @prmPlatform nvarchar(32),
-  @prmPageNumber int,
-  @prmPageSize int
+DROP FUNCTION IF EXISTS f_keyboard_search_results;
+GO
+
+DROP FUNCTION IF EXISTS f_keyboard_search_statistics;
+GO
+
+DROP TYPE IF EXISTS tt_keyboard_search_langtag
+GO
+
+DROP TYPE IF EXISTS tt_keyboard_search_keyboard
+GO
+
+CREATE TYPE tt_keyboard_search_langtag AS TABLE (tag NVARCHAR(128), name NVARCHAR(128), weight int, match_name NVARCHAR(128), match_type NVARCHAR(32))
+GO
+
+CREATE TYPE tt_keyboard_search_keyboard AS TABLE (keyboard_id NVARCHAR(256), name NVARCHAR(256), weight int, match_name NVARCHAR(256), match_type NVARCHAR(32))
+GO
+
+-- #
+-- # Search across language names
+-- #
+DROP FUNCTION IF EXISTS f_keyboard_search_langtag_by_language;
+GO
+
+CREATE FUNCTION f_keyboard_search_langtag_by_language (
+  @name NVARCHAR(128), @q NVARCHAR(131),
+  @weight_factor_exact_match int, @weight_langtag int
+) RETURNS
+TABLE
 AS
-BEGIN
-  SET NOCOUNT ON;
-
-  drop table if exists #tt_langtag
-  drop table if exists #tt_region
-  drop table if exists #tt_script
-  drop table if exists #tt_keyboard
-
-  create table #tt_langtag (tag NVARCHAR(128), name NVARCHAR(128), weight int, match_name NVARCHAR(128), match_type int)
-  create table #tt_region (region_id NVARCHAR(3), name NVARCHAR(64))
-  create table #tt_script (script_id NVARCHAR(4), name NVARCHAR(64))
-  create table #tt_keyboard (keyboard_id NVARCHAR(256), name NVARCHAR(256), weight int, match_name NVARCHAR(256), match_type int)
-
-  declare @PageSize INT = @prmPageSize
-  declare @PageNumber INT = @prmPageNumber
-
-  declare @name NVARCHAR(128) = @prmSearchText
-  declare @q NVARCHAR(131) = '"'+@name+'*"'
-
-  declare @likeid NVARCHAR(385) = CASE WHEN @prmIDSearchText='' THEN '' ELSE REPLACE(@prmIDSearchText, '_', '[_]')+'%' END
-
-  declare @weight_langtag INT = 10
-  declare @weight_region INT = 1
-  declare @weight_script INT = 5
-  declare @weight_keyboard INT = 30
-  declare @weight_keyboard_description INT = 5
-  declare @weight_factor_exact_match INT = 3
-
-  declare @matchtype_keyboard INT = 0
-  declare @matchtype_keyboard_description INT = 1
-  declare @matchtype_langtag INT = 2
-  declare @matchtype_script INT = 3
-  declare @matchtype_region INT = 4
-  declare @matchtype_keyboard_id INT = 5
-
-  -- #
-  -- # Search across language names
-  -- #
-
-  insert
-    #tt_langtag
+  return
   select
-    tag,
-    name,
+    tag as tag,
+    name as name,
     case
       when name = @name or name_kd = @name then @weight_factor_exact_match -- exact match gets 3x weight factor
       else 1 -- otherwise same weight
-    end * @weight_langtag,
-    name,
-    @matchtype_langtag
+    end * @weight_langtag as weight,
+    name as match_name,
+    'language' as match_type
   from
     t_langtag_name
   where
     CONTAINS(name, @q) or
     CONTAINS(name_kd, @q)
+GO
 
-  -- #
-  -- # Search across regions
-  -- #
+-- #
+-- # Search across region tag
+-- #
+DROP FUNCTION IF EXISTS f_keyboard_search_langtag_by_region_tag;
+GO
 
-  -- TODO: merge #tt_region in a subquery once we have stabilised the algorithm
-
-  insert #tt_region
-    select region_id, name from t_region where contains(name, @q)
-
-  -- Add region matches to language tag list
-
-  insert
-    #tt_langtag
+CREATE FUNCTION f_keyboard_search_langtag_by_region_tag (
+  @q NVARCHAR(131),
+  @weight_region int
+) RETURNS
+TABLE
+AS
+  return
   select
-    t.tag, t.name, @weight_region, tr.name, @matchtype_region
+    t.tag as tag,
+    t.name as name,
+    @weight_region as weight,
+    t.region as match_name,
+    'country' as match_type
   from
-    #tt_region tr inner join
-    t_langtag t on tr.region_id = t.region
-
-  -- #
-  -- # Search across scripts
-  -- #
-
-  -- TODO: merge #tt_script in a subquery once we have stabilised the algorithm
-
-  insert
-    #tt_script
-  select
-    script_id,
-    name
-  from
-    t_script
+    t_langtag t
   where
-    CONTAINS(name, @q)
+    t.region = @q
+GO
 
-  -- Add script matches to language tag list
+-- #
+-- # Search across regions
+-- #
+DROP FUNCTION IF EXISTS f_keyboard_search_langtag_by_region;
+GO
 
-  insert
-    #tt_langtag
+CREATE FUNCTION f_keyboard_search_langtag_by_region (
+  @name NVARCHAR(128), @q NVARCHAR(131),
+  @weight_factor_exact_match int, @weight_region int
+) RETURNS
+TABLE
+AS
+  return
   select
-    t.tag,
-    t.name,
-    @weight_script,
-    ts.name,
-    @matchtype_script
+    t.tag as tag,
+    t.name as name,
+    @weight_region as weight,
+    tr.name as match_name,
+    'country' as match_type
   from
-    #tt_script ts inner join
-    t_langtag t on ts.script_id = t.script
+    (select region_id, name from t_region where contains(name, @q)) tr inner join
+    t_langtag t on tr.region_id = t.region
+GO
 
-  -- DEBUG: select * from #tt_langtag order by weight desc
+-- #
+-- # Search across scripts
+-- #
+DROP FUNCTION IF EXISTS f_keyboard_search_langtag_by_script;
+GO
 
-  -- #
-  -- # Search across keyboards
-  -- #
-
-  insert
-    #tt_keyboard
+CREATE FUNCTION f_keyboard_search_langtag_by_script (
+  @name NVARCHAR(128), @q NVARCHAR(131),
+  @weight_factor_exact_match int, @weight_script int
+) RETURNS
+TABLE
+AS
+  return
   select
-    k.keyboard_id,
-    k.name,
+    t.tag as tag,
+    t.name as name,
+    @weight_script as weight,
+    ts.name as match_name,
+    'script' as match_type
+  from
+    (select script_id, name from t_script where CONTAINS(name, @q)) ts inner join
+    t_langtag t on ts.script_id = t.script
+GO
+
+DROP FUNCTION IF EXISTS f_keyboard_search_langtag_by_script;
+GO
+
+CREATE FUNCTION f_keyboard_search_langtag_by_script_tag (
+  @name NVARCHAR(128),
+  @weight_script int
+) RETURNS
+TABLE
+AS
+  return
+  select
+    t.tag as tag,
+    t.name as name,
+    @weight_script as weight,
+    t.script as match_name,
+    'script' as match_type
+  from
+    t_langtag t
+  where t.script LIKE @name
+GO
+
+-- #
+-- # Search across keyboards
+-- #
+DROP FUNCTION IF EXISTS f_keyboard_search;
+GO
+
+CREATE FUNCTION f_keyboard_search (
+  @name NVARCHAR(128), @q NVARCHAR(131), @prmPlatform nvarchar(32),
+  @weight_factor_exact_match int, @weight_keyboard int
+) RETURNS
+TABLE
+AS
+  return
+  select
+    k.keyboard_id as keyboard_id,
+    k.name as name,
     CASE
       WHEN k.name = @name THEN @weight_factor_exact_match -- 3x factor for exact match
       ELSE 1
-    END * @weight_keyboard,
-    k.name,
-    @matchtype_keyboard
+    END * @weight_keyboard as weight,
+    k.name as match_name,
+    'keyboard' as match_type
   from
     t_keyboard k
   where
@@ -145,22 +180,30 @@ BEGIN
     (@prmPlatform = 'macos'   and k.platform_macos > 0) or
     (@prmPlatform = 'web'     and k.platform_web > 0) or
     (@prmPlatform = 'windows' and k.platform_windows > 0))
+GO
 
-  -- #
-  -- # Search across keyboard id (LIKE match only)
-  -- #
+-- #
+-- # Search across keyboard identifier
+-- #
+DROP FUNCTION IF EXISTS f_keyboard_search_by_id;
+GO
 
-  insert
-    #tt_keyboard
+CREATE FUNCTION f_keyboard_search_by_id (
+  @name NVARCHAR(128), @likeid NVARCHAR(385), @prmPlatform nvarchar(32),
+  @weight_factor_exact_match int, @weight_keyboard_id int
+) RETURNS
+TABLE
+AS
+  return
   select
-    k.keyboard_id,
-    k.name,
+    k.keyboard_id as keyboard_id,
+    k.name as name,
     CASE
       WHEN k.keyboard_id = @name THEN @weight_factor_exact_match -- 3x factor for exact match
       ELSE 1
-    END * @weight_keyboard,
-    k.keyboard_id,
-    @matchtype_keyboard_id
+    END * @weight_keyboard_id as weight,
+    k.keyboard_id as match_name,
+    'keyboard_id' as match_type
   from
     t_keyboard k
   where
@@ -172,17 +215,27 @@ BEGIN
     (@prmPlatform = 'macos'   and k.platform_macos > 0) or
     (@prmPlatform = 'web'     and k.platform_web > 0) or
     (@prmPlatform = 'windows' and k.platform_windows > 0))
+GO
 
-  -- Add keyboards where the term appears in the description, lower weight
+-- #
+-- # Search across keyboard description
+-- #
+DROP FUNCTION IF EXISTS f_keyboard_search_by_description;
+GO
 
-  insert
-    #tt_keyboard
+CREATE FUNCTION f_keyboard_search_by_description (
+  @name NVARCHAR(128), @q NVARCHAR(131), @prmPlatform nvarchar(32),
+  @weight_factor_exact_match int, @weight_keyboard_description int
+) RETURNS
+TABLE
+AS
+  return
   select
-    k.keyboard_id,
-    k.name,
-    @weight_keyboard_description,
-    NULL, -- if the match_text is null, we know that we should highlight the term in the description in the results
-    @matchtype_keyboard_description
+    k.keyboard_id as keyboard_id,
+    k.name as name,
+    @weight_keyboard_description as weight,
+    NULL as match_name, -- if the match_text is null, we know that we should highlight the term in the description in the results
+    'description' as match_type
   from
     t_keyboard k
   where
@@ -194,13 +247,17 @@ BEGIN
     (@prmPlatform = 'macos'   and k.platform_macos > 0) or
     (@prmPlatform = 'web'     and k.platform_web > 0) or
     (@prmPlatform = 'windows' and k.platform_windows > 0))
+GO
 
-  -- #
-  -- # Add all langtag, script and region matches to the keyboards temp table, with appropriate weights
-  -- #
+-- #
+-- # Build keyboard search results from langtags
+-- #
 
-  insert
-    #tt_keyboard
+CREATE FUNCTION f_keyboard_search_keyboards_from_langtags(
+  @prmPlatform NVARCHAR(32), @tt_langtags tt_keyboard_search_langtag READONLY)
+RETURNS TABLE
+AS
+  return
   select
     k.keyboard_id,
     k.name,
@@ -210,7 +267,7 @@ BEGIN
   from
     t_keyboard k inner join
     t_keyboard_langtag lt on k.keyboard_id = lt.keyboard_id inner join
-    #tt_langtag tlt on lt.tag = tlt.tag
+    @tt_langtags tlt on lt.tag = tlt.tag
   where
     (@prmPlatform is null) or
     (@prmPlatform = 'android' and k.platform_android > 0) or
@@ -219,24 +276,36 @@ BEGIN
     (@prmPlatform = 'macos'   and k.platform_macos > 0) or
     (@prmPlatform = 'web'     and k.platform_web > 0) or
     (@prmPlatform = 'windows' and k.platform_windows > 0)
+GO
 
-  -- #
-  -- # Build final list of results; two result sets: summary data and current page result
-  -- #
+-- #
+-- # Get keyboard search result statistics
+-- #
 
-  -- DEBUG: select * from #tt_keyboard order by weight desc
-
-  SET NOCOUNT OFF;
-
+CREATE FUNCTION f_keyboard_search_statistics(@PageSize INT, @PageNumber INT, @tt_keyboard tt_keyboard_search_keyboard READONLY)
+RETURNS TABLE
+AS
+  return
   select
-    count(distinct keyboard_id) total_count
+    count(distinct keyboard_id) total_count,
+    @PageSize page_size,
+    @PageNumber page_number
   from
-    #tt_keyboard;
+    @tt_keyboard;
+GO
 
+-- #
+-- # Get keyboard search result
+-- #
+
+CREATE FUNCTION f_keyboard_search_results(@PageSize INT, @PageNumber INT, @tt_keyboard tt_keyboard_search_keyboard READONLY)
+RETURNS TABLE
+AS
+  return
   select
     match_name,
     match_type,
-    (select sum(weight) from #tt_keyboard k2 where keyboard_id = temp.keyboard_id) match_weight,
+    (select sum(weight) from @tt_keyboard k2 where keyboard_id = temp.keyboard_id) match_weight,
 
     COALESCE(kd.count, 0) download_count, -- missing count record = 0 downloads over last 30 days
 
@@ -246,7 +315,7 @@ BEGIN
       need to adjust the log factor in future.
     */
 
-    (select sum(weight) from #tt_keyboard k2 where keyboard_id = temp.keyboard_id) *
+    (select sum(weight) from @tt_keyboard k2 where keyboard_id = temp.keyboard_id) *
     (LOG(COALESCE(kd.count+1, 1))+1) final_weight,
 
     k.keyboard_id,
@@ -283,7 +352,7 @@ BEGIN
         match_name,
         match_type,
         row_number() over(partition by keyboard_id order by weight desc) as roworder
-      from #tt_keyboard
+      from @tt_keyboard
     ) temp inner join
     t_keyboard k on temp.keyboard_id = k.keyboard_id left join
     t_keyboard_downloads kd on temp.keyboard_id = kd.keyboard_id
@@ -297,5 +366,68 @@ BEGIN
     @PageSize * (@PageNumber - 1) rows
   fetch next
     @PageSize rows only
+GO
+
+-- #
+-- # sp_keyboard_search
+-- #
+
+DROP PROCEDURE IF EXISTS sp_keyboard_search;
+GO
+
+CREATE PROCEDURE sp_keyboard_search
+  @prmSearchText nvarchar(250),
+  @prmIDSearchText nvarchar(250), -- should be ascii (ideally, id only /[a-z][a-z0-9_]*/)
+  @prmPlatform nvarchar(32),
+  @prmPageNumber int,
+  @prmPageSize int
+AS
+BEGIN
+  SET NOCOUNT ON;
+
+  declare @tt_langtag tt_keyboard_search_langtag
+  declare @tt_keyboard tt_keyboard_search_keyboard
+
+  declare @q NVARCHAR(131) = '"'+@prmSearchText+'*"'
+  declare @likeid NVARCHAR(385) = CASE WHEN @prmIDSearchText='' THEN '' ELSE REPLACE(@prmIDSearchText, '_', '[_]')+'%' END
+
+  declare @weight_langtag INT = 10
+  declare @weight_region INT = 1
+  declare @weight_script INT = 5
+  declare @weight_keyboard INT = 30
+  declare @weight_keyboard_id INT = 30
+  declare @weight_keyboard_description INT = 5
+  declare @weight_factor_exact_match INT = 3
+
+  -- #
+  -- # Search across language names, region names and country names
+  -- #
+
+  insert @tt_langtag select * from f_keyboard_search_langtag_by_language(@prmSearchText, @q, @weight_factor_exact_match, @weight_langtag)
+  insert @tt_langtag select * from f_keyboard_search_langtag_by_region(@prmSearchText, @q, @weight_factor_exact_match, @weight_region)
+  insert @tt_langtag select * from f_keyboard_search_langtag_by_script(@prmSearchText, @q, @weight_factor_exact_match, @weight_script)
+
+  -- #
+  -- # Search across keyboards
+  -- #
+
+  insert @tt_keyboard select * from f_keyboard_search(@prmSearchText, @q, @prmPlatform, @weight_factor_exact_match, @weight_keyboard)
+  insert @tt_keyboard select * from f_keyboard_search_by_id(@prmSearchText, @likeid, @prmPlatform, @weight_factor_exact_match, @weight_keyboard_id)
+  insert @tt_keyboard select * from f_keyboard_search_by_description(@prmSearchText, @q, @prmPlatform, @weight_factor_exact_match, @weight_keyboard_description)
+
+  -- #
+  -- # Add all langtag, script and region matches to the keyboards temp table, with appropriate weights
+  -- #
+
+  insert @tt_keyboard select * from f_keyboard_search_keyboards_from_langtags(@prmPlatform, @tt_langtag)
+
+  -- #
+  -- # Build final list of results; two result sets: summary data and current page result
+  -- #
+
+  SET NOCOUNT OFF;
+
+  select * from f_keyboard_search_statistics(@prmPageSize, @prmPageNumber, @tt_keyboard)
+  select * from f_keyboard_search_results(@prmPageSize, @prmPageNumber, @tt_keyboard)
 END
 GO

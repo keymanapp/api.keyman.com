@@ -48,5 +48,5 @@ BEGIN
     t_keyboard k left join
     t_keyboard_downloads kd on k.keyboard_id = kd.keyboard_id
   WHERE
-    k.keyboard_id = @prmSearchPlain
+    k.keyboard_id LIKE @prmSearchPlain+'%'
 END
