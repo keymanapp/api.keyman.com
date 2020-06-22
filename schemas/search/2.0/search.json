@@ -36,7 +36,13 @@
               "type": "object",
               "properties": {
                 "name": { "oneOf": [ { "type": "string" }, { "type": "null"} ] },
-                "type": { "type": "string" },
+                "type": { "type": "string", "enum": [
+                  "keyboard", "keyboard_id", "description", "legacy_keyboard_id",
+                  "language", "language_bcp47_tag",
+                  "country", "country_iso3166_code",
+                  "script", "script_iso15924_code"
+                ] },
+                "tag": { "type": "string" },
                 "weight": { "type": "number" },
                 "downloads": { "type": "number" },
                 "finalWeight": { "type": "number" }

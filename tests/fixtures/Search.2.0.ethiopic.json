@@ -99,6 +99,7 @@
             "match": {
                 "name": "\u1275\u130d\u122b\u12ed\u1275",
                 "type": "language",
+                "tag": "tig",
                 "weight": 30,
                 "downloads": 470,
                 "finalWeight": 214.64574282049253
@@ -162,6 +163,7 @@
             "match": {
                 "name": "\u1275\u130d\u122d\u129b",
                 "type": "language",
+                "tag": "ti-ER",
                 "weight": 30,
                 "downloads": 234,
                 "finalWeight": 193.78756542432478
@@ -228,6 +230,7 @@
             "match": {
                 "name": "\u1275\u130d\u122d\u129b",
                 "type": "language",
+                "tag": "ti",
                 "weight": 30,
                 "downloads": 226,
                 "finalWeight": 192.74850052444208
@@ -325,6 +328,7 @@
             "match": {
                 "name": "\u1275\u130d\u122b\u12ed\u1275",
                 "type": "language",
+                "tag": "tig",
                 "weight": 30,
                 "downloads": 149,
                 "finalWeight": 180.31905882288765
@@ -375,6 +379,7 @@
             "match": {
                 "name": "\u1275\u130d\u122d\u129b",
                 "type": "language",
+                "tag": "ti",
                 "weight": 30,
                 "downloads": 0,
                 "finalWeight": 30.0
@@ -425,6 +430,7 @@
             "match": {
                 "name": "\u1275\u130d\u122d\u129b",
                 "type": "language",
+                "tag": "ti",
                 "weight": 30,
                 "downloads": 0,
                 "finalWeight": 30.0
@@ -508,6 +514,7 @@
             "match": {
                 "name": "\u1275\u130d\u122d\u129b",
                 "type": "language",
+                "tag": "ti",
                 "weight": 30,
                 "downloads": 0,
                 "finalWeight": 30.0
@@ -556,6 +563,7 @@
             "match": {
                 "name": "\u1275\u130d\u122d\u129b",
                 "type": "language",
+                "tag": "ti",
                 "weight": 30,
                 "downloads": 0,
                 "finalWeight": 30.0
@@ -604,6 +612,7 @@
             "match": {
                 "name": "\u1275\u130d\u122d\u129b",
                 "type": "language",
+                "tag": "ti",
                 "weight": 30,
                 "downloads": 0,
                 "finalWeight": 30.0
@@ -646,6 +655,7 @@
             "match": {
                 "name": "\u1275\u130d\u122d\u129b",
                 "type": "language",
+                "tag": "ti",
                 "weight": 30,
                 "downloads": 0,
                 "finalWeight": 30.0
