@@ -27,7 +27,7 @@
   class KeyboardSearch {
     private $mssql;
 
-    const PAGESIZE = 100; //TODO: reduce to 10 once we support pagniation on keyman.com
+    const PAGESIZE = 10;
 
     const FILTERS = [
       'k:id:'      => KeyboardSearchResult::FILTER_KEYBOARD_ID,
@@ -79,7 +79,7 @@
 
       $data = array();
 
-      $totalPages = round(($result->totalRows + $result->pageSize - 1)/$result->pageSize);
+      $totalPages = intval(($result->totalRows + $result->pageSize - 1)/$result->pageSize);
 
       $data['context'] = [
         'range' => $result->rangetext,
