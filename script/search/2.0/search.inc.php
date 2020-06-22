@@ -74,10 +74,9 @@
     }
 
     private function WriteSearchResults(KeyboardSearchResult $result) {
-      if(!$this->GetSearchQueries($result))
-        return null;
+      $data = ['keyboards' => []];
 
-      $data = array();
+      $status = $this->GetSearchQueries($result);
 
       $totalPages = intval(($result->totalRows + $result->pageSize - 1)/$result->pageSize);
 
@@ -90,12 +89,15 @@
         'totalPages' => $totalPages
       ];
 
+      if(!$status) {
+        return $data;
+      }
+
       if($result->platform !== null) {
         $data['context']['platform'] = $result->platform;
       }
 
       if(isset($result->keyboards) && sizeof($result->keyboards) > 0) {
-        $data['keyboards'] = array();
         foreach ($result->keyboards as $keyboard) {
           array_push($data['keyboards'], $keyboard);
         }
@@ -104,7 +106,7 @@
       return $data;
     }
 
-    function new_query($s) {
+    function new_query($s): PDOStatement {
       return $this->mssql->prepare($s);
     }
 
@@ -131,6 +133,7 @@
      */
 
     private function GetSearchQueries(KeyboardSearchResult $result) {
+      $result->totalRows = 0;
       $text = $this->CleanQueryString($result->text);
       $idtext = $this->QueryStringToIdSearch($text);
 
@@ -232,8 +235,17 @@
         return false;
       }
 
-      $stmt->execute();
-      $data = $stmt->fetchAll();
+      if(!$stmt->execute()) {
+        $result->totalRows = 0;
+        return false;
+      }
+
+      try {
+        $data = $stmt->fetchAll();
+      } catch(PDOException $e) {
+        //@error_log($e->getMessage());
+        return false;
+      }
 
       // if the result set has a total_count field and just one row, it's a summary set for paginated results
       if(count($data) == 1 && isset($data[0]['total_count'])) {
