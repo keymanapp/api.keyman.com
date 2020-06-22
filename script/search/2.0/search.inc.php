@@ -81,10 +81,9 @@
 
       $totalPages = round(($result->totalRows + $result->pageSize - 1)/$result->pageSize);
 
-      // TODO: fixup schema
-
       $data['context'] = [
         'range' => $result->rangetext,
+        'text' => $result->searchtext,
         'pageSize' => $result->pageSize,
         'pageNumber' => $result->pageNumber,
         'totalRows' => $result->totalRows,

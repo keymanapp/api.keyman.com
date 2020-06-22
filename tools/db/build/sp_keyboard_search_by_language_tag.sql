@@ -35,7 +35,7 @@ BEGIN
   -- Result matches
   SELECT
     @varTag match_name,
-    0 match_type,
+    'language_id' match_type,
     1 match_weight,
     COALESCE(kd.count, 0) download_count, -- missing count record = 0 downloads over last 30 days
     1 * (LOG(COALESCE(kd.count+1, 1))+1) final_weight,

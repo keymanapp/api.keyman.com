@@ -71,7 +71,7 @@ AS
     t.name as name,
     @weight_region as weight,
     t.region as match_name,
-    'country' as match_type
+    'country_id' as match_type
   from
     t_langtag t
   where
@@ -141,7 +141,7 @@ AS
     t.name as name,
     @weight_script as weight,
     t.script as match_name,
-    'script' as match_type
+    'script_id' as match_type
   from
     t_langtag t
   where t.script LIKE @name
