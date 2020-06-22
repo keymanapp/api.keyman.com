@@ -62,9 +62,9 @@
           "match": {
               "name": "Khmer",
               "type": "language",
-              "weight": "190",
+              "weight": "185",
               "downloads": "37",
-              "final_weight": "881.14137034801331"
+              "final_weight": "857.9534395493813"
           }
       },
       {
@@ -191,8 +191,8 @@
               "mobileWeb": "full"
           },
           "match": {
-              "name": "Khmer (SIL)",
-              "type": "keyboard",
+              "name": "Khmer",
+              "type": "language",
               "weight": "270",
               "downloads": "3",
               "final_weight": "644.29947750237056"
@@ -239,8 +239,8 @@
               "mobileWeb": "full"
           },
           "match": {
-              "name": "Khmer Basic",
-              "type": "keyboard",
+              "name": "Khmer",
+              "type": "language",
               "weight": "160",
               "downloads": "1",
               "final_weight": "270.90354888959126"
@@ -286,8 +286,8 @@
               "mobileWeb": "full"
           },
           "match": {
-              "name": "Khmer",
-              "type": "script",
+              "name": null,
+              "type": "description",
               "weight": "10",
               "downloads": "1",
               "final_weight": "16.931471805599454"
@@ -334,11 +334,11 @@
           "helpLink": "https://help.keyman.com/keyboard/khmer10",
           "deprecated": true,
           "match": {
-              "name": "NiDA Khmer",
-              "type": "keyboard",
-              "weight": "190",
+              "name": "Khmer",
+              "type": "language",
+              "weight": "185",
               "downloads": "0",
-              "final_weight": "190.0"
+              "final_weight": "185.0"
           }
       },
       {
@@ -376,8 +376,8 @@
           "packageFileSize": 110334,
           "deprecated": true,
           "match": {
-              "name": "Khmer Basic",
-              "type": "keyboard",
+              "name": "Khmer",
+              "type": "language",
               "weight": "160",
               "downloads": "0",
               "final_weight": "160.0"

@@ -56,10 +56,10 @@ GO
 -- #
 -- # Search across region tag
 -- #
-DROP FUNCTION IF EXISTS f_keyboard_search_langtag_by_region_tag;
+DROP FUNCTION IF EXISTS f_keyboard_search_langtag_by_country_iso3166_code;
 GO
 
-CREATE FUNCTION f_keyboard_search_langtag_by_region_tag (
+CREATE FUNCTION f_keyboard_search_langtag_by_country_iso3166_code (
   @q NVARCHAR(131),
   @weight_region int
 ) RETURNS
@@ -71,7 +71,7 @@ AS
     t.name as name,
     @weight_region as weight,
     t.region as match_name,
-    'country_id' as match_type
+    'country_iso3166_code' as match_type
   from
     t_langtag t
   where
@@ -126,10 +126,10 @@ AS
     t_langtag t on ts.script_id = t.script
 GO
 
-DROP FUNCTION IF EXISTS f_keyboard_search_langtag_by_script_tag;
+DROP FUNCTION IF EXISTS f_keyboard_search_langtag_by_script_iso15924_code;
 GO
 
-CREATE FUNCTION f_keyboard_search_langtag_by_script_tag (
+CREATE FUNCTION f_keyboard_search_langtag_by_script_iso15924_code (
   @name NVARCHAR(128),
   @weight_script int
 ) RETURNS
@@ -141,7 +141,7 @@ AS
     t.name as name,
     @weight_script as weight,
     t.script as match_name,
-    'script_id' as match_type
+    'script_iso15924_code' as match_type
   from
     t_langtag t
   where t.script LIKE @name
@@ -351,7 +351,13 @@ AS
         keyboard_id,
         match_name,
         match_type,
-        row_number() over(partition by keyboard_id order by weight desc) as roworder
+        row_number() over(
+          partition by keyboard_id
+          order by
+            weight desc, -- primary order
+            match_name,  -- helps sort shorter matches earlier
+            match_type   -- allows consistent results for equal weight+name
+          ) as roworder
       from @tt_keyboard
     ) temp inner join
     t_keyboard k on temp.keyboard_id = k.keyboard_id left join
@@ -395,7 +401,7 @@ BEGIN
   declare @weight_region INT = 1
   declare @weight_script INT = 5
   declare @weight_keyboard INT = 30
-  declare @weight_keyboard_id INT = 30
+  declare @weight_keyboard_id INT = 25
   declare @weight_keyboard_description INT = 5
   declare @weight_factor_exact_match INT = 3
 

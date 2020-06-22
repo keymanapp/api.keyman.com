@@ -62,9 +62,9 @@
             "match": {
                 "name": "Khmer Angkor",
                 "type": "keyboard",
-                "weight": "65",
+                "weight": "60",
                 "downloads": "37",
-                "final_weight": "301.44310038221505"
+                "final_weight": "278.25516958358315"
             }
         },
         {
@@ -336,9 +336,9 @@
             "match": {
                 "name": "NiDA Khmer",
                 "type": "keyboard",
-                "weight": "65",
+                "weight": "60",
                 "downloads": "0",
-                "final_weight": "65.0"
+                "final_weight": "60.0"
             }
         },
         {

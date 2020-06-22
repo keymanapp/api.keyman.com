@@ -1,11 +1,11 @@
 -- #
--- # sp_keyboard_search_by_country_tag
+-- # sp_keyboard_search_by_script_iso15924_code
 -- #
 
-DROP PROCEDURE IF EXISTS sp_keyboard_search_by_country_tag;
+DROP PROCEDURE IF EXISTS sp_keyboard_search_by_script_iso15924_code;
 GO
 
-CREATE PROCEDURE sp_keyboard_search_by_country_tag
+CREATE PROCEDURE sp_keyboard_search_by_script_iso15924_code
   @prmSearchText nvarchar(250),
   @prmPlatform nvarchar(32),
   @prmPageNumber int,
@@ -17,14 +17,13 @@ BEGIN
   declare @tt_langtag tt_keyboard_search_langtag
   declare @tt_keyboard tt_keyboard_search_keyboard
 
-  declare @weight_region INT = 1
-  declare @weight_factor_exact_match INT = 3
+  declare @weight_script INT = 5
 
   -- #
   -- # Search across language names, region names and country names
   -- #
 
-  insert @tt_langtag select * from f_keyboard_search_langtag_by_region_tag(@prmSearchText, @weight_region)
+  insert @tt_langtag select * from f_keyboard_search_langtag_by_script_iso15924_code(@prmSearchText+'%', @weight_script)
 
   -- #
   -- # Add all langtag, script and region matches to the keyboards temp table, with appropriate weights
