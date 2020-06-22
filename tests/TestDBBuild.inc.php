@@ -39,11 +39,14 @@ namespace Keyman\Site\com\keyman\api\tests {
 
   class TestDBBuild
   {
-    static function Build($force = false)
+    static function Build()
     {
       // Connect to database. TODO: refactor with DBConnect
       global $mssqlconninfo, $mysqluser, $mysqlpw;
       $activedb = new \ActiveDB();
+
+      $force = !empty($_SERVER['TEST_REBUILD']);
+      unset($_SERVER['TEST_REBUILD']); // wow, but means this only gets run once :)
 
       $db = $activedb->get();
       try {

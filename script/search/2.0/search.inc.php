@@ -3,19 +3,14 @@
   require_once(__DIR__ . '/../../../tools/db/db.php');
 
   class KeyboardSearchResult {
-    const FILTER_SEARCH='search'; // default, search for the text string [any context]
+    const FILTER_SEARCH='search'; // default, search for the text string
     const FILTER_ALL='all';       // return all possible results ?? TODO: check meaning of this
-    const FILTER_ID='id';         // filter by identifier per context, e.g. keyboard id, language tag, etc. [any context]
-    const FILTER_LEGACY='legacy'; // keyboards only, filter by a legacy id [CONTEXT_KEYBOARD]
-    const FILTER_LANGUAGE='language'; // search string is a language tag; [CONTEXT_KEYBOARD]
-    const FILTER_REGION='region';     // search string is a country identifier; [CONTEXT_LANGUAGE, later:CONTEXT_KEYBOARD]
-
-    const CONTEXT_KEYBOARD='keyboard';
-    const CONTEXT_LANGUAGE='language';
-    const CONTEXT_REGION='region';
+    const FILTER_ID='id';         // filter by identifier e.g. keyboard id, language tag, etc.
+    const FILTER_LEGACY='legacy'; // keyboards only, filter by a legacy id
+    const FILTER_LANGUAGE='language'; // search string is a language tag
+    const FILTER_REGION='region';     // search string is a country identifier
 
     public string $filter;   // none|id|legacy|language|region
-    public string $context;  // keyboard|language|region
 
     public $text, $searchtext;
 
@@ -34,9 +29,8 @@
       $this->mssql = $mssql;
     }
 
-    function GetSearchMatches($context, $platform, $query, $pageNumber) {
+    function GetSearchMatches($platform, $query, $pageNumber) {
       $result = new KeyboardSearchResult();
-      $result->context = $context;
       $result->pageSize = KeyboardSearch::PAGESIZE;
       $result->pageNumber = $pageNumber;
 
@@ -68,47 +62,7 @@
 
     private function GetSearchQueries(KeyboardSearchResult $result) {
       $result->searchtext = strip_tags($result->searchtext);
-
-      switch($result->context) {
-      case KeyboardSearchResult::CONTEXT_KEYBOARD:
-        return $this->LoadKeyboardSearch($result);
-
-      case KeyboardSearchResult::CONTEXT_LANGUAGE:
-        switch($result->filter) {
-        case KeyboardSearchResult::FILTER_ALL:
-          $result->rangetext = "All languages matching '{$result->searchtext}'";
-          $result->languages = $this->LoadLanguageSearch($result->text, 1, $result->allmatch);
-          break;
-        case KeyboardSearchResult::FILTER_ID:
-          $result->rangetext = "Languages with BCP 47 code '{$result->searchtext}'";
-          $result->languages = $this->LoadLanguageSearch($result->text, 1, $result->allmatch);
-          break;
-        case KeyboardSearchResult::FILTER_SEARCH:
-          $result->rangetext = "Languages matching '{$result->searchtext}'";
-          $result->languages = $this->LoadLanguageSearch($result->text, 0, $result->allmatch); //?
-          break;
-        }
-        break;
-
-      case KeyboardSearchResult::CONTEXT_REGION:
-        if($result->regionmatch) {
-          $result->rangetext = "Countries in {$result->region}";
-          $result->countries = $this->LoadRegionSearch($result->text, $result->regionmatch ? 2 : 1);
-        }
-        //else if($result->allmatch && $result->idmatch) $rangetext = "All languages for country with ISO3166-1 code '{$result->searchtext}'";
-        //else if($result->allmatch) $rangetext = "Countries matching '{$result->searchtext}'";
-        else if($result->idmatch) {
-//          $rangetext = "Languages for country with ISO3166-1 code '{$result->searchtext}'";
-//          $langs = $this->LoadLanguageSearch($result->text, 2, $result->allmatch);
-          $result->countries = $this->LoadRegionSearch($result->text, $result->regionmatch ? 2 : 1);
-        } else {
-          $result->rangetext = "Countries matching '{$result->searchtext}'";
-          $result->countries = $this->LoadRegionSearch($result->text, $result->regionmatch ? 2 : 1);
-        }
-        break;
-      }
-
-      return true;
+      return $this->LoadKeyboardSearch($result);
     }
 
     private function WriteSearchResults(KeyboardSearchResult $result) {
@@ -123,7 +77,6 @@
 
       $data['context'] = [
         'range' => $result->rangetext,
-        'context' => $result->context,
         'pageSize' => $result->pageSize,
         'pageNumber' => $result->pageNumber,
         'totalRows' => $result->totalRows,
@@ -179,93 +132,6 @@
 
     function QueryStringToIdSearch($text) {
       return preg_replace("/[^a-z0-9_. ]/i", '', $text);
-    }
-
-    /**
-     * LoadRegionSearch
-     */
-
-    function LoadRegionSearch($text, $matchtype) {
-      // TODO: pagination, langtags-based search
-      $stmt = $this->new_query('EXEC sp_country_search ?,?,?');
-      // For ISO matches, we are actually searching on plain text. For all others, it's a regex so escape everything to avoid polluting the regex
-      $regextext = $this->RegexEscape($text);
-      $stmt->bindParam(1, $regextext);
-      $stmt->bindParam(2, $text);
-      $stmt->bindParam(3, $matchtype, PDO::PARAM_INT);
-      $stmt->execute();
-      $data = $stmt->fetchAll(PDO::FETCH_ASSOC);
-
-      $stmt->nextRowset();
-      $languages = $stmt->fetchAll(PDO::FETCH_ASSOC);
-
-      $stmt->nextRowset();
-      $keyboards = $stmt->fetchAll();
-
-      for($i = count($languages) - 1; $i >= 0; $i--) {
-        $languages[$i]['keyboards'] = array();
-        foreach($keyboards as $keyboard) {
-          if($keyboard['language_id'] == $languages[$i]['id']) {
-            array_push($languages[$i]['keyboards'], $keyboard['keyboard_id']);
-          }
-        }
-        if(count($languages[$i]['keyboards']) == 0) {
-          // we don't support allmatch for country searches because it's too big a dataset
-          array_splice($languages, $i, 1);
-        }
-      }
-
-      for($i = count($data) - 1; $i >= 0; $i--) {
-        $data[$i]['languages'] = array();
-        foreach($languages as $language) {
-          if($language['country_id'] == $data[$i]['id']) {
-            array_push($data[$i]['languages'], $language);
-          }
-        }
-        if(count($data[$i]['languages']) == 0) {
-          array_splice($data, $i, 1);
-        }
-      }
-
-      return $data;
-    }
-
-    /**
-     *  LoadLanguageSearch
-     */
-
-    function LoadLanguageSearch($text, $matchtype, $allmatch) {
-      // TODO: pagination, langtags-based search
-      $stmt = $this->new_query('EXEC sp_language_search ?,?,?,?');
-      $allmatch = $allmatch ? 1 : 0;
-      // For ISO matches, we are actually searching on plain text. For all others, it's a regex so escape everything to avoid polluting the regex
-      $regextext = $this->RegexEscape($text);
-      //var_dump($matchtype, $text); exit;
-      $stmt->bindParam(1, $regextext);
-      $stmt->bindParam(2, $text);
-      $stmt->bindParam(3, $matchtype);
-      $stmt->bindParam(4, $allmatch);
-      $stmt->execute();
-      $data = $stmt->fetchAll(PDO::FETCH_ASSOC);
-
-      $stmt->nextRowset();
-      $keyboards = $stmt->fetchAll();
-
-      for($i = count($data) - 1; $i >= 0; $i--) {
-        $data[$i]['keyboards'] = array();
-        foreach($keyboards as $keyboard) {
-          if($keyboard['language_id'] == $data[$i]['id']) array_push($data[$i]['keyboards'], $keyboard['keyboard_id']);
-        }
-        if(count($data[$i]['keyboards']) == 0) {
-          if($allmatch) {
-            unset($data[$i]['keyboards']);
-          } else {
-            array_splice($data, $i, 1);
-          }
-        }
-      }
-
-      return $data;
     }
 
     /**
@@ -365,6 +231,7 @@
         case 4: return 'region';
         case 5: return 'keyboard_id';
         case 6: return 'language_id';
+        //case 7: return 'region_id';
         default: return 'unknown';
        }
     }

@@ -1,19 +1,22 @@
 <?php
-  /** TODO: this is wrong
-   * TODO: we need to version this endpoint and continue to return *something* on original queries
-   * https://api.keyman.com/search?q=query-string
+  /**
+   * https://api.keyman.com/search/2.0?[f=1&]q=query-string
    *
-   * Search for a keyboard. Returns a result that lists all keyboards, languages and countries that match.
+   * Search for a keyboard. Returns a result that lists all keyboards that match, based on
    * https://api.keyman.com/schemas/search.json is JSON schema
    *
-   * @param q    query-string   a partial string to search for in keyboard name, id, description, language.
-   *                            prefixes:  c:id:<id>   show languages for the country with ISO code <id>
-   *                                       l:id:<id>   show keyboards for the language with BCP 47 code <id>
-   *                                       k:id:<id>   show keyboard with the id <id>
-   *                                       c:<text>    show only countries (regions)
-   *                                       l:<text>    show only languages matching <text>
-   *                                       k:<text>    show only keyboards
-   *                                       k:legacy:<id> show keyboard with the legacy integer id <id>
+   * @param q    query-string   a partial string to search for in keyboard name, id, description, language, script, country.
+   *                            name, description, language, script, country all use full text search with decomposition of
+   *                            diacritics, normalisation etc. Ids use plain text matches.
+   *                            prefixes:  c:<name>    show keyboards for the countries matching <name>
+   *                                       c:id:<id>   show keyboards for the country with ISO 3166 <id>
+   *                                       l:<name>    show keyboards for the languages matching <name>
+   *                                       l:id:<id>   show keyboards for the language with BCP 47 code <id>.
+   *                                                   This code will be canonicalized according to langtags.json.
+   *                                       id:<id>     show keyboard with the id <id>
+   *                                       legacy:<id> show keyboard with the legacy integer id <id>
+   * @param f                   if 1, then return formatted JSON
+   * @param p                   page number to return (10 results per page) [TODO]
    * @param platform            one of 'macos', 'windows', 'linux', 'android', 'ios', 'desktopWeb', 'mobileWeb'
    */
 
@@ -30,17 +33,11 @@
     fail('Query string must be set');
   }
 
-  header('Link: <https://api.keyman.com/schemas/search.json#>; rel="describedby"');
+  header('Link: <https://api.keyman.com/schemas/search/2.0/search.json#>; rel="describedby"');
   //header('') TODO: add page information to results
 
   $query = $_REQUEST['q'];
   $platform = isset($_REQUEST['platform']) ? $_REQUEST['platform'] : null;
-
-  if(isset($_REQUEST['c'])) {
-    $context = $_REQUEST['c'];
-   } else {
-    $context = KeyboardSearchResult::CONTEXT_KEYBOARD;
-   }
 
   if(isset($_REQUEST['p'])) {
     $pageNumber = (int)($_REQUEST['p']);
@@ -50,9 +47,9 @@
   }
 
   $s = new KeyboardSearch($mssql);
-  $json = $s->GetSearchMatches($context, $platform, $query, $pageNumber);
+  $json = $s->GetSearchMatches($platform, $query, $pageNumber);
 
-  if(isset($_REQUEST['f']))
+  if(isset($_REQUEST['f']) && !empty($_REQUEST['f']))
     json_print($json);
   else
     echo json_encode($json, JSON_UNESCAPED_SLASHES);
