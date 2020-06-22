@@ -126,7 +126,7 @@ AS
     t_langtag t on ts.script_id = t.script
 GO
 
-DROP FUNCTION IF EXISTS f_keyboard_search_langtag_by_script;
+DROP FUNCTION IF EXISTS f_keyboard_search_langtag_by_script_tag;
 GO
 
 CREATE FUNCTION f_keyboard_search_langtag_by_script_tag (
