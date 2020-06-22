@@ -248,7 +248,7 @@ CREATE TABLE t_iso639_3 (
                             /* E(xtinct), H(istorical), L(iving), S(pecial)*/
   Ref_Name   nvarchar(150) NOT NULL,   /* Reference language name */
   _Comment    nvarchar(150) NULL,      /* Comment relating to one or more of the columns*/
-  CanonicalId nchar(3) NULL   /* The canonical ID, being either Part1 or Id */
+  CanonicalId nvarchar(3) NULL   /* The canonical ID, being either Part1 or Id */
 );
 
 DROP TABLE IF EXISTS t_iso639_3_names;
@@ -297,7 +297,13 @@ CREATE TABLE t_ethnologue_language_index (
 
 DROP TABLE IF EXISTS t_dbdatasources;
 CREATE TABLE t_dbdatasources (
-  uri NVARCHAR(260) NOT NULL,
-  filename NVARCHAR(260) NOT NULL,
-  date INT NOT NULL
+  uri NVARCHAR(260) NULL,
+  filename NVARCHAR(260) NULL,
+  date INT NULL
 );
+
+DROP TABLE IF EXISTS t_keyboard_downloads;
+CREATE TABLE t_keyboard_downloads (
+  keyboard_id NVARCHAR(260) NOT NULL,
+  count INT NOT NULL
+)

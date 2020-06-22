@@ -1,0 +1,71 @@
+{
+    "context": {
+        "range": "Keyboards matching 'khmer angkor'",
+        "context": "keyboard",
+        "pageSize": 100,
+        "pageNumber": 1,
+        "totalRows": 1,
+        "totalPages": 1
+    },
+    "keyboards": [
+        {
+            "license": "mit",
+            "languages": {
+                "km": {
+                    "font": {
+                        "family": "Mondulkiri",
+                        "source": [
+                            "Mondulkiri-R.ttf"
+                        ]
+                    },
+                    "displayName": "Central Khmer",
+                    "languageName": "Central Khmer"
+                }
+            },
+            "description": "<p>Khmer Unicode keyboard layout based on the NiDA keyboard layout. Automatically corrects many common keying errors.</p>",
+            "related": {
+                "khmer10": {
+                    "deprecates": true
+                }
+            },
+            "id": "khmer_angkor",
+            "name": "Khmer Angkor",
+            "authorName": "Makara Sok",
+            "authorEmail": "makara@keyman.com",
+            "lastModifiedDate": "2020-06-12T00:39:43.475Z",
+            "sourcePath": "release/k/khmer_angkor",
+            "version": "1.0.6",
+            "packageFilename": "khmer_angkor.kmp",
+            "jsFilename": "khmer_angkor.js",
+            "encodings": [
+                "unicode"
+            ],
+            "jsFileSize": 63881,
+            "packageFileSize": 2639344,
+            "packageIncludes": [
+                "visualKeyboard",
+                "welcome",
+                "fonts",
+                "documentation"
+            ],
+            "minKeymanVersion": "10.0",
+            "helpLink": "https://help.keyman.com/keyboard/khmer_angkor",
+            "platformSupport": {
+                "windows": "full",
+                "macos": "full",
+                "linux": "full",
+                "android": "full",
+                "ios": "full",
+                "desktopWeb": "full",
+                "mobileWeb": "full"
+            },
+            "match": {
+                "name": "Khmer Angkor",
+                "type": "keyboard",
+                "weight": "90",
+                "downloads": "37",
+                "final_weight": "417.3827543753747"
+            }
+        }
+    ]
+}

@@ -1,11 +1,52 @@
 <?php
-  require_once(__DIR__ . '/../../tools/util.php');
-  require_once(__DIR__ . '/../../tools/db/db.php');
+  require_once('../../../tools/util.php');
+
+  allow_cors();
+  json_response();
+
+  require_once('../../../tools/db/db.php');
+  $mssql = Keyman\Site\com\keyman\api\Tools\DB\DBConnect::Connect();
+
+  header('Link: <https://api.keyman.com/schemas/search/1.0/search.json#>; rel="describedby"');
 
   define('rmAll', 7);
   define('rmCountry', 1);
   define('rmLanguage', 2);
   define('rmKeyboard', 4);
+
+  /**
+    https://api.keyman.com/search?q=query-string
+
+    Search for a keyboard. Returns a result that lists all keyboards, languages and countries that match.
+    https://api.keyman.com/schemas/search.json is JSON schema
+
+    @param q    query-string   a partial string to search for in keyboard name, id, description, language.
+                               prefixes:  c:id:<id>   show languages for the country with ISO code <id>
+                                          l:id:<id>   show keyboards for the language with BCP 47 code <id>
+                                          k:id:<id>   show keyboard with the id <id>
+                                          c:<text>    show only countries (regions)
+                                          l:<text>    show only languages matching <text>
+                                          k:<text>    show only keyboards
+                                          k:legacy:<id> show keyboard with the legacy integer id <id>
+  */
+
+  if(!isset($_REQUEST['q'])) {
+    fail('Query string must be set');
+  }
+
+  $q = $_REQUEST['q'];
+
+  $s = new KeyboardSearch($mssql);
+  if(isset($_REQUEST['platform'])) {
+    $platform = $_REQUEST['platform'];
+    if(in_array($platform, array('macos', 'windows', 'linux', 'android', 'ios', 'desktopWeb', 'mobileWeb'))) {
+      $s->platform = $platform;
+    }
+  }
+  $s->GetSearchMatches($q);
+  $json = $s->WriteSearchResults();
+
+  json_print($json);
 
   class KeyboardSearchResult {
     public $search; // search query has been entered
@@ -21,12 +62,6 @@
 
     function __construct($mssql) {
       $this->mssql = $mssql;
-    }
-
-    function SetPlatform($platform) {
-      if(in_array($platform, array('macos', 'windows', 'linux', 'android', 'ios', 'desktopWeb', 'mobileWeb'))) {
-        $this->platform = $platform;
-      }
     }
 
     function GetSearchMatches($query) {
@@ -82,7 +117,7 @@
       return $this->result->searchtext;
     }
 
-    private $gsq_complete=false, $gsq_rangetext, $gsq_count, $gsq_countries = [], $gsq_langs = [], $gsq_keyboards = [];
+    private $gsq_complete=false, $gsq_rangetext, $gsq_count, $gsq_countries, $gsq_langs, $gsq_keyboards;
 
     private function GetSearchQueries(&$rangetext, &$count, &$countries, &$langs, &$keyboards) {
       if(!$this->gsq_complete) {
@@ -171,21 +206,21 @@
         $result['rangetext'] = $rangetext;
       }
 
-      if(sizeof($countries) > 0) {
+      if(isset($countries) && sizeof($countries) > 0) {
         $result['countries'] = array();
         foreach ($countries as $country) {
           array_push($result['countries'], $country);
         }
       }
 
-      if(sizeof($langs) > 0) {
+      if(isset($langs) && sizeof($langs) > 0) {
         $result['languages'] = array();
         foreach($langs as $lang) {
           array_push($result['languages'], $lang);
         }
       }
 
-      if(sizeof($keyboards) > 0) {
+      if(isset($keyboards) && sizeof($keyboards) > 0) {
         $result['keyboards'] = array();
         foreach ($keyboards as $keyboard) {
           array_push($result['keyboards'], $keyboard);
@@ -195,12 +230,13 @@
       return $result;
     }
 
-    function new_query($s) {
+    function new_query($s): PDOStatement {
       return $this->mssql->prepare($s);
     }
 
     function RegexEscape($text) {
-      return $text . '%';
+      $result = '%' . $text . '%';
+      return $result;
     }
 
     /**
@@ -208,20 +244,20 @@
     */
 
     function LoadRegionSearch($text, $matchtype) {
-      $stmt = $this->new_query('EXEC sp_country_search ?,?,?');
+      $stmt = $this->new_query('EXEC sp_country_search_10 ?,?,?');
       // For ISO matches, we are actually searching on plain text. For all others, it's a regex so escape everything to avoid polluting the regex
       $regextext = $this->RegexEscape($text);
       $stmt->bindParam(1, $regextext);
       $stmt->bindParam(2, $text);
       $stmt->bindParam(3, $matchtype, PDO::PARAM_INT);
-      $stmt->execute();
+      $stmt->execute() || fail('Unable to execute search for sp_country_search');
       $data = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
       $stmt->nextRowset();
       $languages = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
       $stmt->nextRowset();
-      $keyboards = $stmt->fetchAll();
+      $keyboards = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
       for($i = count($languages) - 1; $i >= 0; $i--) {
         $languages[$i]['keyboards'] = array();
@@ -256,11 +292,10 @@
     */
 
     function LoadLanguageSearch($text, $matchtype, $allmatch) {
-      $stmt = $this->new_query('EXEC sp_language_search ?,?,?,?');
+      $stmt = $this->new_query('EXEC sp_language_search_10 ?,?,?,?');
       $allmatch = $allmatch ? 1 : 0;
       // For ISO matches, we are actually searching on plain text. For all others, it's a regex so escape everything to avoid polluting the regex
       $regextext = $this->RegexEscape($text);
-      //var_dump($matchtype, $text); exit;
       $stmt->bindParam(1, $regextext);
       $stmt->bindParam(2, $text);
       $stmt->bindParam(3, $matchtype);
@@ -295,22 +330,23 @@
     function LoadKeyboardSearch($text, $matchtype) {
       $data = [];
       $regextext = $this->RegexEscape($text);
-      $stmt = $this->new_query('EXEC sp_keyboard_search ?,?,?');
+      $stmt = $this->new_query('EXEC sp_keyboard_search_10 ?,?,?');
       $stmt->bindParam(1, $regextext);
       $stmt->bindParam(2, $text);
-      $stmt->bindParam(3, $matchtype);
+      $stmt->bindParam(3, $matchtype, PDO::PARAM_INT);
       $stmt->execute();
+      // $data = $stmt->fetchAll();
 
-      $result = [];
-      $data = $stmt->fetchAll();
-      for($i = 0; $i < count($data); $i++) {
-        $row = $data[$i];
+
+
+      while(($row = $stmt->fetch(PDO::FETCH_ASSOC)) !== FALSE) {
+        // Append 'deprecated' to the model data
         $rowdata = json_decode($row['keyboard_info']);
         if($row['deprecated']) $rowdata->deprecated = true;
-        array_push($result, $rowdata);
+        array_push($data, $rowdata);
       }
 
-      return $result;
+      return $data;
     }
 
     /**
@@ -337,3 +373,4 @@
       return $result;
     }
   }
+?>

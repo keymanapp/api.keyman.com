@@ -5,7 +5,7 @@ CREATE TABLE t_langtag (
   iso639_3 NVARCHAR(3),
   region NVARCHAR(3) NOT NULL,
   regionname NVARCHAR(128),
-  name NVARCHAR(128) NOT NULL,
+  name NVARCHAR(128) NOT NULL, -- this is not used for search, only for primary name result
   -- localname NVARCHAR(128), this field is deprecated; look at t_langtag_name
   sldr BIT,
   nophonvars BIT,
@@ -16,6 +16,7 @@ CREATE TABLE t_langtag (
 
 DROP TABLE IF EXISTS t_langtag_name;
 CREATE TABLE t_langtag_name (
+  _id INT NOT NULL IDENTITY(1,1),
   tag NVARCHAR(128) NOT NULL,
   name NVARCHAR(128) NOT NULL,
   name_kd NVARCHAR(128), -- NFKD, accents stripped for search (never displayed)
@@ -25,10 +26,10 @@ CREATE TABLE t_langtag_name (
 
 DROP TABLE IF EXISTS t_langtag_tag;
 CREATE TABLE t_langtag_tag (
+  base_tag NVARCHAR(128) NOT NULL,
   tag NVARCHAR(128) NOT NULL,
-  alttag NVARCHAR(128) NOT NULL,
-  alttagtype INT, -- 0=tag, 1=variant
-  foreign key (tag) REFERENCES t_langtag (tag)
+  tagtype INT, -- 0=base_tag, 1=alternate tag, 2=variant, 3=windows, 4=full
+  foreign key (base_tag) REFERENCES t_langtag (tag)
 );
 
 DROP TABLE IF EXISTS t_langtag_region;
@@ -38,3 +39,8 @@ CREATE TABLE t_langtag_region (
   foreign key (tag) REFERENCES t_langtag (tag)
 );
 
+DROP TABLE IF EXISTS t_keyboard_langtag
+CREATE TABLE t_keyboard_langtag (
+  keyboard_id NVARCHAR(256) NOT NULL,
+  tag NVARCHAR(128) NOT NULL
+);

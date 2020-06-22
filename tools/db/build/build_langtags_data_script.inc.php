@@ -1,6 +1,9 @@
 <?php
   require_once(__DIR__ . '/common.inc.php');
   require_once(__DIR__ . '/datasources.inc.php');
+  require_once(__DIR__ . '/../LangTags.php');
+
+  use Keyman\Site\com\keyman\api\LangTags;
 
   class build_sql_standards_data_langtags extends build_common {
 
@@ -61,25 +64,38 @@
 
       $names = isset($obj->names) ? $obj->names : [];
       if(array_search($obj->name, $names) === FALSE) array_unshift($names, $obj->name);
-      $sql .= $this->process_entry_names(0, $obj->tag, $names);
+      $sql .= $this->process_entry_names(LangTags::NAMETYPE_NAME, $obj->tag, $names);
 
-      if(isset($obj->localnames)) $sql .= $this->process_entry_names(1, $obj->tag, $obj->localnames);
-      if(isset($obj->latnname)) $sql .= $this->process_entry_names(2, $obj->tag, $obj->latnnames); // TODO we lose association with localnames here
+      if(isset($obj->localnames)) $sql .= $this->process_entry_names(LangTags::NAMETYPE_LOCAL, $obj->tag, $obj->localnames);
+      if(isset($obj->latnnames)) $sql .= $this->process_entry_names(LangTags::NAMETYPE_LATN, $obj->tag, $obj->latnnames); // TODO we lose association with localnames here
       if(isset($obj->iana)) {
         if(is_array($obj->iana)) $iana = $obj->iana;
         else $iana = [$obj->iana];
-        $sql .= $this->process_entry_names(3, $obj->tag, $iana);
+        $sql .= $this->process_entry_names(LangTags::NAMETYPE_IANA, $obj->tag, $iana);
       }
 
       // Add all tags to our search index
 
       $tags = isset($obj->tags) ? $obj->tags : [];
-      if(array_search($obj->windows, $tags) === FALSE) array_unshift($tags, $obj->windows);
-      if(array_search($obj->full, $tags) === FALSE) array_unshift($tags, $obj->full);
-      if(array_search($obj->tag, $tags) === FALSE) array_unshift($tags, $obj->tag);
-      $sql .= $this->process_entry_tags(0, $obj->tag, $tags);
+      assert(array_search($obj->tag, $tags) === FALSE);
 
-      if(isset($obj->variants)) $sql .= $this->process_entry_tags(1, $obj->tag, $obj->variants);
+      $sql .= $this->process_entry_tags(LangTags::TAGTYPE_TAG, $obj->tag, [$obj->tag]);
+      $sql .= $this->process_entry_tags(LangTags::TAGTYPE_ALTERNATE, $obj->tag, $tags);
+      array_unshift($tags, $obj->tag);
+
+      if(isset($obj->windows) && array_search($obj->windows, $tags) === FALSE) {
+        $sql .= $this->process_entry_tags(LangTags::TAGTYPE_WINDOWS, $obj->tag, [$obj->windows]);
+        array_unshift($tags, $obj->windows);
+      }
+
+      if(isset($obj->full) && array_search($obj->full, $tags) === FALSE) {
+        $sql .= $this->process_entry_tags(LangTags::TAGTYPE_FULL, $obj->tag, [$obj->full]);
+        array_unshift($tags, $obj->full);
+      }
+
+      if(isset($obj->variants)) {
+        $sql .= $this->process_entry_tags(LangTags::TAGTYPE_VARIANT, $obj->tag, $obj->variants);
+      }
 
       // Add regions to our search index
       $regions = isset($obj->regions) ? $obj->regions : [];
@@ -99,10 +115,10 @@
       return $sql;
     }
 
-    private function process_entry_tags($alttagtype, $tag, $alttags) {
+    private function process_entry_tags($tagtype, $base_tag, $tags) {
       $sql = '';
-      foreach($alttags as $alttag) {
-        $sql .= "INSERT t_langtag_tag (tag, alttag, alttagtype) SELECT {$this->sqlv0($tag)}, {$this->sqlv0($alttag)}, {$this->sqlv0($alttagtype)};\n";
+      foreach($tags as $tag) {
+        $sql .= "INSERT t_langtag_tag (base_tag, tag, tagtype) SELECT {$this->sqlv0($base_tag)}, {$this->sqlv0($tag)}, {$this->sqlv0($tagtype)};\n";
       }
       return $sql;
     }
