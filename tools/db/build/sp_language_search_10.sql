@@ -18,7 +18,7 @@ BEGIN
 
   CREATE TABLE #languages (
     id NVARCHAR(3),
-    name NVARCHAR(75)
+    name NVARCHAR(128)
   );
 
   --

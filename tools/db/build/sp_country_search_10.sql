@@ -25,7 +25,7 @@ BEGIN
   CREATE TABLE #languages (
     id NVARCHAR(3),
     country_id NCHAR(2),
-    name NVARCHAR(75)
+    name NVARCHAR(128)
   );
 
   IF @prmMatchType = 0
