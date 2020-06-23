@@ -9,7 +9,7 @@ require_once(__DIR__ . '/RestTestCase.php');
 
 use Keyman\Site\com\keyman\api\tests\TestUtils;
 
-final class RestJapanesePinyinTest extends RestTestCase
+final class RestJapaneseTest extends RestTestCase
 {
   static function setUpBeforeClass(): void
   {

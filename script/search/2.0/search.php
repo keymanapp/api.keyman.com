@@ -2,8 +2,8 @@
   /**
    * https://api.keyman.com/search/2.0?[f=1&]q=query-string
    *
-   * Search for a keyboard. Returns a result that lists all keyboards that match, based on
-   * https://api.keyman.com/schemas/search.json is JSON schema
+   * Search for a keyboard. Returns a result that lists all keyboards that match.
+   * https://api.keyman.com/schemas/search/2.0/search.json is JSON schema
    *
    * @param q    query-string   a partial string to search for in keyboard name, id, description, language, script, country.
    *                            name, description, language, script, country all use full text search with decomposition of
