@@ -42,8 +42,7 @@
       },
       "required": [
         "license", "languages"
-      ],
-      "additionalProperties": false
+      ]
     },
 
     "KeyboardLanguageInfo": {

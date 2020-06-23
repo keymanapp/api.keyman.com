@@ -9,12 +9,16 @@
    *                            name, description, language, script, country all use full text search with decomposition of
    *                            diacritics, normalisation etc. Ids use plain text matches.
    *                            prefixes:  c:<name>    show keyboards for the countries matching <name>
-   *                                       c:id:<id>   show keyboards for the country with ISO 3166 <id>
+   *                                       c:id:<id>   show keyboards for the country with ISO 3166 code <id>
    *                                       l:<name>    show keyboards for the languages matching <name>
-   *                                       l:id:<id>   show keyboards for the language with BCP 47 code <id>.
-   *                                                   This code will be canonicalized according to langtags.json.
-   *                                       id:<id>     show keyboard with the id <id>
+   *                                       l:id:<id>   show keyboards for the language with BCP 47 tag <id>.
+   *                                                   This tag will be canonicalized according to langtags.json.
+   *                                       s:<name>    show keyboards for the scripts matching <name>
+   *                                       s:id:<id>   show keyboards for the scripts matching ISO 15924 code <id>
+   *                                       id:<id>     show keyboards matching the id <id>
+   *                                       k:id:<id>   show keyboards matching the id <id>
    *                                       legacy:<id> show keyboard with the legacy integer id <id>
+   *                                       k:legacy:<id> show keyboard with the legacy integer id <id>
    * @param f                   if 1, then return formatted JSON
    * @param p                   page number to return (10 results per page) [TODO]
    * @param platform            one of 'macos', 'windows', 'linux', 'android', 'ios', 'desktopWeb', 'mobileWeb'
