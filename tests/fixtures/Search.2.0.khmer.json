@@ -54,9 +54,10 @@
             "match": {
                 "name": "Khmer",
                 "type": "language",
-                "weight": "210",
-                "downloads": "37",
-                "final_weight": "973.89309354254101"
+                "tag": "km",
+                "weight": 210,
+                "downloads": 37,
+                "finalWeight": 973.89309354254101
             }
         },
         {
@@ -139,9 +140,10 @@
             "match": {
                 "name": "Khmer",
                 "type": "language",
-                "weight": "356",
-                "downloads": "3",
-                "final_weight": "849.52079255868114"
+                "tag": "km",
+                "weight": 356,
+                "downloads": 3,
+                "finalWeight": 849.52079255868114
             }
         },
         {
@@ -185,9 +187,10 @@
             "match": {
                 "name": "Khmer",
                 "type": "language",
-                "weight": "185",
-                "downloads": "21",
-                "final_weight": "756.84285387128853"
+                "tag": "km",
+                "weight": 185,
+                "downloads": 21,
+                "finalWeight": 756.84285387128853
             }
         },
         {
@@ -233,9 +236,10 @@
             "match": {
                 "name": "Khmer",
                 "type": "language",
-                "weight": "185",
-                "downloads": "1",
-                "final_weight": "313.23222840358989"
+                "tag": "km",
+                "weight": 185,
+                "downloads": 1,
+                "finalWeight": 313.23222840358989
             }
         },
         {
@@ -280,9 +284,9 @@
             "match": {
                 "name": null,
                 "type": "description",
-                "weight": "10",
-                "downloads": "1",
-                "final_weight": "16.931471805599454"
+                "weight": 10,
+                "downloads": 1,
+                "finalWeight": 16.931471805599454
             }
         },
         {
@@ -328,9 +332,10 @@
             "match": {
                 "name": "Khmer",
                 "type": "language",
-                "weight": "210",
-                "downloads": "0",
-                "final_weight": "210.0"
+                "tag": "km",
+                "weight": 210,
+                "downloads": 0,
+                "finalWeight": 210.0
             }
         },
         {
@@ -370,9 +375,10 @@
             "match": {
                 "name": "Khmer",
                 "type": "language",
-                "weight": "185",
-                "downloads": "0",
-                "final_weight": "185.0"
+                "tag": "km",
+                "weight": 185,
+                "downloads": 0,
+                "finalWeight": 185.0
             }
         }
     ],
