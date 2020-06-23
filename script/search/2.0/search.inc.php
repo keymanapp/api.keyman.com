@@ -270,10 +270,14 @@
         $rowdata->match = [
           'name' => $row['match_name'],
           'type' => $row['match_type'],
-          'weight' => $row['match_weight'],
-          'downloads' => $row['download_count'],
-          'final_weight' => $row['final_weight']
+          'weight' => floatval($row['match_weight']),
+          'downloads' => intval($row['download_count']),
+          'finalWeight' => floatval($row['final_weight'])
         ];
+
+        // TODO: when searching for country or script, then we get a fairly 'random' first match
+        //       Is there any way we can improve this?
+        if(!empty($row['match_tag'])) $rowdata->match['tag'] = $row['match_tag'];
 
         array_push($result->keyboards, $rowdata);
       }

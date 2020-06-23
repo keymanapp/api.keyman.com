@@ -17,6 +17,7 @@ BEGIN
     1 match_weight,
     COALESCE(kd.count, 0) download_count, -- missing count record = 0 downloads over last 30 days
     1 * (LOG(COALESCE(kd.count+1, 1))+1) final_weight,
+    null match_tag,
 
     k.keyboard_id,
     k.name,

@@ -62,9 +62,9 @@
             "match": {
                 "name": "Khmer Angkor",
                 "type": "keyboard",
-                "weight": "60",
-                "downloads": "37",
-                "final_weight": "278.25516958358315"
+                "weight": 60,
+                "downloads": 37,
+                "finalWeight": 278.25516958358315
             }
         },
         {
@@ -108,9 +108,9 @@
             "match": {
                 "name": "Khmer (NIDA) Basic",
                 "type": "keyboard",
-                "weight": "35",
-                "downloads": "21",
-                "final_weight": "143.18648586754105"
+                "weight": 35,
+                "downloads": 21,
+                "finalWeight": 143.18648586754105
             }
         },
         {
@@ -193,9 +193,9 @@
             "match": {
                 "name": "Khmer (SIL)",
                 "type": "keyboard",
-                "weight": "35",
-                "downloads": "3",
-                "final_weight": "83.520302639196174"
+                "weight": 35,
+                "downloads": 3,
+                "finalWeight": 83.520302639196174
             }
         },
         {
@@ -241,9 +241,9 @@
             "match": {
                 "name": "Khmer Basic",
                 "type": "keyboard",
-                "weight": "35",
-                "downloads": "1",
-                "final_weight": "59.260151319598087"
+                "weight": 35,
+                "downloads": 1,
+                "finalWeight": 59.260151319598087
             }
         },
         {
@@ -288,9 +288,9 @@
             "match": {
                 "name": null,
                 "type": "description",
-                "weight": "5",
-                "downloads": "1",
-                "final_weight": "8.465735902799727"
+                "weight": 5,
+                "downloads": 1,
+                "finalWeight": 8.465735902799727
             }
         },
         {
@@ -336,9 +336,9 @@
             "match": {
                 "name": "NiDA Khmer",
                 "type": "keyboard",
-                "weight": "60",
-                "downloads": "0",
-                "final_weight": "60.0"
+                "weight": 60,
+                "downloads": 0,
+                "finalWeight": 60.0
             }
         },
         {
@@ -378,9 +378,9 @@
             "match": {
                 "name": "Khmer Basic",
                 "type": "keyboard",
-                "weight": "35",
-                "downloads": "0",
-                "final_weight": "35.0"
+                "weight": 35,
+                "downloads": 0,
+                "finalWeight": 35.0
             }
         }
     ]
