@@ -21,7 +21,7 @@ GO
 CREATE TYPE tt_keyboard_search_langtag AS TABLE (tag NVARCHAR(128), name NVARCHAR(128), weight int, match_name NVARCHAR(128), match_type NVARCHAR(32))
 GO
 
-CREATE TYPE tt_keyboard_search_keyboard AS TABLE (keyboard_id NVARCHAR(256), name NVARCHAR(256), weight int, match_name NVARCHAR(256), match_type NVARCHAR(32))
+CREATE TYPE tt_keyboard_search_keyboard AS TABLE (keyboard_id NVARCHAR(256), name NVARCHAR(256), weight int, match_name NVARCHAR(256), match_type NVARCHAR(32), match_tag NVARCHAR(128))
 GO
 
 -- #
@@ -168,7 +168,8 @@ AS
       ELSE 1
     END * @weight_keyboard as weight,
     k.name as match_name,
-    'keyboard' as match_type
+    'keyboard' as match_type,
+    null as match_tag
   from
     t_keyboard k
   where
@@ -203,7 +204,8 @@ AS
       ELSE 1
     END * @weight_keyboard_id as weight,
     k.keyboard_id as match_name,
-    'keyboard_id' as match_type
+    'keyboard_id' as match_type,
+    null as match_tag
   from
     t_keyboard k
   where
@@ -235,7 +237,8 @@ AS
     k.name as name,
     @weight_keyboard_description as weight,
     NULL as match_name, -- if the match_text is null, we know that we should highlight the term in the description in the results
-    'description' as match_type
+    'description' as match_type,
+    null as match_tag
   from
     t_keyboard k
   where
@@ -263,7 +266,8 @@ AS
     k.name,
     tlt.weight,
     tlt.match_name,
-    tlt.match_type
+    tlt.match_type,
+    tlt.tag as match_tag
   from
     t_keyboard k inner join
     t_keyboard_langtag lt on k.keyboard_id = lt.keyboard_id inner join
@@ -317,6 +321,7 @@ AS
 
     (select sum(weight) from @tt_keyboard k2 where keyboard_id = temp.keyboard_id) *
     (LOG(COALESCE(kd.count+1, 1))+1) final_weight,
+    match_tag,
 
     k.keyboard_id,
     k.name,
@@ -351,6 +356,7 @@ AS
         keyboard_id,
         match_name,
         match_type,
+        match_tag,
         row_number() over(
           partition by keyboard_id
           order by

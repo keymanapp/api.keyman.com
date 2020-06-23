@@ -275,6 +275,10 @@
           'finalWeight' => floatval($row['final_weight'])
         ];
 
+        // TODO: when searching for country or script, then we get a fairly 'random' first match
+        //       Is there any way we can improve this?
+        if(!empty($row['match_tag'])) $rowdata->match['tag'] = $row['match_tag'];
+
         array_push($result->keyboards, $rowdata);
       }
 
