@@ -1,11 +1,11 @@
 -- #
--- # sp_keyboard_search_by_script_tag
+-- # sp_keyboard_search_by_script_iso15924_code
 -- #
 
-DROP PROCEDURE IF EXISTS sp_keyboard_search_by_script_tag;
+DROP PROCEDURE IF EXISTS sp_keyboard_search_by_script_iso15924_code;
 GO
 
-CREATE PROCEDURE sp_keyboard_search_by_script_tag
+CREATE PROCEDURE sp_keyboard_search_by_script_iso15924_code
   @prmSearchText nvarchar(250),
   @prmPlatform nvarchar(32),
   @prmPageNumber int,
@@ -20,13 +20,13 @@ BEGIN
   declare @weight_script INT = 5
 
   -- #
-  -- # Search across language names, region names and country names
+  -- # Search across script names
   -- #
 
-  insert @tt_langtag select * from f_keyboard_search_langtag_by_script_tag(@prmSearchText+'%', @weight_script)
+  insert @tt_langtag select * from f_keyboard_search_langtag_by_script_iso15924_code(@prmSearchText+'%', @weight_script)
 
   -- #
-  -- # Add all langtag, script and region matches to the keyboards temp table, with appropriate weights
+  -- # Add all script matches to the keyboards temp table, with appropriate weights
   -- #
 
   insert @tt_keyboard select * from f_keyboard_search_keyboards_from_langtags(@prmPlatform, @tt_langtag)

@@ -17,7 +17,7 @@ BEGIN
   declare @likeid NVARCHAR(385) = CASE WHEN @prmIDSearchText='' THEN '' ELSE REPLACE(@prmIDSearchText, '_', '[_]')+'%' END
 
   declare @weight_keyboard INT = 30
-  declare @weight_keyboard_id INT = 30
+  declare @weight_keyboard_id INT = 25
   declare @weight_keyboard_description INT = 5
   declare @weight_factor_exact_match INT = 3
 
