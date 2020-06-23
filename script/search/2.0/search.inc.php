@@ -27,7 +27,7 @@
   class KeyboardSearch {
     private $mssql;
 
-    const PAGESIZE = 100; //TODO: reduce to 10 once we support pagniation on keyman.com
+    const PAGESIZE = 10;
 
     const FILTERS = [
       'k:id:'      => KeyboardSearchResult::FILTER_KEYBOARD_ID,
@@ -74,12 +74,11 @@
     }
 
     private function WriteSearchResults(KeyboardSearchResult $result) {
-      if(!$this->GetSearchQueries($result))
-        return null;
+      $data = ['keyboards' => []];
 
-      $data = array();
+      $status = $this->GetSearchQueries($result);
 
-      $totalPages = round(($result->totalRows + $result->pageSize - 1)/$result->pageSize);
+      $totalPages = intval(($result->totalRows + $result->pageSize - 1)/$result->pageSize);
 
       $data['context'] = [
         'range' => $result->rangetext,
@@ -90,12 +89,15 @@
         'totalPages' => $totalPages
       ];
 
+      if(!$status) {
+        return $data;
+      }
+
       if($result->platform !== null) {
         $data['context']['platform'] = $result->platform;
       }
 
       if(isset($result->keyboards) && sizeof($result->keyboards) > 0) {
-        $data['keyboards'] = array();
         foreach ($result->keyboards as $keyboard) {
           array_push($data['keyboards'], $keyboard);
         }
@@ -104,7 +106,7 @@
       return $data;
     }
 
-    function new_query($s) {
+    function new_query($s): PDOStatement {
       return $this->mssql->prepare($s);
     }
 
@@ -131,6 +133,7 @@
      */
 
     private function GetSearchQueries(KeyboardSearchResult $result) {
+      $result->totalRows = 0;
       $text = $this->CleanQueryString($result->text);
       $idtext = $this->QueryStringToIdSearch($text);
 
@@ -183,8 +186,8 @@
         break;
 
       case KeyboardSearchResult::FILTER_LANGUAGE_ID:
-        $result->rangetext = "Keyboards for language with BCP 47 code '{$result->searchtext}'";
-        $stmt = $this->new_query('EXEC sp_keyboard_search_by_language_tag ?, ?, ?, ?');
+        $result->rangetext = "Keyboards for language with BCP 47 tag '{$result->searchtext}'";
+        $stmt = $this->new_query('EXEC sp_keyboard_search_by_language_bcp47_tag ?, ?, ?, ?');
         $stmt->bindParam(1, $idtext);
         $stmt->bindParam(2, $result->platform);
         $stmt->bindParam(3, $result->pageNumber, PDO::PARAM_INT);
@@ -203,7 +206,7 @@
       case KeyboardSearchResult::FILTER_COUNTRY_ID:
         $result->rangetext = "Keyboards for country with ISO 3166 code '{$result->searchtext}'";
         // match on language tag
-        $stmt = $this->new_query('EXEC sp_keyboard_search_by_country_tag ?, ?, ?, ?');
+        $stmt = $this->new_query('EXEC sp_keyboard_search_by_country_iso3166_code ?, ?, ?, ?');
         $stmt->bindParam(1, $idtext);
         $stmt->bindParam(2, $result->platform);
         $stmt->bindParam(3, $result->pageNumber, PDO::PARAM_INT);
@@ -220,8 +223,8 @@
         break;
 
       case KeyboardSearchResult::FILTER_SCRIPT_ID:
-        $result->rangetext = "Keyboards for script with script tag '{$result->searchtext}'";
-        $stmt = $this->new_query('EXEC sp_keyboard_search_by_script_tag ?, ?, ?, ?');
+        $result->rangetext = "Keyboards for script with ISO 15924 code '{$result->searchtext}'";
+        $stmt = $this->new_query('EXEC sp_keyboard_search_by_script_iso15924_code ?, ?, ?, ?');
         $stmt->bindParam(1, $idtext);
         $stmt->bindParam(2, $result->platform);
         $stmt->bindParam(3, $result->pageNumber, PDO::PARAM_INT);
@@ -232,15 +235,24 @@
         return false;
       }
 
-      $stmt->execute();
-      $data = $stmt->fetchAll();
+      if(!$stmt->execute()) {
+        $result->totalRows = 0;
+        return false;
+      }
+
+      try {
+        $data = $stmt->fetchAll();
+      } catch(PDOException $e) {
+        //@error_log($e->getMessage());
+        return false;
+      }
 
       // if the result set has a total_count field and just one row, it's a summary set for paginated results
       if(count($data) == 1 && isset($data[0]['total_count'])) {
         $result->totalRows = $data[0]['total_count'];
         if(isset($data[0]['base_tag'])) {
           // Special case: we normalise the bcp 47 tag when we pass it in.
-          $result->rangetext = "Keyboards for language with BCP 47 code '{$data[0]['base_tag']}'";
+          $result->rangetext = "Keyboards for language with BCP 47 tag '{$data[0]['base_tag']}'";
         }
         $stmt->nextRowset();
         $data = $stmt->fetchAll();
@@ -258,10 +270,14 @@
         $rowdata->match = [
           'name' => $row['match_name'],
           'type' => $row['match_type'],
-          'weight' => $row['match_weight'],
-          'downloads' => $row['download_count'],
-          'final_weight' => $row['final_weight']
+          'weight' => floatval($row['match_weight']),
+          'downloads' => intval($row['download_count']),
+          'finalWeight' => floatval($row['final_weight'])
         ];
+
+        // TODO: when searching for country or script, then we get a fairly 'random' first match
+        //       Is there any way we can improve this?
+        if(!empty($row['match_tag'])) $rowdata->match['tag'] = $row['match_tag'];
 
         array_push($result->keyboards, $rowdata);
       }
