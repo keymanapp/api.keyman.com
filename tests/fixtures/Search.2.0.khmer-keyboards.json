@@ -1,4 +1,12 @@
 {
+    "context": {
+        "range": "Keyboards matching 'khmer'",
+        "text": "khmer",
+        "pageSize": 10,
+        "pageNumber": 1,
+        "totalRows": 7,
+        "totalPages": 1
+    },
     "keyboards": [
         {
             "license": "mit",
@@ -52,12 +60,57 @@
                 "mobileWeb": "full"
             },
             "match": {
-                "name": "Khmer",
-                "type": "language",
-                "tag": "km",
-                "weight": 210,
+                "name": "Khmer Angkor",
+                "type": "keyboard",
+                "weight": 60,
                 "downloads": 37,
-                "finalWeight": 973.89309354254101
+                "finalWeight": 278.25516958358315
+            }
+        },
+        {
+            "license": "mit",
+            "description": "Khmer (NIDA) Basic generated from template",
+            "id": "basic_kbdkni",
+            "languages": {
+                "km": {
+                    "displayName": "Central Khmer",
+                    "languageName": "Central Khmer"
+                }
+            },
+            "name": "Khmer (NIDA) Basic",
+            "lastModifiedDate": "2020-06-12T00:36:29.888Z",
+            "sourcePath": "release/basic/basic_kbdkni",
+            "version": "1.0",
+            "packageFilename": "basic_kbdkni.kmp",
+            "jsFilename": "basic_kbdkni.js",
+            "encodings": [
+                "unicode"
+            ],
+            "jsFileSize": 17913,
+            "packageFileSize": 401287,
+            "packageIncludes": [
+                "visualKeyboard",
+                "documentation",
+                "welcome",
+                "fonts"
+            ],
+            "minKeymanVersion": "10.0",
+            "helpLink": "https://help.keyman.com/keyboard/basic_kbdkni",
+            "platformSupport": {
+                "windows": "full",
+                "macos": "full",
+                "linux": "full",
+                "android": "full",
+                "ios": "full",
+                "desktopWeb": "full",
+                "mobileWeb": "full"
+            },
+            "match": {
+                "name": "Khmer (NIDA) Basic",
+                "type": "keyboard",
+                "weight": 35,
+                "downloads": 21,
+                "finalWeight": 143.18648586754105
             }
         },
         {
@@ -138,59 +191,11 @@
                 "mobileWeb": "full"
             },
             "match": {
-                "name": "Khmer",
-                "type": "language",
-                "tag": "km",
-                "weight": 356,
+                "name": "Khmer (SIL)",
+                "type": "keyboard",
+                "weight": 35,
                 "downloads": 3,
-                "finalWeight": 849.52079255868114
-            }
-        },
-        {
-            "license": "mit",
-            "description": "Khmer (NIDA) Basic generated from template",
-            "id": "basic_kbdkni",
-            "languages": {
-                "km": {
-                    "displayName": "Central Khmer",
-                    "languageName": "Central Khmer"
-                }
-            },
-            "name": "Khmer (NIDA) Basic",
-            "lastModifiedDate": "2020-06-12T00:36:29.888Z",
-            "sourcePath": "release/basic/basic_kbdkni",
-            "version": "1.0",
-            "packageFilename": "basic_kbdkni.kmp",
-            "jsFilename": "basic_kbdkni.js",
-            "encodings": [
-                "unicode"
-            ],
-            "jsFileSize": 17913,
-            "packageFileSize": 401287,
-            "packageIncludes": [
-                "visualKeyboard",
-                "documentation",
-                "welcome",
-                "fonts"
-            ],
-            "minKeymanVersion": "10.0",
-            "helpLink": "https://help.keyman.com/keyboard/basic_kbdkni",
-            "platformSupport": {
-                "windows": "full",
-                "macos": "full",
-                "linux": "full",
-                "android": "full",
-                "ios": "full",
-                "desktopWeb": "full",
-                "mobileWeb": "full"
-            },
-            "match": {
-                "name": "Khmer",
-                "type": "language",
-                "tag": "km",
-                "weight": 185,
-                "downloads": 21,
-                "finalWeight": 756.84285387128853
+                "finalWeight": 83.520302639196174
             }
         },
         {
@@ -234,12 +239,11 @@
                 "mobileWeb": "full"
             },
             "match": {
-                "name": "Khmer",
-                "type": "language",
-                "tag": "km",
-                "weight": 185,
+                "name": "Khmer Basic",
+                "type": "keyboard",
+                "weight": 35,
                 "downloads": 1,
-                "finalWeight": 313.23222840358989
+                "finalWeight": 59.260151319598087
             }
         },
         {
@@ -284,9 +288,9 @@
             "match": {
                 "name": null,
                 "type": "description",
-                "weight": 10,
+                "weight": 5,
                 "downloads": 1,
-                "finalWeight": 16.931471805599454
+                "finalWeight": 8.465735902799727
             }
         },
         {
@@ -330,12 +334,11 @@
             "helpLink": "https://help.keyman.com/keyboard/khmer10",
             "deprecated": true,
             "match": {
-                "name": "Khmer",
-                "type": "language",
-                "tag": "km",
-                "weight": 210,
+                "name": "NiDA Khmer",
+                "type": "keyboard",
+                "weight": 60,
                 "downloads": 0,
-                "finalWeight": 210.0
+                "finalWeight": 60.0
             }
         },
         {
@@ -373,21 +376,12 @@
             "packageFileSize": 110334,
             "deprecated": true,
             "match": {
-                "name": "Khmer",
-                "type": "language",
-                "tag": "km",
-                "weight": 185,
+                "name": "Khmer Basic",
+                "type": "keyboard",
+                "weight": 35,
                 "downloads": 0,
-                "finalWeight": 185.0
+                "finalWeight": 35.0
             }
         }
-    ],
-    "context": {
-        "range": "Keyboards matching 'khmer'",
-        "text": "khmer",
-        "pageSize": 10,
-        "pageNumber": 1,
-        "totalRows": 7,
-        "totalPages": 1
-    }
+    ]
 }

@@ -1,5 +1,7 @@
 /*
  sp_keyboard_search_by_legacy_id: return a single keyboard record, with result set for the sp_keyboard_search pattern
+
+ TODO: can we merge with the f_keyboard_search patterns?
 */
 
 DROP PROCEDURE IF EXISTS sp_keyboard_search_by_legacy_id
@@ -10,10 +12,11 @@ CREATE PROCEDURE sp_keyboard_search_by_legacy_id (
 ) AS
   SELECT
     k.name match_name,
-    0 match_type,
+    'legacy_keyboard_id' match_type,
     1 match_weight,
     COALESCE(kd.count, 0) download_count, -- missing count record = 0 downloads over last 30 days
     1 final_weight,
+    null match_tag,
 
     k.keyboard_id,
     k.name,

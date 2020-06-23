@@ -6,54 +6,52 @@
     "Search": {
       "type": "object",
       "properties": {
-        "languages": { "type": "array", "items": { "$ref": "#/definitions/SearchLanguage" } },
         "keyboards": { "type": "array", "items": { "$ref": "#/definitions/SearchKeyboard" } },
-        "countries": { "type": "array", "items": { "$ref": "#/definitions/SearchCountry" } },
         "context": { "$ref": "#/definitions/Context" }
-      }
+      },
+      "required": ["keyboards","context"]
     },
 
     "Context": {
       "type": "object",
       "properties": {
         "range": { "type": "string" },
-        "context": { "type": "string", "enum": ["keyboard", "language", "region"] },
+        "text": { "type": "string" },
         "platform": { "type": "string", "enum": ["android", "ios", "linux", "macos", "web", "windows"] },
         "pageSize": { "type": "number" },
         "pageNumber": { "type": "number" },
         "totalRows": { "type": "number" },
         "totalPages": { "type": "number" }
       },
-      "required": ["range", "context", "pageSize", "pageNumber", "totalRows", "totalPages"]
-    },
-
-    "SearchCountry": {
-      "type": "object",
-      "properties": {
-        "id": { "type": "string" },
-        "name": { "type": "string" },
-        "area": { "type": "string" },
-        "languages": { "type": "array", "items": { "$ref": "#/definitions/SearchLanguage" } }
-      }
-    },
-
-    "SearchLanguage": {
-      "type": "object",
-      "properties": {
-        "id": { "type": "string" },
-        "name": { "type": "string" },
-        "keyboards": { "type": "array", "items": { "type": "string" } }
-      }
+      "required": ["range", "text", "pageSize", "pageNumber", "totalRows", "totalPages"],
+      "additionalProperties": false
     },
 
     "SearchKeyboard": {
-      "anyOf": [
+      "allOf": [
         { "$ref": "/keyboard_info.source/1.0.6/keyboard_info.source.json#/definitions/KeyboardInfo" },
         {
-          "type": "object",
           "properties": {
-            "match": { "type": "object" }
-          }
+            "match": {
+              "type": "object",
+              "properties": {
+                "name": { "oneOf": [ { "type": "string" }, { "type": "null"} ] },
+                "type": { "type": "string", "enum": [
+                  "keyboard", "keyboard_id", "description", "legacy_keyboard_id",
+                  "language", "language_bcp47_tag",
+                  "country", "country_iso3166_code",
+                  "script", "script_iso15924_code"
+                ] },
+                "tag": { "type": "string" },
+                "weight": { "type": "number" },
+                "downloads": { "type": "number" },
+                "finalWeight": { "type": "number" }
+              },
+              "required": ["name","type","weight","downloads","finalWeight"],
+              "additionalProperties": false
+            }
+          },
+          "required": ["match"]
         }
       ]
     }
