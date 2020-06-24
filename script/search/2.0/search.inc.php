@@ -4,6 +4,7 @@
 
   class KeyboardSearchResult {
     const FILTER_DEFAULT='default';            // FILTER_KEYBOARD|FILTER_KEYBOARD_ID|FILTER_LANGUAGE|FILTER_COUNTRY|FILTER_SCRIPT
+    const FILTER_POPULARITY='popularity';      // List keyboards by popularity (excludes deprecated and non-Unicode)
     const FILTER_KEYBOARD='keyboard';          // Filter by keyboard name, decription or id only
     const FILTER_KEYBOARD_ID='keyboard_id';    // Filter by keyboard id initial substring match
     const FILTER_LEGACY='legacy';              // Filter by a legacy (integer) keyboard id
@@ -40,7 +41,8 @@
       'c:id:'      => KeyboardSearchResult::FILTER_COUNTRY_ID,
       'c:'         => KeyboardSearchResult::FILTER_COUNTRY,
       's:id:'      => KeyboardSearchResult::FILTER_SCRIPT_ID,
-      's:'         => KeyboardSearchResult::FILTER_SCRIPT
+      's:'         => KeyboardSearchResult::FILTER_SCRIPT,
+      'p:'         => KeyboardSearchResult::FILTER_POPULARITY
     ];
 
     function __construct($mssql) {
@@ -116,7 +118,7 @@
 
     function CleanQueryString($text) {
       // strip out characters we can't use in full text search
-      if(preg_match_all("/(\\p{L}|[ _0-9-])/u", $text, $matches)) {
+      if(preg_match_all("/(\\p{L}|\\p{M}|\\p{N}|[ _0-9-])/u", $text, $matches)) {
         $r = implode('', $matches[0]);
       } else {
         $r = "";
@@ -147,6 +149,14 @@
         $stmt->bindParam(3, $result->platform);
         $stmt->bindParam(4, $result->pageNumber, PDO::PARAM_INT);
         $stmt->bindParam(5, $result->pageSize, PDO::PARAM_INT);
+        break;
+      case KeyboardSearchResult::FILTER_POPULARITY:
+        // list most popular keyboards
+        $result->rangetext = "Popular keyboards";
+        $stmt = $this->new_query('EXEC sp_keyboard_search_by_popularity ?, ?, ?');
+        $stmt->bindParam(1, $result->platform);
+        $stmt->bindParam(2, $result->pageNumber, PDO::PARAM_INT);
+        $stmt->bindParam(3, $result->pageSize, PDO::PARAM_INT);
         break;
 
       case KeyboardSearchResult::FILTER_KEYBOARD:

@@ -28,7 +28,7 @@ DROP TABLE IF EXISTS t_langtag_tag;
 CREATE TABLE t_langtag_tag (
   base_tag NVARCHAR(128) NOT NULL,
   tag NVARCHAR(128) NOT NULL,
-  tagtype INT, -- 0=base_tag, 1=alternate tag, 2=variant, 3=windows, 4=full
+  tagtype INT, -- 0=base_tag, 1=alternate tag, 2=variant, 3=windows, 4=full, 5=custom(keyboard)
   foreign key (base_tag) REFERENCES t_langtag (tag)
 );
 

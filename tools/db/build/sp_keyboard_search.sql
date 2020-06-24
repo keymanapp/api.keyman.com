@@ -184,6 +184,40 @@ AS
 GO
 
 -- #
+-- # Return list of keyboards sorted by popularity
+-- #
+DROP FUNCTION IF EXISTS f_keyboard_search_by_popularity;
+GO
+
+CREATE FUNCTION f_keyboard_search_by_popularity (
+  @prmPlatform nvarchar(32),
+  @weight_factor_exact_match int, @weight_keyboard int
+) RETURNS
+TABLE
+AS
+  return
+  select
+    k.keyboard_id as keyboard_id,
+    k.name as name,
+    @weight_keyboard as weight,
+    k.name as match_name,
+    'keyboard' as match_type,
+    null as match_tag
+  from
+    t_keyboard k
+  where
+    k.is_unicode = 1 and
+    k.deprecated = 0 and
+    ((@prmPlatform is null) or
+    (@prmPlatform = 'android' and k.platform_android > 0) or
+    (@prmPlatform = 'ios'     and k.platform_ios > 0) or
+    (@prmPlatform = 'linux'   and k.platform_linux > 0) or
+    (@prmPlatform = 'macos'   and k.platform_macos > 0) or
+    (@prmPlatform = 'web'     and k.platform_web > 0) or
+    (@prmPlatform = 'windows' and k.platform_windows > 0))
+GO
+
+-- #
 -- # Search across keyboard identifier
 -- #
 DROP FUNCTION IF EXISTS f_keyboard_search_by_id;
