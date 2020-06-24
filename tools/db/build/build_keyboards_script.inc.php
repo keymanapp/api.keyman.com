@@ -238,18 +238,15 @@ END;
           bcp47,
           language_id,
           region_id,
-          script_id
+          script_id,
+          description
         ) VALUES
 END;
 
       $result = '';
       foreach($this->keyboards as $keyboard) {
-        if(is_array($keyboard->languages)) {
-          $array = $keyboard->languages;
-        } else {
-          $array = array_keys(get_object_vars($keyboard->languages));
-        }
-        foreach($array as $id) {
+        assert(!is_array($keyboard->languages)); // array format was deprecated in 1.0.5, kmcomp should never generate it any more
+        foreach($keyboard->languages as $id => $language) {
           $this->parse_bcp47($id, $lang, $region, $script);
           $result .= <<<END
 $insert
@@ -257,7 +254,8 @@ $insert
               {$this->sqlv(null, strtolower($id))},
               {$this->sqlv(null, $lang)},
               {$this->sqlv(null, $region)},
-              {$this->sqlv(null, $script)});
+              {$this->sqlv(null, $script)},
+              {$this->sqlv($language, 'languageName')});
 
 GO
 

@@ -199,5 +199,51 @@ namespace Keyman\Site\com\keyman\api\tests {
       $this->assertEquals(42, $json->context->totalRows);
       $this->assertEquals('sil_ethiopic', $json->keyboards[0]->id);
     }
+
+    /**
+     * The langtags database includes 'Central Bontoc' but sil_philippines adds an alternative
+     * spelling of 'Central Bontok'
+     */
+    public function testSearchByCustomLanguageName()
+    {
+      $json = $this->s->GetSearchMatches(null, 'Central Bontok', 1);
+      $json = json_decode(json_encode($json));
+      $this->schema->in($json);
+      $this->assertEquals(1, $json->context->totalRows);
+      $this->assertEquals('Central Bontok', $json->context->text);
+      $this->assertEquals('sil_philippines', $json->keyboards[0]->id);
+    }
+
+    /**
+     * The langtags database includes 'khw[-Arab]' but not 'khw-Latn'.
+     * Keyboard burushaski_girmanas targets a Latin script variant of this.
+     * Test the direct search for the language tag.
+     */
+    public function testSearchByCustomLanguageTag()
+    {
+      $json = $this->s->GetSearchMatches(null, 'l:id:khw-latn', 1);
+      $json = json_decode(json_encode($json));
+      $this->schema->in($json);
+      $this->assertEquals(1, $json->context->totalRows);
+      $this->assertEquals('khw-latn', $json->context->text);
+      $this->assertEquals('burushaski_girminas', $json->keyboards[0]->id);
+    }
+
+    /**
+     * The langtags database includes 'khw[-Arab]' but not 'khw-Latn'.
+     * Keyboard burushaski_girmanas targets a Latin script variant of this.
+     * Validate that the search for 'Khowar' finds both Arabic and Latin script results
+     */
+    public function testSearchByLanguageFindsCustomTag()
+    {
+      $json = $this->s->GetSearchMatches(null, 'l:Khowar', 1);
+      $json = json_decode(json_encode($json));
+      $this->schema->in($json);
+      $this->assertEquals(4, $json->context->totalRows);
+      $this->assertEquals('rac_khowar', $json->keyboards[0]->id);
+      $this->assertEquals('sil_khowar', $json->keyboards[1]->id);
+      $this->assertEquals('burushaski_girminas', $json->keyboards[2]->id);
+      $this->assertEquals('khowar', $json->keyboards[3]->id);
+    }
   }
 }
