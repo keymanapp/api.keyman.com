@@ -261,5 +261,14 @@ namespace Keyman\Site\com\keyman\api\tests {
       $this->assertEquals('heidelberginputsolution', $json->keyboards[0]->id);
       $this->assertEquals('isis', $json->keyboards[1]->id);
     }
+
+    public function testSearchByPopularity()
+    {
+      $json = $this->s->GetSearchMatches(null, 'p:*', 1);
+      $json = json_decode(json_encode($json));
+      $this->schema->in($json);
+      $this->assertEquals(659, $json->context->totalRows);
+      $this->assertEquals('gff_amharic', $json->keyboards[0]->id);
+    }
   }
 }
