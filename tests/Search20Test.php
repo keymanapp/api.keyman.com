@@ -245,5 +245,21 @@ namespace Keyman\Site\com\keyman\api\tests {
       $this->assertEquals('burushaski_girminas', $json->keyboards[2]->id);
       $this->assertEquals('khowar', $json->keyboards[3]->id);
     }
+
+    /**
+     * The langtags database does not include 'pi' (Pali) without a script tag.
+     * (This is not a helpful tag, but it's good for testing at this time; it is likely that
+     * an update to the keyboard will correct the tag at which point we should perhaps switch
+     * to a qa? tag.)
+     */
+    public function testSearchByCustomLanguageTag2()
+    {
+      $json = $this->s->GetSearchMatches(null, 'l:id:pi', 1);
+      $json = json_decode(json_encode($json));
+      $this->schema->in($json);
+      $this->assertEquals(2, $json->context->totalRows);
+      $this->assertEquals('heidelberginputsolution', $json->keyboards[0]->id);
+      $this->assertEquals('isis', $json->keyboards[1]->id);
+    }
   }
 }

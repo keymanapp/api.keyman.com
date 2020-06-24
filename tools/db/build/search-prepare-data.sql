@@ -37,7 +37,7 @@ update t_model
 -- Fixup those that are missing from t_langtags, first
 --
 
--- Find those that are missing and add the names and tags as aliases of the base tag
+-- Find those that are missing where there is a matching base tag but not a matching full tag
 
 INSERT
   t_langtag (tag, [full], iso639_3, region, regionname, name, sldr, script, windows)
@@ -75,6 +75,42 @@ FROM
 WHERE
   tt.tag IS NULL AND
   tt0.tag IS NOT NULL
+
+-- Fixup those where we cannot find any matching base tag at all (e.g. qa? tags will fit into this)
+
+INSERT
+  t_langtag (tag, [full], iso639_3, region, regionname, name, sldr, script, windows)
+SELECT DISTINCT
+  kl.bcp47,
+  kl.bcp47,
+  null,
+  '001', --t.region,
+  'World', --t.regionname,
+  kl.description,
+  0,
+  kl.script_id,
+  kl.bcp47
+FROM
+  t_keyboard_language kl LEFT JOIN
+  t_langtag_tag tt ON kl.bcp47 = tt.tag
+WHERE
+  tt.tag IS NULL
+
+-- Insert the tags above for searching against
+
+INSERT
+  t_langtag_tag (base_tag, tag, tagtype)
+SELECT DISTINCT
+  kl.bcp47,
+  kl.bcp47,
+  5 -- custom (keyboard) tag type
+FROM
+  t_keyboard_language kl LEFT JOIN
+  t_langtag_tag tt ON kl.bcp47 = tt.tag LEFT JOIN
+  t_langtag t ON kl.bcp47 = t.tag
+WHERE
+  tt.tag IS NULL AND
+  t.tag IS NOT NULL
 
 -- Add new names that have been defined by keyboard authors
 
