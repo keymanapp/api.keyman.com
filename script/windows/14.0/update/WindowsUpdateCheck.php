@@ -1,15 +1,14 @@
 <?php
+  namespace Keyman\Site\com\keyman\api;
+
   require_once __DIR__ . '/../../../../tools/util.php';
 
-  class OnlineUpdate {
+  class WindowsUpdateCheck {
     const MSI_REGEX = '/^keyman(desktop)?\.msi$/';
     const BOOTSTRAP_REGEX = '/^setup\.exe$/';
     const BUNDLE_REGEX = '/^keyman(desktop)?-.+\.exe/';
 
     public function execute($tier, $appVersion, $packages) {
-      json_response();
-      allow_cors();
-
       $desktop_update = [];
 
       $desktop_update['msi'] = $this->BuildKeymanDesktopVersionResponse($tier, $appVersion, self::MSI_REGEX);
@@ -22,7 +21,7 @@
       }
       $desktop_update['keyboards'] = $this->BuildKeyboardsResponse($newAppVersion, $packages);
 
-      echo json_encode($desktop_update, JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES);
+      return json_encode($desktop_update, JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES);
     }
 
     private function BuildKeymanDesktopVersionResponse($tier, $InstalledVersion, $regex) {
@@ -163,4 +162,3 @@
       return $data->kmp;
     }
   }
-?>

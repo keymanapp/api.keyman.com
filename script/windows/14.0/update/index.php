@@ -1,6 +1,9 @@
 <?php
   require_once __DIR__ . '/../../../../tools/base.inc.php';
-  require_once __DIR__ . '/OnlineUpdate.php';
+  require_once __DIR__ . '/WindowsUpdateCheck.php';
+
+  json_response();
+  allow_cors();
 
   if(!isset($_REQUEST['version'])) {
     /* Invalid update check */
@@ -21,6 +24,5 @@
     }
   }
 
-  $u = new OnlineUpdate();
-  $u->execute($tier, $_REQUEST['version'], $packages);
-?>
+  $u = new Keyman\Site\com\keyman\api\WindowsUpdateCheck();
+  echo $u->execute($tier, $_REQUEST['version'], $packages);
