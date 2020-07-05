@@ -1,0 +1,199 @@
+{
+    "windows": {
+        "alpha": {
+            "version": "14.0.102.0",
+            "files": {
+                "keymandesktop-14.0.102.0.exe": {
+                    "name": "Keyman Desktop",
+                    "version": "14.0.102.0",
+                    "date": "2020-06-29",
+                    "platform": "win",
+                    "stability": "alpha",
+                    "file": "keymandesktop-14.0.102.0.exe",
+                    "md5": "9FDFC9979F2975608CBE0A1242D3174C",
+                    "type": "exe",
+                    "build": "102",
+                    "size": 70575440
+                },
+                "keymandesktop.msi": {
+                    "name": "Keyman Desktop MSI installer",
+                    "version": "14.0.102.0",
+                    "date": "2020-06-29",
+                    "platform": "win",
+                    "stability": "alpha",
+                    "file": "keymandesktop.msi",
+                    "md5": "A538A08813A33FC47B399422C2C1C130",
+                    "type": "exe",
+                    "build": "102",
+                    "size": 68694016
+                },
+                "setup.exe": {
+                    "name": "Keyman Desktop setup bootstrap",
+                    "version": "14.0.102.0",
+                    "date": "2020-06-29",
+                    "platform": "win",
+                    "stability": "alpha",
+                    "file": "setup.exe",
+                    "md5": "EE9CFA21F6681391C2884D7D86F77955",
+                    "type": "exe",
+                    "build": "102",
+                    "size": 4705280
+                }
+            }
+        },
+        "beta": {
+            "version": "13.0.76.0",
+            "files": {
+                "debug-13.0.76.0.zip": {
+                    "name": "Keyman Desktop and Keyman Developer debug files",
+                    "version": "13.0.76.0",
+                    "date": "2020-02-18",
+                    "platform": "win",
+                    "stability": "beta",
+                    "file": "debug-13.0.76.0.zip",
+                    "md5": "AB5251CB7E3EDE4D22B93ABB1488D260",
+                    "type": "zip",
+                    "build": "76",
+                    "size": 96608969
+                },
+                "firstvoices-13.0.76.0.exe": {
+                    "name": "FirstVoices Keyboards",
+                    "version": "13.0.76.0",
+                    "date": "2020-02-18",
+                    "platform": "win",
+                    "stability": "beta",
+                    "file": "firstvoices-13.0.76.0.exe",
+                    "md5": "7AF0B65066BFF6E78AE48FD6558300C8",
+                    "type": "exe",
+                    "build": "76",
+                    "size": 21880688
+                },
+                "firstvoices.msi": {
+                    "name": "FirstVoices Keyboards MSI installer",
+                    "version": "13.0.76.0",
+                    "date": "2020-02-18",
+                    "platform": "win",
+                    "stability": "beta",
+                    "file": "firstvoices.msi",
+                    "md5": "6EC165B8D7B3E6C7040180EC1B9C9740",
+                    "type": "exe",
+                    "build": "76",
+                    "size": 17203200
+                },
+                "keymandesktop-13.0.76.0.exe": {
+                    "name": "Keyman Desktop",
+                    "version": "13.0.76.0",
+                    "date": "2020-02-18",
+                    "platform": "win",
+                    "stability": "beta",
+                    "file": "keymandesktop-13.0.76.0.exe",
+                    "md5": "ADDB93206B40872B4A6597E7B54A9F5F",
+                    "type": "exe",
+                    "build": "76",
+                    "size": 19432664
+                },
+                "keymandesktop.msi": {
+                    "name": "Keyman Desktop MSI installer",
+                    "version": "13.0.76.0",
+                    "date": "2020-02-18",
+                    "platform": "win",
+                    "stability": "beta",
+                    "file": "keymandesktop.msi",
+                    "md5": "208266A5BA248547A7B04152C7AC9E65",
+                    "type": "exe",
+                    "build": "76",
+                    "size": 18493440
+                },
+                "setup.exe": {
+                    "name": "Keyman Desktop setup bootstrap",
+                    "version": "13.0.76.0",
+                    "date": "2020-02-18",
+                    "platform": "win",
+                    "stability": "beta",
+                    "file": "setup.exe",
+                    "md5": "E68E96E1FD67195F1226635E31BF299D",
+                    "type": "exe",
+                    "build": "76",
+                    "size": 4363776
+                }
+            }
+        },
+        "stable": {
+            "version": "13.0.109.0",
+            "files": {
+                "debug-13.0.109.0.zip": {
+                    "name": "Keyman Desktop and Keyman Developer debug files",
+                    "version": "13.0.109.0",
+                    "date": "2020-06-05",
+                    "platform": "win",
+                    "stability": "stable",
+                    "file": "debug-13.0.109.0.zip",
+                    "md5": "F4775FAAADD8B4D7815AF08B9A380836",
+                    "type": "zip",
+                    "build": "109",
+                    "size": 96602518
+                },
+                "firstvoices-13.0.109.0.exe": {
+                    "name": "FirstVoices Keyboards",
+                    "version": "13.0.109.0",
+                    "date": "2020-06-05",
+                    "platform": "win",
+                    "stability": "stable",
+                    "file": "firstvoices-13.0.109.0.exe",
+                    "md5": "812C83E3604E3B6248DD5FB6D4958C0B",
+                    "type": "exe",
+                    "build": "109",
+                    "size": 22630616
+                },
+                "firstvoices.msi": {
+                    "name": "FirstVoices Keyboards MSI installer",
+                    "version": "13.0.109.0",
+                    "date": "2020-06-05",
+                    "platform": "win",
+                    "stability": "stable",
+                    "file": "firstvoices.msi",
+                    "md5": "FFA79CA9C6AE09BAE121397F4FA4F2E5",
+                    "type": "exe",
+                    "build": "109",
+                    "size": 17272832
+                },
+                "keymandesktop-13.0.109.0.exe": {
+                    "name": "Keyman Desktop",
+                    "version": "13.0.109.0",
+                    "date": "2020-06-05",
+                    "platform": "win",
+                    "stability": "stable",
+                    "file": "keymandesktop-13.0.109.0.exe",
+                    "md5": "D680794DFC6828DC08F21FA8F49E07B7",
+                    "type": "exe",
+                    "build": "109",
+                    "size": 19497752
+                },
+                "keymandesktop.msi": {
+                    "name": "Keyman Desktop MSI installer",
+                    "version": "13.0.109.0",
+                    "date": "2020-06-05",
+                    "platform": "win",
+                    "stability": "stable",
+                    "file": "keymandesktop.msi",
+                    "md5": "636689CA25EFE3A8F4AC6607DFB95B24",
+                    "type": "exe",
+                    "build": "109",
+                    "size": 18546688
+                },
+                "setup.exe": {
+                    "name": "Keyman Desktop setup bootstrap",
+                    "version": "13.0.109.0",
+                    "date": "2020-06-05",
+                    "platform": "win",
+                    "stability": "stable",
+                    "file": "setup.exe",
+                    "md5": "896A94A81E8756482B4188B81BEAE0FD",
+                    "type": "exe",
+                    "build": "109",
+                    "size": 4363776
+                }
+            }
+        }
+    }
+}

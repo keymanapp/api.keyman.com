@@ -49,7 +49,7 @@ require_once('../../tools/util.php');
       fail("Invalid platform $platform");
     }
   }
-
+  else $platform = null;
   // Prepare results
 
   $PackageVersion = new Keyman\Site\com\keyman\api\PackageVersion();
@@ -68,7 +68,7 @@ require_once('../../tools/util.php');
   function fix_array_params($q) {
     $res = [];
     $q = preg_replace('/\bkeyboard=/', 'keyboard[]=', $q);
-    $q = preg_replace('/\model=/', 'model[]=', $q);
+    $q = preg_replace('/\bmodel=/', 'model[]=', $q);
 
     parse_str($q, $res);
     if(array_key_exists('keyboard', $res)) {

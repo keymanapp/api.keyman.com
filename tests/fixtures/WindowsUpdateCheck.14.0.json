@@ -1,58 +1,46 @@
 {
     "msi": {
         "name": "Keyman Desktop MSI installer",
-        "version": "14.0.104.0",
-        "date": "2020-07-01",
+        "version": "14.0.102.0",
+        "date": "2020-06-29",
         "platform": "win",
         "stability": "alpha",
         "file": "keymandesktop.msi",
-        "md5": "6EE552FA2522082489A547D3384637DC",
+        "md5": "A538A08813A33FC47B399422C2C1C130",
         "type": "exe",
-        "build": "104",
-        "size": 68677632,
-        "url": "https://downloads.keyman.com/windows/alpha/14.0.104.0/keymandesktop.msi"
+        "build": "102",
+        "size": 68694016,
+        "url": "http://downloads.keyman.com.local/windows/alpha/14.0.102.0/keymandesktop.msi"
     },
     "setup": {
         "name": "Keyman Desktop setup bootstrap",
-        "version": "14.0.104.0",
-        "date": "2020-07-01",
+        "version": "14.0.102.0",
+        "date": "2020-06-29",
         "platform": "win",
         "stability": "alpha",
         "file": "setup.exe",
-        "md5": "24DF69CB03F91F4A424EBC76623B4956",
+        "md5": "EE9CFA21F6681391C2884D7D86F77955",
         "type": "exe",
-        "build": "104",
-        "size": 3153920,
-        "url": "https://downloads.keyman.com/windows/alpha/14.0.104.0/setup.exe"
+        "build": "102",
+        "size": 4705280,
+        "url": "http://downloads.keyman.com.local/windows/alpha/14.0.102.0/setup.exe"
     },
     "bundle": {
         "name": "Keyman Desktop",
-        "version": "14.0.104.0",
-        "date": "2020-07-01",
+        "version": "14.0.102.0",
+        "date": "2020-06-29",
         "platform": "win",
         "stability": "alpha",
-        "file": "keymandesktop-14.0.104.0.exe",
-        "md5": "F369D4FE5D3E47495E05EE3E2271DFFA",
+        "file": "keymandesktop-14.0.102.0.exe",
+        "md5": "9FDFC9979F2975608CBE0A1242D3174C",
         "type": "exe",
-        "build": "104",
-        "size": 69009424,
-        "url": "https://downloads.keyman.com/windows/alpha/14.0.104.0/keymandesktop-14.0.104.0.exe"
+        "build": "102",
+        "size": 70575440,
+        "url": "http://downloads.keyman.com.local/windows/alpha/14.0.102.0/keymandesktop-14.0.102.0.exe"
     },
     "keyboards": {
         "khmer_angkor": {
-            "id": "khmer_angkor",
-            "name": "Khmer Angkor",
             "license": "mit",
-            "related": {
-                "khmer10": {
-                    "deprecates": true
-                }
-            },
-            "version": "1.0.6",
-            "helpLink": "https://help.keyman.com/keyboard/khmer_angkor",
-            "encodings": [
-                "unicode"
-            ],
             "languages": {
                 "km": {
                     "font": {
@@ -65,32 +53,44 @@
                     "languageName": "Central Khmer"
                 }
             },
-            "authorName": "Makara Sok",
-            "jsFileSize": 63881,
-            "jsFilename": "khmer_angkor.js",
-            "sourcePath": "release/k/khmer_angkor",
-            "authorEmail": "makara@keyman.com",
             "description": "<p>Khmer Unicode keyboard layout based on the NiDA keyboard layout. Automatically corrects many common keying errors.</p>",
-            "packageFileSize": 2639344,
+            "related": {
+                "khmer10": {
+                    "deprecates": true
+                }
+            },
+            "id": "khmer_angkor",
+            "name": "Khmer Angkor",
+            "authorName": "Makara Sok",
+            "authorEmail": "makara@keyman.com",
+            "lastModifiedDate": "2020-06-12T00:39:43.475Z",
+            "sourcePath": "release/k/khmer_angkor",
+            "version": "1.0.6",
             "packageFilename": "khmer_angkor.kmp",
+            "jsFilename": "khmer_angkor.js",
+            "encodings": [
+                "unicode"
+            ],
+            "jsFileSize": 63881,
+            "packageFileSize": 2639344,
             "packageIncludes": [
                 "visualKeyboard",
                 "welcome",
                 "fonts",
                 "documentation"
             ],
-            "platformSupport": {
-                "ios": "full",
-                "linux": "full",
-                "macos": "full",
-                "android": "full",
-                "windows": "full",
-                "mobileWeb": "full",
-                "desktopWeb": "full"
-            },
-            "lastModifiedDate": "2020-06-30T23:59:32.089Z",
             "minKeymanVersion": "10.0",
-            "url": "https://downloads.keyman.com/keyboards/khmer_angkor/1.0.6/khmer_angkor.kmp"
+            "helpLink": "https://help.keyman.com/keyboard/khmer_angkor",
+            "platformSupport": {
+                "windows": "full",
+                "macos": "full",
+                "linux": "full",
+                "android": "full",
+                "ios": "full",
+                "desktopWeb": "full",
+                "mobileWeb": "full"
+            },
+            "url": "http://downloads.keyman.com.local/keyboards/khmer_angkor/1.0.6/khmer_angkor.kmp"
         }
     }
 }

@@ -1,7 +1,9 @@
 <?php
   namespace Keyman\Site\com\keyman\api;
 
-  require_once(__DIR__ . '/../../tools/util.php');
+  require __DIR__ . '/../../tools/autoload.php';
+
+  use Keyman\Site\com\keyman\api\KeymanHosts;
 
   class Model {
     static function getModelJson($mssql, $id) {
@@ -14,8 +16,8 @@
         return null;
       }
       $json = json_decode($data[0][0]);
-      $json->packageFilename = get_model_download_url($json->id, $json->version, $json->packageFilename);
-      $json->jsFilename = get_model_download_url($json->id, $json->version, $json->jsFilename);
+      $json->packageFilename = self::get_model_download_url($json->id, $json->version, $json->packageFilename);
+      $json->jsFilename = self::get_model_download_url($json->id, $json->version, $json->jsFilename);
 
       // Add the related models that are deprecated
 
@@ -32,6 +34,10 @@
       }
 
       return $json;
+    }
+
+    static function get_model_download_url($id, $version, $filename) {
+      return KeymanHosts::Instance()->downloads_keyman_com . "/models/{$id}/{$version}/{$filename}";
     }
   }
 ?>

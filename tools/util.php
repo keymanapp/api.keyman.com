@@ -66,11 +66,13 @@
     // We could do this algorithmically so that we can
     // support dev machines more easily, but that can
     // come later.
-    return 'https://api.keyman.com';
+    // TODO: use live or staging site (refactor to use KeymanHosts)
+    return 'http://api.keyman.com.local';
   }
 
   function get_site_url_downloads() {
-    return 'https://downloads.keyman.com';
+    // TODO: use live or staging site (refactor to use KeymanHosts)
+    return 'http://downloads.keyman.com.local';
   }
 
   function get_model_download_url($id, $version, $filename) {

@@ -1,8 +1,9 @@
 <?php
+  namespace Keyman\Site\com\keyman\api;
 
-namespace Keyman\Site\com\keyman\api;
+  require __DIR__ . '/../../tools/autoload.php';
 
-require_once(__DIR__ . '/../../tools/util.php');
+  use Keyman\Site\com\keyman\api\KeymanHosts;
 
 class ModelSearch {
 
@@ -36,11 +37,15 @@ class ModelSearch {
 
     foreach($data as &$model) {
       $model = json_decode($model['model_info']);
-      $model->packageFilename = get_model_download_url($model->id, $model->version, $model->packageFilename);
-      $model->jsFilename = get_model_download_url($model->id, $model->version, $model->jsFilename);
+      $model->packageFilename = self::get_model_download_url($model->id, $model->version, $model->packageFilename);
+      $model->jsFilename = self::get_model_download_url($model->id, $model->version, $model->jsFilename);
       }
 
     return $data;
+  }
+
+  static function get_model_download_url($id, $version, $filename) {
+    return KeymanHosts::Instance()->downloads_keyman_com . "/models/{$id}/{$version}/{$filename}";
   }
 }
 

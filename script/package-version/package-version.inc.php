@@ -38,7 +38,7 @@ class PackageVersion
         if (count($data) == 0) {
           $json["keyboards"][$keyboard] = ['error' => 'not found'];
         } else {
-          if (isset($platform) && !$data[0][array_search($platform, PackageVersion::available_platforms()) + 2]) {
+          if (!empty($platform) && !$data[0][array_search($platform, PackageVersion::available_platforms()) + 2]) {
             $json["keyboards"][$keyboard] = ['error' => 'not found'];
           } else {
             $json["keyboards"][$keyboard] = [

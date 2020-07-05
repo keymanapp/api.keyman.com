@@ -1,12 +1,25 @@
 <?php
+  declare(strict_types=1);
+
   namespace Keyman\Site\com\keyman\api;
 
-  require_once __DIR__ . '/../../../../tools/util.php';
+  require_once __DIR__ . '/../../../../tools/autoload.php';
+
+  use Keyman\Site\com\keyman\api\DownloadsApi;
 
   class WindowsUpdateCheck {
     const MSI_REGEX = '/^keyman(desktop)?\.msi$/';
     const BOOTSTRAP_REGEX = '/^setup\.exe$/';
     const BUNDLE_REGEX = '/^keyman(desktop)?-.+\.exe/';
+
+    private $downloadsApi;
+
+    public function __construct(DownloadsApi $downloadsApi = null) {
+      if($downloadsApi == null)
+        $this->downloadsApi = new DownloadsApi();
+      else
+        $this->downloadsApi = $downloadsApi;
+    }
 
     public function execute($tier, $appVersion, $packages) {
       $desktop_update = [];
@@ -26,17 +39,13 @@
 
     private function BuildKeymanDesktopVersionResponse($tier, $InstalledVersion, $regex) {
       if(empty($this->DownloadVersions)) {
-        $this->DownloadVersions = @file_get_contents(get_site_url_downloads() . "/api/version/windows/2.0");
-        if($this->DownloadVersions === FALSE) {
-          fail('Unable to retrieve version data from '.get_site_url_downloads(), 500);
-        }
-        $this->DownloadVersions = @json_decode($this->DownloadVersions);
+        $this->DownloadVersions = $this->downloadsApi->GetPlatformVersion("windows");
         if($this->DownloadVersions === NULL) {
-          fail('Unable to decode version data from '.get_site_url_downloads(), 500);
+          fail('Unable to download or decode version data from '.KeymanHosts::Instance()->downloads_keyman_com, 500);
         }
 
         if(!isset($this->DownloadVersions->windows)) {
-          fail("Unable to find {windows} key in ".get_site_url_downloads()." data", 500);
+          fail("Unable to find {windows} key in ".KeymanHosts::Instance()->downloads_keyman_com." data", 500);
         }
       }
 
@@ -60,7 +69,7 @@
       foreach($files as $file => $filedata) {
         // This is currently tied to Windows -- for other platforms we need to change this
         if(preg_match($regex, $file)) {
-          $filedata->url = get_site_url_downloads() . "/windows/$tier/{$filedata->version}/{$file}";
+          $filedata->url = KeymanHosts::Instance()->downloads_keyman_com . "/windows/$tier/{$filedata->version}/{$file}";
           return $filedata;
         }
       }
@@ -91,7 +100,8 @@
     }
 
     private function BuildKeyboardResponse($id, $version, $appVersion) {
-      $KeyboardDownload = @file_get_contents(get_site_url_api()."/keyboard/$id");
+      // TODO: this should use the class instead of file_get_contents
+      $KeyboardDownload = @file_get_contents(KeymanHosts::Instance()->api_keyman_com."/keyboard/$id");
       if($KeyboardDownload === FALSE) {
         // not found
         return FALSE;
@@ -148,11 +158,7 @@
     }
 
     private function BuildKeyboardDownloadPath($id, $version) {
-      $data = @file_get_contents(get_site_url_downloads() . "/api/keyboard/$id");
-      if($data === FALSE) {
-        return FALSE;
-      }
-      $data = @json_decode($data);
+      $data = $this->downloadsApi->GetKeyboardVersion($id);
       if($data === NULL) {
         return FALSE;
       }
