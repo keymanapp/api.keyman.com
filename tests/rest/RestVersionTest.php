@@ -20,6 +20,8 @@ final class RestVersionTest extends RestTestCase
 
     $json = json_decode($response->getBody()->getContents());
 
+    var_dump($json);
+
     // Now check the actual content, as far as we can
     $this->assertEquals("windows", $json->platform);
     $this->assertEquals("stable", $json->level);
