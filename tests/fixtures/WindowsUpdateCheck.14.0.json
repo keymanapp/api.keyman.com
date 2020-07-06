@@ -10,7 +10,7 @@
         "type": "exe",
         "build": "102",
         "size": 68694016,
-        "url": "http://downloads.keyman.com.local/windows/alpha/14.0.102.0/keymandesktop.msi"
+        "url": "https://downloads.keyman.com/windows/alpha/14.0.102.0/keymandesktop.msi"
     },
     "setup": {
         "name": "Keyman Desktop setup bootstrap",
@@ -23,7 +23,7 @@
         "type": "exe",
         "build": "102",
         "size": 4705280,
-        "url": "http://downloads.keyman.com.local/windows/alpha/14.0.102.0/setup.exe"
+        "url": "https://downloads.keyman.com/windows/alpha/14.0.102.0/setup.exe"
     },
     "bundle": {
         "name": "Keyman Desktop",
@@ -36,7 +36,7 @@
         "type": "exe",
         "build": "102",
         "size": 70575440,
-        "url": "http://downloads.keyman.com.local/windows/alpha/14.0.102.0/keymandesktop-14.0.102.0.exe"
+        "url": "https://downloads.keyman.com/windows/alpha/14.0.102.0/keymandesktop-14.0.102.0.exe"
     },
     "keyboards": {
         "khmer_angkor": {
@@ -63,7 +63,7 @@
             "name": "Khmer Angkor",
             "authorName": "Makara Sok",
             "authorEmail": "makara@keyman.com",
-            "lastModifiedDate": "2020-06-12T00:39:43.475Z",
+            "lastModifiedDate": "2020-06-26T16:40:11.530Z",
             "sourcePath": "release/k/khmer_angkor",
             "version": "1.0.6",
             "packageFilename": "khmer_angkor.kmp",
@@ -90,7 +90,7 @@
                 "desktopWeb": "full",
                 "mobileWeb": "full"
             },
-            "url": "http://downloads.keyman.com.local/keyboards/khmer_angkor/1.0.6/khmer_angkor.kmp"
+            "url": "https://downloads.keyman.com/keyboards/khmer_angkor/1.0.6/khmer_angkor.kmp"
         }
     }
 }

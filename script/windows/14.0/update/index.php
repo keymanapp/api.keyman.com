@@ -1,5 +1,6 @@
 <?php
   require_once __DIR__ . '/../../../../tools/base.inc.php';
+  require_once __DIR__ . '/../../../../tools/util.php';
   require_once __DIR__ . '/WindowsUpdateCheck.php';
 
   json_response();

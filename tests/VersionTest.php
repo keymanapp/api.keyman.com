@@ -4,12 +4,11 @@ namespace Keyman\Site\com\keyman\api\tests;
 
 require_once(__DIR__ . '/../tools/base.inc.php');
 require_once(__DIR__ . '/../script/version/version.inc.php');
+require_once(__DIR__ . '/ApiTestCase.php');
 require_once(__DIR__ . '/TestUtils.inc.php');
 require_once(__DIR__ . '/TestDBBuild.inc.php');
 
-use PHPUnit\Framework\TestCase;
-
-final class VersionTest extends TestCase
+final class VersionTest extends ApiTestCase
 {
   private const SchemaFilename = "/version/2.0/version.json";
 
