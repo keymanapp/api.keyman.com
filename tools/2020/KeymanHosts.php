@@ -22,12 +22,16 @@
 
     public static function Instance(): KeymanHosts {
       if(!self::$instance)
-        self::$instance = new KeymanHosts();
+        self::Rebuild();
       return self::$instance;
     }
 
     public function Tier() {
       return $this->tier;
+    }
+
+    public static function Rebuild() {
+      self::$instance = new KeymanHosts();
     }
 
     function __construct() {
