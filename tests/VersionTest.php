@@ -12,11 +12,6 @@ final class VersionTest extends ApiTestCase
 {
   private const SchemaFilename = "/version/2.0/version.json";
 
-  static function setUpBeforeClass(): void
-  {
-    TestDBBuild::Build();
-  }
-
   public function testSimpleResultValidatesAgainstSchema(): void
   {
     $schema = TestUtils::LoadJSONSchema(VersionTest::SchemaFilename);
