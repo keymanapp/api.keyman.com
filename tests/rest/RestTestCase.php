@@ -3,13 +3,14 @@
 namespace Keyman\Site\com\keyman\api\tests\rest;
 
 require_once(__DIR__ . '/../../tools/base.inc.php');
+require_once(__DIR__ . '/../ApiTestCase.php');
 require_once(__DIR__ . '/../TestUtils.inc.php');
 
 use Keyman\Site\com\keyman\api\tests\TestUtils;
-use PHPUnit\Framework\TestCase;
+use Keyman\Site\com\keyman\api\tests\ApiTestCase;
 use GuzzleHttp;
 
-class RestTestCase extends TestCase
+class RestTestCase extends ApiTestCase
 {
   protected $http;
 

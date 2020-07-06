@@ -61,20 +61,3 @@
   function allow_cors() {
     header('Access-Control-Allow-Origin: *');
   }
-
-  function get_site_url_api() {
-    // We could do this algorithmically so that we can
-    // support dev machines more easily, but that can
-    // come later.
-    // TODO: use live or staging site (refactor to use KeymanHosts)
-    return 'http://api.keyman.com.local';
-  }
-
-  function get_site_url_downloads() {
-    // TODO: use live or staging site (refactor to use KeymanHosts)
-    return 'http://downloads.keyman.com.local';
-  }
-
-  function get_model_download_url($id, $version, $filename) {
-    return get_site_url_downloads() . "/models/{$id}/{$version}/{$filename}";
-  }

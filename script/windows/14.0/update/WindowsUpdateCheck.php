@@ -12,15 +12,6 @@
     const BOOTSTRAP_REGEX = '/^setup\.exe$/';
     const BUNDLE_REGEX = '/^keyman(desktop)?-.+\.exe/';
 
-    private $downloadsApi;
-
-    public function __construct(DownloadsApi $downloadsApi = null) {
-      if($downloadsApi == null)
-        $this->downloadsApi = new DownloadsApi();
-      else
-        $this->downloadsApi = $downloadsApi;
-    }
-
     public function execute($tier, $appVersion, $packages) {
       $desktop_update = [];
 
@@ -39,7 +30,7 @@
 
     private function BuildKeymanDesktopVersionResponse($tier, $InstalledVersion, $regex) {
       if(empty($this->DownloadVersions)) {
-        $this->DownloadVersions = $this->downloadsApi->GetPlatformVersion("windows");
+        $this->DownloadVersions = DownloadsApi::Instance()->GetPlatformVersion("windows");
         if($this->DownloadVersions === NULL) {
           fail('Unable to download or decode version data from '.KeymanHosts::Instance()->downloads_keyman_com, 500);
         }
@@ -158,7 +149,7 @@
     }
 
     private function BuildKeyboardDownloadPath($id, $version) {
-      $data = $this->downloadsApi->GetKeyboardVersion($id);
+      $data = DownloadsApi::Instance()->GetKeyboardVersion($id);
       if($data === NULL) {
         return FALSE;
       }
