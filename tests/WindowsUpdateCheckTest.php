@@ -18,7 +18,7 @@ final class WindowsUpdateCheckTest extends ApiTestCase
     $schema = TestUtils::LoadJSONSchema(self::SchemaFilename);
 
     $u = new \Keyman\Site\com\keyman\api\WindowsUpdateCheck();
-    $json = $u->execute('alpha', '14.0.100', ['khmer_angkor'=>'1.0.2', 'foo'=>'0.1']);
+    $json = $u->execute('alpha', '14.0.100', ['khmer_angkor'=>'1.0.2', 'foo'=>'0.1'], 0);
     $this->assertNotEmpty($json);
     $data = json_decode($json);
     $this->assertNotNull($data);
