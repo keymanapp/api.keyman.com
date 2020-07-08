@@ -13,6 +13,8 @@
 
   $tier = isset($_REQUEST['tier']) ? $_REQUEST['tier'] : 'stable';
 
+  $isUpdate = empty($_REQUEST['update']) ? 0 : 1;
+
   $packages = [];
   foreach ($_REQUEST as $id => $version) {
     while(is_array($version)) {
@@ -26,4 +28,4 @@
   }
 
   $u = new Keyman\Site\com\keyman\api\WindowsUpdateCheck();
-  echo $u->execute($tier, $_REQUEST['version'], $packages);
+  echo $u->execute($tier, $_REQUEST['version'], $packages, $isUpdate);

@@ -12,7 +12,10 @@
     const BOOTSTRAP_REGEX = '/^setup\.exe$/';
     const BUNDLE_REGEX = '/^keyman(desktop)?-.+\.exe/';
 
-    public function execute($tier, $appVersion, $packages) {
+    public function execute($tier, $appVersion, $packages, $isUpdate) {
+
+      $isUpdate = empty($isUpdate) ? 0 : 1;
+
       $desktop_update = [];
 
       $desktop_update['msi'] = $this->BuildKeymanDesktopVersionResponse($tier, $appVersion, self::MSI_REGEX);
@@ -23,7 +26,7 @@
       } else {
         $newAppVersion = $appVersion;
       }
-      $desktop_update['keyboards'] = $this->BuildKeyboardsResponse($newAppVersion, $packages);
+      $desktop_update['keyboards'] = $this->BuildKeyboardsResponse($tier, $newAppVersion, $packages, $isUpdate);
 
       return json_encode($desktop_update, JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES);
     }
@@ -75,14 +78,14 @@
       return $v1[0] == $v2[0];
     }
 
-    private function BuildKeyboardsResponse($appVersion, $packages) {
+    private function BuildKeyboardsResponse($tier, $appVersion, $packages, $isUpdate) {
       $keyboards = [];
 
       // For each keyboard in the parameter request, check for a new version or
       // for a keyboard that replaces it
 
       foreach ($packages as $id => $version) {
-        $keyboard = $this->BuildKeyboardResponse($id, $version, $appVersion);
+        $keyboard = $this->BuildKeyboardResponse($tier, $id, $version, $appVersion, $isUpdate);
         if($keyboard !== FALSE) {
           $keyboards[$id] = $keyboard;
         }
@@ -90,7 +93,7 @@
       return $keyboards;
     }
 
-    private function BuildKeyboardResponse($id, $version, $appVersion) {
+    private function BuildKeyboardResponse($tier, $id, $version, $appVersion, $isUpdate) {
       // TODO: this should use the class instead of file_get_contents
       $KeyboardDownload = @file_get_contents(KeymanHosts::Instance()->api_keyman_com."/keyboard/$id");
       if($KeyboardDownload === FALSE) {
@@ -108,7 +111,7 @@
         $r = get_object_vars($KeyboardDownload->related);
         foreach($r as $rid => $data) {
           if(isset($data->deprecatedBy) && $data->deprecatedBy) {
-            $newData = $this->BuildKeyboardResponse($rid, '0.0', $appVersion); // 0.0 because we want to get the newest version
+            $newData = $this->BuildKeyboardResponse($tier, $rid, '0.0', $appVersion, $isUpdate); // 0.0 because we want to get the newest version
             if($newData === FALSE) {
               // Don't attempt to upgrade if the deprecating keyboard
               // is not available for some reason
@@ -139,7 +142,7 @@
         return FALSE;
       }
 
-      $KeyboardDownload->url = $this->BuildKeyboardDownloadPath($KeyboardDownload->id, $KeyboardDownload->version);
+      $KeyboardDownload->url = $this->BuildKeyboardDownloadPath($KeyboardDownload->id, $KeyboardDownload->version, $tier, $isUpdate);
       if($KeyboardDownload->url === FALSE) {
         // Unable to build a url for the keyboard, would only happen if downloads.keyman.com was out of sync with
         // api.keyman.com
@@ -148,7 +151,7 @@
       return $KeyboardDownload;
     }
 
-    private function BuildKeyboardDownloadPath($id, $version) {
+    private function BuildKeyboardDownloadPath($id, $version, $tier, $isUpdate) {
       $data = DownloadsApi::Instance()->GetKeyboardVersion($id);
       if($data === NULL) {
         return FALSE;
@@ -156,6 +159,11 @@
       if(!isset($data->kmp)) {
         return FALSE;
       }
-      return $data->kmp;
+      return KeymanHosts::Instance()->keyman_com . "/go/package/download/" .
+        rawurlencode($id) .
+        "?version=" . rawurlencode($version) .
+        "&platform=windows" .
+        "&tier=$tier" .
+        "&update=$isUpdate";
     }
   }
