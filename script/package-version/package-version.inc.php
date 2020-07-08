@@ -3,6 +3,9 @@
 namespace Keyman\Site\com\keyman\api;
 
 require_once(__DIR__ . '/../../tools/util.php');
+require_once(__DIR__ . '/../../tools/autoload.php');
+
+use Keyman\Site\com\keyman\api\KeymanHosts;
 
 class PackageVersion
 {
@@ -38,7 +41,7 @@ class PackageVersion
         if (count($data) == 0) {
           $json["keyboards"][$keyboard] = ['error' => 'not found'];
         } else {
-          if (isset($platform) && !$data[0][array_search($platform, PackageVersion::available_platforms()) + 2]) {
+          if (!empty($platform) && !$data[0][array_search($platform, PackageVersion::available_platforms()) + 2]) {
             $json["keyboards"][$keyboard] = ['error' => 'not found'];
           } else {
             $json["keyboards"][$keyboard] = [
@@ -80,8 +83,13 @@ class PackageVersion
   {
     $id = urlencode($id);
     $version = urlencode($version);
-    $package = urlencode($package);
-    return "https://downloads.keyman.com/keyboards/$id/$version/$package";
+    // $package = urlencode($package);
+
+    return KeymanHosts::Instance()->keyman_com . "/go/package/download/" .
+      rawurlencode($id) .
+      "?version=" . rawurlencode($version) .
+      "&update=1";
+    //return " https://downloads.keyman.com/keyboards/$id/$version/$package";
   }
 
   //
