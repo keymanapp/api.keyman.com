@@ -71,13 +71,6 @@
       return FALSE;
     }
 
-    private function IsSameMajorVersion($v1, $v2) {
-      if(empty($v1) || empty($v2)) return FALSE;
-      $v1 = explode('.', $v1);
-      $v2 = explode('.', $v2);
-      return $v1[0] == $v2[0];
-    }
-
     private function BuildKeyboardsResponse($tier, $appVersion, $packages, $isUpdate) {
       $keyboards = [];
 
