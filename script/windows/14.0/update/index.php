@@ -1,6 +1,7 @@
 <?php
   require_once __DIR__ . '/../../../../tools/base.inc.php';
   require_once __DIR__ . '/../../../../tools/util.php';
+  require_once __DIR__ . '/../../../../tools/db/db.php';
   require_once __DIR__ . '/WindowsUpdateCheck.php';
 
   json_response();
@@ -27,5 +28,7 @@
     }
   }
 
+  $mssql = Keyman\Site\com\keyman\api\Tools\DB\DBConnect::Connect();
+
   $u = new Keyman\Site\com\keyman\api\WindowsUpdateCheck();
-  echo $u->execute($tier, $_REQUEST['version'], $packages, $isUpdate);
+  echo $u->execute($mssql, $tier, $_REQUEST['version'], $packages, $isUpdate);
