@@ -4,6 +4,7 @@
   namespace Keyman\Site\com\keyman\api;
 
   require_once __DIR__ . '/../../../../tools/autoload.php';
+  require_once __DIR__ . '/../../../keyboard/keyboard.inc.php'; // TODO this class needs to be moved to an autoload location
 
   use Keyman\Site\com\keyman\api\DownloadsApi;
 
@@ -12,7 +13,9 @@
     const BOOTSTRAP_REGEX = '/^setup\.exe$/';
     const BUNDLE_REGEX = '/^keyman(desktop)?-.+\.exe/';
 
-    public function execute($tier, $appVersion, $packages, $isUpdate) {
+    public function execute($mssql, $tier, $appVersion, $packages, $isUpdate) {
+
+      $this->mssql = $mssql;
 
       $isUpdate = empty($isUpdate) ? 0 : 1;
 
@@ -71,13 +74,6 @@
       return FALSE;
     }
 
-    private function IsSameMajorVersion($v1, $v2) {
-      if(empty($v1) || empty($v2)) return FALSE;
-      $v1 = explode('.', $v1);
-      $v2 = explode('.', $v2);
-      return $v1[0] == $v2[0];
-    }
-
     private function BuildKeyboardsResponse($tier, $appVersion, $packages, $isUpdate) {
       $keyboards = [];
 
@@ -94,17 +90,7 @@
     }
 
     private function BuildKeyboardResponse($tier, $id, $version, $appVersion, $isUpdate) {
-      // TODO: this should use the class instead of file_get_contents
-      $KeyboardDownload = @file_get_contents(KeymanHosts::Instance()->api_keyman_com."/keyboard/$id");
-      if($KeyboardDownload === FALSE) {
-        // not found
-        return FALSE;
-      }
-      $KeyboardDownload = @json_decode($KeyboardDownload);
-      if($KeyboardDownload === NULL) {
-        // invalid json
-        return FALSE;
-      }
+      $KeyboardDownload = Keyboard::execute($this->mssql, $id);
 
       // Check if the keyboard has been replaced by something else and return it if so
       if(isset($KeyboardDownload->related)) {
