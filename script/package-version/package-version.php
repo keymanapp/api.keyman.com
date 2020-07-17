@@ -18,11 +18,16 @@
    *                   The valid blob will contain latest version and url for the keyboards/lexical models.
    */
 
-  require_once('../../tools/db/db.php');
-  require_once('../../tools/util.php');
+use Keyman\Site\com\keyman\api\PackageVersion;
+
+require_once('../../tools/util.php');
 
   allow_cors();
   json_response();
+
+  require_once(__DIR__ . '/package-version.inc.php');
+  require_once('../../tools/db/db.php');
+  $mssql = Keyman\Site\com\keyman\api\Tools\DB\DBConnect::Connect();
 
   header('Link: <https://api.keyman.com/schemas/package-version.json#>; rel="describedby"');
 
@@ -30,7 +35,7 @@
 
   // Validate parameters
 
-  $available_platforms = ['android','ios','linux','mac','web','windows'];
+  $available_platforms = PackageVersion::available_platforms();
 
   foreach($params as $param => $value) {
     if(!in_array($param, ['keyboard', 'model', 'platform'])) {
@@ -44,78 +49,11 @@
       fail("Invalid platform $platform");
     }
   }
-
+  else $platform = null;
   // Prepare results
 
-  $json = [];
-
-  if(isset($params['keyboard'])) {
-    $json['keyboards'] = [];
-
-    foreach($params['keyboard'] as $keyboard) {
-      if(($stmt = $mysql->prepare(
-          'SELECT
-            version, package_filename,
-            platform_android, platform_linux, platform_macos, platform_ios, platform_web, platform_windows
-          FROM
-            t_keyboard
-          WHERE
-            keyboard_id = ?')) === false) {
-        fail("Failed to prepare query: {$mysql->error}", 500);
-      }
-
-      $stmt->bind_param("s", $keyboard);
-
-      if($stmt->execute()) {
-        $result = $stmt->get_result();
-        $data = $result->fetch_all();
-        if(count($data) == 0) {
-          $json["keyboards"][$keyboard] = ['error' => 'not found'];
-        } else {
-          if(isset($platform) && !$data[0][array_search($platform, $available_platforms)+2]) {
-            $json["keyboards"][$keyboard] = ['error' => 'not found'];
-          } else {
-            $json["keyboards"][$keyboard] = [
-              'version' => $data[0][0],
-              'kmp' => keyboard_download_url($keyboard, $data[0][0], $data[0][1])
-            ];
-          }
-        }
-      } else {
-        fail("Failed to execute query: {$mysql->error}", 500);
-      }
-    }
-  }
-
-  if(isset($params['model'])) {
-    $json['models'] = [];
-
-    foreach($params['model'] as $model) {
-      if(($stmt = $mysql->prepare('SELECT version, package_filename FROM t_model WHERE model_id = ?')) === false) {
-        fail("Failed to prepare query: {$mysql->error}", 500);
-      }
-
-      $stmt->bind_param("s", $model);
-
-      if($stmt->execute()) {
-        $result = $stmt->get_result();
-        $data = $result->fetch_all();
-        if(count($data) == 0) {
-          $json["models"][$model] = ['error' => 'not found'];
-        } else {
-          // Note: we don't currently test platform for models
-          $json["models"][$model] = [
-            'version' => $data[0][0],
-            'kmp' => model_download_url($model, $data[0][0], $data[0][1])
-          ];
-        }
-      } else {
-        fail("Failed to execute query: {$mysql->error}", 500);
-      }
-    }
-  }
-
-  $mysql->close();
+  $PackageVersion = new Keyman\Site\com\keyman\api\PackageVersion();
+  $json = $PackageVersion->execute($mssql, $params, $platform);
 
   echo json_encode($json, JSON_UNESCAPED_SLASHES | JSON_PRETTY_PRINT);
 
@@ -130,7 +68,7 @@
   function fix_array_params($q) {
     $res = [];
     $q = preg_replace('/\bkeyboard=/', 'keyboard[]=', $q);
-    $q = preg_replace('/\model=/', 'model[]=', $q);
+    $q = preg_replace('/\bmodel=/', 'model[]=', $q);
 
     parse_str($q, $res);
     if(array_key_exists('keyboard', $res)) {
@@ -151,26 +89,4 @@
       $items = array_merge($items, $a);
     }
     return $items;
-  }
-
-  //
-  // Hard-coded path to keyboards so we don't have to query
-  // downloads.keyman.com/api/keyboard for each keyboard
-  //
-  function keyboard_download_url($id, $version, $package) {
-    $id = urlencode($id);
-    $version = urlencode($version);
-    $package = urlencode($package);
-    return "https://downloads.keyman.com/keyboards/$id/$version/$package";
-  }
-
-  //
-  // Hard-coded path to models so we don't have to query
-  // downloads.keyman.com/api/keyboard for each keyboard
-  //
-  function model_download_url($id, $version, $package) {
-    $id = urlencode($id);
-    $version = urlencode($version);
-    $package = urlencode($package);
-    return "https://downloads.keyman.com/models/$id/$version/$package";
   }

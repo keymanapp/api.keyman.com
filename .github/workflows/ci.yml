@@ -1,0 +1,114 @@
+name: CI
+
+on: [pull_request]
+
+jobs:
+
+  build-test:
+    runs-on: windows-latest
+    env:
+      api_keyman_com_host: http://127.0.0.1:8888
+      api_keyman_com_mssql_pw: Password1!
+      api_keyman_com_mssql_user: sa
+      api_keyman_com_mssqlconninfo: sqlsrv:Server=(local)\KEYMANAPI; Database=
+      api_keyman_com_mssql_create_databases: true
+      api_keyman_com_mssqldb0: keyboards
+      api_keyman_com_mssqldb1: keyboards_1
+      api_keyman_com_keyboard_info_zip: https://downloads.keyman.com/data/keyboard_info.zip
+      api_keyman_com_model_info_zip: https://downloads.keyman.com/data/model_info.zip
+
+    steps:
+    - uses: actions/checkout@v2
+
+    #
+    # Configure IIS and setup site for running unit tests
+    #  * Installs IIS, CGI extensions, URLRewrite and configures to connect to PHP
+    #  * Sets up http://127.0.0.1:8888 as host for tests
+    #  * Enables detailed error reporting
+    #
+    - name: Download and install IIS and setup a local website
+      shell: powershell
+      run: |
+        Enable-WindowsOptionalFeature -Online -FeatureName IIS-WebServerRole -NoRestart
+        Enable-WindowsOptionalFeature -Online -FeatureName IIS-CGI -NoRestart
+        Enable-WindowsOptionalFeature -Online -FeatureName IIS-ISAPIExtensions -NoRestart
+        Enable-WindowsOptionalFeature -Online -FeatureName IIS-ISAPIFilter -NoRestart
+        choco install --no-progress urlrewrite
+        Import-Module WebAdministration
+        New-WebAppPool -name "NewWebSiteAppPool"  -force
+        New-WebSite -name "NewWebSite" -PhysicalPath "$ENV:GITHUB_WORKSPACE" -ApplicationPool "NewWebSiteAppPool" -port 8888 -force
+        Set-WebConfigurationproperty -filter "system.webServer/httpErrors" -pspath "MACHINE/WEBROOT/APPHOST" -name errorMode -value Detailed
+
+    #
+    # This step configures FastCGI according to the documentation at https://www.php.net/manual/en/install.windows.manual.php
+    # This alternative doesn't work: New-WebHandler -name "PHP" -Path *.php -Modules FastCgiModule -ScriptProcessor "c:\tools\php\php-cgi.exe" -Verb 'GET,POST' -Force
+    #
+    - name: Setup FastCGI
+      shell: cmd
+      run: |
+        set phpdir=c:\tools
+        set phppath=php
+
+        REM Clear current PHP handlers
+        %windir%\system32\inetsrv\appcmd clear config /section:system.webServer/fastCGI
+        %windir%\system32\inetsrv\appcmd set config /section:system.webServer/handlers /-[name='PHP_via_FastCGI']
+
+        REM Set up the PHP handler
+        %windir%\system32\inetsrv\appcmd set config /section:system.webServer/fastCGI /+[fullPath='%phpdir%\%phppath%\php-cgi.exe']
+        %windir%\system32\inetsrv\appcmd set config /section:system.webServer/handlers /+[name='PHP_via_FastCGI',path='*.php',verb='*',modules='FastCgiModule',scriptProcessor='%phpdir%\%phppath%\php-cgi.exe',resourceType='Unspecified']
+        %windir%\system32\inetsrv\appcmd set config /section:system.webServer/handlers /accessPolicy:Read,Script
+
+        REM Configure FastCGI Variables
+        %windir%\system32\inetsrv\appcmd set config -section:system.webServer/fastCgi /[fullPath='%phpdir%\%phppath%\php-cgi.exe'].instanceMaxRequests:10000
+        %windir%\system32\inetsrv\appcmd.exe set config -section:system.webServer/fastCgi /+"[fullPath='%phpdir%\%phppath%\php-cgi.exe'].environmentVariables.[name='PHP_FCGI_MAX_REQUESTS',value='10000']"
+        %windir%\system32\inetsrv\appcmd.exe set config -section:system.webServer/fastCgi /+"[fullPath='%phpdir%\%phppath%\php-cgi.exe'].environmentVariables.[name='PHPRC',value='%phpdir%\%phppath%\php.ini']"
+
+    #
+    # Write environment to localenv.php (so PHP under IIS can see it as env is not available)
+    #
+    - name: Setup localenv.php
+      shell: cmd
+      run: |
+        echo ^<?php > tools\db\localenv.php
+        echo $mysqlpw='%api_keyman_com_mssql_pw%'; >> tools\db\localenv.php
+        echo $mysqluser='%api_keyman_com_mssql_user%'; >> tools\db\localenv.php
+        echo $mssqldb0 = '%api_keyman_com_mssqldb0%'; >> tools\db\localenv.php
+        echo $mssqldb1 = '%api_keyman_com_mssqldb1%'; >> tools\db\localenv.php
+        echo $mssqlconninfo='%api_keyman_com_mssqlconninfo%'; >> tools\db\localenv.php
+        echo $mssql_create_databases = true; >> tools\db\localenv.php
+
+    #
+    # Install SQL Server Developer Edition with FullText Search module
+    #
+    - name: Download and install SQL Server Express
+      shell: cmd
+      run: |
+        choco install sql-server-2019 --no-progress --params "'/IGNOREPENDINGREBOOT /INSTANCEID=KEYMANAPI /INSTANCENAME=KEYMANAPI /SAPWD=Password1! /SECURITYMODE=SQL /UPDATEENABLED=FALSE /FEATURES=SQLENGINE,FULLTEXT'"
+
+    #
+    # Install website PHP dependencies
+    #
+    - name:  Install dependencies
+      shell: cmd
+      run:   composer install --no-progress
+
+    #
+    # Install PHP SQL Server PDO Driver
+    #  * Copy driver to PHP extensions
+    #  * Configure extension
+    #  * Allow PHP errors to be displayed
+    #
+    - name:  Install PHP SQL Server PDO Driver
+      shell: powershell
+      run: |
+        Invoke-WebRequest -outfile pdo.zip https://github.com/microsoft/msphpsql/releases/download/v5.8.0/Windows-7.4.zip
+        Expand-Archive pdo.zip -DestinationPath pdo\
+        copy pdo\Windows-7.4\x64\php_pdo_sqlsrv_74_nts.dll c:\tools\php\ext\
+        Add-Content -path c:\tools\php\php.ini -value '','extension=php_pdo_sqlsrv_74_nts.dll','mssql.secure_connection=Off','extension=php_intl.dll','display_errors = On'
+
+    #
+    # Finally, run the unit tests!
+    #
+    - name:  Run unit tests
+      shell: cmd
+      run:   composer test

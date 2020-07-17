@@ -8,7 +8,7 @@
       return $date;
     }
   }
-  
+
   // This data is constructed from the standards data. It should never change.
   // Extracted from http://www.iana.org/assignments/language-subtag-registry/language-subtag-registry
 
@@ -199,7 +199,7 @@
     'zul' => 'zu'
   ];
   $mapbcp47to6393 = null;
-  
+
   function translate6393ToBCP47($id) {
     // This function just maps ISO639-3 codes to 2 letter codes where one exists, otherwise
     // returns the three letter code.
@@ -209,7 +209,7 @@
     }
     return $id;
   }
-  
+
   function build_mapbcp47to6393() {
     global $map6393tobcp47, $mapbcp47to6393;
     $mapbcp47to6393 = [];
@@ -223,7 +223,7 @@
     if(!isset($use_bcp47)) {
       $use_bcp47 = isset($_REQUEST['languageidtype']) && $_REQUEST['languageidtype'] == 'bcp47';
     }
-    
+
     if($use_bcp47) {
       return $id;
     }
@@ -234,11 +234,11 @@
     if(empty($mapbcp47to6393)) {
       build_mapbcp47to6393();
     }
-    
+
     $id = explode('-', $id);
     return isset($mapbcp47to6393[$id[0]]) ? $mapbcp47to6393[$id[0]] : $id[0];
   }
-  
+
   function validateVersion($v) {
     global $version, $version1, $version2;
     // Make sure we have a valid version string and return 9.0 if not (based on Desktop version).
@@ -248,11 +248,11 @@
       $version = $v;
     }
     preg_match('/^(\d+)\.(\d+)/', $version, $matches);
-    $version1 = $matches[1];
+    $version1 = intval($matches[1]);
     /* Because we don't really support KMW keyboards earlier than 2.0, that maps to Keyman Desktop 9.0, we
        set the version to 9.0 if it is lower than that. */
     if($version1 < 9) $version1 = 9;
-    $version2 = $matches[2];
+    $version2 = intval($matches[2]);
   }
 
 ?>
