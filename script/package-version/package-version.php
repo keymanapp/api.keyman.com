@@ -18,9 +18,10 @@
    *                   The valid blob will contain latest version and url for the keyboards/lexical models.
    */
 
-use Keyman\Site\com\keyman\api\PackageVersion;
-
-require_once('../../tools/util.php');
+  require_once('../../tools/util.php');
+  require_once __DIR__ . '/../../tools/autoload.php';
+  use Keyman\Site\com\keyman\api\KeymanHosts;
+  use Keyman\Site\com\keyman\api\PackageVersion;
 
   allow_cors();
   json_response();
@@ -29,7 +30,7 @@ require_once('../../tools/util.php');
   require_once('../../tools/db/db.php');
   $mssql = Keyman\Site\com\keyman\api\Tools\DB\DBConnect::Connect();
 
-  header('Link: <https://api.keyman.com/schemas/package-version.json#>; rel="describedby"');
+  header('Link: <' . KeymanHosts::Instance()->api_keyman_com . '/schemas/package-version.json#>; rel="describedby"');
 
   $params = fix_array_params($_SERVER['QUERY_STRING']);
 

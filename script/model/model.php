@@ -6,9 +6,12 @@
 
   require_once(__DIR__ . '/model.inc.php');
   require_once(__DIR__ . '/../../tools/db/db.php');
+  require_once __DIR__ . '/../../tools/autoload.php';
+  use Keyman\Site\com\keyman\api\KeymanHosts;
+
   $mssql = Keyman\Site\com\keyman\api\Tools\DB\DBConnect::Connect();
 
-  header('Link: <https://api.keyman.com/schemas/model_info.distribution.json#>; rel="describedby"');
+  header('Link: <' . KeymanHosts::Instance()->api_keyman_com . '/schemas/model_info.distribution.json#>; rel="describedby"');
 
   if(!isset($_REQUEST['id'])) {
     fail('id parameter must be set');

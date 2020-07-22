@@ -1,5 +1,7 @@
 <?php
   require_once('../../../tools/util.php');
+  require_once __DIR__ . '/../../../tools/autoload.php';
+  use Keyman\Site\com\keyman\api\KeymanHosts;
 
   allow_cors();
   json_response();
@@ -7,14 +9,14 @@
   require_once('../../../tools/db/db.php');
   $mssql = Keyman\Site\com\keyman\api\Tools\DB\DBConnect::Connect();
 
-  header('Link: <https://api.keyman.com/schemas/search/1.0/search.json#>; rel="describedby"');
+  header('Link: <' . KeymanHosts::Instance()->api_keyman_com . '/schemas/search/1.0/search.json#>; rel="describedby"');
 
   define('rmAll', 7);
   define('rmCountry', 1);
   define('rmLanguage', 2);
   define('rmKeyboard', 4);
 
-  /**
+  /*
     https://api.keyman.com/search?q=query-string
 
     Search for a keyboard. Returns a result that lists all keyboards, languages and countries that match.

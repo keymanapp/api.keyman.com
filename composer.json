@@ -11,6 +11,7 @@
     },
     "scripts": {
       "test": "vendor\\bin\\phpunit --testdox",
-      "build": "php tools\\db\\build\\build_cli.php"
+      "build": "php tools\\db\\build\\build_cli.php",
+      "lint": "find . -name '*.php' | grep -v '/vendor/' | xargs -n 1 php -l"
     }
 }

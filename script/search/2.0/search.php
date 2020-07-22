@@ -25,6 +25,8 @@
    */
 
   require_once(__DIR__ . '/../../../tools/util.php');
+  require_once __DIR__ . '/../../../tools/autoload.php';
+  use Keyman\Site\com\keyman\api\KeymanHosts;
 
   allow_cors();
   json_response();
@@ -37,7 +39,7 @@
     fail('Query string must be set');
   }
 
-  header('Link: <https://api.keyman.com/schemas/search/2.0/search.json#>; rel="describedby"');
+  header('Link: <' . KeymanHosts::Instance()->api_keyman_com . '/schemas/search/2.0/search.json#>; rel="describedby"');
   //header('') TODO: add page information to results
 
   $query = $_REQUEST['q'];
