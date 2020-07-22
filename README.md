@@ -17,6 +17,12 @@ Currently, this site runs only on a Windows host with IIS and Microsoft SQL Serv
 
 ## Setup
 
+Install the dependencies:
+
+```
+composer install
+```
+
 Build the backend database from live data:
 
 ```
