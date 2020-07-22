@@ -6,7 +6,7 @@
   class KeymanHosts {
     // Four tiers. These use the following rough patterns:
     // * development = [x.]keyman.com.local
-    // * Staging = staging-[x-]keyman-com.azurewebsites.net
+    // * Staging = [x.]keyman-staging.com
     // * Production = [x.]keyman.com
     // * Test = GitHub actions, localhost:8888 (uses staging tier for other hosts)
     const TIER_DEVELOPMENT = "TIER_DEVELOPMENT";
@@ -66,10 +66,10 @@
         // As we build more staging areas, change these over as well. Assumption that we'll stage across multiple sites is a
         // little presumptuous but we can live with it.
         $this->s_keyman_com = "https://s.keyman.com";
-        $this->api_keyman_com = "https://staging-api-keyman-com.azurewebsites.net";
-        $this->help_keyman_com = "https://staging-help-keyman-com.azurewebsites.net";
+        $this->api_keyman_com = "https://api.keyman-staging.com";
+        $this->help_keyman_com = "https://help.keyman-staging.com";
         $this->downloads_keyman_com = "https://downloads.keyman.com";
-        $this->keyman_com = "https://staging-keyman-com.azurewebsites.net";
+        $this->keyman_com = "https://keyman-staging.com";
         $this->keymanweb_com = "https://keymanweb.com";
         $this->r_keymanweb_com = "https://r.keymanweb.com";
       } else {

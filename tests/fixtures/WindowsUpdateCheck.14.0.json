@@ -90,7 +90,7 @@
                 "desktopWeb": "full",
                 "mobileWeb": "full"
             },
-            "url": "https://staging-keyman-com.azurewebsites.net/go/package/download/khmer_angkor?version=1.0.6&platform=windows&tier=alpha&update=0"
+            "url": "https://keyman-staging.com/go/package/download/khmer_angkor?version=1.0.6&platform=windows&tier=alpha&update=0"
         }
     }
 }

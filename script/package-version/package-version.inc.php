@@ -89,7 +89,6 @@ class PackageVersion
       rawurlencode($id) .
       "?version=" . rawurlencode($version) .
       "&update=1";
-    //return " https://downloads.keyman.com/keyboards/$id/$version/$package";
   }
 
   //
@@ -101,6 +100,6 @@ class PackageVersion
     $id = urlencode($id);
     $version = urlencode($version);
     $package = urlencode($package);
-    return "https://downloads.keyman.com/models/$id/$version/$package";
+    return KeymanHosts::Instance()->downloads_keyman_com . "/models/$id/$version/$package";
   }
 }

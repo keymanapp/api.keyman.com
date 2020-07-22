@@ -16,11 +16,6 @@ final class RestCloudTest extends RestTestCase
   private const SchemaFilename20 = "/keymanweb-cloud-api/keymanweb-cloud-api-2.0.json";
   private const SchemaFilename10 = "/keymanweb-cloud-api/keymanweb-cloud-api-1.0.json";
 
-  static function setUpBeforeClass(): void
-  {
-    \Keyman\Site\com\keyman\api\tests\TestDBBuild::Build();
-  }
-
   private function assertJsonSchemaAndEquals($response, $schemaFilename, $fixture) {
     // Now validate against the schema file
     $schema = TestUtils::LoadJSONSchema($schemaFilename);

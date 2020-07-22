@@ -5,6 +5,9 @@
   require_once('legacy_db.php');
   require_once('legacy_fontutils.php');
   require_once('legacy_utils.php');
+  require_once __DIR__ . '/../../tools/autoload.php';
+
+  use Keyman\Site\com\keyman\api\KeymanHosts;
 
   allow_cors();
   json_response();
@@ -57,8 +60,8 @@
     'context' => $context,
     'dateFormat' => $dateFormatSeconds ? 'seconds' : 'standard',
     'device' => $device,
-    'keyboardBaseUri' => 'https://s.keyman.com/keyboard/',
-    'fontBaseUri' => 'https://s.keyman.com/font/deploy/'
+    'keyboardBaseUri' => KeymanHosts::Instance()->s_keyman_com . '/keyboard/',
+    'fontBaseUri' => KeymanHosts::Instance()->s_keyman_com . '/font/deploy/'
   );
 
   if(!empty($keyboardid)) {

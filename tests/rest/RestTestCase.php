@@ -8,6 +8,7 @@ require_once(__DIR__ . '/../TestUtils.inc.php');
 
 use Keyman\Site\com\keyman\api\tests\TestUtils;
 use Keyman\Site\com\keyman\api\tests\ApiTestCase;
+use Keyman\Site\com\keyman\api\KeymanHosts;
 use GuzzleHttp;
 
 class RestTestCase extends ApiTestCase
@@ -77,7 +78,7 @@ class RestTestCase extends ApiTestCase
     $base_schema = basename($schema);
     $links = $headers["Link"];
     $this->assertCount(1, $links); // we should only have one Link header, the JSON schema
-    $this->assertEquals("<https://api.keyman.com/schemas/$base_schema#>; rel=\"describedby\"" , $links[0]);
+    $this->assertEquals("<" . KeymanHosts::Instance()->api_keyman_com . "/schemas/$base_schema#>; rel=\"describedby\"" , $links[0]);
 
     // Now validate against the versioned schema file
     $schema = TestUtils::LoadJSONSchema($schema);

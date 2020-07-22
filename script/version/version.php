@@ -2,6 +2,8 @@
   require_once(__DIR__ . '/../../tools/util.php');
   require_once(__DIR__ . '/../../tools/keymanversion.php');
   require_once(__DIR__ . '/version.inc.php');
+  require_once __DIR__ . '/../../tools/autoload.php';
+  use Keyman\Site\com\keyman\api\KeymanHosts;
 
   define("LEGACY_WEB_STABLE_VERSION", "473"); // Corresponds to the last legacy stable web version 2.0.473
   allow_cors();
@@ -38,7 +40,7 @@
   json_response();
 
   // Proceed with json response
-  header('Link: <https://api.keyman.com/schemas/version.json#>; rel="describedby"');
+  header('Link: <' . KeymanHosts::Instance()->api_keyman_com . '/schemas/version.json#>; rel="describedby"');
 
   /*
     Test for stability parameter. If not provided, assume 'stable'
