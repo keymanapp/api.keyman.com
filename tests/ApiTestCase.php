@@ -11,7 +11,7 @@ use PHPUnit\Framework\TestCase;
 
 class ApiTestCase extends TestCase
 {
-  private const TIER_TXT = __DIR__ . '/../tools/tier.txt';
+  private const TIER_TXT = __DIR__ . '/../tier.txt';
   private static bool $wroteTierTxt = false;
 
   static function setUpBeforeClass(): void
