@@ -1,6 +1,6 @@
 <?php
   require_once('util.php');
-  require_once(__DIR__ . '/2020/KeymanHosts.php');
+  require_once(__DIR__ . '/../_common/KeymanHosts.php');
 
   //TODO: LogToGoogleAnalytics()....
 
@@ -41,17 +41,17 @@
       $platform = $this->platform;
 
       // TODO: use DownloadsApi
-      $DownloadVersions = @file_get_contents(\Keyman\Site\com\keyman\api\KeymanHosts::Instance()->downloads_keyman_com . "/api/version/$this->platform/2.0");
+      $DownloadVersions = @file_get_contents(\Keyman\Site\Common\KeymanHosts::Instance()->downloads_keyman_com . "/api/version/$this->platform/2.0");
       if($DownloadVersions === FALSE) {
-        fail('Unable to retrieve version data from '.\Keyman\Site\com\keyman\api\KeymanHosts::Instance()->downloads_keyman_com, 500);
+        fail('Unable to retrieve version data from '.\Keyman\Site\Common\KeymanHosts::Instance()->downloads_keyman_com, 500);
       }
       $DownloadVersions = @json_decode($DownloadVersions);
       if($DownloadVersions === NULL) {
-        fail('Unable to decode version data from '.\Keyman\Site\com\keyman\api\KeymanHosts::Instance()->downloads_keyman_com, 500);
+        fail('Unable to decode version data from '.\Keyman\Site\Common\KeymanHosts::Instance()->downloads_keyman_com, 500);
       }
 
       if(!isset($DownloadVersions->$platform)) {
-        fail("Unable to find {$platform} key in ".\Keyman\Site\com\keyman\api\KeymanHosts::Instance()->downloads_keyman_com." data", 500);
+        fail("Unable to find {$platform} key in ".\Keyman\Site\Common\KeymanHosts::Instance()->downloads_keyman_com." data", 500);
       }
 
       // Check each of the tiers for the one that matches the major version.
@@ -80,7 +80,7 @@
         foreach($files as $file => $filedata) {
           // This is currently tied to Windows -- for other platforms we need to change this
           if(preg_match($this->installerRegex, $file)) {
-            $filedata->url = \Keyman\Site\com\keyman\api\KeymanHosts::Instance()->downloads_keyman_com . "/$platform/$tier/{$filedata->version}/{$file}";
+            $filedata->url = \Keyman\Site\Common\KeymanHosts::Instance()->downloads_keyman_com . "/$platform/$tier/{$filedata->version}/{$file}";
             return $filedata;
           }
         }
@@ -119,7 +119,7 @@
 
     private function BuildKeyboardResponse($id, $version, $appVersion) {
       $platform = $this->platform;
-      $KeyboardDownload = @file_get_contents(\Keyman\Site\com\keyman\api\KeymanHosts::Instance()->api_keyman_com."/keyboard/$id");
+      $KeyboardDownload = @file_get_contents(\Keyman\Site\Common\KeymanHosts::Instance()->api_keyman_com."/keyboard/$id");
       if($KeyboardDownload === FALSE) {
         // not found
         return FALSE;
@@ -177,7 +177,7 @@
 
     private function BuildKeyboardDownloadPath($id, $version) {
       // TODO: use DownloadsApi
-      $data = @file_get_contents(\Keyman\Site\com\keyman\api\KeymanHosts::Instance()->downloads_keyman_com . "/api/keyboard/$id");
+      $data = @file_get_contents(\Keyman\Site\Common\KeymanHosts::Instance()->downloads_keyman_com . "/api/keyboard/$id");
       if($data === FALSE) {
         return FALSE;
       }

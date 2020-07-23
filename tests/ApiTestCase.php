@@ -6,7 +6,7 @@ require_once(__DIR__ . '/../tools/base.inc.php');
 require_once(__DIR__ . '/TestUtils.inc.php');
 require_once(__DIR__ . '/TestDBBuild.inc.php');
 
-use Keyman\Site\com\keyman\api\KeymanHosts;
+use Keyman\Site\Common\KeymanHosts;
 use PHPUnit\Framework\TestCase;
 
 class ApiTestCase extends TestCase

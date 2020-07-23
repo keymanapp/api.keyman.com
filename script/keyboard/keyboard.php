@@ -8,7 +8,7 @@
   require_once(__DIR__ . '/../../tools/db/db.php');
   require_once __DIR__ . '/../../tools/autoload.php';
 
-  use Keyman\Site\com\keyman\api\KeymanHosts;
+  use Keyman\Site\Common\KeymanHosts;
 
   $mssql = Keyman\Site\com\keyman\api\Tools\DB\DBConnect::Connect();
 
