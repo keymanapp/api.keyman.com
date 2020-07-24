@@ -3,7 +3,7 @@
 
   namespace Keyman\Site\com\keyman\api;
 
-  use Keyman\Site\com\keyman\api\KeymanHosts;
+  use Keyman\Site\Common\KeymanHosts;
 
   class DownloadsApi {
     private static ?DownloadsApi $instance = NULL;

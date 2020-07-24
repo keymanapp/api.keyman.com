@@ -8,7 +8,7 @@ require_once(__DIR__ . '/../TestUtils.inc.php');
 
 use Keyman\Site\com\keyman\api\tests\TestUtils;
 use Keyman\Site\com\keyman\api\tests\ApiTestCase;
-use Keyman\Site\com\keyman\api\KeymanHosts;
+use Keyman\Site\Common\KeymanHosts;
 use GuzzleHttp;
 
 class RestTestCase extends ApiTestCase

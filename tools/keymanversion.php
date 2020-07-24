@@ -1,7 +1,7 @@
 <?php
   require_once('util.php');
 
-  require_once(__DIR__ . '/2020/KeymanHosts.php');
+  require_once(__DIR__ . '/../_common/KeymanHosts.php');
   require_once(__DIR__ . '/2020/DownloadsApi.php');
   class keymanversion
   {
@@ -18,7 +18,7 @@
       $json = NULL;
 
 
-      if(\Keyman\Site\com\keyman\api\KeymanHosts::Instance()->Tier() == \Keyman\Site\com\keyman\api\KeymanHosts::TIER_TEST)
+      if(\Keyman\Site\Common\KeymanHosts::Instance()->Tier() == \Keyman\Site\Common\KeymanHosts::TIER_TEST)
         // For tests, never use cached file.
         $json = FALSE;
       else
