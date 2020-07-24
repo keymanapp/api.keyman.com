@@ -1,7 +1,7 @@
 <?php
   require_once('../../../tools/util.php');
   require_once __DIR__ . '/../../../tools/autoload.php';
-  use Keyman\Site\com\keyman\api\KeymanHosts;
+  use Keyman\Site\Common\KeymanHosts;
 
   allow_cors();
   json_response();

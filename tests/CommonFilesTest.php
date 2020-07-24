@@ -29,22 +29,15 @@ final class CommonFilesTest extends TestCase
 
     if(file_exists(__DIR__ . "/../../$site")) {
       $remoteDir = __DIR__ . "/../../$site/_common/";
-      $remoteFiles = glob($remoteDir . "*");
-
       foreach($localFiles as $localFile) {
         $remoteFile = $remoteDir . basename($localFile);
-        $v = array_search($remoteFile, $remoteFiles, true);
-        $this->assertNotFalse($v, "File $remoteFile does not exist.");
-        if($v !== FALSE) {
-          $localContent = file_get_contents($localFile);
-          $remoteContent = file_get_contents($remoteFile);
-          $this->assertEquals($localContent, $remoteContent, "Files $localFile and $remoteFile are not equal");
-        }
+        $this->assertFileEquals($localFile, $remoteFile);
       }
 
+      $remoteFiles = glob($remoteDir . "*");
       foreach($remoteFiles as $remoteFile) {
-        $localFile = self::commonDir . basename($localFile);
-        $this->assertNotFalse(array_search($localFile, $localFiles, true), "File $localFile does not exist");
+        $localFile = self::commonDir . basename($remoteFile);
+        $this->assertFileExists($localFile);
       }
 
     } else {

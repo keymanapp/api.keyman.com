@@ -7,6 +7,7 @@
   require_once __DIR__ . '/../../../keyboard/keyboard.inc.php'; // TODO this class needs to be moved to an autoload location
 
   use Keyman\Site\com\keyman\api\DownloadsApi;
+  use Keyman\Site\Common\KeymanHosts;
 
   class WindowsUpdateCheck {
     const MSI_REGEX = '/^keyman(desktop)?\.msi$/';

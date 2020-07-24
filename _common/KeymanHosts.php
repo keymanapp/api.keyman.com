@@ -1,7 +1,7 @@
 <?php
   declare(strict_types=1);
 
-  namespace Keyman\Site\com\keyman\api;
+  namespace Keyman\Site\Common;
 
   class KeymanHosts {
     // Four tiers. These use the following rough patterns:
@@ -14,7 +14,15 @@
     const TIER_PRODUCTION = "TIER_PRODUCTION";
     const TIER_TEST = "TIER_TEST";
 
-    public $s_keyman_com, $api_keyman_com, $help_keyman_com, $downloads_keyman_com, $keyman_com, $keymanweb_com, $r_keymanweb_com;
+    public
+      $s_keyman_com, $api_keyman_com, $help_keyman_com, $downloads_keyman_com,
+      $keyman_com, $keymanweb_com, $r_keymanweb_com, $blog_keyman_com,
+      $donate_keyman_com;
+
+    public
+      $s_keyman_com_host, $api_keyman_com_host, $help_keyman_com_host, $downloads_keyman_com_host,
+      $keyman_com_host,  $keymanweb_com_host, $r_keymanweb_com_host, $blog_keyman_com_host,
+      $donate_keyman_com_host;
 
     private $tier;
 
@@ -62,6 +70,9 @@
         break;
       }
 
+      $this->blog_keyman_com = "https://blog.keyman.com";
+      $this->donate_keyman_com = "https://donate.keyman.com";
+
       if(in_array($this->tier, [KeymanHosts::TIER_STAGING, KeymanHosts::TIER_TEST])) {
         // As we build more staging areas, change these over as well. Assumption that we'll stage across multiple sites is a
         // little presumptuous but we can live with it.
@@ -82,5 +93,15 @@
         $this->keymanweb_com = "{$site_protocol}keymanweb.com{$site_suffix}";
         $this->r_keymanweb_com = "https://r.keymanweb.com"; /// local dev domain is usually not available
       }
+
+      $this->blog_keyman_com_host = preg_replace('/^http(s)?:\/\/(.+)$/', '$2', $this->blog_keyman_com);
+      $this->s_keyman_com_host  = preg_replace('/^http(s)?:\/\/(.+)$/', '$2', $this->s_keyman_com);
+      $this->api_keyman_com_host = preg_replace('/^http(s)?:\/\/(.+)$/', '$2', $this->api_keyman_com);
+      $this->help_keyman_com_host = preg_replace('/^http(s)?:\/\/(.+)$/', '$2', $this->help_keyman_com);
+      $this->downloads_keyman_com_host = preg_replace('/^http(s)?:\/\/(.+)$/', '$2', $this->downloads_keyman_com);
+      $this->keyman_com_host = preg_replace('/^http(s)?:\/\/(.+)$/', '$2', $this->keyman_com);
+      $this->keymanweb_com_host = preg_replace('/^http(s)?:\/\/(.+)$/', '$2', $this->keymanweb_com);
+      $this->r_keymanweb_com_host = preg_replace('/^http(s)?:\/\/(.+)$/', '$2', $this->r_keymanweb_com);
+      $this->donate_keyman_com_host = preg_replace('/^http(s)?:\/\/(.+)$/', '$2', $this->donate_keyman_com);
     }
   }

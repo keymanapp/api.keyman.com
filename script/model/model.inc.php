@@ -3,7 +3,7 @@
 
   require __DIR__ . '/../../tools/autoload.php';
 
-  use Keyman\Site\com\keyman\api\KeymanHosts;
+  use Keyman\Site\Common\KeymanHosts;
 
   class Model {
     static function getModelJson($mssql, $id) {
