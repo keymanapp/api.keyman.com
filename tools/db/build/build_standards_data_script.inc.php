@@ -56,8 +56,8 @@
 
       reportTime();
 
-      $langtags = new build_sql_standards_data_langtags($this->DBDataSources);
-        $langtags->execute($data_root, $do_force);
+      $langtags = new build_sql_standards_data_langtags($this->DBDataSources, $this->schema);
+      $langtags->execute($data_root, $do_force);
 
       return true;
     }

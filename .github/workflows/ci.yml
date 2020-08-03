@@ -11,9 +11,8 @@ jobs:
       api_keyman_com_mssql_pw: Password1!
       api_keyman_com_mssql_user: sa
       api_keyman_com_mssqlconninfo: sqlsrv:Server=(local)\KEYMANAPI; Database=
-      api_keyman_com_mssql_create_databases: true
-      api_keyman_com_mssqldb0: keyboards
-      api_keyman_com_mssqldb1: keyboards_1
+      api_keyman_com_mssql_create_database: true
+      api_keyman_com_mssqldb: keyboards
       api_keyman_com_keyboard_info_zip: https://downloads.keyman.com/data/keyboard_info.zip
       api_keyman_com_model_info_zip: https://downloads.keyman.com/data/model_info.zip
 
@@ -72,10 +71,9 @@ jobs:
         echo ^<?php > tools\db\localenv.php
         echo $mysqlpw='%api_keyman_com_mssql_pw%'; >> tools\db\localenv.php
         echo $mysqluser='%api_keyman_com_mssql_user%'; >> tools\db\localenv.php
-        echo $mssqldb0 = '%api_keyman_com_mssqldb0%'; >> tools\db\localenv.php
-        echo $mssqldb1 = '%api_keyman_com_mssqldb1%'; >> tools\db\localenv.php
+        echo $mssqldb = '%api_keyman_com_mssqldb%'; >> tools\db\localenv.php
         echo $mssqlconninfo='%api_keyman_com_mssqlconninfo%'; >> tools\db\localenv.php
-        echo $mssql_create_databases = true; >> tools\db\localenv.php
+        echo $mssql_create_database = true; >> tools\db\localenv.php
 
     #
     # Install SQL Server Developer Edition with FullText Search module

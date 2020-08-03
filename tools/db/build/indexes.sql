@@ -23,7 +23,7 @@ The Query Processor estimates that implementing the following index could improv
 */
 
 CREATE NONCLUSTERED INDEX ix_langtag_region
-ON [dbo].[t_langtag] ([region])
+ON [t_langtag] ([region])
 INCLUDE ([name])
 
 /*
@@ -32,7 +32,7 @@ The Query Processor estimates that implementing the following index could improv
 */
 
 CREATE NONCLUSTERED INDEX ix_langtag_script
-ON [dbo].[t_langtag] ([script])
+ON [t_langtag] ([script])
 INCLUDE ([name])
 
 /*
@@ -41,7 +41,7 @@ The Query Processor estimates that implementing the following index could improv
 */
 
 CREATE NONCLUSTERED INDEX ix_keyboard_langtag_tag
-ON [dbo].[t_keyboard_langtag] ([tag])
+ON [t_keyboard_langtag] ([tag])
 INCLUDE ([keyboard_id])
 
 CREATE INDEX ix_keyboard_downloads ON t_keyboard_downloads (keyboard_id) INCLUDE (count)

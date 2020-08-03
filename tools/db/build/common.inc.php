@@ -127,10 +127,12 @@
 
     class build_common {
       public $force, $script_path;
+      public String $schema;
       protected DBDataSources $DBDataSources;
 
-      function __construct(DBDataSources $DBDataSources) {
+      function __construct(DBDataSources $DBDataSources, String $schema) {
         $this->DBDataSources = $DBDataSources;
+        $this->schema = $schema;
       }
 
       function sqlv($o, $p) {

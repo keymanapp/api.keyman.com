@@ -38,8 +38,8 @@
     }
 
     /**
-      Build a SQL script to insert model_info data into the database
-    */
+     * Build a SQL script to insert model_info data into the database
+     */
 
     private $models = array();
 
@@ -251,8 +251,8 @@ END;
     }
 
     /**
-      Generate an SQL script to insert entries in to the t_model_related table
-    */
+     * Generate an SQL script to insert entries in to the t_model_related table
+     */
     function generate_model_related_inserts() {
       $insert = <<<END
         INSERT t_model_related (

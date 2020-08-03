@@ -16,7 +16,7 @@ CREATE PROCEDURE sp_keyboard_search_by_language_bcp47_tag (
 ) AS
 BEGIN
   DECLARE @varTag NVARCHAR(250)
-  SET @varTag = dbo.f_get_canonical_bcp47(@prmTag)
+  SET @varTag = $schema.f_get_canonical_bcp47(@prmTag)
 
   -- Get total rows for search
   SELECT

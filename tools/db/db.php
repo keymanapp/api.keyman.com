@@ -8,14 +8,13 @@ namespace Keyman\Site\com\keyman\api\Tools\DB {
   {
     static function Connect()
     {
-      $activedb = new \ActiveDB();
+      $dci = new \DatabaseConnectionInfo();
 
-      global $mssqlconninfo, $mysqluser, $mysqlpw;
       try {
-        $mssql = new \PDO($mssqlconninfo . $activedb->get(), $mysqluser, $mysqlpw, [ "CharacterSet" => "UTF-8" ]);
+        $mssql = new \PDO($dci->getConnectionString(), $dci->getActiveSchema(), $dci->getPassword(), [ "CharacterSet" => "UTF-8" ]);
         $mssql->setAttribute(\PDO::ATTR_ERRMODE, \PDO::ERRMODE_EXCEPTION);
       } catch (\PDOException $e) {
-        fail("Error connecting to SQL Server", 500, "[$mssqlconninfo{$activedb->get()}]: " . $e->getMessage());
+        fail("Error connecting to SQL Server", 500, "[{$dci->getConnectionString()}]: " . $e->getMessage());
       }
       return $mssql;
     }

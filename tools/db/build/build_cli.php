@@ -18,18 +18,19 @@
 
   $log = '';
 
-  $activedb = new \ActiveDB();
-  $mssqldb = $activedb->get_swap();
+  $dci = new \DatabaseConnectionInfo();
+  $schema = $dci->getInactiveSchema();
 
   $DBDataSources = new DBDataSources();
 
+  $B = new BuildCJKTableClass();
   try {
-    BuildDatabase($DBDataSources, $mssqldb, count($argv) > 1 && $argv[1] == '-f');
-    BuildCJKTables($DBDataSources, $mssqldb, count($argv) > 1 && $argv[1] == '-f');
-    reportTime();
+    $B->BuildDatabase($DBDataSources, $mssqldb, $schema, count($argv) > 1 && $argv[1] == '-f');
+    $B->BuildCJKTables($DBDataSources, $mssqldb, $schema, count($argv) > 1 && $argv[1] == '-f');
+    $B->reportTime();
     build_log("Success");
 
-    $activedb->set($mssqldb);
+    $dci->setActiveSchema($schema);
   } catch(Exception $e) {
     fail($e->getMessage());
   }

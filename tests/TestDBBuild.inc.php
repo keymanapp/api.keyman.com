@@ -17,7 +17,9 @@ namespace {
 
 namespace Keyman\Site\com\keyman\api\tests {
 
-  final class TestDBDataSources extends \DBDataSources
+use BuildCJKTableClass;
+
+final class TestDBDataSources extends \DBDataSources
   {
     function __construct()
     {
@@ -42,18 +44,18 @@ namespace Keyman\Site\com\keyman\api\tests {
     static function Build()
     {
       // Connect to database. TODO: refactor with DBConnect
-      global $mssqlconninfo, $mysqluser, $mysqlpw;
-      $activedb = new \ActiveDB();
+      global $mssqldb;
+      $dci = new \DatabaseConnectionInfo();
 
       $force = !empty($_SERVER['TEST_REBUILD']);
       unset($_SERVER['TEST_REBUILD']); // wow, but means this only gets run once :)
 
-      $db = $activedb->get();
+      $schema = $dci->getActiveSchema();
       try {
-        $mssql = new \PDO($mssqlconninfo . 'master', $mysqluser, $mysqlpw, [ "CharacterSet" => "UTF-8" ]);
+        $mssql = new \PDO($dci->getMasterConnectionString(), $dci->getUser(), $dci->getPassword(), [ "CharacterSet" => "UTF-8" ]);
         $mssql->setAttribute(\PDO::ATTR_ERRMODE, \PDO::ERRMODE_EXCEPTION);
       } catch (\PDOException $e) {
-        \build_log("Could not connect to server\n");
+        \build_log("Could not connect to server: {$e->getMessage()}\n");
         throw $e;
       }
 
@@ -61,23 +63,40 @@ namespace Keyman\Site\com\keyman\api\tests {
       $DBDataSources = new TestDBDataSources();
 
       try {
-        $mssql->exec("USE $db");
-        $q = $mssql->query("IF OBJECT_ID('t_dbdatasources') IS NULL SELECT '' uri, 0 date ELSE SELECT uri, date FROM t_dbdatasources WHERE filename = 'langtags.json'");
+        $mssql->exec("USE $mssqldb");
+        $q = $mssql->query("
+          IF OBJECT_ID('$schema.t_dbdatasources') IS NULL
+            SELECT '' uri, 0 date ELSE SELECT uri, date FROM $schema.t_dbdatasources WHERE filename = 'langtags.json'
+        ");
         $data = $q->fetchAll();
         $date = filemtime(__DIR__ . '/data/langtags.json');
-        if (!$force && sizeof($data) == 1 && $data[0]['uri'] === $DBDataSources->uriLangTags && $data[0]['date'] == $date) return $mssql;
+        if (!$force && sizeof($data) == 1 && $data[0]['uri'] === $DBDataSources->uriLangTags && $data[0]['date'] == $date) return self::GetSchemaLogin();
       } catch(\Exception $e) {
         // Let's assume that the database is not in an expected state, and try and rebuild
-        \build_log("Error checking state of database $db: {$e->getMessage()}. Attempting to rebuild for test.");
+        \build_log("Error checking state of database $mssqldb: {$e->getMessage()}. Attempting to rebuild for test.");
       }
 
-      \build_log("Database $db is not currently in a valid state for testing. Rebuilding.\n");
+      \build_log("Database $mssqldb.$schema is not currently in a valid state for testing. Rebuilding.\n");
       // Database sources are not from our test resources, so rebuild them
-      BuildDatabase($DBDataSources, $db, true);
-      BuildCJKTables($DBDataSources, $db, true);
 
-      $mssql->exec("USE $db");
-      return $mssql;
+      $B = new BuildCJKTableClass();
+      $B->BuildDatabase($DBDataSources, $mssqldb, $schema, true);
+      $B->BuildCJKTables($DBDataSources, $mssqldb, $schema, true);
+
+      return self::GetSchemaLogin();
+    }
+
+    static function GetSchemaLogin() {
+      $dci = new \DatabaseConnectionInfo();
+      $schema = $dci->getActiveSchema();
+      try {
+        $mssql = new \PDO($dci->getConnectionString(), $schema, $dci->getPassword(), [ "CharacterSet" => "UTF-8" ]);
+        $mssql->setAttribute(\PDO::ATTR_ERRMODE, \PDO::ERRMODE_EXCEPTION);
+        return $mssql;
+      } catch (\PDOException $e) {
+        \build_log("Could not connect to server: {$e->getMessage()}\n");
+        throw $e;
+      }
     }
   }
 }
