@@ -6,10 +6,10 @@ namespace {
     require_once(dirname(__FILE__) . '/localenv.php');
   }
 
-  if (!isset($mysqlpw))
-    $mysqlpw = isset($_SERVER['api_keyman_com_mssql_pw']) ? $_SERVER['api_keyman_com_mssql_pw'] : null;
-  if (!isset($mysqluser))
-    $mysqluser = isset($_SERVER['api_keyman_com_mssql_user']) ? $_SERVER['api_keyman_com_mssql_user'] : null;
+  if (!isset($mssqlpw))
+    $mssqlpw = isset($_SERVER['api_keyman_com_mssql_pw']) ? $_SERVER['api_keyman_com_mssql_pw'] : null;
+  if (!isset($mssqluser))
+    $mssqluser = isset($_SERVER['api_keyman_com_mssql_user']) ? $_SERVER['api_keyman_com_mssql_user'] : null;
 
   if (!isset($mssqldb)) $mssqldb = $_SERVER['api_keyman_com_mssqldb'];
   if (!isset($mssqlconninfo)) $mssqlconninfo = $_SERVER['api_keyman_com_mssqlconninfo'];
@@ -69,13 +69,13 @@ namespace {
     }
 
     function getUser() {
-      global $mysqluser;
-      return $mysqluser;
+      global $mssqluser;
+      return $mssqluser;
     }
 
     function getPassword() {
-      global $mysqlpw;
-      return $mysqlpw;
+      global $mssqlpw;
+      return $mssqlpw;
     }
   }
 }

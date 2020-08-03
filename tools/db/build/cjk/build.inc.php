@@ -4,10 +4,9 @@
 
   // TODO: this class inheritance is rather shambolic
   class BuildCJKTableClass extends BuildDatabaseClass {
-    function BuildCJKTables($DBDataSources, $mssqldb, $schema, $do_force) {
+    function BuildCJKTables($DBDataSources, $schema, $do_force) {
       $data_path = __DIR__ . '/';
 
-      $this->mssqldb = $mssqldb;
       $this->schema = $schema;
 
       $this->sqlrun("${data_path}cjk_database.sql");

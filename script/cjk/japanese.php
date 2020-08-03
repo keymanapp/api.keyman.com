@@ -15,7 +15,7 @@
     if(($stmt = $mssql->prepare('
       SELECT DISTINCT kanji, gloss, pri FROM kmw_japanese WHERE (kana=?) ORDER BY pri
     ')) === false) {
-      fail("Failed to prepare query: {$mysql->error}\n");
+      fail("Failed to prepare query: {$mssql->errorInfo()}\n");
     }
 
     $stmt->bindParam(1, $kana);
@@ -40,7 +40,7 @@
     if(($stmt = $mssql->prepare('
       SELECT DISTINCT TOP 20 kanji, gloss, pri FROM kmw_japanese WHERE ((kana LIKE ?) AND (kana <> ?)) ORDER BY pri
     ')) === false) {
-      fail("Failed to prepare query: {$mysql->error}\n");
+      fail("Failed to prepare query: {$mssql->errorInfo()}\n");
     }
 
     $kanalike = $kana.'%';

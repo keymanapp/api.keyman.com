@@ -25,8 +25,8 @@
 
   $B = new BuildCJKTableClass();
   try {
-    $B->BuildDatabase($DBDataSources, $mssqldb, $schema, count($argv) > 1 && $argv[1] == '-f');
-    $B->BuildCJKTables($DBDataSources, $mssqldb, $schema, count($argv) > 1 && $argv[1] == '-f');
+    $B->BuildDatabase($DBDataSources, $schema, count($argv) > 1 && $argv[1] == '-f');
+    $B->BuildCJKTables($DBDataSources, $schema, count($argv) > 1 && $argv[1] == '-f');
     $B->reportTime();
     build_log("Success");
 

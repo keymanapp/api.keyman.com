@@ -69,8 +69,8 @@ jobs:
       shell: cmd
       run: |
         echo ^<?php > tools\db\localenv.php
-        echo $mysqlpw='%api_keyman_com_mssql_pw%'; >> tools\db\localenv.php
-        echo $mysqluser='%api_keyman_com_mssql_user%'; >> tools\db\localenv.php
+        echo $mssqlpw='%api_keyman_com_mssql_pw%'; >> tools\db\localenv.php
+        echo $mssqluser='%api_keyman_com_mssql_user%'; >> tools\db\localenv.php
         echo $mssqldb = '%api_keyman_com_mssqldb%'; >> tools\db\localenv.php
         echo $mssqlconninfo='%api_keyman_com_mssqlconninfo%'; >> tools\db\localenv.php
         echo $mssql_create_database = true; >> tools\db\localenv.php
