@@ -1,6 +1,6 @@
 # Data files for tests
 
-Because this data takes a while to build, and is static, we build the database once when first running any test class, based on the state of the t_dbdatasources table (we test the langtags.json record). If this matches the test data, we don't rebuild. We also always run on the primary schema in the database.
+Because this data takes a while to build, and is static, we build the database once when first running any test class, based on the state of the t_dbdatasources table (we test the langtags.json record). If this matches the test data, we don't rebuild. The rebuild will occur on the active schema (it doesn't swap schemas).
 
 This means that the local database will be using test data post-test (we don't rebuild from live data), so don't forget to run tools/db/build/build_cli.php to rebuild from live data if you need it.
 
