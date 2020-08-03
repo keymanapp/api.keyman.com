@@ -153,6 +153,26 @@ namespace Keyman\Site\com\keyman\api\tests {
       $this->assertEquals('khmer10', $json->keyboards[5]->id);
     }
 
+    public function testSearchResultForKeyboardsBcp47Tag()
+    {
+      // We should return the tag from the keyboard in the match->tag field, not the normalised tag
+      $json = $this->s->GetSearchMatches(null, 'l:id:str-latn', 1);
+      $json = json_decode(json_encode($json));
+      $this->schema->in($json);
+      $this->assertEquals(3, $json->context->totalRows);
+      $this->assertEquals('fv_sencoten', $json->keyboards[0]->id);
+      $this->assertEquals('language_bcp47_tag', $json->keyboards[0]->match->type);
+      $this->assertEquals('str-latn', $json->keyboards[0]->match->tag);
+
+      $json = $this->s->GetSearchMatches(null, 'sencoten', 1);
+      $json = json_decode(json_encode($json));
+      $this->schema->in($json);
+      $this->assertEquals(3, $json->context->totalRows);
+      $this->assertEquals('fv_sencoten', $json->keyboards[0]->id);
+      $this->assertEquals('language', $json->keyboards[0]->match->type);
+      $this->assertEquals('str-latn', $json->keyboards[0]->match->tag);
+    }
+
     public function testSearchByLanguageName()
     {
       $json = $this->s->GetSearchMatches(null, 'l:Blang', 1);

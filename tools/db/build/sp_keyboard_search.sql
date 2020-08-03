@@ -25,6 +25,34 @@ CREATE TYPE tt_keyboard_search_keyboard AS TABLE (keyboard_id NVARCHAR(256), nam
 GO
 
 -- #
+-- # Get keyboard's matching tag for a base BCP 47 tag (it may not be normalized)
+-- # We return this tag in the match_tag field for passing to the apps as the
+-- # initial language to install for the keyboard.
+-- #
+
+DROP FUNCTION IF EXISTS f_keyboard_search_bcp47_for_keyboard;
+GO
+
+CREATE FUNCTION f_keyboard_search_bcp47_for_keyboard (
+  @keyboard_id NVARCHAR(256),
+  @base_tag NVARCHAR(128)
+)
+RETURNS NVARCHAR(128) AS
+BEGIN
+  DECLARE @ret NVARCHAR(128)
+  select top 1
+    @ret = lang.bcp47
+  from
+    t_keyboard_language lang inner join
+    t_langtag_tag tag on lang.bcp47 = tag.tag
+  where
+    tag.base_tag = @base_tag and
+    lang.keyboard_id = @keyboard_id
+  RETURN @ret
+END
+GO
+
+-- #
 -- # Search across language names
 -- #
 DROP FUNCTION IF EXISTS f_keyboard_search_langtag_by_language;
@@ -301,7 +329,7 @@ AS
     tlt.weight,
     tlt.match_name,
     tlt.match_type,
-    tlt.tag as match_tag
+    $schema.f_keyboard_search_bcp47_for_keyboard(k.keyboard_id, tlt.tag) as match_tag
   from
     t_keyboard k inner join
     t_keyboard_langtag lt on k.keyboard_id = lt.keyboard_id inner join
@@ -477,3 +505,4 @@ BEGIN
   select * from f_keyboard_search_results(@prmPageSize, @prmPageNumber, @tt_keyboard)
 END
 GO
+
