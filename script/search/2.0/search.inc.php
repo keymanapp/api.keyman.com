@@ -16,6 +16,7 @@
     const FILTER_SCRIPT_ID='script_id';        // Filter by script ID, initial substring match
 
     public string $filter;   // any of the FILTER options above
+    public bool $obsolete;
 
     public $text, $searchtext;
 
@@ -49,10 +50,11 @@
       $this->mssql = $mssql;
     }
 
-    function GetSearchMatches($platform, $query, $pageNumber) {
+    function GetSearchMatches($platform, $query, $obsolete, $pageNumber) {
       $result = new KeyboardSearchResult();
       $result->pageSize = KeyboardSearch::PAGESIZE;
       $result->pageNumber = $pageNumber;
+      $result->obsolete = $obsolete;
 
       if(in_array($platform, array('macos', 'windows', 'linux', 'android', 'ios'))) {
         $result->platform = $platform;
@@ -143,15 +145,16 @@
       case KeyboardSearchResult::FILTER_DEFAULT:
         // generic text search
         $result->rangetext = "Keyboards matching '{$result->searchtext}'";
-        $stmt = $this->new_query('EXEC sp_keyboard_search ?, ?, ?, ?, ?');
+        $stmt = $this->new_query('EXEC sp_keyboard_search ?, ?, ?, ?, ?, ?');
         $stmt->bindParam(1, $text);
         $stmt->bindParam(2, $idtext);
         $stmt->bindParam(3, $result->platform);
-        $stmt->bindParam(4, $result->pageNumber, PDO::PARAM_INT);
-        $stmt->bindParam(5, $result->pageSize, PDO::PARAM_INT);
+        $stmt->bindParam(4, $result->obsolete);
+        $stmt->bindParam(5, $result->pageNumber, PDO::PARAM_INT);
+        $stmt->bindParam(6, $result->pageSize, PDO::PARAM_INT);
         break;
       case KeyboardSearchResult::FILTER_POPULARITY:
-        // list most popular keyboards
+        // list most popular keyboards (skip obsolete always)
         $result->rangetext = "Popular keyboards";
         $stmt = $this->new_query('EXEC sp_keyboard_search_by_popularity ?, ?, ?');
         $stmt->bindParam(1, $result->platform);
@@ -161,25 +164,27 @@
 
       case KeyboardSearchResult::FILTER_KEYBOARD:
         $result->rangetext = "Keyboards matching '{$result->searchtext}'";
-        $stmt = $this->new_query('EXEC sp_keyboard_search_by_keyboard ?, ?, ?, ?, ?');
+        $stmt = $this->new_query('EXEC sp_keyboard_search_by_keyboard ?, ?, ?, ?, ?, ?');
         $stmt->bindParam(1, $text);
         $stmt->bindParam(2, $idtext);
         $stmt->bindParam(3, $result->platform);
-        $stmt->bindParam(4, $result->pageNumber, PDO::PARAM_INT);
-        $stmt->bindParam(5, $result->pageSize, PDO::PARAM_INT);
+        $stmt->bindParam(4, $result->obsolete);
+        $stmt->bindParam(5, $result->pageNumber, PDO::PARAM_INT);
+        $stmt->bindParam(6, $result->pageSize, PDO::PARAM_INT);
         break;
 
       case KeyboardSearchResult::FILTER_KEYBOARD_ID:
         // match on keyboard id
-        // We ignore platform. Only one row
+        // We ignore platform
         $result->rangetext = "Keyboard with id '{$result->searchtext}'";
-        $stmt = $this->new_query('EXEC sp_keyboard_search_by_id ?');
+        $stmt = $this->new_query('EXEC sp_keyboard_search_by_id ?, ?');
         $stmt->bindParam(1, $idtext);
+        $stmt->bindParam(2, $result->obsolete);
         break;
 
       case KeyboardSearchResult::FILTER_LEGACY:
         // match on legacy id
-        // We ignore platform. Only one row
+        // We ignore platform and obsolete status. Only one row
         $result->rangetext = "Keyboard with legacy id '{$result->searchtext}'";
         $stmt = $this->new_query('EXEC sp_keyboard_search_by_legacy_id ?');
         $legacy_id = intval($idtext);
@@ -188,57 +193,63 @@
 
       case KeyboardSearchResult::FILTER_LANGUAGE:
         $result->rangetext = "Keyboards for languages matching '{$result->searchtext}'";
-        $stmt = $this->new_query('EXEC sp_keyboard_search_by_language ?, ?, ?, ?');
+        $stmt = $this->new_query('EXEC sp_keyboard_search_by_language ?, ?, ?, ?, ?');
         $stmt->bindParam(1, $text);
         $stmt->bindParam(2, $result->platform);
-        $stmt->bindParam(3, $result->pageNumber, PDO::PARAM_INT);
-        $stmt->bindParam(4, $result->pageSize, PDO::PARAM_INT);
+        $stmt->bindParam(3, $result->obsolete);
+        $stmt->bindParam(4, $result->pageNumber, PDO::PARAM_INT);
+        $stmt->bindParam(5, $result->pageSize, PDO::PARAM_INT);
         break;
 
       case KeyboardSearchResult::FILTER_LANGUAGE_ID:
         $result->rangetext = "Keyboards for language with BCP 47 tag '{$result->searchtext}'";
-        $stmt = $this->new_query('EXEC sp_keyboard_search_by_language_bcp47_tag ?, ?, ?, ?');
+        $stmt = $this->new_query('EXEC sp_keyboard_search_by_language_bcp47_tag ?, ?, ?, ?, ?');
         $stmt->bindParam(1, $idtext);
         $stmt->bindParam(2, $result->platform);
-        $stmt->bindParam(3, $result->pageNumber, PDO::PARAM_INT);
-        $stmt->bindParam(4, $result->pageSize, PDO::PARAM_INT);
+        $stmt->bindParam(3, $result->obsolete);
+        $stmt->bindParam(4, $result->pageNumber, PDO::PARAM_INT);
+        $stmt->bindParam(5, $result->pageSize, PDO::PARAM_INT);
         break;
 
       case KeyboardSearchResult::FILTER_COUNTRY:
         $result->rangetext = "Keyboards for countries matching '{$result->searchtext}'";
-        $stmt = $this->new_query('EXEC sp_keyboard_search_by_country ?, ?, ?, ?');
+        $stmt = $this->new_query('EXEC sp_keyboard_search_by_country ?, ?, ?, ?, ?');
         $stmt->bindParam(1, $text);
         $stmt->bindParam(2, $result->platform);
-        $stmt->bindParam(3, $result->pageNumber, PDO::PARAM_INT);
-        $stmt->bindParam(4, $result->pageSize, PDO::PARAM_INT);
+        $stmt->bindParam(3, $result->obsolete);
+        $stmt->bindParam(4, $result->pageNumber, PDO::PARAM_INT);
+        $stmt->bindParam(5, $result->pageSize, PDO::PARAM_INT);
         break;
 
       case KeyboardSearchResult::FILTER_COUNTRY_ID:
         $result->rangetext = "Keyboards for country with ISO 3166 code '{$result->searchtext}'";
         // match on language tag
-        $stmt = $this->new_query('EXEC sp_keyboard_search_by_country_iso3166_code ?, ?, ?, ?');
+        $stmt = $this->new_query('EXEC sp_keyboard_search_by_country_iso3166_code ?, ?, ?, ?, ?');
         $stmt->bindParam(1, $idtext);
         $stmt->bindParam(2, $result->platform);
-        $stmt->bindParam(3, $result->pageNumber, PDO::PARAM_INT);
-        $stmt->bindParam(4, $result->pageSize, PDO::PARAM_INT);
+        $stmt->bindParam(3, $result->obsolete);
+        $stmt->bindParam(4, $result->pageNumber, PDO::PARAM_INT);
+        $stmt->bindParam(5, $result->pageSize, PDO::PARAM_INT);
         break;
 
       case KeyboardSearchResult::FILTER_SCRIPT:
         $result->rangetext = "Keyboards for scripts matching '{$result->searchtext}'";
-        $stmt = $this->new_query('EXEC sp_keyboard_search_by_script ?, ?, ?, ?');
+        $stmt = $this->new_query('EXEC sp_keyboard_search_by_script ?, ?, ?, ?, ?');
         $stmt->bindParam(1, $text);
         $stmt->bindParam(2, $result->platform);
-        $stmt->bindParam(3, $result->pageNumber, PDO::PARAM_INT);
-        $stmt->bindParam(4, $result->pageSize, PDO::PARAM_INT);
+        $stmt->bindParam(3, $result->obsolete);
+        $stmt->bindParam(4, $result->pageNumber, PDO::PARAM_INT);
+        $stmt->bindParam(5, $result->pageSize, PDO::PARAM_INT);
         break;
 
       case KeyboardSearchResult::FILTER_SCRIPT_ID:
         $result->rangetext = "Keyboards for script with ISO 15924 code '{$result->searchtext}'";
-        $stmt = $this->new_query('EXEC sp_keyboard_search_by_script_iso15924_code ?, ?, ?, ?');
+        $stmt = $this->new_query('EXEC sp_keyboard_search_by_script_iso15924_code ?, ?, ?, ?, ?');
         $stmt->bindParam(1, $idtext);
         $stmt->bindParam(2, $result->platform);
-        $stmt->bindParam(3, $result->pageNumber, PDO::PARAM_INT);
-        $stmt->bindParam(4, $result->pageSize, PDO::PARAM_INT);
+        $stmt->bindParam(3, $result->obsolete);
+        $stmt->bindParam(4, $result->pageNumber, PDO::PARAM_INT);
+        $stmt->bindParam(5, $result->pageSize, PDO::PARAM_INT);
         break;
 
       default:

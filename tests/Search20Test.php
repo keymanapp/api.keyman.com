@@ -29,7 +29,7 @@ namespace Keyman\Site\com\keyman\api\tests {
 
     public function testSimpleSearchResultValidatesAgainstSchema(): void
     {
-      $json = $this->s->GetSearchMatches(null, 'thai', 1);
+      $json = $this->s->GetSearchMatches(null, 'thai', 1, 1);
 
       // Whoa, PHP does *not* round-trip JSON cleanly. This however takes our output and transforms it
       // to something that passes our schema validation
@@ -45,7 +45,7 @@ namespace Keyman\Site\com\keyman\api\tests {
 
     public function testSimpleSearchResultContentsConsistent()
     {
-      $json = $this->s->GetSearchMatches(null, 'khmer', 1);
+      $json = $this->s->GetSearchMatches(null, 'khmer', 1, 1);
       $json = json_decode(json_encode($json));
       $this->schema->in($json);
       $this->assertJsonStringEqualsJsonFile(__DIR__ . '/fixtures/Search.2.0.khmer.json', json_encode($json), "Search for 'khmer' gives same results as Search.2.0.khmer.json");
@@ -53,7 +53,7 @@ namespace Keyman\Site\com\keyman\api\tests {
 
     public function testPhraseSearchResult()
     {
-      $json = $this->s->GetSearchMatches(null, 'khmer angkor', 1);
+      $json = $this->s->GetSearchMatches(null, 'khmer angkor', 1, 1);
       $json = json_decode(json_encode($json));
       $this->schema->in($json);
       $this->assertJsonStringEqualsJsonFile(__DIR__ . '/fixtures/Search.2.0.khmer-angkor.json', json_encode($json), "Search for 'khmer angkor' gives same results as Search.2.0.khmer-angkor.json");
@@ -61,7 +61,7 @@ namespace Keyman\Site\com\keyman\api\tests {
 
     public function testUnicodeSearchResult()
     {
-      $json = $this->s->GetSearchMatches(null, 'ት', 1);
+      $json = $this->s->GetSearchMatches(null, 'ት', 1, 1);
       $json = json_decode(json_encode($json));
       $this->schema->in($json);
       $this->assertJsonStringEqualsJsonFile(__DIR__ . '/fixtures/Search.2.0.ethiopic.json', json_encode($json), "Search for 'ት' gives same results as Search.2.0.ethiopic.json");
@@ -69,7 +69,7 @@ namespace Keyman\Site\com\keyman\api\tests {
 
     public function testKeyboardIdSearchResult()
     {
-      $json = $this->s->GetSearchMatches(null, 'khmer_', 1);
+      $json = $this->s->GetSearchMatches(null, 'khmer_', 1, 1);
       $json = json_decode(json_encode($json));
       $this->schema->in($json);
       $this->assertEquals(1, $json->context->totalRows);
@@ -77,7 +77,7 @@ namespace Keyman\Site\com\keyman\api\tests {
     }
 
     public function testDinkaSearchResult() {
-      $json = $this->s->GetSearchMatches(null, 'Thuɔŋjäŋ', 1);
+      $json = $this->s->GetSearchMatches(null, 'Thuɔŋjäŋ', 1, 1);
       $json = json_decode(json_encode($json));
       $this->schema->in($json);
       $this->assertEquals(3, $json->context->totalRows);
@@ -90,7 +90,7 @@ namespace Keyman\Site\com\keyman\api\tests {
 
     public function testSearchByKeyboard()
     {
-      $json = $this->s->GetSearchMatches(null, 'k:khmer', 1);
+      $json = $this->s->GetSearchMatches(null, 'k:khmer', 1, 1);
       $json = json_decode(json_encode($json));
       $this->schema->in($json);
       $this->assertJsonStringEqualsJsonFile(__DIR__ . '/fixtures/Search.2.0.khmer-keyboards.json', json_encode($json), "Search for 'k:khmer' gives same results as Search.2.0.khmer-keyboards.json");
@@ -98,14 +98,14 @@ namespace Keyman\Site\com\keyman\api\tests {
 
     public function testSearchByKeyboardId()
     {
-      $json = $this->s->GetSearchMatches(null, 'id:basic_kbdkhmr', 1);
+      $json = $this->s->GetSearchMatches(null, 'id:basic_kbdkhmr', 1, 1);
       $json = json_decode(json_encode($json));
       $this->schema->in($json);
       $this->assertEquals(1, $json->context->totalRows);
       $this->assertEquals('basic_kbdkhmr', $json->keyboards[0]->id);
       $this->assertEquals('keyboard_id', $json->keyboards[0]->match->type);
 
-      $json = $this->s->GetSearchMatches(null, 'k:id:basic_kbdkhmr', 1);
+      $json = $this->s->GetSearchMatches(null, 'k:id:basic_kbdkhmr', 1, 1);
       $json = json_decode(json_encode($json));
       $this->schema->in($json);
       $this->assertEquals(1, $json->context->totalRows);
@@ -115,14 +115,14 @@ namespace Keyman\Site\com\keyman\api\tests {
 
     public function testSearchByLegacyKeyboardId()
     {
-      $json = $this->s->GetSearchMatches(null, 'legacy:681', 1);
+      $json = $this->s->GetSearchMatches(null, 'legacy:681', 1, 1);
       $json = json_decode(json_encode($json));
       $this->schema->in($json);
       $this->assertEquals(1, $json->context->totalRows);
       $this->assertEquals('acoli', $json->keyboards[0]->id);
       $this->assertEquals('legacy_keyboard_id', $json->keyboards[0]->match->type);
 
-      $json = $this->s->GetSearchMatches(null, 'k:legacy:681', 1);
+      $json = $this->s->GetSearchMatches(null, 'k:legacy:681', 1, 1);
       $json = json_decode(json_encode($json));
       $this->schema->in($json);
       $this->assertEquals(1, $json->context->totalRows);
@@ -132,14 +132,14 @@ namespace Keyman\Site\com\keyman\api\tests {
 
     public function testSearchByLanguageBcp47Tag()
     {
-      $json = $this->s->GetSearchMatches(null, 'l:id:ach', 1);
+      $json = $this->s->GetSearchMatches(null, 'l:id:ach', 1, 1);
       $json = json_decode(json_encode($json));
       $this->schema->in($json);
       $this->assertEquals(1, $json->context->totalRows);
       $this->assertEquals('acoli', $json->keyboards[0]->id);
       $this->assertEquals('language_bcp47_tag', $json->keyboards[0]->match->type);
 
-      $json = $this->s->GetSearchMatches(null, 'l:id:km-Khmr-KH', 1);
+      $json = $this->s->GetSearchMatches(null, 'l:id:km-Khmr-KH', 1, 1);
       $json = json_decode(json_encode($json));
       $this->schema->in($json);
       $this->assertEquals(6, $json->context->totalRows);
@@ -156,7 +156,7 @@ namespace Keyman\Site\com\keyman\api\tests {
     public function testSearchResultForKeyboardsBcp47Tag()
     {
       // We should return the tag from the keyboard in the match->tag field, not the normalised tag
-      $json = $this->s->GetSearchMatches(null, 'l:id:str-latn', 1);
+      $json = $this->s->GetSearchMatches(null, 'l:id:str-latn', 1, 1);
       $json = json_decode(json_encode($json));
       $this->schema->in($json);
       $this->assertEquals(3, $json->context->totalRows);
@@ -164,7 +164,7 @@ namespace Keyman\Site\com\keyman\api\tests {
       $this->assertEquals('language_bcp47_tag', $json->keyboards[0]->match->type);
       $this->assertEquals('str-latn', $json->keyboards[0]->match->tag);
 
-      $json = $this->s->GetSearchMatches(null, 'sencoten', 1);
+      $json = $this->s->GetSearchMatches(null, 'sencoten', 1, 1);
       $json = json_decode(json_encode($json));
       $this->schema->in($json);
       $this->assertEquals(3, $json->context->totalRows);
@@ -175,7 +175,7 @@ namespace Keyman\Site\com\keyman\api\tests {
 
     public function testSearchByLanguageName()
     {
-      $json = $this->s->GetSearchMatches(null, 'l:Blang', 1);
+      $json = $this->s->GetSearchMatches(null, 'l:Blang', 1, 1);
       $json = json_decode(json_encode($json));
       $this->schema->in($json);
       $this->assertEquals(1, $json->context->totalRows);
@@ -184,7 +184,7 @@ namespace Keyman\Site\com\keyman\api\tests {
 
     public function testSearchByCountryIso3166Code()
     {
-      $json = $this->s->GetSearchMatches(null, 'c:id:nz', 1);
+      $json = $this->s->GetSearchMatches(null, 'c:id:nz', 1, 1);
       $json = json_decode(json_encode($json));
       $this->schema->in($json);
       $this->assertEquals(5, $json->context->totalRows);
@@ -194,7 +194,7 @@ namespace Keyman\Site\com\keyman\api\tests {
 
     public function testSearchByCountryName()
     {
-      $json = $this->s->GetSearchMatches(null, 'c:Tanzania', 1);
+      $json = $this->s->GetSearchMatches(null, 'c:Tanzania', 1, 1);
       $json = json_decode(json_encode($json));
       $this->schema->in($json);
       $this->assertEquals(6, $json->context->totalRows);
@@ -203,7 +203,7 @@ namespace Keyman\Site\com\keyman\api\tests {
 
     public function testSearchByScriptIso15924Code()
     {
-      $json = $this->s->GetSearchMatches(null, 's:id:bali', 1);
+      $json = $this->s->GetSearchMatches(null, 's:id:bali', 1, 1);
       $json = json_decode(json_encode($json));
       $this->schema->in($json);
       $this->assertEquals(1, $json->context->totalRows);
@@ -213,7 +213,7 @@ namespace Keyman\Site\com\keyman\api\tests {
 
     public function testSearchByScriptName()
     {
-      $json = $this->s->GetSearchMatches(null, 's:Ethiopic', 1);
+      $json = $this->s->GetSearchMatches(null, 's:Ethiopic', 1, 1);
       $json = json_decode(json_encode($json));
       $this->schema->in($json);
       $this->assertEquals(42, $json->context->totalRows);
@@ -226,7 +226,7 @@ namespace Keyman\Site\com\keyman\api\tests {
      */
     public function testSearchByCustomLanguageName()
     {
-      $json = $this->s->GetSearchMatches(null, 'Central Bontok', 1);
+      $json = $this->s->GetSearchMatches(null, 'Central Bontok', 1, 1);
       $json = json_decode(json_encode($json));
       $this->schema->in($json);
       $this->assertEquals(1, $json->context->totalRows);
@@ -241,7 +241,7 @@ namespace Keyman\Site\com\keyman\api\tests {
      */
     public function testSearchByCustomLanguageTag()
     {
-      $json = $this->s->GetSearchMatches(null, 'l:id:khw-latn', 1);
+      $json = $this->s->GetSearchMatches(null, 'l:id:khw-latn', 1, 1);
       $json = json_decode(json_encode($json));
       $this->schema->in($json);
       $this->assertEquals(1, $json->context->totalRows);
@@ -256,7 +256,7 @@ namespace Keyman\Site\com\keyman\api\tests {
      */
     public function testSearchByLanguageFindsCustomTag()
     {
-      $json = $this->s->GetSearchMatches(null, 'l:Khowar', 1);
+      $json = $this->s->GetSearchMatches(null, 'l:Khowar', 1, 1);
       $json = json_decode(json_encode($json));
       $this->schema->in($json);
       $this->assertEquals(4, $json->context->totalRows);
@@ -274,7 +274,7 @@ namespace Keyman\Site\com\keyman\api\tests {
      */
     public function testSearchByCustomLanguageTag2()
     {
-      $json = $this->s->GetSearchMatches(null, 'l:id:pi', 1);
+      $json = $this->s->GetSearchMatches(null, 'l:id:pi', 1, 1);
       $json = json_decode(json_encode($json));
       $this->schema->in($json);
       $this->assertEquals(2, $json->context->totalRows);
@@ -284,7 +284,7 @@ namespace Keyman\Site\com\keyman\api\tests {
 
     public function testSearchByPopularity()
     {
-      $json = $this->s->GetSearchMatches(null, 'p:*', 1);
+      $json = $this->s->GetSearchMatches(null, 'p:*', 1, 1);
       $json = json_decode(json_encode($json));
       $this->schema->in($json);
       $this->assertEquals(659, $json->context->totalRows);

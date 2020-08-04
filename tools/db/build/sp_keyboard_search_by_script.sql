@@ -8,6 +8,7 @@ GO
 CREATE PROCEDURE sp_keyboard_search_by_script
   @prmSearchText nvarchar(250),
   @prmPlatform nvarchar(32),
+  @prmObsolete bit,
   @prmPageNumber int,
   @prmPageSize int
 AS
@@ -34,7 +35,7 @@ BEGIN
 
   SET NOCOUNT OFF;
 
-  select * from f_keyboard_search_statistics(@prmPageSize, @prmPageNumber, @tt_keyboard)
-  select * from f_keyboard_search_results(@prmPageSize, @prmPageNumber, @tt_keyboard)
+  select * from f_keyboard_search_statistics(@prmPageSize, @prmPageNumber, @prmObsolete, @tt_keyboard)
+  select * from f_keyboard_search_results(@prmPageSize, @prmPageNumber, @prmObsolete, @tt_keyboard)
 END
 GO

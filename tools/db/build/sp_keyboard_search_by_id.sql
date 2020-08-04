@@ -8,7 +8,8 @@ DROP PROCEDURE IF EXISTS sp_keyboard_search_by_id
 GO
 
 CREATE PROCEDURE sp_keyboard_search_by_id (
-  @prmSearchPlain NVARCHAR(250)
+  @prmSearchPlain NVARCHAR(250),
+  @prmObsolete BIT
 ) AS
 BEGIN
   SELECT
@@ -45,15 +46,17 @@ BEGIN
     k.platform_web,
     k.platform_linux,
     k.deprecated,
+    k.obsolete,
     k.keyboard_info
 
   FROM
     t_keyboard k left join
     t_keyboard_downloads kd on k.keyboard_id = kd.keyboard_id
   WHERE
-    k.keyboard_id LIKE @prmSearchPlain+'%'
+    k.keyboard_id LIKE @prmSearchPlain+'%' AND
+    (k.obsolete = 0 or @prmObsolete = 1)
   ORDER BY
-    k.deprecated ASC, -- deprecated keyboards always last
+    k.obsolete ASC, -- deprecated keyboards always last
     5 DESC, -- order by final_weight descending
     k.name ASC -- fallback on identical weight
 END

@@ -145,6 +145,7 @@
           platform_linux,
 
           deprecated,
+          obsolete,
 
           keyboard_info
         ) VALUES
@@ -216,6 +217,7 @@ $insert
           {$this->sqlb(null, $platform_web)},
           {$this->sqlb(null, $platform_linux)},
 
+          0,
           0,
 
           {$this->sqlv($keyboard, 'json')});
