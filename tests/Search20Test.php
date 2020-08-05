@@ -290,5 +290,30 @@ namespace Keyman\Site\com\keyman\api\tests {
       $this->assertEquals(659, $json->context->totalRows);
       $this->assertEquals('gff_amharic', $json->keyboards[0]->id);
     }
+
+    public function testSearchExcludeObsoleteKeyboards() {
+      $json = $this->s->GetSearchMatches(null, 'khmer', 0, 1);
+      $json = json_decode(json_encode($json));
+      $this->schema->in($json);
+      $this->assertEquals(5, $json->context->totalRows);
+      $this->assertEquals('khmer_angkor', $json->keyboards[0]->id);
+      $this->assertEquals('sil_khmer', $json->keyboards[1]->id);
+      $this->assertEquals('basic_kbdkni', $json->keyboards[2]->id);
+      $this->assertEquals('basic_kbdkhmr', $json->keyboards[3]->id);
+      $this->assertEquals('krung', $json->keyboards[4]->id);
+
+      $json = $this->s->GetSearchMatches(null, 'khmer', 1, 1);
+      $json = json_decode(json_encode($json));
+      $this->schema->in($json);
+      $this->assertEquals(7, $json->context->totalRows);
+      $this->assertEquals('khmer_angkor', $json->keyboards[0]->id);
+      $this->assertEquals('sil_khmer', $json->keyboards[1]->id);
+      $this->assertEquals('basic_kbdkni', $json->keyboards[2]->id);
+      $this->assertEquals('basic_kbdkhmr', $json->keyboards[3]->id);
+      $this->assertEquals('krung', $json->keyboards[4]->id);
+      // Following two are obsolete
+      $this->assertEquals('khmer10', $json->keyboards[5]->id);
+      $this->assertEquals('kbdkhmr', $json->keyboards[6]->id);
+    }
   }
 }
