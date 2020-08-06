@@ -109,6 +109,7 @@ CREATE TABLE t_keyboard (
   platform_linux tinyint,
 
   deprecated bit,
+  obsolete bit,
 
   keyboard_info nvarchar(max)
 );

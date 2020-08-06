@@ -234,8 +234,7 @@ AS
   from
     t_keyboard k
   where
-    k.is_unicode = 1 and
-    k.deprecated = 0 and
+    k.obsolete = 0 and
     ((@prmPlatform is null) or
     (@prmPlatform = 'android' and k.platform_android > 0) or
     (@prmPlatform = 'ios'     and k.platform_ios > 0) or
@@ -348,23 +347,26 @@ GO
 -- # Get keyboard search result statistics
 -- #
 
-CREATE FUNCTION f_keyboard_search_statistics(@PageSize INT, @PageNumber INT, @tt_keyboard tt_keyboard_search_keyboard READONLY)
+CREATE FUNCTION f_keyboard_search_statistics(@PageSize INT, @PageNumber INT, @prmObsolete BIT, @tt_keyboard tt_keyboard_search_keyboard READONLY)
 RETURNS TABLE
 AS
   return
   select
-    count(distinct keyboard_id) total_count,
+    count(distinct tk.keyboard_id) total_count,
     @PageSize page_size,
     @PageNumber page_number
   from
-    @tt_keyboard;
+    @tt_keyboard tk inner join
+    t_keyboard k on tk.keyboard_id = k.keyboard_id
+  where
+    k.obsolete = 0 or @prmObsolete = 1;
 GO
 
 -- #
 -- # Get keyboard search result
 -- #
 
-CREATE FUNCTION f_keyboard_search_results(@PageSize INT, @PageNumber INT, @tt_keyboard tt_keyboard_search_keyboard READONLY)
+CREATE FUNCTION f_keyboard_search_results(@PageSize INT, @PageNumber INT, @prmObsolete BIT, @tt_keyboard tt_keyboard_search_keyboard READONLY)
 RETURNS TABLE
 AS
   return
@@ -411,6 +413,7 @@ AS
     k.platform_web,
     k.platform_linux,
     k.deprecated,
+    k.obsolete,
     k.keyboard_info
   from
     (
@@ -431,9 +434,10 @@ AS
     t_keyboard k on temp.keyboard_id = k.keyboard_id left join
     t_keyboard_downloads kd on temp.keyboard_id = kd.keyboard_id
   where
-    temp.roworder = 1
+    temp.roworder = 1 and
+    (k.obsolete = 0 or @prmObsolete = 1)
   order by
-    k.deprecated ASC, -- deprecated keyboards always last
+    k.obsolete ASC, -- obsolete keyboards always last
     5 DESC, -- order by final_weight descending
     k.name ASC -- fallback on identical weight
   offset
@@ -453,6 +457,7 @@ CREATE PROCEDURE sp_keyboard_search
   @prmSearchText nvarchar(250),
   @prmIDSearchText nvarchar(250), -- should be ascii (ideally, id only /[a-z][a-z0-9_]*/)
   @prmPlatform nvarchar(32),
+  @prmObsolete bit,
   @prmPageNumber int,
   @prmPageSize int
 AS
@@ -501,8 +506,8 @@ BEGIN
 
   SET NOCOUNT OFF;
 
-  select * from f_keyboard_search_statistics(@prmPageSize, @prmPageNumber, @tt_keyboard)
-  select * from f_keyboard_search_results(@prmPageSize, @prmPageNumber, @tt_keyboard)
+  select * from f_keyboard_search_statistics(@prmPageSize, @prmPageNumber, @prmObsolete, @tt_keyboard)
+  select * from f_keyboard_search_results(@prmPageSize, @prmPageNumber, @prmObsolete, @tt_keyboard)
 END
 GO
 

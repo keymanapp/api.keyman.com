@@ -35,7 +35,7 @@ BEGIN
 
   SET NOCOUNT OFF;
 
-  select * from f_keyboard_search_statistics(@prmPageSize, @prmPageNumber, @tt_keyboard)
-  select * from f_keyboard_search_results(@prmPageSize, @prmPageNumber, @tt_keyboard)
+  select * from f_keyboard_search_statistics(@prmPageSize, @prmPageNumber, 0, @tt_keyboard)
+  select * from f_keyboard_search_results(@prmPageSize, @prmPageNumber, 0, @tt_keyboard)
 END
 GO

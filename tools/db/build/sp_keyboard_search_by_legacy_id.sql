@@ -44,10 +44,11 @@ CREATE PROCEDURE sp_keyboard_search_by_legacy_id (
     k.platform_web,
     k.platform_linux,
     k.deprecated,
+    k.obsolete,
     k.keyboard_info
 
   FROM
     t_keyboard k left join
     t_keyboard_downloads kd on k.keyboard_id = kd.keyboard_id
   WHERE
-    k.legacy_id  = @prmLegacyID
+    k.legacy_id = @prmLegacyID

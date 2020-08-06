@@ -44,6 +44,7 @@
 
   $query = $_REQUEST['q'];
   $platform = isset($_REQUEST['platform']) ? $_REQUEST['platform'] : null;
+  $obsolete = !empty($_REQUEST['obsolete']);
 
   if(isset($_REQUEST['p'])) {
     $pageNumber = (int)($_REQUEST['p']);
@@ -53,7 +54,7 @@
   }
 
   $s = new KeyboardSearch($mssql);
-  $json = $s->GetSearchMatches($platform, $query, $pageNumber);
+  $json = $s->GetSearchMatches($platform, $query, $obsolete, $pageNumber);
 
   if(isset($_REQUEST['f']) && !empty($_REQUEST['f']))
     json_print($json);

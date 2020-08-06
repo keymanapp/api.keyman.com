@@ -11,6 +11,7 @@ GO
 CREATE PROCEDURE sp_keyboard_search_by_language_bcp47_tag (
   @prmTag NVARCHAR(250),
   @prmPlatform NVARCHAR(32),
+  @prmObsolete BIT,
   @prmPageNumber INT,
   @prmPageSize INT
 ) AS
@@ -68,6 +69,7 @@ BEGIN
     k.platform_web,
     k.platform_linux,
     k.deprecated,
+    k.obsolete,
     k.keyboard_info
 
   FROM
@@ -75,6 +77,7 @@ BEGIN
     t_keyboard_downloads kd on k.keyboard_id = kd.keyboard_id
   WHERE
     EXISTS (SELECT * FROM t_keyboard_langtag kl WHERE kl.keyboard_id = k.keyboard_id AND kl.tag = @varTag) AND
+    (k.obsolete = 0 or @prmObsolete = 1) AND
     ((@prmPlatform is null) or
     (@prmPlatform = 'android' and k.platform_android > 0) or
     (@prmPlatform = 'ios'     and k.platform_ios > 0) or
@@ -83,8 +86,7 @@ BEGIN
     (@prmPlatform = 'web'     and k.platform_web > 0) or
     (@prmPlatform = 'windows' and k.platform_windows > 0))
   ORDER BY
-    k.deprecated ASC,
-    k.is_unicode DESC,
+    k.obsolete ASC,
     5 DESC, --final_weight
     k.name
   offset
