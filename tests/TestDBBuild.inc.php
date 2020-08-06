@@ -44,7 +44,6 @@ final class TestDBDataSources extends \DBDataSources
     static function Build()
     {
       // Connect to database. TODO: refactor with DBConnect
-      global $mssqldb;
       $dci = new \DatabaseConnectionInfo();
 
       $force = !empty($_SERVER['TEST_REBUILD']);
@@ -63,7 +62,7 @@ final class TestDBDataSources extends \DBDataSources
       $DBDataSources = new TestDBDataSources();
 
       try {
-        $mssql->exec("USE $mssqldb");
+        $mssql->exec("USE {$dci->getDatabase()}");
         $q = $mssql->query("
           IF OBJECT_ID('$schema.t_dbdatasources') IS NULL
             SELECT '' uri, 0 date ELSE SELECT uri, date FROM $schema.t_dbdatasources WHERE filename = 'langtags.json'
@@ -73,15 +72,15 @@ final class TestDBDataSources extends \DBDataSources
         if (!$force && sizeof($data) == 1 && $data[0]['uri'] === $DBDataSources->uriLangTags && $data[0]['date'] == $date) return self::GetSchemaLogin();
       } catch(\Exception $e) {
         // Let's assume that the database is not in an expected state, and try and rebuild
-        \build_log("Error checking state of database $mssqldb: {$e->getMessage()}. Attempting to rebuild for test.");
+        \build_log("Error checking state of database {$dci->getDatabase()}: {$e->getMessage()}. Attempting to rebuild for test.");
       }
 
-      \build_log("Database $mssqldb.$schema is not currently in a valid state for testing. Rebuilding.\n");
+      \build_log("Database {$dci->getDatabase()}.$schema is not currently in a valid state for testing. Rebuilding.\n");
       // Database sources are not from our test resources, so rebuild them
 
       $B = new BuildCJKTableClass();
-      $B->BuildDatabase($DBDataSources, $mssqldb, $schema, true);
-      $B->BuildCJKTables($DBDataSources, $mssqldb, $schema, true);
+      $B->BuildDatabase($DBDataSources, $schema, true);
+      $B->BuildCJKTables($DBDataSources, $schema, true);
 
       return self::GetSchemaLogin();
     }

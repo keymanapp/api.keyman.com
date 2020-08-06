@@ -39,7 +39,7 @@
     if(($stmt = $mssql->prepare('
       SELECT TOP 20 pinyin_key, chinese_text, tip FROM kmw_chinese_pinyin WHERE pinyin_key LIKE ? AND pinyin_key <> ? ORDER BY frequency DESC, id
     ')) === false) {
-      fail("Failed to prepare query #2: {$mysql->error}\n");
+      fail("Failed to prepare query #2: {$mssql->errorInfo()}\n");
     }
 
     $stmt->bindParam(1, $pylike);

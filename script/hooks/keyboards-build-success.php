@@ -46,8 +46,8 @@
     $schema = $dci->getInactiveSchema();
 
     $B = new BuildCJKTableClass();
-    $B->BuildDatabase($DBDataSources, $dci->getDatabase(), $schema, true);
-    $B->BuildCJKTables($DBDataSources, $dci->getDatabase(), $schema, true);
+    $B->BuildDatabase($DBDataSources, $schema, true);
+    $B->BuildCJKTables($DBDataSources, $schema, true);
 
     $dci->setActiveSchema($schema);
 

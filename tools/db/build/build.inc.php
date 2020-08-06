@@ -15,7 +15,7 @@
 
   class BuildDatabaseClass {
 
-    protected $mssqldb, $schema;
+    protected $schema;
 
     function reportTime() {
       // TODO: unify
@@ -25,16 +25,15 @@
       $report_last_time = $new_time;
     }
 
-    function BuildDatabase($DBDataSources, $mssqldb, $schema, $do_force) {
-      build_log("Building database $mssqldb.$schema");
+    function BuildDatabase($DBDataSources, $schema, $do_force) {
+      build_log("Building database for $schema");
 
-      $this->mssqldb = $mssqldb;
       $this->schema = $schema;
 
       global $report_last_time;
       $report_last_time = microtime(true);
 
-      $this->wakeUpDatabaseServer('master'); //$mssqldb);
+      $this->wakeUpDatabaseServer();
 
       $data_path = dirname(dirname(dirname(dirname(__FILE__)))) . "/.data/";
 
@@ -117,20 +116,21 @@
     }
 
     function sqlrun($sql, $useMaster = false, $transaction = true) {
-      global $mssqldb;
+      $dci = new DatabaseConnectionInfo();
 
       $this->reportTime();
       build_log("Running $sql");
       $s = file_get_contents($sql);
-      $s = str_replace('$keyboards', $this->mssqldb, $s);
+      $s = str_replace('$keyboards', $dci->getDatabase(), $s);
       $s = str_replace('$schema', $this->schema, $s);
 
       $s = preg_split('/^\s*GO\s*$/m', $s);
 
-      global $mssqlconninfo, $mysqluser, $mysqlpw;
       try {
-        $mssql = new PDO($mssqlconninfo . ($useMaster ? 'master' : $this->mssqldb),
-          ($useMaster ? $mysqluser : $this->schema), $mysqlpw,
+        $mssql = new PDO(
+          $useMaster ? $dci->getMasterConnectionString() : $dci->getConnectionString(),
+          $useMaster ? $dci->getUser() : $this->schema,
+          $dci->getPassword(),
           [ "CharacterSet" => "UTF-8" ]);
         $mssql->setAttribute( PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION );
         $mssql->setAttribute( PDO::SQLSRV_ATTR_DIRECT_QUERY, true);
@@ -175,19 +175,19 @@
       return $stmt->execute();
     }
 
-    function wakeUpDatabaseServer($db) {
-      global $mssqlconninfo, $mysqluser, $mysqlpw;
+    function wakeUpDatabaseServer() {
+      $dci = new DatabaseConnectionInfo();
       $tries = 1;
       while(true) {
-        build_log("Attempting to wake $db (attempt $tries/5)");
+        build_log("Attempting to wake database server (attempt $tries/5)");
         try {
-          $mssql = new PDO($mssqlconninfo . $db, $mysqluser, $mysqlpw, [ "CharacterSet" => "UTF-8" ]);
+          new PDO($dci->getMasterConnectionString(), $dci->getUser(), $dci->getPassword(), [ "CharacterSet" => "UTF-8" ]);
           return true;
         }
         catch( PDOException $e ) {
           $tries++;
           if($tries > 5) {
-            die( "Unable to wake SQL Server $db after 5 attempts: " . $e->getMessage() );
+            die( "Unable to wake database server after 5 attempts: " . $e->getMessage() );
           }
         }
       }
