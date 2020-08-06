@@ -120,7 +120,7 @@
 
     function CleanQueryString($text) {
       // strip out characters we can't use in full text search
-      if(preg_match_all("/(\\p{L}|\\p{M}|\\p{N}|[ _0-9-])/u", $text, $matches)) {
+      if(preg_match_all("/(\\p{L}|\\p{M}|\\p{N}|[ _0-9-'])/u", $text, $matches)) {
         $r = implode('', $matches[0]);
       } else {
         $r = "";
