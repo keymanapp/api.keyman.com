@@ -11,45 +11,71 @@ namespace {
   if (!isset($mysqluser))
     $mysqluser = isset($_SERVER['api_keyman_com_mssql_user']) ? $_SERVER['api_keyman_com_mssql_user'] : null;
 
-  if (!isset($mssqldb0)) $mssqldb0 = $_SERVER['api_keyman_com_mssqldb0'];
-  if (!isset($mssqldb1)) $mssqldb1 = $_SERVER['api_keyman_com_mssqldb1'];
+  if (!isset($mssqldb)) $mssqldb = $_SERVER['api_keyman_com_mssqldb'];
   if (!isset($mssqlconninfo)) $mssqlconninfo = $_SERVER['api_keyman_com_mssqlconninfo'];
-  if (!isset($mssql_create_databases) && isset($_SERVER['api_keyman_com_mssql_create_databases'])) $mssql_create_databases = $_SERVER['api_keyman_com_mssql_create_databases'];
+  if (!isset($mssql_create_database) && isset($_SERVER['api_keyman_com_mssql_create_database']))
+    $mssql_create_database = $_SERVER['api_keyman_com_mssql_create_database'];
 
-  class ActiveDB
+  class DatabaseConnectionInfo
   {
-    private $active;
+    const SCHEMA0 = 'k0', SCHEMA1 = 'k1';
+
+    private $activeSchema;
+
     private function filename()
     {
-      return dirname(__FILE__) . '/activedb.txt';
+      return dirname(__FILE__) . '/activeschema.txt';
     }
 
     function __construct()
     {
-      global $mssqldb0;
       if (file_exists($this->filename())) {
-        $this->active = trim(file_get_contents($this->filename()));
+        $this->activeSchema = trim(file_get_contents($this->filename()));
       } else {
-        $this->active = $mssqldb0;
+        $this->activeSchema = self::SCHEMA0;
       }
     }
-    function get()
+
+    function getActiveSchema()
     {
-      return $this->active;
+      return $this->activeSchema;
     }
 
-    function get_swap()
+    function getInactiveSchema()
     {
-      global $mssqldb0, $mssqldb1;
-      return ($this->active == $mssqldb0) ? $mssqldb1 : $mssqldb0;
+      return $this->activeSchema == self::SCHEMA0 ? self::SCHEMA1 : self::SCHEMA0;
     }
 
-    function set($value)
+    function setActiveSchema($value)
     {
-      global $mssqldb0, $mssqldb1;
-      assert($value == $mssqldb0 || $value == $mssqldb1);
+      assert($value == self::SCHEMA0 || $value == self::SCHEMA1);
       file_put_contents($this->filename(), $value);
-      $this->active = $value;
+      $this->activeSchema = $value;
+    }
+
+    function getConnectionString() {
+      global $mssqlconninfo, $mssqldb;
+      return $mssqlconninfo . $mssqldb;
+    }
+
+    function getMasterConnectionString() {
+      global $mssqlconninfo;
+      return $mssqlconninfo . 'master';
+    }
+
+    function getDatabase() {
+      global $mssqldb;
+      return $mssqldb;
+    }
+
+    function getUser() {
+      global $mysqluser;
+      return $mysqluser;
+    }
+
+    function getPassword() {
+      global $mysqlpw;
+      return $mysqlpw;
     }
   }
 }

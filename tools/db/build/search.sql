@@ -10,7 +10,8 @@ SELECT
 FROM
     sys.foreign_keys c
 WHERE
-    object_name(c.parent_object_id) LIKE 't[_]%'
+    object_name(c.parent_object_id) LIKE 't[_]%' AND
+    c.schema_id = schema_id()
 
 OPEN table_cursor
 FETCH NEXT FROM table_cursor INTO @name, @object_name
