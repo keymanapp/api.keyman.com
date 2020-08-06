@@ -36,12 +36,12 @@ BEGIN
 
   -- Result matches
   SELECT
-    @varTag match_name,
+    $schema.f_keyboard_search_bcp47_for_keyboard(k.keyboard_id, @varTag) match_name,
     'language_bcp47_tag' match_type,
     1 match_weight,
     COALESCE(kd.count, 0) download_count, -- missing count record = 0 downloads over last 30 days
     1 * (LOG(COALESCE(kd.count+1, 1))+1) final_weight,
-    @varTag match_tag,
+    $schema.f_keyboard_search_bcp47_for_keyboard(k.keyboard_id, @varTag) match_tag,
     k.keyboard_id,
     k.name,
     k.author_name,
