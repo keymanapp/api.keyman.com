@@ -30,13 +30,14 @@ DEALLOCATE table_cursor
 
 -- Recreate tables
 
+DROP TABLE IF EXISTS t_language_index;
 DROP TABLE IF EXISTS t_language;
+DROP TABLE IF EXISTS t_region;
+DROP TABLE IF EXISTS t_script;
 
 CREATE TABLE t_language (
   language_id nvarchar(3) not null primary key
 );
-
-DROP TABLE IF EXISTS t_language_index;
 
 CREATE TABLE t_language_index (
   language_id nvarchar(3),
@@ -44,14 +45,10 @@ CREATE TABLE t_language_index (
   foreign key (language_id) references t_language (language_id)
 );
 
-DROP TABLE IF EXISTS t_region;
-
 CREATE TABLE t_region (
   region_id nvarchar(3) not null primary key,
   name nvarchar(64)
 );
-
-DROP TABLE IF EXISTS t_script;
 
 CREATE TABLE t_script (
   script_id nvarchar(4) not null primary key,
