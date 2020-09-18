@@ -81,14 +81,11 @@ class PackageVersion
   //
   function keyboard_download_url($id, $version, $package)
   {
-    $id = urlencode($id);
-    $version = urlencode($version);
-    // $package = urlencode($package);
-
-    return KeymanHosts::Instance()->keyman_com . "/go/package/download/" .
+    return KeymanHosts::Instance()->keyman_com . "/go/package/download/keyboard/" .
       rawurlencode($id) .
-      "?version=" . rawurlencode($version) .
-      "&update=1";
+      "?" .
+      (empty($version) ? "" : "version=" . rawurlencode($version) . "&") .
+      "update=1";
   }
 
   //
@@ -97,9 +94,10 @@ class PackageVersion
   //
   function model_download_url($id, $version, $package)
   {
-    $id = urlencode($id);
-    $version = urlencode($version);
-    $package = urlencode($package);
-    return KeymanHosts::Instance()->downloads_keyman_com . "/models/$id/$version/$package";
+    return KeymanHosts::Instance()->keyman_com . "/go/package/download/model/" .
+      rawurlencode($id) .
+      "?" .
+      (empty($version) ? "" : "version=" . rawurlencode($version) . "&") .
+      "update=1";
   }
 }
