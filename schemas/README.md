@@ -154,7 +154,7 @@ at http://tavultesoft.com/keymandev/visualkeyboard.dtd.
 
 * package-version.json
 
-Documentation at https://keyman.com/developer/cloud/package-version
+Documentation at https://help.keyman.com/developer/cloud/package-version
 
 ## 2020-04-30 1.0
 * Initial version 1.0 (alpha)
