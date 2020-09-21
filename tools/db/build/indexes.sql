@@ -17,6 +17,10 @@ CREATE INDEX ix_ecc_countryid ON t_ethnologue_country_codes (CountryID);
 CREATE INDEX ix_langtag_tag ON t_langtag_tag (tag) INCLUDE (base_tag);
 CREATE INDEX ix_langtag_name ON t_langtag_name (name) INCLUDE (tag);
 
+CREATE INDEX ix_langtag_basetag ON t_langtag_tag (base_tag)
+CREATE INDEX ix_keyboard_language_id_bcp47 ON t_keyboard_language (keyboard_id, bcp47)
+CREATE INDEX ix_langtag_name_id_tag ON t_langtag_name (_id, tag, name, name_kd)
+
 /*
 Missing Index Details from SQLQuery2.sql - (local).keyboards_1 (BARROW\mcdurdin (57))
 The Query Processor estimates that implementing the following index could improve the query cost by 89.7528%.
