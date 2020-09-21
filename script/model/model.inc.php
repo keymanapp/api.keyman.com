@@ -4,6 +4,7 @@
   require __DIR__ . '/../../tools/autoload.php';
 
   use Keyman\Site\Common\KeymanHosts;
+  use Keyman\Site\com\keyman\api\KeymanUrls;
 
   class Model {
     static function getModelJson($mssql, $id) {
@@ -16,7 +17,9 @@
         return null;
       }
       $json = json_decode($data[0][0]);
-      $json->packageFilename = self::get_model_download_url($json->id, $json->version, $json->packageFilename);
+      $json->packageFilename = KeymanUrls::model_download_url($json->id, $json->version, $json->packageFilename);
+
+      // note: we don't currently provide the .js as a /go/.../ download link, so return this one directly
       $json->jsFilename = self::get_model_download_url($json->id, $json->version, $json->jsFilename);
 
       // Add the related models that are deprecated

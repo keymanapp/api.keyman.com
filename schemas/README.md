@@ -130,12 +130,11 @@ Documentation at https://help.keyman.com/developer/cloud/
 
 Documentation at https://help.keyman.com/developer/cloud/model_info
 
-New versions should be deployed to
-- **keymanapp/keyman/windows/src/global/inst/model_info**
-- **keymanapp/lexical-models/tools**
-
 ## 2019-01-31 1.0 beta
-* Initial version
+* Initial version, seeded from .keyboard_info specification
+
+## 2020-09-21 1.0.1
+* Relaxed the URL definitions in the schema so extension is no longer tested
 
 ------------------------------------------------------------
 
@@ -155,7 +154,13 @@ at http://tavultesoft.com/keymandev/visualkeyboard.dtd.
 
 * package-version.json
 
-Documentation at https://github.com/keymanapp/keyman/wiki/api.keyman.com-keyboard-model-package-version-API. Will move to help.keyman.com when the API hits stable.
+Documentation at https://help.keyman.com/developer/cloud/package-version
 
-## 2020-04-30
+## 2020-04-30 1.0
 * Initial version 1.0 (alpha)
+
+## 2020-09-21 1.0.1
+
+* Fixed bugs with missing .kmp files
+* Added deprecation links
+* Updated .kmp URLs to use keyman.com/go/package format

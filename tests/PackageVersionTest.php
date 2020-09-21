@@ -13,7 +13,7 @@ namespace Keyman\Site\com\keyman\api\tests {
 
   final class PackageVersionTest extends TestCase
   {
-    private const SchemaFilename = "/package-version/1.0/package-version.json";
+    private const SchemaFilename = "/package-version/1.0.1/package-version.json";
 
     static function setUpBeforeClass(): void
     {
@@ -26,7 +26,7 @@ namespace Keyman\Site\com\keyman\api\tests {
       $mssql = \Keyman\Site\com\keyman\api\Tools\DB\DBConnect::Connect();
 
       $pv = new \Keyman\Site\com\keyman\api\PackageVersion();
-      $json = $pv->execute($mssql, [ 'keyboard' => ['khmer_angkor', 'bar'], ['model' => 'zoo','nrc.en.mtnt'] ], 'windows');
+      $json = $pv->execute($mssql, [ 'keyboard' => ['khmer_angkor', 'bar', 'us', 'european2'], ['model' => 'zoo','nrc.en.mtnt'] ], 'windows');
 
       // TODO(lowpri): find a way to skip this by emitting clean JSON object from execute()
       $json = json_decode(json_encode($json));

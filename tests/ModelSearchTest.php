@@ -11,7 +11,7 @@ use PHPUnit\Framework\TestCase;
 
 final class ModelSearchTest extends TestCase
 {
-  private const SchemaFilename = "/model-search/1.0/model-search.json";
+  private const SchemaFilename = "/model-search/1.0.1/model-search.json";
 
   static function setUpBeforeClass(): void
   {

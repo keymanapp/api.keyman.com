@@ -30,6 +30,9 @@
             },
             "error": {
               "type": "string"
+            },
+            "deprecatedBy": {
+              "type": "string"
             }
           },
           "additionalProperties": false
