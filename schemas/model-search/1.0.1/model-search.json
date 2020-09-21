@@ -2,7 +2,7 @@
   "$schema": "http://json-schema.org/draft-04/schema#",
   "type": "array",
   "items": {
-    "$ref": "/model_info.source/1.0/model_info.source.json#/definitions/ModelInfo"
+    "$ref": "/model_info.source/1.0.1/model_info.source.json#/definitions/ModelInfo"
   },
   "additionalItems": false
 }

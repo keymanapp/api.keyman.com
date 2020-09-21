@@ -11,7 +11,7 @@ use PHPUnit\Framework\TestCase;
 
 final class ModelTest extends TestCase
 {
-  private const SchemaFilename = "/model_info.distribution/1.0/model_info.distribution.json";
+  private const SchemaFilename = "/model_info.distribution/1.0.1/model_info.distribution.json";
 
   static function setUpBeforeClass(): void
   {
@@ -20,6 +20,7 @@ final class ModelTest extends TestCase
 
   public function testSimpleResultValidatesAgainstSchema(): void
   {
+    //http://api.keyman.com.local/model/gff.am.gff_amharic
     $schema = TestUtils::LoadJSONSchema(ModelTest::SchemaFilename);
     $mssql = \Keyman\Site\com\keyman\api\Tools\DB\DBConnect::Connect();
 
