@@ -27,6 +27,7 @@ BEGIN
     t_keyboard k
   WHERE
     EXISTS (SELECT * FROM t_keyboard_langtag kl WHERE kl.keyboard_id = k.keyboard_id AND kl.tag = @varTag) AND
+    (k.obsolete = 0 or @prmObsolete = 1) AND
     ((@prmPlatform is null) or
     (@prmPlatform = 'android' and k.platform_android > 0) or
     (@prmPlatform = 'ios'     and k.platform_ios > 0) or
