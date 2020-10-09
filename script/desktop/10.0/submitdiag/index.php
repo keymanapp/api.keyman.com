@@ -1,6 +1,6 @@
 <?php
   if(!isset($_SERVER['argv'])) {
-    if(!isset($_REQUEST['Username']) || !isset($_REQUEST['Title']) || !isset($_REQUEST['Body']))
+    if(!isset($_REQUEST['Username']) || !isset($_REQUEST['Title']) || !isset($_REQUEST['Body']) || isset($_FILES['File']))
     {
       echo "<error>Invalid parameters</error>";
       exit;
@@ -11,7 +11,6 @@
     $Body = iconv('CP1252', 'UTF-8//TRANSLIT', $_REQUEST['Body']);
     $DataFilename = $_FILES['File']['tmp_name'];
     $Filename = $_FILES['File']['name'];
-
   } else {
     // Command line test mode
     $Username = $argv[1];
@@ -23,18 +22,14 @@
 
   // create a new case in Discourse
 
-  $discourse_key = $_SERVER['api_keyman_com_discourse_key'];
-  $discourse_site = $_SERVER['api_keyman_com_discourse_site'];
-  $discourse_username = $_SERVER['api_keyman_com_discourse_username'];
+  $user = CallDiscourse("/admin/users/list/all.json?email=$Username", null);
 
-  $discourse_token = "api_key=$discourse_key&api_username=$discourse_username";
-
-  $user = CallDiscourse("/admin/users/list/all.json?$discourse_token&email=$Username", null);
+  if(!is_array($user)) {
+    die_errors("Did not receive a valid response from the server");
+  }
 
   if(sizeof($user) == 0) {
     $data = [
-      "api_key" => $discourse_key,
-      "api_username" => $discourse_username,
       "name" => $Username,
       "email" => $Username,
       "password" => generatePassword(),
@@ -55,8 +50,6 @@
   }
 
   $data = [
-    "api_key" => $discourse_key,
-    "api_username" => $discourse_username,
     "type" => "composer",
     "username" => $username,
     "files[]" => new cURLFile($DataFilename, 'application/octet-stream', $Filename),
@@ -71,29 +64,30 @@
   $upload_url = $uploads->url;
 
   $data = [
-    "api_key" => $discourse_key,
-    "api_username" => $username,
     "title" => "Diagnostic Report from ".$username,
     "raw" => "$Title\n\n$Body\n\nDiagnostic: $upload_url\n",
     "target_usernames" => "keyman-diagnostics",
     "archetype" => "private_message"
   ];
 
-  $posts = CallDiscourse('/posts.json', $data, 'POST');
+  $posts = CallDiscourse('/posts.json', $data, 'POST', $username);
 
   if(isset($posts->errors)) {
     die_errors($posts->errors[0]);
   }
-  //var_dump($posts);
 
   $topic_id = $posts->topic_id;
   echo "<result>$topic_id</result>";
 
-  function CallDiscourse($path, $data, $method = 'GET') {
-    global $discourse_key, $discourse_site;
+  function CallDiscourse($path, $data, $method = 'GET', $username = '') {
+    $discourse_key = $_SERVER['api_keyman_com_discourse_key'];
+    $discourse_site = $_SERVER['api_keyman_com_discourse_site'];
+    $discourse_username = $_SERVER['api_keyman_com_discourse_username'];
+
+    if(empty($username)) $username = $discourse_username;
     $url = "$discourse_site$path";
     $ch = curl_init($url);
-    //curl_setopt($ch, CURLOPT_CAINFO, 'cacert.pem');
+
     if(!empty($data)) {
       if($method == 'GET' || $method == 'POST') {
         curl_setopt($ch, CURLOPT_POST, true);
@@ -105,10 +99,12 @@
     curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
     curl_setopt($ch, CURLOPT_HTTPHEADER, array(
       'Accept: application/json',
+      "Api-Key: $discourse_key",
+      "Api-Username: $username",
       'User-Agent: curl 1.0'));
     curl_setopt($ch, CURLOPT_HEADER, false);
     if(!$response = curl_exec($ch)) {
-      trigger_error(curl_error($ch));
+      die_errors(curl_error($ch));
       exit;
     }
     curl_close($ch);
