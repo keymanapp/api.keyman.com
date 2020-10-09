@@ -1,7 +1,7 @@
 <?php
   require_once('../../../../tools/base.inc.php');
   if(!isset($_SERVER['argv'])) {
-    if(!isset($_REQUEST['Username']) || !isset($_REQUEST['Title']) || !isset($_REQUEST['Body']) || isset($_FILES['File']))
+    if(!isset($_REQUEST['Username']) || !isset($_REQUEST['Title']) || !isset($_REQUEST['Body']) || !isset($_FILES['File']))
     {
       echo "<error>Invalid parameters</error>";
       exit;
