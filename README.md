@@ -17,13 +17,16 @@ Currently, this site runs only on a Windows host with IIS and Microsoft SQL Serv
 
 ## Setup
 
-Install the dependencies:
+1. Install the dependencies:
 
 ```
 composer install
 ```
 
-Build the backend database from live data:
+2. Configure your local environment by copying tools/db/localenv.php.in to tools/db/localenv.php
+   and completing the details therein.
+
+3. Build the backend database from live data:
 
 ```
 composer build
@@ -44,4 +47,40 @@ To force a rebuild of the test database (e.g. if schema changes):
 
 ```
 TEST_REBUILD=1 composer test
+```
+
+## Configuring a new Azure Database
+
+1. Create an Azure SQL Server
+2. Create an Azure SQL Database, e.g. called 'keymanapi'
+3. Run the following script on the master database, replacing password as necessary:
+
+```
+CREATE LOGIN [k0] WITH PASSWORD=N'password'
+GO
+
+CREATE LOGIN [k1] WITH PASSWORD=N'password'
+GO
+```
+
+4. Run the following script on the keymanapi database:
+
+```
+CREATE SCHEMA [k0]
+GO
+
+CREATE SCHEMA [k1]
+GO
+
+CREATE USER [k0] FOR LOGIN [k0] WITH DEFAULT_SCHEMA=[k0]
+GO
+
+CREATE USER [k1] FOR LOGIN [k1] WITH DEFAULT_SCHEMA=[k1]
+GO
+
+ALTER ROLE db_owner ADD MEMBER k0
+GO
+
+ALTER ROLE db_owner ADD MEMBER k1
+GO
 ```
