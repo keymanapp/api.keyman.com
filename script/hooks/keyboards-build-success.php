@@ -28,36 +28,14 @@
     fail('Invalid token');
   }
 
-  $log = "Triggered database build for keymanapp/keyboards and keymanapp/lexical-models\n".
-         "=============================================================================\n\n";
+  $log = "Triggered database build for keymanapp/keyboards and keymanapp/lexical-models";
 
-  function build_log($message) {
-    global $log;
-    $log .= $message . "\n";
+  // This triggers the continuous webjob in App_Data/WebJobs/continuous/database_build
+  file_put_contents('../../.data/MUST_REBUILD', "must rebuild");
+
+  if($format === 'application/json') {
+    echo json_encode(array("log" => $log));
+  } else {
+    echo $log;
   }
-
-  require_once('../../tools/db/build/build.inc.php');
-  require_once('../../tools/db/build/cjk/build.inc.php');
-  require_once('../../tools/db/build/datasources.inc.php');
-
-  function Build() {
-    $DBDataSources = new DBDataSources();
-    $dci = new DatabaseConnectionInfo();
-    $schema = $dci->getInactiveSchema();
-
-    $B = new BuildCJKTableClass();
-    $B->BuildDatabase($DBDataSources, $schema, true);
-    $B->BuildCJKTables($DBDataSources, $schema, true);
-
-    $dci->setActiveSchema($schema);
-
-    global $format, $log;
-    if($format === 'application/json') {
-      echo json_encode(array("log" => $log));
-    } else {
-      echo $log;
-    }
-  }
-
-  Build();
 ?>
