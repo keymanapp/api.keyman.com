@@ -13,8 +13,6 @@ jobs:
       api_keyman_com_mssqlconninfo: sqlsrv:Server=(local)\KEYMANAPI; Database=
       api_keyman_com_mssql_create_database: true
       api_keyman_com_mssqldb: keyboards
-      api_keyman_com_keyboard_info_zip: https://downloads.keyman.com/data/keyboard_info.zip
-      api_keyman_com_model_info_zip: https://downloads.keyman.com/data/model_info.zip
 
     steps:
     - uses: actions/checkout@v2

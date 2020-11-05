@@ -1,0 +1,34 @@
+<?php
+  // Your SQL Server login user
+  $mssqluser=<your SQL Server login, e.g. sa>;
+  // Your SQL Server login password
+  $mssqlpw=<your SQL Server password>;
+  // Name of database on local server
+  $mssqldb = 'keyboards';
+  // Connection string for database server
+  $mssqlconninfo="sqlsrv:Server=(local);Database=";
+
+  // If this is set, then attempts to create databases on local instance
+  $mssql_create_database = true;
+  // If you do not have full text search enabled, then keyboard search APIs will not work
+  $mssql_full_text_search = true;
+
+  // If you want to test the webhook database build endpoint, create a random token here
+  //$_SERVER['api_keyman_com_webhook_token'] = 'foo';
+
+  // If you want to enable discourse integration (e.g. diagnostic reports)
+  //$_SERVER['api_keyman_com_discourse_key']=<your discourse key>;
+  //$_SERVER['api_keyman_com_discourse_site']='https://community.software.sil.org';
+  //$_SERVER['api_keyman_com_discourse_username']=<your discourse login name>;
+
+  // If you report to google analytics, fill in the keyfile here:
+  /*$_SERVER['api_keyman_com_analytics']='
+  {
+    "project_id": "",
+    "private_key_id": "",
+    "private_key": "",
+    "client_email": "",
+    "client_id": "",
+    "client_x509_cert_url": ""
+  }
+  ';*/
