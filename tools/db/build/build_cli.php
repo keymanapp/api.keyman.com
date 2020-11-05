@@ -4,6 +4,8 @@
   require_once(__DIR__ . '/build.inc.php');
   require_once(__DIR__ . '/cjk/build.inc.php');
 
+  set_time_limit(0); // disable script timeout
+
   // CLI version of fail
   function fail($s) {
     echo $s;
