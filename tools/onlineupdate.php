@@ -69,13 +69,14 @@
     private function CheckVersionResponse($tier, $tiers, $platform, $InstalledVersion) {
       if(!isset($tiers[$tier])) return FALSE;
       $tierdata = $tiers[$tier];
-      if($this->IsSameMajorVersion($tierdata->version, $InstalledVersion)) {
-        // TODO: Offer upgrades for MAJOR.x.x.x versions.
-        // We still don't support staying on alpha or beta tier once a version
-        // hits stable. We need to review the upgrade strategies for these.
-        // Once a version is older than latest stable, we also don't offer updates for it;
-        // this is probably also wrong.
 
+      // TODO: alpha should always stay on alpha, major->major
+      //       beta should migrate to stable
+      //       stable should always stay on stable, major->major
+
+      // TODO: support filename change from keymandesktop to keyman
+
+      //if($this->IsSameMajorVersion($tierdata->version, $InstalledVersion)) {
         $files = get_object_vars($tierdata->files);
         foreach($files as $file => $filedata) {
           // This is currently tied to Windows -- for other platforms we need to change this
@@ -84,7 +85,7 @@
             return $filedata;
           }
         }
-      }
+      //}
       return FALSE;
     }
 
