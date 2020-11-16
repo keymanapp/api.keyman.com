@@ -1,0 +1,72 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema",
+  "$ref": "#/definitions/developer-update",
+
+  "definitions": {
+    "developer-update": {
+      "type": "object",
+      "required": [
+        "developer"
+      ],
+      "additionalProperties": true,
+      "properties": {
+        "developer": {
+          "$ref": "#/definitions/file"
+        }
+      }
+    },
+
+    "file": {
+      "type": "object",
+      "required": [
+        "name",
+        "version",
+        "date",
+        "platform",
+        "stability",
+        "file",
+        "md5",
+        "type",
+        "build",
+        "size",
+        "url"
+      ],
+      "additionalProperties": true,
+      "properties": {
+        "name": {
+          "type": "string"
+        },
+        "version": {
+          "type": "string"
+        },
+        "date": {
+          "type": "string"
+        },
+        "platform": {
+          "type": "string"
+        },
+        "stability": {
+          "type": "string"
+        },
+        "file": {
+          "type": "string"
+        },
+        "md5": {
+          "type": "string"
+        },
+        "type": {
+          "type": "string"
+        },
+        "build": {
+          "type": "string"
+        },
+        "size": {
+          "type": "integer"
+        },
+        "url": {
+          "type": "string"
+        }
+      }
+    }
+  }
+}
