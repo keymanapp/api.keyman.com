@@ -87,7 +87,7 @@
         if(preg_match($regex, $file)) {
 
           if(!$this->isManual &&
-              $this->tier == 'stable' &&
+              $tier == 'stable' &&
               !$this->IsSameMajorVersion($InstalledVersion, $tierdata->version)) {
             // We're going to stagger upgrades by the minute of the hour for the check, to
             // ensure we don't have everyone major-update at once and potentially cause us
