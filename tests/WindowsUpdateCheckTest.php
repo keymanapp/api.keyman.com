@@ -23,7 +23,7 @@ final class WindowsUpdateCheckTest extends ApiTestCase
   public function testSimpleResultValidatesAgainstSchema(): void
   {
     $u = new \Keyman\Site\com\keyman\api\WindowsUpdateCheck();
-    $json = $u->execute($this->mssql, 'alpha', '14.0.100', ['khmer_angkor'=>'1.0.2', 'foo'=>'0.1'], 0);
+    $json = $u->execute($this->mssql, 'alpha', '14.0.100', ['khmer_angkor'=>'1.0.2', 'foo'=>'0.1'], 0, 1);
     $this->assertNotEmpty($json);
     $data = json_decode($json);
     $this->assertNotNull($data);
