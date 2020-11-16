@@ -1,9 +1,16 @@
 <?php
   require_once('util.php');
-  require_once(__DIR__ . '/../_common/KeymanHosts.php');
 
-  //TODO: LogToGoogleAnalytics()....
+  use Keyman\Site\com\keyman\api\DownloadsApi;
+  use Keyman\Site\com\keyman\api\ReleaseSchedule;
+  use Keyman\Site\Common\KeymanHosts;
 
+  /**
+   * Provides update checks for Keyman Desktop for versions 10.0-13.0.
+   * For version 14.0 and later, see class WindowsUpdateCheck. As we
+   * are providing update checks only for older, stable versions in this
+   * class, there is no need to do checks on tier.
+   */
   class OnlineUpdate {
     private $platform, $installerRegex;
 
@@ -40,52 +47,56 @@
     private function BuildKeymanDesktopVersionResponse($InstalledVersion) {
       $platform = $this->platform;
 
-      // TODO: use DownloadsApi
-      $DownloadVersions = @file_get_contents(\Keyman\Site\Common\KeymanHosts::Instance()->downloads_keyman_com . "/api/version/$this->platform/2.0");
-      if($DownloadVersions === FALSE) {
-        fail('Unable to retrieve version data from '.\Keyman\Site\Common\KeymanHosts::Instance()->downloads_keyman_com, 500);
-      }
-      $DownloadVersions = @json_decode($DownloadVersions);
+      $DownloadVersions = DownloadsApi::Instance()->GetPlatformVersion($platform);
       if($DownloadVersions === NULL) {
-        fail('Unable to decode version data from '.\Keyman\Site\Common\KeymanHosts::Instance()->downloads_keyman_com, 500);
+        fail('Unable to download version data from '.KeymanHosts::Instance()->downloads_keyman_com, 500);
       }
 
       if(!isset($DownloadVersions->$platform)) {
-        fail("Unable to find {$platform} key in ".\Keyman\Site\Common\KeymanHosts::Instance()->downloads_keyman_com." data", 500);
+        fail("Unable to find {$platform} key in ".KeymanHosts::Instance()->downloads_keyman_com." data", 500);
       }
 
-      // Check each of the tiers for the one that matches the major version.
-      // This gets us upgrades on alpha, beta and stable tiers.
+      // Check the stable tier only, as this class now only supports legacy versions of
+      // Keyman Desktop and Keyman Developer.
+      $tier = 'stable';
       $tiers = get_object_vars($DownloadVersions->$platform);
-
-      $match = $this->CheckVersionResponse('stable', $tiers, $platform, $InstalledVersion);
-      if($match === FALSE)
-        $match = $this->CheckVersionResponse('beta', $tiers, $platform, $InstalledVersion);
-      if($match === FALSE)
-        $match = $this->CheckVersionResponse('alpha', $tiers, $platform, $InstalledVersion);
-      return $match;
-    }
-
-    private function CheckVersionResponse($tier, $tiers, $platform, $InstalledVersion) {
       if(!isset($tiers[$tier])) return FALSE;
       $tierdata = $tiers[$tier];
 
-      // TODO: alpha should always stay on alpha, major->major
-      //       beta should migrate to stable
-      //       stable should always stay on stable, major->major
+      // Keyman Desktop version 10.0 should not automatically update to 13.0, because 11.0-13.0
+      // had a bug which broke keyboard registration details. Note, this is not yet fixed in 14.0
+      // either -- see keymanapp/keyman#3865.
+      if($platform == 'windows' && $this->IsSameMajorVersion($InstalledVersion, '10.0')) {
+        // For now, we don't even attempt to locate a newer 10.0 release.
+        return FALSE;
+      }
 
-      // TODO: support filename change from keymandesktop to keyman
+      // Look for the file data that matches our requirements
+      $files = get_object_vars($tierdata->files);
+      foreach($files as $file => $filedata) {
+        if(preg_match($this->installerRegex, $file)) {
+          // We want to inject the final URL into the data returned from downloads.keyman.com
+          $filedata->url = KeymanHosts::Instance()->downloads_keyman_com . "/$platform/$tier/{$filedata->version}/{$file}";
 
-      //if($this->IsSameMajorVersion($tierdata->version, $InstalledVersion)) {
-        $files = get_object_vars($tierdata->files);
-        foreach($files as $file => $filedata) {
-          // This is currently tied to Windows -- for other platforms we need to change this
-          if(preg_match($this->installerRegex, $file)) {
-            $filedata->url = \Keyman\Site\Common\KeymanHosts::Instance()->downloads_keyman_com . "/$platform/$tier/{$filedata->version}/{$file}";
-            return $filedata;
+          if(!$this->IsSameMajorVersion($InstalledVersion, $tierdata->version)) {
+            // We're going to stagger upgrades by the minute of the hour for the check, to
+            // ensure we don't have everyone major-update at once and potentially cause us
+            // grief. This will mean that we need additional PRs to update this value; that
+            // gives us tracking automatically, so I'm good with that.
+
+            // For the initial rollout of this functionality, our stable release is 13.0, so
+            // we want to manually set the release date to around the time this PR lands.
+            $date = $this->IsSameMajorVersion('13.0', $tierdata->version) ? '2020-11-18' : $filedata->date;
+
+            if(!ReleaseSchedule::DoesRequestMeetSchedule($date)) {
+              return FALSE;
+            }
           }
+
+          return $filedata;
         }
-      //}
+      }
+
       return FALSE;
     }
 
@@ -120,7 +131,7 @@
 
     private function BuildKeyboardResponse($id, $version, $appVersion) {
       $platform = $this->platform;
-      $KeyboardDownload = @file_get_contents(\Keyman\Site\Common\KeymanHosts::Instance()->api_keyman_com."/keyboard/$id");
+      $KeyboardDownload = @file_get_contents(KeymanHosts::Instance()->api_keyman_com."/keyboard/$id");
       if($KeyboardDownload === FALSE) {
         // not found
         return FALSE;
@@ -178,7 +189,7 @@
 
     private function BuildKeyboardDownloadPath($id, $version) {
       // TODO: use DownloadsApi
-      $data = @file_get_contents(\Keyman\Site\Common\KeymanHosts::Instance()->downloads_keyman_com . "/api/keyboard/$id");
+      $data = @file_get_contents(KeymanHosts::Instance()->downloads_keyman_com . "/api/keyboard/$id");
       if($data === FALSE) {
         return FALSE;
       }

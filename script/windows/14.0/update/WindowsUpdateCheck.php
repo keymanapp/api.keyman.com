@@ -14,11 +14,14 @@
     const BOOTSTRAP_REGEX = '/^setup\.exe$/';
     const BUNDLE_REGEX = '/^keyman(desktop)?-.+\.exe/';
 
-    public function execute($mssql, $tier, $appVersion, $packages, $isUpdate) {
+    private $isManual;
+
+    public function execute($mssql, $tier, $appVersion, $packages, $isUpdate, $isManual) {
 
       $this->mssql = $mssql;
 
       $isUpdate = empty($isUpdate) ? 0 : 1;
+      $this->isManual = !empty($isManual);
 
       $desktop_update = [];
 
@@ -51,28 +54,61 @@
       // This gets us upgrades on alpha, beta and stable tiers.
       $tiers = get_object_vars($this->DownloadVersions->windows);
 
-      return $this->CheckVersionResponse($tier, $tiers, $InstalledVersion, $regex);
+      // We will support staying on alpha tier even once a version
+      // hits stable. This is correct, with major upgrade support, as
+      // that'll mean the user will transition to a new version on the
+      // same tier (i.e. always staying bleeding edge). However, for beta
+      // users, the assumption will be that they should upgrade to the stable
+      // release once it is available, as the beta branch will go stale and
+      // they will receive no further updates on it otherwise (until next beta
+      // period, anyway).
+      switch($tier) {
+        case 'alpha':
+          return $this->CheckVersionResponse($tier, $tiers, $InstalledVersion, $regex);
+        case 'beta':
+          $response = $this->CheckVersionResponse($tier, $tiers, $InstalledVersion, $regex);
+          if($response === FALSE)
+            $response = $this->CheckVersionResponse('stable', $tiers, $InstalledVersion, $regex);
+          return $response;
+        case 'stable':
+          return $this->CheckVersionResponse($tier, $tiers, $InstalledVersion, $regex);
+        default:
+          fail('Unexpected tier '.$tier, 500);
+      }
     }
 
     private function CheckVersionResponse($tier, $tiers, $InstalledVersion, $regex) {
       if(!isset($tiers[$tier])) return FALSE;
       $tierdata = $tiers[$tier];
 
-      // We will support staying on alpha or beta tier once a version
-      // hits stable. This is correct, with major upgrade support, as
-      // that'll mean the user will transition to a new version on the
-      // same tier (i.e. always staying bleeding edge)
-
       $files = get_object_vars($tierdata->files);
       foreach($files as $file => $filedata) {
         // This is currently tied to Windows -- for other platforms we need to change this
         if(preg_match($regex, $file)) {
+
+          if(!$this->isManual && !$this->IsSameMajorVersion($InstalledVersion, $tierdata->version)) {
+            // We're going to stagger upgrades by the minute of the hour for the check, to
+            // ensure we don't have everyone major-update at once and potentially cause us
+            // grief. This will mean that we need additional PRs to update this value; that
+            // gives us tracking automatically, so I'm good with that.
+            if(!ReleaseSchedule::DoesRequestMeetSchedule($filedata->date)) {
+              return FALSE;
+            }
+          }
+
           $filedata->url = KeymanHosts::Instance()->downloads_keyman_com . "/windows/$tier/{$filedata->version}/{$file}";
           return $filedata;
         }
       }
 
       return FALSE;
+    }
+
+    private function IsSameMajorVersion($v1, $v2) {
+      if(empty($v1) || empty($v2)) return FALSE;
+      $v1 = explode('.', $v1);
+      $v2 = explode('.', $v2);
+      return $v1[0] == $v2[0];
     }
 
     private function BuildKeyboardsResponse($tier, $appVersion, $packages, $isUpdate) {

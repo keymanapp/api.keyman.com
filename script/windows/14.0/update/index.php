@@ -9,12 +9,13 @@
 
   if(!isset($_REQUEST['version'])) {
     /* Invalid update check */
-    fail('Invalid Parameters - expected Version parameter', 401);
+    fail('Invalid Parameters - expected version parameter', 401);
   }
 
   $tier = isset($_REQUEST['tier']) ? $_REQUEST['tier'] : 'stable';
 
   $isUpdate = empty($_REQUEST['update']) ? 0 : 1;
+  $isManual = empty($_REQUEST['manual']) ? 0 : 1;
 
   $packages = [];
   foreach ($_REQUEST as $id => $version) {
@@ -31,4 +32,4 @@
   $mssql = Keyman\Site\com\keyman\api\Tools\DB\DBConnect::Connect();
 
   $u = new Keyman\Site\com\keyman\api\WindowsUpdateCheck();
-  echo $u->execute($mssql, $tier, $_REQUEST['version'], $packages, $isUpdate);
+  echo $u->execute($mssql, $tier, $_REQUEST['version'], $packages, $isUpdate, $isManual);
