@@ -86,7 +86,9 @@
         // This is currently tied to Windows -- for other platforms we need to change this
         if(preg_match($regex, $file)) {
 
-          if(!$this->isManual && !$this->IsSameMajorVersion($InstalledVersion, $tierdata->version)) {
+          if(!$this->isManual &&
+              $this->tier == 'stable' &&
+              !$this->IsSameMajorVersion($InstalledVersion, $tierdata->version)) {
             // We're going to stagger upgrades by the minute of the hour for the check, to
             // ensure we don't have everyone major-update at once and potentially cause us
             // grief. This will mean that we need additional PRs to update this value; that
