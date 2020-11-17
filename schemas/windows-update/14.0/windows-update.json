@@ -5,27 +5,26 @@
   "definitions": {
     "windows-update": {
       "type": "object",
-      "required": [
-        "msi",
-        "setup",
-        "bundle",
-        "keyboards"
-      ],
+      "required": ["msi", "setup", "bundle", "keyboards"],
       "additionalProperties": true,
       "properties": {
         "msi": {
-          "$ref": "#/definitions/file"
+          "$ref": "#/definitions/optional-file"
         },
         "setup": {
-          "$ref": "#/definitions/file"
+          "$ref": "#/definitions/optional-file"
         },
         "bundle": {
-          "$ref": "#/definitions/file"
+          "$ref": "#/definitions/optional-file"
         },
         "keyboards": {
           "$ref": "#/definitions/keyboards"
         }
       }
+    },
+
+    "optional-file": {
+      "anyOf": [{ "$ref": "#/definitions/file" }, { "type": "boolean" }]
     },
 
     "file": {
