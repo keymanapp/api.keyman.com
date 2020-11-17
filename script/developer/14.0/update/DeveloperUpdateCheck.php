@@ -70,6 +70,7 @@
     private function CheckVersionResponse($tier, $tiers, $InstalledVersion, $regex) {
       if(!isset($tiers[$tier])) return FALSE;
       $tierdata = $tiers[$tier];
+      if(is_array($tierdata->files)) return FALSE;
 
       $files = get_object_vars($tierdata->files);
       foreach($files as $file => $filedata) {
