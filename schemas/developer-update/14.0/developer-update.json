@@ -11,9 +11,13 @@
       "additionalProperties": true,
       "properties": {
         "developer": {
-          "$ref": "#/definitions/file"
+          "$ref": "#/definitions/optional-file"
         }
       }
+    },
+
+    "optional-file": {
+      "anyOf": [{ "$ref": "#/definitions/file" }, { "type": "boolean" }]
     },
 
     "file": {

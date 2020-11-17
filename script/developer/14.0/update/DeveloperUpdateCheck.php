@@ -12,10 +12,12 @@
     const SETUP_REGEX = '/^keymandeveloper-.+\.exe/';
 
     private $isManual;
+    private $currentTime; // used mainly for unit testing
 
-    public function execute($mssql, $tier, $appVersion, $isManual) {
+    public function execute($mssql, $tier, $appVersion, $isManual, $currentTime = null) {
 
       $this->mssql = $mssql;
+      $this->currentTime = $currentTime;
 
       $isUpdate = empty($isUpdate) ? 0 : 1;
       $this->isManual = !empty($isManual);
@@ -54,9 +56,9 @@
         case 'alpha':
           return $this->CheckVersionResponse($tier, $tiers, $InstalledVersion, $regex);
         case 'beta':
-          $response = $this->CheckVersionResponse($tier, $tiers, $InstalledVersion, $regex);
-          if($response === FALSE)
-            $response = $this->CheckVersionResponse('stable', $tiers, $InstalledVersion, $regex);
+          $response = $this->CheckVersionResponse('stable', $tiers, $InstalledVersion, $regex);
+          if($response === FALSE || version_compare($response->version, $InstalledVersion, '<'))
+            $response = $this->CheckVersionResponse($tier, $tiers, $InstalledVersion, $regex);
           return $response;
         case 'stable':
           return $this->CheckVersionResponse($tier, $tiers, $InstalledVersion, $regex);
@@ -80,7 +82,7 @@
             // ensure we don't have everyone major-update at once and potentially cause us
             // grief. This will mean that we need additional PRs to update this value; that
             // gives us tracking automatically, so I'm good with that.
-            if(!ReleaseSchedule::DoesRequestMeetSchedule($filedata->date)) {
+            if(!ReleaseSchedule::DoesRequestMeetSchedule($filedata->date, $this->currentTime)) {
               return FALSE;
             }
           }
