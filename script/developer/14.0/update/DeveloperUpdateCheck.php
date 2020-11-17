@@ -23,12 +23,12 @@
       $this->isManual = !empty($isManual);
 
       $developer_update = [];
-      $developer_update['developer'] = $this->BuildKeymanDesktopVersionResponse($tier, $appVersion, self::SETUP_REGEX);
+      $developer_update['developer'] = $this->BuildKeymanDeveloperVersionResponse($tier, $appVersion, self::SETUP_REGEX);
 
       return json_encode($developer_update, JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES);
     }
 
-    private function BuildKeymanDesktopVersionResponse($tier, $InstalledVersion, $regex) {
+    private function BuildKeymanDeveloperVersionResponse($tier, $InstalledVersion, $regex) {
       if(empty($this->DownloadVersions)) {
         $this->DownloadVersions = DownloadsApi::Instance()->GetPlatformVersion("developer");
         if($this->DownloadVersions === NULL) {
