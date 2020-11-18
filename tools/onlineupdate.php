@@ -77,12 +77,11 @@
           if(!$this->IsSameMajorVersion($InstalledVersion, $tierdata->version)) {
             // We're going to stagger upgrades by the minute of the hour for the check, to
             // ensure we don't have everyone major-update at once and potentially cause us
-            // grief. This will mean that we need additional PRs to update this value; that
-            // gives us tracking automatically, so I'm good with that.
+            // grief.
 
             // For the initial rollout of this functionality, our stable release is 13.0, so
             // we want to manually set the release date to around the time this PR lands.
-            $date = $this->IsSameMajorVersion('13.0', $tierdata->version) ? '2020-11-18' : $filedata->date;
+            $date = $this->IsSameMajorVersion('13.0', $tierdata->version) ? '2020-11-19' : $filedata->date;
 
             if(!ReleaseSchedule::DoesRequestMeetSchedule($date)) {
               return FALSE;
