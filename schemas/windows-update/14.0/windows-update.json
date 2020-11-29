@@ -1,0 +1,106 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema",
+  "$ref": "#/definitions/windows-update",
+
+  "definitions": {
+    "windows-update": {
+      "type": "object",
+      "required": ["msi", "setup", "bundle", "keyboards"],
+      "additionalProperties": true,
+      "properties": {
+        "msi": {
+          "$ref": "#/definitions/optional-file"
+        },
+        "setup": {
+          "$ref": "#/definitions/optional-file"
+        },
+        "bundle": {
+          "$ref": "#/definitions/optional-file"
+        },
+        "keyboards": {
+          "$ref": "#/definitions/keyboards"
+        }
+      }
+    },
+
+    "optional-file": {
+      "anyOf": [{ "$ref": "#/definitions/file" }, { "type": "boolean" }]
+    },
+
+    "file": {
+      "type": "object",
+      "required": [
+        "name",
+        "version",
+        "date",
+        "platform",
+        "stability",
+        "file",
+        "md5",
+        "type",
+        "build",
+        "size",
+        "url"
+      ],
+      "additionalProperties": true,
+      "properties": {
+        "name": {
+          "type": "string"
+        },
+        "version": {
+          "type": "string"
+        },
+        "date": {
+          "type": "string"
+        },
+        "platform": {
+          "type": "string"
+        },
+        "stability": {
+          "type": "string"
+        },
+        "file": {
+          "type": "string"
+        },
+        "md5": {
+          "type": "string"
+        },
+        "type": {
+          "type": "string"
+        },
+        "build": {
+          "type": "string"
+        },
+        "size": {
+          "type": "integer"
+        },
+        "url": {
+          "type": "string"
+        }
+      }
+    },
+    "keyboards": {
+      "type": "object",
+      "additionalProperties": false,
+      "patternProperties": {
+        ".+": {
+          "$ref": "#/definitions/keyboard"
+        }
+      }
+    },
+    "keyboard": {
+      "allOf": [
+        {
+          "$ref": "/keyboard_info.source/1.0.6/keyboard_info.source.json#/definitions/KeyboardInfo"
+        },
+        {
+          "properties": {
+            "url": {
+              "type": "string"
+            }
+          }
+        }
+      ]
+    }
+  }
+}

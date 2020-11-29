@@ -1,8 +1,8 @@
-{ 
+{
   "$schema": "http://json-schema.org/draft-04/schema#",
   "type": "object",
   "allOf": [
-    { "$ref": "/model_info.source.json#/definitions/ModelInfo" },
+    { "$ref": "/model_info.source/1.0/model_info.source.json#/definitions/ModelInfo" },
     { "required": [ "id", "name", "license", "languages", "lastModifiedDate", "packageFilename", "jsFilename", "packageIncludes", "version", "minKeymanVersion" ] }
   ]
 }

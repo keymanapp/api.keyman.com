@@ -1,26 +1,28 @@
 <?php
-  require_once('../../tools/db/db.php');
   require_once('../../tools/util.php');
 
   allow_cors();
   javascript_response();
 
+  require_once('../../tools/db/db.php');
+
+  $mssql = Keyman\Site\com\keyman\api\Tools\DB\DBConnect::Connect();
+
   if(isset($_GET['py'])) {
     $py=$_GET["py"]; $id = 0;
     if(isset($_GET['id'])) $id=$_GET["id"];
 
-    if(($stmt = $mysql->prepare('
-      SELECT pinyin_key, chinese_text, tip FROM cjk.kmw_chinese_pinyin WHERE pinyin_key=? ORDER BY frequency DESC
+    if(($stmt = $mssql->prepare('
+      SELECT pinyin_key, chinese_text, tip FROM kmw_chinese_pinyin WHERE pinyin_key=? ORDER BY frequency DESC, id
     ')) === false) {
-      fail("Failed to prepare query: {$mysql->error}\n");
+      fail("Failed to prepare query: {$mssql->errorInfo()}\n");
     }
 
     $pylike = $py.'%';
-    $stmt->bind_param("s", $py);
+    $stmt->bindParam(1, $py);
 
     if($stmt->execute()) {
-      $result = $stmt->get_result();
-      $data = $result->fetch_all();
+      $data = $stmt->fetchAll(PDO::FETCH_NUM);
 
       $t = ''; $u = '';
       $tt = '[';
@@ -34,16 +36,16 @@
       if($u == '') $u = '[]'; else $u .= ']';
     }
 
-    if(($stmt = $mysql->prepare('
-      SELECT pinyin_key, chinese_text, tip FROM cjk.kmw_chinese_pinyin WHERE pinyin_key LIKE ? AND pinyin_key <> ? ORDER BY frequency DESC LIMIT 20
+    if(($stmt = $mssql->prepare('
+      SELECT TOP 20 pinyin_key, chinese_text, tip FROM kmw_chinese_pinyin WHERE pinyin_key LIKE ? AND pinyin_key <> ? ORDER BY frequency DESC, id
     ')) === false) {
-      fail("Failed to prepare query #2: {$mysql->error}\n");
+      fail("Failed to prepare query #2: {$mssql->errorInfo()}\n");
     }
 
-    $stmt->bind_param("ss", $pylike, $py); //, $idlike, $id);
+    $stmt->bindParam(1, $pylike);
+    $stmt->bindParam(2, $py);
     if($stmt->execute()) {
-      $result = $stmt->get_result();
-      $data = $result->fetch_all();
+      $data = $stmt->fetchAll(PDO::FETCH_NUM);
 
       $t1 = ''; $u1 = '';
       $tt = '[';
@@ -56,8 +58,6 @@
       if($t1 == '') $t1 = '[]'; else $t1 .= ']';
       if($u1 == '') $u1 = '[]'; else $u1 .= ']';
     }
-
-    $mysql->close();
 
     echo "Keyboard_chinese_obj.showCandidates(" . $id . ",'$py'," . $t . "," . $t1 . "," . $u . "," . $u1 . ");";
   }

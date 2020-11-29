@@ -1,0 +1,91 @@
+{
+  "developer": {
+      "alpha": {
+          "version": "14.0.181",
+          "files": {
+              "keymandeveloper-14.0.181.exe": {
+                  "name": "Keyman Developer",
+                  "version": "14.0.181",
+                  "date": "2020-11-13",
+                  "platform": "win",
+                  "stability": "alpha",
+                  "file": "keymandeveloper-14.0.181.exe",
+                  "md5": "DEF176FDF7D2AF9D1636902625567753",
+                  "type": "exe",
+                  "build": "181",
+                  "size": 97463784
+              },
+              "kmcomp-14.0.181.zip": {
+                  "name": "Keyman Developer Command-Line Compiler",
+                  "version": "14.0.181",
+                  "date": "2020-11-13",
+                  "platform": "win",
+                  "stability": "alpha",
+                  "file": "kmcomp-14.0.181.zip",
+                  "md5": "5E3A6559C403BCD5F5AC060640C49C1A",
+                  "type": "zip",
+                  "build": "181",
+                  "size": 6186737
+              }
+          }
+      },
+      "beta": {
+          "version": "13.0.76.0",
+          "files": {
+              "keymandeveloper-13.0.76.0.exe": {
+                  "name": "Keyman Developer",
+                  "version": "13.0.76.0",
+                  "date": "2020-02-18",
+                  "platform": "win",
+                  "stability": "beta",
+                  "file": "keymandeveloper-13.0.76.0.exe",
+                  "md5": "11BAE0CBFD9EFFAF86A64E070CD17E55",
+                  "type": "exe",
+                  "build": "76",
+                  "size": 99546672
+              },
+              "kmcomp-13.0.76.0.zip": {
+                  "name": "Keyman Developer Command-Line Compiler",
+                  "version": "13.0.76.0",
+                  "date": "2020-02-18",
+                  "platform": "win",
+                  "stability": "beta",
+                  "file": "kmcomp-13.0.76.0.zip",
+                  "md5": "1663D6A8A205EEC48447E09CEDF803EA",
+                  "type": "zip",
+                  "build": "76",
+                  "size": 6175443
+              }
+          }
+      },
+      "stable": {
+          "version": "13.0.115.0",
+          "files": {
+              "keymandeveloper-13.0.115.0.exe": {
+                  "name": "Keyman Developer",
+                  "version": "13.0.115.0",
+                  "date": "2020-10-30",
+                  "platform": "win",
+                  "stability": "stable",
+                  "file": "keymandeveloper-13.0.115.0.exe",
+                  "md5": "89368F684C26CE921CF5C09AD13D47ED",
+                  "type": "exe",
+                  "build": "115",
+                  "size": 99502856
+              },
+              "kmcomp-13.0.115.0.zip": {
+                  "name": "Keyman Developer Command-Line Compiler",
+                  "version": "13.0.115.0",
+                  "date": "2020-10-30",
+                  "platform": "win",
+                  "stability": "stable",
+                  "file": "kmcomp-13.0.115.0.zip",
+                  "md5": "9A56C4866D487619549FC0EA59637A28",
+                  "type": "zip",
+                  "build": "115",
+                  "size": 6187389
+              }
+          }
+      }
+  }
+}

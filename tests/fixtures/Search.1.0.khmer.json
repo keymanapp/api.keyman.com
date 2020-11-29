@@ -1,0 +1,358 @@
+{
+    "languages": [
+        {
+            "id": "km",
+            "name": "Khmer",
+            "keyboards": [
+                "basic_kbdkhmr",
+                "basic_kbdkni",
+                "kbdkhmr",
+                "khmer_angkor",
+                "khmer10",
+                "sil_khmer"
+            ]
+        },
+        {
+            "id": "kxm",
+            "name": "Khmer, Northern",
+            "keyboards": [
+                "sil_khmer"
+            ]
+        },
+        {
+            "id": "kdt",
+            "name": "Kuay (Old Khmer)",
+            "keyboards": [
+                "sil_khmer"
+            ]
+        }
+    ],
+    "keyboards": [
+        {
+            "id": "basic_kbdkni",
+            "name": "Khmer (NIDA) Basic",
+            "license": "mit",
+            "version": "1.0",
+            "helpLink": "https://help.keyman.com/keyboard/basic_kbdkni",
+            "encodings": [
+                "unicode"
+            ],
+            "languages": {
+                "km": {
+                    "displayName": "Central Khmer",
+                    "languageName": "Central Khmer"
+                }
+            },
+            "jsFileSize": 17913,
+            "jsFilename": "basic_kbdkni.js",
+            "sourcePath": "release/basic/basic_kbdkni",
+            "description": "Khmer (NIDA) Basic generated from template",
+            "packageFileSize": 401287,
+            "packageFilename": "basic_kbdkni.kmp",
+            "packageIncludes": [
+                "visualKeyboard",
+                "documentation",
+                "welcome",
+                "fonts"
+            ],
+            "platformSupport": {
+                "ios": "full",
+                "linux": "full",
+                "macos": "full",
+                "android": "full",
+                "windows": "full",
+                "mobileWeb": "full",
+                "desktopWeb": "full"
+            },
+            "lastModifiedDate": "2020-06-12T00:36:29.888Z",
+            "minKeymanVersion": "10.0"
+        },
+        {
+            "id": "sil_khmer",
+            "name": "Khmer (SIL)",
+            "license": "mit",
+            "version": "1.5",
+            "helpLink": "https://help.keyman.com/keyboard/sil_khmer",
+            "encodings": [
+                "unicode"
+            ],
+            "languages": {
+                "km": {
+                    "displayName": "Central Khmer",
+                    "languageName": "Central Khmer"
+                },
+                "brb-khmr": {
+                    "scriptName": "Khmer",
+                    "displayName": "Lave (Khmer)",
+                    "languageName": "Lave"
+                },
+                "cmo-khmr": {
+                    "scriptName": "Khmer",
+                    "displayName": "Central Mnong (Khmer)",
+                    "languageName": "Central Mnong"
+                },
+                "jra-khmr": {
+                    "scriptName": "Khmer",
+                    "displayName": "Jarai (Khmer)",
+                    "languageName": "Jarai"
+                },
+                "kdt-khmr": {
+                    "scriptName": "Khmer",
+                    "displayName": "Kuy (Khmer)",
+                    "languageName": "Kuy"
+                },
+                "krr-khmr": {
+                    "scriptName": "Khmer",
+                    "displayName": "Krung (Khmer)",
+                    "languageName": "Krung"
+                },
+                "krv-khmr": {
+                    "scriptName": "Khmer",
+                    "displayName": "Kavet (Khmer)",
+                    "languageName": "Kavet"
+                },
+                "kxm-khmr": {
+                    "scriptName": "Khmer",
+                    "displayName": "Northern Khmer (Khmer)",
+                    "languageName": "Northern Khmer"
+                },
+                "tpu-khmr": {
+                    "scriptName": "Khmer",
+                    "displayName": "Tampuan (Khmer)",
+                    "languageName": "Tampuan"
+                }
+            },
+            "jsFileSize": 20855,
+            "jsFilename": "sil_khmer.js",
+            "sourcePath": "release/sil/sil_khmer",
+            "description": "This keyboard is designed for any languages using the Khmer script. This keyboard is very similar to the Khmer ABS keyboard, but it is a Unicode keyboard.",
+            "packageFileSize": 98179,
+            "packageFilename": "sil_khmer.kmp",
+            "packageIncludes": [
+                "documentation",
+                "visualKeyboard",
+                "welcome"
+            ],
+            "platformSupport": {
+                "ios": "full",
+                "linux": "full",
+                "macos": "full",
+                "android": "full",
+                "windows": "full",
+                "mobileWeb": "full",
+                "desktopWeb": "full"
+            },
+            "lastModifiedDate": "2020-06-12T00:41:17.251Z",
+            "minKeymanVersion": "10.0"
+        },
+        {
+            "id": "khmer_angkor",
+            "name": "Khmer Angkor",
+            "license": "mit",
+            "related": {
+                "khmer10": {
+                    "deprecates": true
+                }
+            },
+            "version": "1.0.6",
+            "helpLink": "https://help.keyman.com/keyboard/khmer_angkor",
+            "encodings": [
+                "unicode"
+            ],
+            "languages": {
+                "km": {
+                    "font": {
+                        "family": "Mondulkiri",
+                        "source": [
+                            "Mondulkiri-R.ttf"
+                        ]
+                    },
+                    "displayName": "Central Khmer",
+                    "languageName": "Central Khmer"
+                }
+            },
+            "authorName": "Makara Sok",
+            "jsFileSize": 63881,
+            "jsFilename": "khmer_angkor.js",
+            "sourcePath": "release/k/khmer_angkor",
+            "authorEmail": "makara@keyman.com",
+            "description": "<p>Khmer Unicode keyboard layout based on the NiDA keyboard layout. Automatically corrects many common keying errors.</p>",
+            "packageFileSize": 2639344,
+            "packageFilename": "khmer_angkor.kmp",
+            "packageIncludes": [
+                "visualKeyboard",
+                "welcome",
+                "fonts",
+                "documentation"
+            ],
+            "platformSupport": {
+                "ios": "full",
+                "linux": "full",
+                "macos": "full",
+                "android": "full",
+                "windows": "full",
+                "mobileWeb": "full",
+                "desktopWeb": "full"
+            },
+            "lastModifiedDate": "2020-06-12T00:39:43.475Z",
+            "minKeymanVersion": "10.0"
+        },
+        {
+            "id": "basic_kbdkhmr",
+            "name": "Khmer Basic",
+            "license": "mit",
+            "related": {
+                "kbdkhmr": {
+                    "deprecates": true
+                }
+            },
+            "version": "1.1",
+            "helpLink": "https://help.keyman.com/keyboard/basic_kbdkhmr",
+            "encodings": [
+                "unicode"
+            ],
+            "languages": {
+                "km": {
+                    "displayName": "Central Khmer",
+                    "languageName": "Central Khmer"
+                }
+            },
+            "jsFileSize": 16286,
+            "jsFilename": "basic_kbdkhmr.js",
+            "sourcePath": "release/basic/basic_kbdkhmr",
+            "description": "This keyboard layout is designed for Khmer.  It includes an on screen keyboard which can be viewed by clicking on the Keyman icon and selecting the On Screen Keyboard menu item. The keyboard layout follows the Windows 10 Khmer layout.",
+            "packageFileSize": 70886,
+            "packageFilename": "basic_kbdkhmr.kmp",
+            "packageIncludes": [
+                "visualKeyboard",
+                "documentation",
+                "welcome"
+            ],
+            "platformSupport": {
+                "linux": "full",
+                "macos": "full",
+                "windows": "full",
+                "mobileWeb": "full",
+                "desktopWeb": "full"
+            },
+            "lastModifiedDate": "2020-06-12T00:36:29.171Z",
+            "minKeymanVersion": "10.0"
+        },
+        {
+            "id": "krung",
+            "name": "Krung",
+            "license": "mit",
+            "version": "1.0.1",
+            "helpLink": "https://help.keyman.com/keyboard/krung",
+            "encodings": [
+                "unicode"
+            ],
+            "languages": {
+                "krr-khmr": {
+                    "scriptName": "Khmer",
+                    "displayName": "Krung (Khmer)",
+                    "languageName": "Krung"
+                }
+            },
+            "jsFileSize": 117392,
+            "jsFilename": "krung.js",
+            "sourcePath": "release/k/krung",
+            "description": "Krung is a language spoken in the northern part of Cambodia. Khmer script was adopted and used for this language. This Keyman keyboard was developed based on an existing tool (Clever Rabit) which used the Romanized version of Krung. However, a few customizations have been made to make this keyboard perform as expected. See the documentation on the romanization and examples in our welcome page.",
+            "packageFileSize": 1324624,
+            "packageFilename": "krung.kmp",
+            "packageIncludes": [
+                "visualKeyboard",
+                "documentation",
+                "welcome",
+                "fonts"
+            ],
+            "platformSupport": {
+                "ios": "full",
+                "linux": "full",
+                "macos": "full",
+                "android": "full",
+                "windows": "full",
+                "mobileWeb": "full",
+                "desktopWeb": "full"
+            },
+            "lastModifiedDate": "2020-06-12T00:39:45.105Z",
+            "minKeymanVersion": "10.0"
+        },
+        {
+            "id": "kbdkhmr",
+            "name": "Khmer Basic",
+            "links": [],
+            "license": "freeware",
+            "version": "1.0.1",
+            "legacyId": 545,
+            "encodings": [
+                "unicode"
+            ],
+            "languages": {
+                "km": {
+                    "displayName": "Central Khmer",
+                    "languageName": "Central Khmer"
+                }
+            },
+            "authorName": "Tavultesoft",
+            "sourcePath": "legacy/kbd/kbdkhmr",
+            "authorEmail": "support@tavultesoft.com",
+            "description": "This keyboard layout is designed for Khmer.  It includes an on screen keyboard which can be viewed by clicking on the Keyman icon and selecting the On Screen Keyboard menu item. The package also includes the Khmer font <b>Khmer OS</b>. The keyboard layout follows the Windows Vista Khmer layout.",
+            "packageFileSize": 110334,
+            "packageFilename": "kbdkhmr.kmp",
+            "packageIncludes": [
+                "fonts",
+                "visualKeyboard",
+                "welcome"
+            ],
+            "platformSupport": {
+                "macos": "full",
+                "windows": "full"
+            },
+            "lastModifiedDate": "2013-02-18T11:24:02Z",
+            "minKeymanVersion": "7.0",
+            "deprecated": true
+        },
+        {
+            "id": "khmer10",
+            "name": "NiDA Khmer",
+            "links": [],
+            "license": "freeware",
+            "version": "1.0",
+            "helpLink": "https://help.keyman.com/keyboard/khmer10",
+            "legacyId": 401,
+            "encodings": [
+                "unicode"
+            ],
+            "languages": {
+                "km": {
+                    "displayName": "Central Khmer",
+                    "languageName": "Central Khmer"
+                }
+            },
+            "authorName": "Andrew Cunningham",
+            "jsFileSize": 11824,
+            "jsFilename": "khmer10.js",
+            "sourcePath": "legacy/k/khmer10",
+            "description": "Khmer Unicode keyboard layout using the NiDA keyboard layout.",
+            "packageFileSize": 110008,
+            "packageFilename": "khmer10.kmp",
+            "packageIncludes": [
+                "fonts",
+                "visualKeyboard"
+            ],
+            "platformSupport": {
+                "ios": "basic",
+                "macos": "full",
+                "android": "basic",
+                "windows": "full",
+                "desktopWeb": "full"
+            },
+            "lastModifiedDate": "2007-02-08T13:43:29Z",
+            "minKeymanVersion": "5.0",
+            "documentationFileSize": 22745,
+            "documentationFilename": "khmer10.html",
+            "deprecated": true
+        }
+    ]
+}

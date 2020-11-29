@@ -1,0 +1,15 @@
+{
+  "developer": {
+      "name": "Keyman Developer",
+      "version": "14.0.181",
+      "date": "2020-11-13",
+      "platform": "win",
+      "stability": "alpha",
+      "file": "keymandeveloper-14.0.181.exe",
+      "md5": "DEF176FDF7D2AF9D1636902625567753",
+      "type": "exe",
+      "build": "181",
+      "size": 97463784,
+      "url": "https://downloads.keyman.com/developer/alpha/14.0.181/keymandeveloper-14.0.181.exe"
+  }
+}

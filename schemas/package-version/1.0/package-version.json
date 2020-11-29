@@ -6,20 +6,20 @@
     "package-version": {
       "type": "object",
       "properties": {
-        "keyboard": {
-          "ref": "#/definitions/package-version-package"
+        "keyboards": {
+          "$ref": "#/definitions/package-version-package"
         },
-        "model": {
-          "ref": "#/definitions/package-version-package"
-        },
-        "additionalProperties": false
-      }
+        "models": {
+          "$ref": "#/definitions/package-version-package"
+        }
+      },
+      "additionalProperties": false
     },
 
     "package-version-package": {
       "type": "object",
       "patternProperties": {
-        "^.+$": {
+        ".": {
           "type": "object",
           "properties": {
             "version": {
@@ -30,11 +30,12 @@
             },
             "error": {
               "type": "string"
-            },
-            "additionalProperties": false
-          }
+            }
+          },
+          "additionalProperties": false
         }
-      }
+      },
+      "additionalProperties": false
     }
   }
 }

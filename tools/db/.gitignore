@@ -1,2 +1,4 @@
 test.php
 localenv.php
+build/cjk/*_import.sql
+activeschema.txt

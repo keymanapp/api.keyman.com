@@ -1,6 +1,9 @@
 <?php
-  require_once('../../tools/util.php');
-  require_once('../../tools/keymanversion.php');
+  require_once(__DIR__ . '/../../tools/util.php');
+  require_once(__DIR__ . '/../../tools/keymanversion.php');
+  require_once(__DIR__ . '/version.inc.php');
+  require_once __DIR__ . '/../../tools/autoload.php';
+  use Keyman\Site\Common\KeymanHosts;
 
   define("LEGACY_WEB_STABLE_VERSION", "473"); // Corresponds to the last legacy stable web version 2.0.473
   allow_cors();
@@ -22,8 +25,6 @@
    * If not provided, the level 'stable' will be used.
    */
 
-  $keymanVersion = new keymanversion();
-
   if (isset($_REQUEST['command']) && $_REQUEST['command'] == 'cache') {
     // We'll refresh the backend cache, without testing the JSON data first
     $keymanVersion->recache();
@@ -36,8 +37,10 @@
     exit;
   }
 
+  json_response();
+
   // Proceed with json response
-  header('Link: <https://api.keyman.com/schemas/version.json#>; rel="describedby"');
+  header('Link: <' . KeymanHosts::Instance()->api_keyman_com . '/schemas/version.json#>; rel="describedby"');
 
   /*
     Test for stability parameter. If not provided, assume 'stable'
@@ -60,13 +63,7 @@
     $platform = 'web';
   }
 
-  $ver = $keymanVersion->getVersion($platform, $level);
+  $version = new \Keyman\Site\com\keyman\api\Version();
 
-  if (!empty($ver)) {
-    $verdata = array('platform' => $platform, 'level' => $level, 'version' => $ver);
-  } else {
-    $verdata = array('platform' => $platform, 'level' => $level, 'error' => 'No version exists for given platform and level');
-  }
-  json_response();
-  echo json_encode($verdata, JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES);
-?>
+  $ver = $version->execute($platform, $level);
+  echo json_encode($ver, JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES);
