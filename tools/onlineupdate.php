@@ -85,7 +85,7 @@
 
             // For the initial rollout of this functionality, our stable release is 13.0, so
             // we want to manually set the release date to around the time this PR lands.
-            $date = $this->IsSameMajorVersion('13.0', $tierdata->version) ? '2020-11-18' : $filedata->date;
+            $date = $this->IsSameMajorVersion('13.0', $tierdata->version) ? /*'2020-11-18'*/ '2020-01-01' : $filedata->date;
 
             if(!ReleaseSchedule::DoesRequestMeetSchedule($date)) {
               return FALSE;
