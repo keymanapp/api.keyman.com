@@ -56,16 +56,25 @@ TEST_REBUILD=1 composer test
 3. Run the following script on the master database, replacing password as necessary:
 
 ```
+-- logins for staging
 CREATE LOGIN [k0] WITH PASSWORD=N'password'
 GO
 
 CREATE LOGIN [k1] WITH PASSWORD=N'password'
+GO
+
+-- logins for production
+CREATE LOGIN [production_k0] WITH PASSWORD=N'password'
+GO
+
+CREATE LOGIN [production_k1] WITH PASSWORD=N'password'
 GO
 ```
 
 4. Run the following script on the keymanapi database:
 
 ```
+-- Schemas, users and roles for staging
 CREATE SCHEMA [k0]
 GO
 
@@ -82,5 +91,24 @@ ALTER ROLE db_owner ADD MEMBER k0
 GO
 
 ALTER ROLE db_owner ADD MEMBER k1
+GO
+
+-- Schemas, users and roles for production
+CREATE SCHEMA [production_k0]
+GO
+
+CREATE SCHEMA [production_k1]
+GO
+
+CREATE USER [production_k0] FOR LOGIN [production_k0] WITH DEFAULT_SCHEMA=[production_k0]
+GO
+
+CREATE USER [production_k1] FOR LOGIN [production_k1] WITH DEFAULT_SCHEMA=[production_k1]
+GO
+
+ALTER ROLE db_owner ADD MEMBER production_k0
+GO
+
+ALTER ROLE db_owner ADD MEMBER production_k1
 GO
 ```
