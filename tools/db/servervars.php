@@ -6,6 +6,10 @@ namespace {
     require_once(dirname(__FILE__) . '/localenv.php');
   }
 
+  # For now, we don't use autoload for this file
+  require_once(dirname(__FILE__) . '/../../_common/KeymanHosts.php');
+  use \Keyman\Site\Common\KeymanHosts;
+
   if (!isset($mssqlpw))
     $mssqlpw = isset($_SERVER['api_keyman_com_mssql_pw']) ? $_SERVER['api_keyman_com_mssql_pw'] : null;
   if (!isset($mssqluser))
@@ -36,18 +40,25 @@ namespace {
       }
     }
 
+    private function getSchemaPrefix() {
+      return (KeymanHosts::Instance()->Tier() == KeymanHosts::TIER_PRODUCTION) ? 'production_' : '';
+    }
+
     function getActiveSchema()
     {
-      return $this->activeSchema;
+      return $this->getSchemaPrefix() . $this->activeSchema;
     }
 
     function getInactiveSchema()
     {
-      return $this->activeSchema == self::SCHEMA0 ? self::SCHEMA1 : self::SCHEMA0;
+      return $this->getSchemaPrefix() . ($this->activeSchema == self::SCHEMA0 ? self::SCHEMA1 : self::SCHEMA0);
     }
 
     function setActiveSchema($value)
     {
+      // Strip off the schema prefix
+      $value = substr($value, strlen($this->getSchemaPrefix()));
+
       assert($value == self::SCHEMA0 || $value == self::SCHEMA1);
       file_put_contents($this->filename(), $value);
       $this->activeSchema = $value;
