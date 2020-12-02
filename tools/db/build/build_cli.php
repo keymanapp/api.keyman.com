@@ -33,8 +33,12 @@
     build_log("Success");
 
     $dci->setActiveSchema($schema);
+    $data_path = dirname(dirname(dirname(dirname(__FILE__)))) . "/.data/";
+    file_put_contents($data_path . 'LAST_REBUILD_DATE', date(DATE_RFC2822));
   } catch(Exception $e) {
     fail($e->getMessage());
   }
+
+  getdate()
   //echo $log;
 ?>
