@@ -38,7 +38,4 @@
   } catch(Exception $e) {
     fail($e->getMessage());
   }
-
-  getdate()
-  //echo $log;
 ?>
