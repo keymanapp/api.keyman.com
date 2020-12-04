@@ -11,7 +11,7 @@ echo Triggering database rebuild
 echo Building > \home\site\wwwroot\.data\BUILDING
 del \home\site\wwwroot\.data\MUST_REBUILD
 cd \home\site\wwwroot
-call composer run-script --timeout=0 build -f
+call composer run-script --timeout=0 -- build -f
 del \home\site\wwwroot\.data\BUILDING
 
 rem We'll exit the script (Kudu will restart it) so we get logs for subsequent runs in Kudu
