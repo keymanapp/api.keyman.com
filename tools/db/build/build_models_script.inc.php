@@ -6,7 +6,7 @@
     private $models_path, $cache_path;
 
     function execute($data_root, $do_force) {
-      $this->models_path = $data_root . '/model_info/';
+      $this->models_path = $data_root . 'model_info/';
       $this->cache_path = $data_root;
       $this->force = $do_force;
 
