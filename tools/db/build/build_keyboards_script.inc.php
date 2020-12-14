@@ -6,7 +6,7 @@
     private $keyboards_path, $cache_path;
 
     function execute($data_root, $do_force) {
-      $this->keyboards_path = $data_root . '/keyboard_info/';
+      $this->keyboards_path = $data_root . 'keyboard_info/';
       $this->cache_path = $data_root;
       $this->force = $do_force;
 

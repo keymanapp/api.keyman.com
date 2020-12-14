@@ -3,3 +3,4 @@
 **/*.iml
 /vendor/
 /node_modules/
+.vscode/
