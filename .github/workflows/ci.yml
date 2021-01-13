@@ -13,6 +13,7 @@ jobs:
       api_keyman_com_mssqlconninfo: sqlsrv:Server=(local)\KEYMANAPI; Database=
       api_keyman_com_mssql_create_database: true
       api_keyman_com_mssqldb: keyboards
+      KEYMANHOSTS_TIER: TIER_TEST
 
     steps:
 
