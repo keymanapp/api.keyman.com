@@ -13,9 +13,21 @@ jobs:
       api_keyman_com_mssqlconninfo: sqlsrv:Server=(local)\KEYMANAPI; Database=
       api_keyman_com_mssql_create_database: true
       api_keyman_com_mssqldb: keyboards
+      KEYMANHOSTS_TIER: TIER_TEST
 
     steps:
-    - uses: actions/checkout@v2
+
+    - name: Checkout
+      uses: actions/checkout@v2
+
+    - name: Setup PHP 7.4
+      uses: shivammathur/setup-php@6972aed899fa2dd4016a7e314c46e6902bcafb7b
+      with:
+        php-version: '7.4'
+        extensions: curl, intl, mbstring, openssl
+        coverage: none
+      env:
+        fail-fast: true
 
     #
     # Configure IIS and setup site for running unit tests
@@ -100,7 +112,7 @@ jobs:
         Invoke-WebRequest -outfile pdo.zip https://github.com/microsoft/msphpsql/releases/download/v5.8.0/Windows-7.4.zip
         Expand-Archive pdo.zip -DestinationPath pdo\
         copy pdo\Windows-7.4\x64\php_pdo_sqlsrv_74_nts.dll c:\tools\php\ext\
-        Add-Content -path c:\tools\php\php.ini -value '','extension=php_pdo_sqlsrv_74_nts.dll','mssql.secure_connection=Off','extension=php_intl.dll','display_errors = On'
+        Add-Content -path c:\tools\php\php.ini -value '','extension=php_pdo_sqlsrv_74_nts.dll','mssql.secure_connection=Off','display_errors = On','upload_tmp_dir = c:\tools\php\tmp'
 
     #
     # Finally, run the unit tests!

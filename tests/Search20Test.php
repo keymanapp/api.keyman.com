@@ -287,7 +287,7 @@ namespace Keyman\Site\com\keyman\api\tests {
       $json = $this->s->GetSearchMatches(null, 'p:*', 1, 1);
       $json = json_decode(json_encode($json));
       $this->schema->in($json);
-      $this->assertEquals(659, $json->context->totalRows);
+      $this->assertEquals(662, $json->context->totalRows);
       $this->assertEquals('gff_amharic', $json->keyboards[0]->id);
     }
 
