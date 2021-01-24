@@ -284,11 +284,22 @@ namespace Keyman\Site\com\keyman\api\tests {
 
     public function testSearchByPopularity()
     {
-      $json = $this->s->GetSearchMatches(null, 'p:*', 1, 1);
+      $json = $this->s->GetSearchMatches(null, 'p:popularity', 1, 1);
       $json = json_decode(json_encode($json));
       $this->schema->in($json);
-      $this->assertEquals(662, $json->context->totalRows);
+      $this->assertEquals(100, $json->context->totalRows);
       $this->assertEquals('gff_amharic', $json->keyboards[0]->id);
+    }
+
+    public function testSearchAlphabetically()
+    {
+      $json = $this->s->GetSearchMatches(null, 'p:alphab', 1, 1);
+      $json = json_decode(json_encode($json));
+      // test disabled: author email in our current dataset is invalid because
+      // it contains a space. Schema is valid apart from that.
+      //$this->schema->in($json);
+      $this->assertEquals(662, $json->context->totalRows);
+      $this->assertEquals('acoli', $json->keyboards[0]->id);
     }
 
     public function testSearchExcludeObsoleteKeyboards() {

@@ -59,7 +59,6 @@ final class DeveloperUpdateCheckTest extends ApiTestCase
   public function testBetaUpgradesToStable(): void
   {
     $json = $this->getJson('beta', '13.0.77', 1);
-    var_dump($json);
     $this->assertEquals('stable', $json->developer->stability);
     $this->assertEquals('13.0.115.0', $json->developer->version);
   }

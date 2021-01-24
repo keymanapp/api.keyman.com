@@ -245,6 +245,39 @@ AS
 GO
 
 -- #
+-- # Return list of all keyboards sorted alphabetically
+-- #
+DROP FUNCTION IF EXISTS f_keyboard_search_alphabetically;
+GO
+
+CREATE FUNCTION f_keyboard_search_alphabetically (
+  @prmPlatform nvarchar(32),
+  @weight_keyboard int
+) RETURNS
+TABLE
+AS
+  return
+  select
+    k.keyboard_id as keyboard_id,
+    k.name as name,
+    999999 - (@weight_keyboard * ROW_NUMBER() OVER (ORDER BY k.keyboard_id ASC)) as weight,
+    k.name as match_name,
+    'keyboard' as match_type,
+    null as match_tag
+  from
+    t_keyboard k
+  where
+    k.obsolete = 0 and
+    ((@prmPlatform is null) or
+    (@prmPlatform = 'android' and k.platform_android > 0) or
+    (@prmPlatform = 'ios'     and k.platform_ios > 0) or
+    (@prmPlatform = 'linux'   and k.platform_linux > 0) or
+    (@prmPlatform = 'macos'   and k.platform_macos > 0) or
+    (@prmPlatform = 'web'     and k.platform_web > 0) or
+    (@prmPlatform = 'windows' and k.platform_windows > 0))
+GO
+
+-- #
 -- # Search across keyboard identifier
 -- #
 DROP FUNCTION IF EXISTS f_keyboard_search_by_id;
@@ -385,6 +418,89 @@ AS
 
     (select sum(weight) from @tt_keyboard k2 where keyboard_id = temp.keyboard_id) *
     (LOG(COALESCE(kd.count+1, 1))+1) final_weight,
+    match_tag,
+
+    k.keyboard_id,
+    k.name,
+    k.author_name,
+    k.author_email,
+    k.description,
+    k.license,
+    k.last_modified,
+    k.version,
+    k.min_keyman_version,
+    k.legacy_id,
+    k.package_filename,
+    k.js_filename,
+    k.documentation_filename,
+    k.is_ansi,
+    k.is_unicode,
+    k.includes_welcome,
+    k.includes_documentation,
+    k.includes_fonts,
+    k.includes_visual_keyboard,
+    k.platform_windows,
+    k.platform_macos,
+    k.platform_ios,
+    k.platform_android,
+    k.platform_web,
+    k.platform_linux,
+    k.deprecated,
+    k.obsolete,
+    k.keyboard_info
+  from
+    (
+      select
+        keyboard_id,
+        match_name,
+        match_type,
+        match_tag,
+        row_number() over(
+          partition by keyboard_id
+          order by
+            weight desc, -- primary order
+            match_name,  -- helps sort shorter matches earlier
+            match_type   -- allows consistent results for equal weight+name
+          ) as roworder
+      from @tt_keyboard
+    ) temp inner join
+    t_keyboard k on temp.keyboard_id = k.keyboard_id left join
+    t_keyboard_downloads kd on temp.keyboard_id = kd.keyboard_id
+  where
+    temp.roworder = 1 and
+    (k.obsolete = 0 or @prmObsolete = 1)
+  order by
+    k.obsolete ASC, -- obsolete keyboards always last
+    5 DESC, -- order by final_weight descending
+    k.name ASC -- fallback on identical weight
+  offset
+    @PageSize * (@PageNumber - 1) rows
+  fetch next
+    @PageSize rows only
+GO
+
+-- #
+-- # Get keyboard search result (ignore downloads)
+-- #
+
+CREATE FUNCTION f_keyboard_search_results_ignore_downloads(@PageSize INT, @PageNumber INT, @prmObsolete BIT, @tt_keyboard tt_keyboard_search_keyboard READONLY)
+RETURNS TABLE
+AS
+  return
+  select
+    match_name,
+    match_type,
+    (select sum(weight) from @tt_keyboard k2 where keyboard_id = temp.keyboard_id) match_weight,
+
+    COALESCE(kd.count, 0) download_count, -- missing count record = 0 downloads over last 30 days
+
+    /*
+      Final weight: sum the weights of all matches, then multiply by log(download_count+1)+1 to
+      get what looks like a reasonable weight balance. If downloads increase exponentially, we may
+      need to adjust the log factor in future.
+    */
+
+    (select sum(weight) from @tt_keyboard k2 where keyboard_id = temp.keyboard_id) final_weight,
     match_tag,
 
     k.keyboard_id,
