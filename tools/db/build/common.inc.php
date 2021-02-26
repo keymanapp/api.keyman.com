@@ -203,8 +203,9 @@
           $sql .= "INSERT $table $coldef VALUES(";
           $row = str_getcsv($line,"\t",'',"");
           $comma = '';
-          foreach($row as $col) {
-            $sql .= $comma.sqlv(null,$col);
+          // #143 - ignore extra columns at end of data (if we have column data)
+          for($i = 0; $i < sizeof($row) && (!$cols || $i < sizeof($cols)); $i++) {
+            $sql .= $comma.sqlv(null,$row[$i]);
             $comma = ',';
           }
           if($cols) {
