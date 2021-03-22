@@ -1,16 +1,16 @@
-{ 
-  "$schema": "http://json-schema.org/schema#",
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
   "$ref": "#/definitions/KeymanWebCloud30",
-  
+
   "definitions": {
     "KeymanWebCloud30": {
       "allOf": [
         { "$ref": "#/definitions/Base" },
-      
+
         {
           "oneOf": [
             { "properties": { "keyboard": { "$ref": "#/definitions/Keyboards" } }, "required": ["keyboard"] },
-            { "properties": { "keyboard": { "$ref": "#/definitions/Keyboard" } }, "required": ["keyboard"] }, 
+            { "properties": { "keyboard": { "$ref": "#/definitions/Keyboard" } }, "required": ["keyboard"] },
             { "properties": { "language": { "$ref": "#/definitions/Language" } }, "required": ["language"] },
             { "properties": { "languages": { "$ref": "#/definitions/Languages" } }, "required": ["languages"] }
           ]
@@ -24,8 +24,8 @@
       },
       "required": ["options"]
     },
-    
-    "Options": { 
+
+    "Options": {
       "type": "object",
       "properties": {
         "context": { "type": "string", "enum": ["keyboard", "language"] },
@@ -40,13 +40,13 @@
       "required": ["context"],
       "additionalProperties": false
     },
-    
+
     "Keyboards": {
       "type": "array",
       "items": { "$ref": "#/definitions/Keyboard" }
     },
-    
-    "Languages": { 
+
+    "Languages": {
       "type": "object",
       "properties": {
         "languages": { "type": "array", "items": { "$ref": "#/definitions/Language" } }
@@ -60,7 +60,7 @@
       "properties": {
         "id": { "type": "string" },
         "filename": { "type": "string" },
-        "lastModified": { "type": "string", "format": "date-time" },
+        "lastModified": { "oneOf": [ { "type": "string", "format": "date" }, { "type": "string", "format": "date-time"} ] },
         "rtl": { "type": "boolean" },
         "version": { "type": "string" },
         "minVersion": { "type": "string" },
@@ -72,7 +72,7 @@
     "Keyboard": {
       "allOf": [
         { "$ref": "#/definitions/KeyboardBase" },
-        { 
+        {
           "properties": {
             "languages": { "type": "array", "items": { "$ref": "#/definitions/KeyboardLanguage" } }
           },
@@ -81,15 +81,15 @@
       ]
     },
 
-    "LanguageBase": { 
+    "LanguageBase": {
       "type": "object",
       "properties": {
         "id": { "type": "string" },
         "name": { "type": "string" }
       }
     },
-    
-    "Language": { 
+
+    "Language": {
       "allOf": [
         { "$ref": "#/definitions/LanguageBase" },
         {
@@ -100,7 +100,7 @@
         }
       ]
     },
-    
+
     "KeyboardLanguageBase": {
       "type": "object",
       "properties": {
@@ -109,7 +109,7 @@
         "example": { "$ref": "#/definitions/LanguageExample" }
       }
     },
-    
+
     "KeyboardLanguage": {
       "allOf": [
         { "$ref": "#/definitions/KeyboardLanguageBase" },
@@ -119,7 +119,7 @@
         }
       ]
     },
-    
+
     "LanguageKeyboard": {
       "allOf": [
         { "$ref": "#/definitions/KeyboardLanguageBase" },
@@ -140,7 +140,7 @@
       "required": ["keys", "text"],
       "additionalProperties": false
     },
-    
+
     "Font": {
       "type": "object",
       "properties": {

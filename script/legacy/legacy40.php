@@ -5,11 +5,14 @@
   require_once('legacy_db.php');
   require_once('legacy_fontutils.php');
   require_once('legacy_utils.php');
+  require_once __DIR__ . '/../../tools/autoload.php';
+
+  use Keyman\Site\Common\KeymanHosts;
 
   allow_cors();
 
   define('GITHUB_ROOT', 'https://github.com/keymanapp/keyboards/tree/master/');
-  define('CDN_ROOT', 'https://s.keyman.com/');
+  define('CDN_ROOT', KeymanHosts::Instance()->s_keyman_com . '/');
 
   // Legacy region integer values
   $regions = array(
@@ -270,7 +273,7 @@ function removeKeyboardsFromLanguages($res) {
 *
 * @param CRM_CloudKeyboardVersion $keyboard
 * @param string $languageid
-* @param CRM_AllKeyboardLanguages $allKeyboardLanguages
+* @param array $allKeyboardLanguages
 */
 function getKeyboardInfo($keyboard, $languageid, $allKeyboardLanguages) {
     global $device, $kmw;

@@ -1,0 +1,581 @@
+{
+  "options": {
+    "context": "keyboard",
+    "dateFormat": "standard",
+    "device": "any",
+    "keyboardBaseUri": "https://s.keyman.com/keyboard/",
+    "fontBaseUri": "https://s.keyman.com/font/deploy/",
+    "keyboardid": "sil_uganda_tanzania",
+    "keyboardVersion": "current"
+  },
+  "keyboard": {
+    "id": "sil_uganda_tanzania",
+    "name": "Uganda-Tanzania Bantu (SIL)",
+    "filename": "sil_uganda_tanzania/1.1.1/sil_uganda_tanzania-1.1.1.js",
+    "version": "1.1.1",
+    "source": "https://github.com/keymanapp/keyboards/tree/master/release/sil/sil_uganda_tanzania",
+    "lastModified": "2020-06-12",
+    "devices": {
+      "phone": 2,
+      "tablet": 2,
+      "desktop": 2
+    },
+    "languages": [
+      {
+        "id": "rwm-latn",
+        "name": "Amba",
+        "region": 2
+      },
+      {
+        "id": "asa-latn",
+        "name": "Asu",
+        "region": 2
+      },
+      {
+        "id": "bez-latn",
+        "name": "Bena",
+        "region": 2
+      },
+      {
+        "id": "bdp-latn",
+        "name": "Bende",
+        "region": 2
+      },
+      {
+        "id": "bou-latn",
+        "name": "Bondei",
+        "region": 2
+      },
+      {
+        "id": "wun-latn",
+        "name": "Bungu",
+        "region": 2
+      },
+      {
+        "id": "cgg-latn",
+        "name": "Chiga",
+        "region": 2
+      },
+      {
+        "id": "dhs-latn",
+        "name": "Dhaiso",
+        "region": 2
+      },
+      {
+        "id": "doe-latn",
+        "name": "Doe",
+        "region": 2
+      },
+      {
+        "id": "fip-latn",
+        "name": "Fipa",
+        "region": 2
+      },
+      {
+        "id": "lg-latn",
+        "name": "Ganda",
+        "region": 2
+      },
+      {
+        "id": "gog-latn",
+        "name": "Gogo",
+        "region": 2
+      },
+      {
+        "id": "rub-latn",
+        "name": "Gungu",
+        "region": 2
+      },
+      {
+        "id": "gwe-latn",
+        "name": "Gweno",
+        "region": 2
+      },
+      {
+        "id": "gwr-latn",
+        "name": "Gwere",
+        "region": 2
+      },
+      {
+        "id": "haq-latn",
+        "name": "Ha",
+        "region": 2
+      },
+      {
+        "id": "han-latn",
+        "name": "Hangaza",
+        "region": 2
+      },
+      {
+        "id": "hay-latn",
+        "name": "Haya",
+        "region": 2
+      },
+      {
+        "id": "heh-latn",
+        "name": "Hehe",
+        "region": 2
+      },
+      {
+        "id": "ikx-latn",
+        "name": "Ik",
+        "region": 2
+      },
+      {
+        "id": "ikz-latn",
+        "name": "Ikizu",
+        "region": 2
+      },
+      {
+        "id": "ntk-latn",
+        "name": "Ikoma-Nata-Isenye",
+        "region": 2
+      },
+      {
+        "id": "isn-latn",
+        "name": "Isanzu",
+        "region": 2
+      },
+      {
+        "id": "jit-latn",
+        "name": "Jita",
+        "region": 2
+      },
+      {
+        "id": "cwa-latn",
+        "name": "Kabwa",
+        "region": 2
+      },
+      {
+        "id": "kki-latn",
+        "name": "Kagulu",
+        "region": 2
+      },
+      {
+        "id": "hka-latn",
+        "name": "Kahe",
+        "region": 2
+      },
+      {
+        "id": "kcu-latn",
+        "name": "Kami",
+        "region": 2
+      },
+      {
+        "id": "reg-latn",
+        "name": "Kara",
+        "region": 2
+      },
+      {
+        "id": "lke-latn",
+        "name": "Kenye",
+        "region": 2
+      },
+      {
+        "id": "ked-latn",
+        "name": "Kerewe",
+        "region": 2
+      },
+      {
+        "id": "kiv-latn",
+        "name": "Kimbu",
+        "region": 2
+      },
+      {
+        "id": "zga-latn",
+        "name": "Kinga",
+        "region": 2
+      },
+      {
+        "id": "kiz-latn",
+        "name": "Kisi",
+        "region": 2
+      },
+      {
+        "id": "kcz-latn",
+        "name": "Konongo",
+        "region": 2
+      },
+      {
+        "id": "koo-latn",
+        "name": "Konzo",
+        "region": 2
+      },
+      {
+        "id": "kuj-latn",
+        "name": "Kuria",
+        "region": 2
+      },
+      {
+        "id": "kdc-latn",
+        "name": "Kutu",
+        "region": 2
+      },
+      {
+        "id": "kya-latn",
+        "name": "Kwaya",
+        "region": 2
+      },
+      {
+        "id": "cwe-latn",
+        "name": "Kwere",
+        "region": 2
+      },
+      {
+        "id": "lag-latn",
+        "name": "Langi",
+        "region": 2
+      },
+      {
+        "id": "ruf-latn",
+        "name": "Luguru",
+        "region": 2
+      },
+      {
+        "id": "jmc-latn",
+        "name": "Machame",
+        "region": 2
+      },
+      {
+        "id": "mvw-latn",
+        "name": "Machinga",
+        "region": 2
+      },
+      {
+        "id": "gmx-latn",
+        "name": "Magoma",
+        "region": 2
+      },
+      {
+        "id": "kde-latn",
+        "name": "Makonde",
+        "region": 2
+      },
+      {
+        "id": "mgq-latn",
+        "name": "Malila",
+        "region": 2
+      },
+      {
+        "id": "mgs-latn",
+        "name": "Manda",
+        "region": 2
+      },
+      {
+        "id": "myx-latn",
+        "name": "Masaaba",
+        "region": 2
+      },
+      {
+        "id": "mgv-latn",
+        "name": "Matengo",
+        "region": 2
+      },
+      {
+        "id": "mgw-latn",
+        "name": "Matumbi",
+        "region": 2
+      },
+      {
+        "id": "mgz-latn",
+        "name": "Mbugwe",
+        "region": 2
+      },
+      {
+        "id": "mgy-latn",
+        "name": "Mbunga",
+        "region": 2
+      },
+      {
+        "id": "old-latn",
+        "name": "Mochi",
+        "region": 2
+      },
+      {
+        "id": "mpa-latn",
+        "name": "Mpoto",
+        "region": 2
+      },
+      {
+        "id": "mjh-latn",
+        "name": "Mwera",
+        "region": 2
+      },
+      {
+        "id": "mwe-latn",
+        "name": "Mwera",
+        "region": 2
+      },
+      {
+        "id": "ndh-latn",
+        "name": "Ndali",
+        "region": 2
+      },
+      {
+        "id": "ndj-latn",
+        "name": "Ndamba",
+        "region": 2
+      },
+      {
+        "id": "dne-latn",
+        "name": "Ndendeule",
+        "region": 2
+      },
+      {
+        "id": "ndg-latn",
+        "name": "Ndengereko",
+        "region": 2
+      },
+      {
+        "id": "njd-latn",
+        "name": "Ndonde Hamba",
+        "region": 2
+      },
+      {
+        "id": "nnq-latn",
+        "name": "Ngindo",
+        "region": 2
+      },
+      {
+        "id": "ngo-latn",
+        "name": "Ngoni",
+        "region": 2
+      },
+      {
+        "id": "ngq-latn",
+        "name": "Ngoreme",
+        "region": 2
+      },
+      {
+        "id": "ngp-latn",
+        "name": "Ngulu",
+        "region": 2
+      },
+      {
+        "id": "nim-latn",
+        "name": "Nilamba",
+        "region": 2
+      },
+      {
+        "id": "nxi-latn",
+        "name": "Nindi",
+        "region": 2
+      },
+      {
+        "id": "nyy-latn",
+        "name": "Nyakyusa-Ngonde",
+        "region": 2
+      },
+      {
+        "id": "now-latn",
+        "name": "Nyambo",
+        "region": 2
+      },
+      {
+        "id": "nym-latn",
+        "name": "Nyamwezi",
+        "region": 2
+      },
+      {
+        "id": "nyn-latn",
+        "name": "Nyankore",
+        "region": 2
+      },
+      {
+        "id": "rim-latn",
+        "name": "Nyaturu",
+        "region": 2
+      },
+      {
+        "id": "nih-latn",
+        "name": "Nyiha, Tanzania",
+        "region": 2
+      },
+      {
+        "id": "nkt-latn",
+        "name": "Nyika, Tanzania",
+        "region": 2
+      },
+      {
+        "id": "nuj-latn",
+        "name": "Nyole",
+        "region": 2
+      },
+      {
+        "id": "nyo-latn",
+        "name": "Nyoro",
+        "region": 2
+      },
+      {
+        "id": "pbr-latn",
+        "name": "Pangwa",
+        "region": 2
+      },
+      {
+        "id": "piw-latn",
+        "name": "Pimbwe",
+        "region": 2
+      },
+      {
+        "id": "poy-latn",
+        "name": "Pogolo",
+        "region": 2
+      },
+      {
+        "id": "rof-latn",
+        "name": "Rombo",
+        "region": 2
+      },
+      {
+        "id": "rui-latn",
+        "name": "Rufiji",
+        "region": 2
+      },
+      {
+        "id": "rnw-latn",
+        "name": "Rungwa",
+        "region": 2
+      },
+      {
+        "id": "ruc-latn",
+        "name": "Ruruuli-Runyala",
+        "region": 2
+      },
+      {
+        "id": "rwk-latn",
+        "name": "Rwa",
+        "region": 2
+      },
+      {
+        "id": "lsm-latn",
+        "name": "Saamya-Gwe",
+        "region": 2
+      },
+      {
+        "id": "sbk-latn",
+        "name": "Safwa",
+        "region": 2
+      },
+      {
+        "id": "sbm-latn",
+        "name": "Sagala",
+        "region": 2
+      },
+      {
+        "id": "sbp-latn",
+        "name": "Sangu",
+        "region": 2
+      },
+      {
+        "id": "seg-latn",
+        "name": "Segeju",
+        "region": 2
+      },
+      {
+        "id": "ksb-latn",
+        "name": "Shambala",
+        "region": 2
+      },
+      {
+        "id": "suj-latn",
+        "name": "Shubi",
+        "region": 2
+      },
+      {
+        "id": "xog-latn",
+        "name": "Soga",
+        "region": 2
+      },
+      {
+        "id": "ssc-latn",
+        "name": "Suba-Simbiti",
+        "region": 2
+      },
+      {
+        "id": "suk-latn",
+        "name": "Sukuma",
+        "region": 2
+      },
+      {
+        "id": "suw-latn",
+        "name": "Sumbwa",
+        "region": 2
+      },
+      {
+        "id": "swh-latn",
+        "name": "Swahili",
+        "region": 2
+      },
+      {
+        "id": "sw",
+        "name": "Swahili (macrolanguage)",
+        "region": 1
+      },
+      {
+        "id": "tlj-latn",
+        "name": "Talinga-Bwisi",
+        "region": 2
+      },
+      {
+        "id": "soz-latn",
+        "name": "Temi",
+        "region": 2
+      },
+      {
+        "id": "tny-latn",
+        "name": "Tongwe",
+        "region": 2
+      },
+      {
+        "id": "ttj-latn",
+        "name": "Tooro",
+        "region": 2
+      },
+      {
+        "id": "vid-latn",
+        "name": "Vidunda",
+        "region": 2
+      },
+      {
+        "id": "vin-latn",
+        "name": "Vinza",
+        "region": 2
+      },
+      {
+        "id": "vun-latn",
+        "name": "Vunjo",
+        "region": 2
+      },
+      {
+        "id": "wbi-latn",
+        "name": "Vwanji",
+        "region": 2
+      },
+      {
+        "id": "wbh-latn",
+        "name": "Wanda",
+        "region": 2
+      },
+      {
+        "id": "zak-latn",
+        "name": "Zanaki",
+        "region": 2
+      },
+      {
+        "id": "zaj-latn",
+        "name": "Zaramo",
+        "region": 2
+      },
+      {
+        "id": "ziw-latn",
+        "name": "Zigula",
+        "region": 2
+      },
+      {
+        "id": "zin-latn",
+        "name": "Zinza",
+        "region": 2
+      }
+    ]
+  }
+}

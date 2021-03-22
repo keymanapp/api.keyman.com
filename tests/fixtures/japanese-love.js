@@ -1,0 +1,1 @@
+Keyboard_japanese_obj.showCandidates(100,'あいじ',['愛児'],['愛情','愛人','愛着','合印','哀情','愛孃','相決','愛人関係','愛情深い','愛情表現','愛情を傾ける'],['beloved child'],['love','lover','attachment','comradeship badge','sadness','one\'s beloved daughter','half lap joint between parallel boards','being lovers','loving','expression of love','to fix one\'s affection on']);

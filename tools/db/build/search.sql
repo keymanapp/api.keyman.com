@@ -1,27 +1,58 @@
-DROP DATABASE IF EXISTS keyboards;
+-- This drops all FK constraints across the database before attempting to drop tables
 
-CREATE DATABASE IF NOT EXISTS keyboards DEFAULT CHARSET=utf8mb4;
+DECLARE @name SYSNAME
+DECLARE @object_name SYSNAME
 
-USE keyboards;
+DECLARE table_cursor CURSOR FOR
+SELECT
+    c.name,
+    object_name(c.parent_object_id)
+FROM
+    sys.foreign_keys c
+WHERE
+    object_name(c.parent_object_id) LIKE 't[_]%' AND
+    c.schema_id = schema_id()
 
-CREATE TABLE IF NOT EXISTS t_language (
-  language_id varchar(3) not null primary key
+OPEN table_cursor
+FETCH NEXT FROM table_cursor INTO @name, @object_name
+
+DECLARE @cmd varchar(200)
+WHILE @@FETCH_STATUS = 0
+BEGIN
+    SET @cmd = 'alter table '+QUOTENAME(@object_name)+' DROP CONSTRAINT '+QUOTENAME(@name)
+    PRINT @cmd
+    EXEC( @cmd )
+    FETCH NEXT FROM table_cursor INTO @name, @object_name
+END
+
+CLOSE table_cursor
+DEALLOCATE table_cursor
+
+-- Recreate tables
+
+DROP TABLE IF EXISTS t_language_index;
+DROP TABLE IF EXISTS t_language;
+DROP TABLE IF EXISTS t_region;
+DROP TABLE IF EXISTS t_script;
+
+CREATE TABLE t_language (
+  language_id nvarchar(3) not null primary key
 );
 
-CREATE TABLE IF NOT EXISTS t_language_index (
-  language_id varchar(3),
-  name varchar(64),
+CREATE TABLE t_language_index (
+  language_id nvarchar(3),
+  name nvarchar(64),
   foreign key (language_id) references t_language (language_id)
 );
 
-CREATE TABLE IF NOT EXISTS t_region (
-  region_id varchar(3) not null primary key,
-  name varchar(64)
+CREATE TABLE t_region (
+  region_id nvarchar(3) not null primary key,
+  name nvarchar(64)
 );
 
-CREATE TABLE IF NOT EXISTS t_script (
-  script_id varchar(4) not null primary key,
-  name varchar(64)
+CREATE TABLE t_script (
+  script_id nvarchar(4) not null primary key,
+  name nvarchar(64)
 );
 
 /*====================================================================
@@ -34,26 +65,28 @@ CREATE TABLE IF NOT EXISTS t_script (
 
 ====================================================================*/
 
-CREATE TABLE IF NOT EXISTS t_keyboard (
-  keyboard_id varchar(256) not null primary key,
-  name varchar(256),
-  author_name varchar(256),
-  author_email varchar(256),
+DROP TABLE IF EXISTS t_keyboard;
+
+CREATE TABLE t_keyboard (
+  keyboard_id nvarchar(256) not null primary key,
+  name nvarchar(256),
+  author_name nvarchar(256),
+  author_email nvarchar(256),
   description text,
-  license varchar(32),
+  license nvarchar(32),
   last_modified date,
 
-  version varchar(64),
-  min_keyman_version varchar(64),
+  version nvarchar(64),
+  min_keyman_version nvarchar(64),
   min_keyman_version_1 int,
   min_keyman_version_2 int,
   legacy_id int,
 
-  package_filename varchar(256),
+  package_filename nvarchar(256),
   package_filesize int,
-  js_filename varchar(256),
+  js_filename nvarchar(256),
   js_filesize int,
-  documentation_filename varchar(256),
+  documentation_filename nvarchar(256),
   documentation_filesize int,
 
   is_rtl bit,
@@ -73,8 +106,9 @@ CREATE TABLE IF NOT EXISTS t_keyboard (
   platform_linux tinyint,
 
   deprecated bit,
+  obsolete bit,
 
-  keyboard_info json
+  keyboard_info nvarchar(max)
 );
 
 /*
@@ -83,13 +117,14 @@ CREATE TABLE IF NOT EXISTS t_keyboard (
  but the bcp47 column is the master identifier for the language entry.
  For example, the language_id may be qxx for an invented language.
 */
-CREATE TABLE IF NOT EXISTS t_keyboard_language (
-  keyboard_id varchar(256),
-  bcp47 varchar(64),
-  language_id varchar(3),
-  region_id char(2),
-  script_id char(4),
-  description varchar(256), /* use when bcp47 is broader than lang+reg+scr? */
+DROP TABLE IF EXISTS t_keyboard_language;
+CREATE TABLE t_keyboard_language (
+  keyboard_id nvarchar(256),
+  bcp47 nvarchar(64),
+  language_id nvarchar(3),
+  region_id nchar(2),
+  script_id nchar(4),
+  description nvarchar(256), /* use when bcp47 is broader than lang+reg+scr? */
 
   foreign key (keyboard_id) references t_keyboard (keyboard_id)
   /*foreign key (language_id) references t_language (language_id),
@@ -97,17 +132,19 @@ CREATE TABLE IF NOT EXISTS t_keyboard_language (
   foreign key (script_id) references t_script (script_id)*/
 );
 
-CREATE TABLE IF NOT EXISTS t_keyboard_link (
-  keyboard_id varchar(256),
-  url varchar(1024),
-  name varchar(256),
+DROP TABLE IF EXISTS t_keyboard_link;
+CREATE TABLE t_keyboard_link (
+  keyboard_id nvarchar(256),
+  url nvarchar(1024),
+  name nvarchar(256),
 
   foreign key (keyboard_id) references t_keyboard (keyboard_id)
 );
 
-CREATE TABLE IF NOT EXISTS t_keyboard_related (
-  keyboard_id varchar(256),
-  related_keyboard_id varchar(256), /* we don't use a fk constraint because the related keyboard may not exist here */
+DROP TABLE IF EXISTS t_keyboard_related;
+CREATE TABLE t_keyboard_related (
+  keyboard_id nvarchar(256),
+  related_keyboard_id nvarchar(256), /* we don't use a fk constraint because the related keyboard may not exist here */
   deprecates bit,
 
   foreign key (keyboard_id) references t_keyboard (keyboard_id)
@@ -123,23 +160,24 @@ CREATE TABLE IF NOT EXISTS t_keyboard_related (
 
 ====================================================================*/
 
-CREATE TABLE IF NOT EXISTS t_model (
-  model_id varchar(256) not null primary key,
-  name varchar(256),
-  author_name varchar(256),
-  author_email varchar(256),
+DROP TABLE IF EXISTS t_model;
+CREATE TABLE t_model (
+  model_id nvarchar(256) not null primary key,
+  name nvarchar(256),
+  author_name nvarchar(256),
+  author_email nvarchar(256),
   description text,
-  license varchar(32),
+  license nvarchar(32),
   last_modified date,
 
-  version varchar(64),
-  min_keyman_version varchar(64),
+  version nvarchar(64),
+  min_keyman_version nvarchar(64),
   min_keyman_version_1 int,
   min_keyman_version_2 int,
 
-  package_filename varchar(256),
+  package_filename nvarchar(256),
   package_filesize int,
-  js_filename varchar(256),
+  js_filename nvarchar(256),
   js_filesize int,
 
   is_rtl bit,
@@ -148,7 +186,7 @@ CREATE TABLE IF NOT EXISTS t_model (
 
   deprecated bit,
 
-  model_info json
+  model_info nvarchar(max)
 );
 
 /*
@@ -157,13 +195,14 @@ CREATE TABLE IF NOT EXISTS t_model (
  but the bcp47 column is the master identifier for the language entry.
  For example, the language_id may be qxx for an invented language.
 */
-CREATE TABLE IF NOT EXISTS t_model_language (
-  model_id varchar(256),
-  bcp47 varchar(64),
-  language_id varchar(3),
-  region_id char(2),
-  script_id char(4),
-  description varchar(256), /* use when bcp47 is broader than lang+reg+scr? */
+DROP TABLE IF EXISTS t_model_language;
+CREATE TABLE t_model_language (
+  model_id nvarchar(256),
+  bcp47 nvarchar(64),
+  language_id nvarchar(3),
+  region_id nchar(2),
+  script_id nchar(4),
+  description nvarchar(256), /* use when bcp47 is broader than lang+reg+scr? */
 
   foreign key (model_id) references t_model (model_id)
   /*foreign key (language_id) references t_language (language_id),
@@ -171,17 +210,19 @@ CREATE TABLE IF NOT EXISTS t_model_language (
   foreign key (script_id) references t_script (script_id)*/
 );
 
-CREATE TABLE IF NOT EXISTS t_model_link (
-  model_id varchar(256),
-  url varchar(1024),
-  name varchar(256),
+DROP TABLE IF EXISTS t_model_link;
+CREATE TABLE t_model_link (
+  model_id nvarchar(256),
+  url nvarchar(1024),
+  name nvarchar(256),
 
   foreign key (model_id) references t_model (model_id)
 );
 
-CREATE TABLE IF NOT EXISTS t_model_related (
-  model_id varchar(256),
-  related_model_id varchar(256), /* we don't use a fk constraint because the related model may not exist here */
+DROP TABLE IF EXISTS t_model_related;
+CREATE TABLE t_model_related (
+  model_id nvarchar(256),
+  related_model_id nvarchar(256), /* we don't use a fk constraint because the related model may not exist here */
   deprecates bit,
 
   foreign key (model_id) references t_model (model_id)
@@ -193,72 +234,75 @@ Standards Data
 
 ====================================================================*/
 
-CREATE TABLE IF NOT EXISTS t_iso639_3 (
-  Id      char(3) NOT NULL,  /* The three-letter 639-3 identifier*/
-  Part2B  char(3) NULL,      /* Equivalent 639-2 identifier of the bibliographic applications */
+DROP TABLE IF EXISTS t_iso639_3;
+CREATE TABLE t_iso639_3 (
+  Id      nchar(3) NOT NULL,  /* The three-letter 639-3 identifier*/
+  Part2B  nchar(3) NULL,      /* Equivalent 639-2 identifier of the bibliographic applications */
                             /* code set, if there is one*/
-  Part2T  char(3) NULL,      /* Equivalent 639-2 identifier of the terminology applications code */
+  Part2T  nchar(3) NULL,      /* Equivalent 639-2 identifier of the terminology applications code */
                             /* set, if there is one*/
-  Part1   char(2) NULL,      /* Equivalent 639-1 identifier, if there is one    */
-  _Scope   char(1) NOT NULL,  /* I(ndividual), M(acrolanguage), S(pecial)*/
-  _Type    char(1) NOT NULL,  /* A(ncient), C(onstructed),  */
+  Part1   nchar(2) NULL,      /* Equivalent 639-1 identifier, if there is one    */
+  _Scope   nchar(1) NOT NULL,  /* I(ndividual), M(acrolanguage), S(pecial)*/
+  _Type    nchar(1) NOT NULL,  /* A(ncient), C(onstructed),  */
                             /* E(xtinct), H(istorical), L(iving), S(pecial)*/
-  Ref_Name   varchar(150) NOT NULL,   /* Reference language name */
-  _Comment    varchar(150) NULL,      /* Comment relating to one or more of the columns*/
-  CanonicalId char(3) NULL   /* The canonical ID, being either Part1 or Id */
+  Ref_Name   nvarchar(150) NOT NULL,   /* Reference language name */
+  _Comment    nvarchar(150) NULL,      /* Comment relating to one or more of the columns*/
+  CanonicalId nvarchar(3) NULL   /* The canonical ID, being either Part1 or Id */
 );
 
-CREATE TABLE IF NOT EXISTS t_iso639_3_names (
-  Id             char(3)     NOT NULL,  /* The three-letter 639-3 identifier*/
-  Print_Name     varchar(75) NOT NULL,  /* One of the names associated with this identifier */
-  Inverted_Name  varchar(75) NOT NULL  /* The inverted form of this Print_Name form   */
+DROP TABLE IF EXISTS t_iso639_3_names;
+CREATE TABLE t_iso639_3_names (
+  Id             nchar(3)     NOT NULL,  /* The three-letter 639-3 identifier*/
+  Print_Name     nvarchar(75) NOT NULL,  /* One of the names associated with this identifier */
+  Inverted_Name  nvarchar(75) NOT NULL  /* The inverted form of this Print_Name form   */
 );
 
-CREATE TABLE IF NOT EXISTS t_iso639_3_macrolanguages (
-  M_Id      char(3) NOT NULL,   /* The identifier for a macrolanguage */
-  I_Id      char(3) NOT NULL,   /* The identifier for an individual language */
+DROP TABLE IF EXISTS t_iso639_3_macrolanguages;
+CREATE TABLE t_iso639_3_macrolanguages (
+  M_Id      nchar(3) NOT NULL,   /* The identifier for a macrolanguage */
+  I_Id      nchar(3) NOT NULL,   /* The identifier for an individual language */
                                 /* that is a member of the macrolanguage */
-  I_Status  char(1) NOT NULL    /* A (active) or R (retired) indicating the */
+  I_Status  nchar(1) NOT NULL    /* A (active) or R (retired) indicating the */
                                 /* status of the individual code element */
 );
 
 /* Ethnologue data: Documentation at https://www.ethnologue.com/codes/ */
 
-CREATE TABLE IF NOT EXISTS t_ethnologue_language_codes (
-   LangID      char(3) NOT NULL,  /* Three-letter code */
-   CountryID   char(2) NOT NULL,  /* Main country where used */
-   LangStatus  char(1) NOT NULL,  /* L(iving), (e)X(tinct) */
-   Name    varchar(75) NOT NULL   /* Primary name in that country */
+DROP TABLE IF EXISTS t_ethnologue_language_codes;
+CREATE TABLE t_ethnologue_language_codes (
+   LangID      nchar(3) NOT NULL,  /* Three-letter code */
+   CountryID   nchar(2) NOT NULL,  /* Main country where used */
+   LangStatus  nchar(1) NOT NULL,  /* L(iving), (e)X(tinct) */
+   Name    nvarchar(75) NOT NULL   /* Primary name in that country */
 );
 
 /* As of writing, t_ethnologue_country_codes is a subset of t_region, i.e.
    there are no codes in t_ethnologue_country_codes that are not in t_region */
-CREATE TABLE IF NOT EXISTS t_ethnologue_country_codes (
-   CountryID  char(2) NOT NULL,  /* Two-letter code from ISO3166 */
-   Name   varchar(75) NOT NULL,  /* Country name */
-   Area   varchar(10) NOT NULL   /* World area */
+DROP TABLE IF EXISTS t_ethnologue_country_codes;
+CREATE TABLE t_ethnologue_country_codes (
+   CountryID  nchar(2) NOT NULL,  /* Two-letter code from ISO3166 */
+   Name   nvarchar(75) NOT NULL,  /* Country name */
+   Area   nvarchar(10) NOT NULL   /* World area */
 );
 
-CREATE TABLE IF NOT EXISTS t_ethnologue_language_index (
-  LangID    char(3) NOT NULL,  /* The three-letter 639-3 identifier*/
-  CountryID char(2) NOT NULL, /* Lookup from t_ethnologue_country_codes */
-  NameType char(2) NOT NULL,  /* One of:  L(anguage), LA(lternate),D(ialect), DA(lternate), */
+DROP TABLE IF EXISTS t_ethnologue_language_index;
+CREATE TABLE t_ethnologue_language_index (
+  LangID    nchar(3) NOT NULL,  /* The three-letter 639-3 identifier*/
+  CountryID nchar(2) NOT NULL, /* Lookup from t_ethnologue_country_codes */
+  NameType nchar(2) NOT NULL,  /* One of:  L(anguage), LA(lternate),D(ialect), DA(lternate), */
                               /*          LP,DP (a pejorative alternate) */
-  Name  varchar(75) NOT NULL  /* The name */
+  Name  nvarchar(75) NOT NULL  /* The name */
 );
 
-CREATE INDEX ix_language_index_name ON t_language_index (Name, language_id);
+DROP TABLE IF EXISTS t_dbdatasources;
+CREATE TABLE t_dbdatasources (
+  uri NVARCHAR(260) NULL,
+  filename NVARCHAR(260) NULL,
+  date INT NULL
+);
 
-CREATE INDEX ix_iso639_3_part1 ON t_iso639_3 (Part1, Id);
-CREATE INDEX ix_iso639_3_id ON t_iso639_3 (Id);
-CREATE INDEX ix_iso639_3_names_print_name ON t_iso639_3_names (Print_Name, Id);
-CREATE INDEX ix_iso639_3_id_part1_ref_name ON t_iso639_3 (Id, Part1, Ref_Name);
-CREATE INDEX ix_iso639_3_part1_id_ref_name ON t_iso639_3 (Part1, Id, Ref_Name);
-CREATE INDEX ix_iso639_3_canonicalid_id_ref_name ON t_iso639_3 (CanonicalID, Id, Ref_Name);
-
-CREATE INDEX ix_keyboard_language ON t_keyboard_language (keyboard_id, language_id);
-
-CREATE INDEX ix_ethnologue_language_index_name ON t_ethnologue_language_index (Name, LangID);
-CREATE INDEX ix_ethnologue_language_index_langid ON t_ethnologue_language_index (LangID, Name);
-CREATE INDEX ix_elc_langid_countryid_name ON t_ethnologue_language_codes (LangID, CountryID, Name);
-CREATE INDEX ix_ecc_countryid ON t_ethnologue_country_codes (CountryID);
+DROP TABLE IF EXISTS t_keyboard_downloads;
+CREATE TABLE t_keyboard_downloads (
+  keyboard_id NVARCHAR(260) NOT NULL,
+  count INT NOT NULL
+)

@@ -1,8 +1,16 @@
 <?php
   require_once('util.php');
 
-  //TODO: LogToGoogleAnalytics()....
+  use Keyman\Site\com\keyman\api\DownloadsApi;
+  use Keyman\Site\com\keyman\api\ReleaseSchedule;
+  use Keyman\Site\Common\KeymanHosts;
 
+  /**
+   * Provides update checks for Keyman Desktop for versions 10.0-13.0.
+   * For version 14.0 and later, see class WindowsUpdateCheck. As we
+   * are providing update checks only for older, stable versions in this
+   * class, there is no need to do checks on tier.
+   */
   class OnlineUpdate {
     private $platform, $installerRegex;
 
@@ -39,17 +47,13 @@
     private function BuildKeymanDesktopVersionResponse($InstalledVersion) {
       $platform = $this->platform;
 
-      $DownloadVersions = @file_get_contents(get_site_url_downloads() . "/api/version/$this->platform/2.0");
-      if($DownloadVersions === FALSE) {
-        fail('Unable to retrieve version data from '.get_site_url_downloads(), 500);
-      }
-      $DownloadVersions = @json_decode($DownloadVersions);
+      $DownloadVersions = DownloadsApi::Instance()->GetPlatformVersion($platform);
       if($DownloadVersions === NULL) {
-        fail('Unable to decode version data from '.get_site_url_downloads(), 500);
+        fail('Unable to download version data from '.KeymanHosts::Instance()->downloads_keyman_com, 500);
       }
 
       if(!isset($DownloadVersions->$platform)) {
-        fail("Unable to find {$platform} key in ".get_site_url_downloads()." data", 500);
+        fail("Unable to find {$platform} key in ".KeymanHosts::Instance()->downloads_keyman_com." data", 500);
       }
 
       // Check the stable tier only, as this class now only supports legacy versions of
@@ -72,7 +76,7 @@
       foreach($files as $file => $filedata) {
         if(preg_match($this->installerRegex, $file)) {
           // We want to inject the final URL into the data returned from downloads.keyman.com
-          $filedata->url = get_site_url_downloads() . "/$platform/$tier/{$filedata->version}/{$file}";
+          $filedata->url = KeymanHosts::Instance()->downloads_keyman_com . "/$platform/$tier/{$filedata->version}/{$file}";
 
           if(!$this->IsSameMajorVersion($InstalledVersion, $tierdata->version)) {
             // We're going to stagger upgrades by the minute of the hour for the check, to
@@ -81,7 +85,7 @@
 
             // For the initial rollout of this functionality, our stable release is 13.0, so
             // we want to manually set the release date to around the time this PR lands.
-            $date = $this->IsSameMajorVersion('13.0', $tierdata->version) ? '2020-11-19' : $filedata->date;
+            $date = $this->IsSameMajorVersion('13.0', $tierdata->version) ? /*'2020-11-18'*/ '2020-01-01' : $filedata->date;
 
             if(!ReleaseSchedule::DoesRequestMeetSchedule($date)) {
               return FALSE;
@@ -126,7 +130,7 @@
 
     private function BuildKeyboardResponse($id, $version, $appVersion) {
       $platform = $this->platform;
-      $KeyboardDownload = @file_get_contents(get_site_url_api()."/keyboard/$id");
+      $KeyboardDownload = @file_get_contents(KeymanHosts::Instance()->api_keyman_com."/keyboard/$id");
       if($KeyboardDownload === FALSE) {
         // not found
         return FALSE;
@@ -183,7 +187,8 @@
     }
 
     private function BuildKeyboardDownloadPath($id, $version) {
-      $data = @file_get_contents(get_site_url_downloads() . "/api/keyboard/$id");
+      // TODO: use DownloadsApi
+      $data = @file_get_contents(KeymanHosts::Instance()->downloads_keyman_com . "/api/keyboard/$id");
       if($data === FALSE) {
         return FALSE;
       }
@@ -197,55 +202,4 @@
       return $data->kmp;
     }
   }
-
-  // This is copied from staging, ReleaseSchedule.php; it is temporary until we
-  // release Keyman 14.0 and transition staging -> production
-  class ReleaseSchedule {
-
-    /**
-     * This function helps us to do a gradual roll out of a major upgrade of Keyman
-     * on Windows, by testing the current time against both the date of the release
-     * and the minute of the hour, so that users checking only at specific times
-     * receive the update.
-     *
-     * @param string releaseDate    yyyy-mm-dd date that major version was released
-     * @param int    currentTime    Unix timestamp of current time
-     * @return bool  true if the request should be presented with the upgrade
-     */
-    public static function DoesRequestMeetSchedule($releaseDate, $currentTime = null) {
-      // This is an arbitrary schedule; see for example Chrome's release schedule:
-      // https://chromium.googlesource.com/chromium/src/+/master/docs/process/release_cycle.md
-      $schedule = [
-        5 => 3,   // 5 days for 3 minutes, 5% of user base
-        10 => 6,  // 10 days for 6 minutes / 10%
-        15 => 18, // 15 days for 18 minutes / 30%
-        20 => 36  // 20 days for 36 minutes / 60%
-      ];
-
-      $releaseDate = new \DateTime($releaseDate);
-      $currentDate = new \DateTime();
-      if($currentTime) {
-        $currentDate->setTimestamp($currentTime);
-      }
-
-      $currentTime = getdate($currentDate->getTimestamp());
-
-      if($currentDate < $releaseDate) {
-        // Don't match if current date before release date
-        return FALSE;
-      }
-
-      $interval = $currentDate->diff($releaseDate);
-
-      foreach($schedule as $days => $minutes) {
-        if($interval->days <= $days) {
-          return $currentTime['minutes'] < $minutes;
-        }
-      }
-
-      // It's been more than 20 days so everyone gets the update now
-      return TRUE;
-    }
-  }
-
 ?>

@@ -1,0 +1,59 @@
+{
+  "$schema": "http://json-schema.org/schema#",
+  "$ref": "#/definitions/Search",
+
+  "definitions": {
+    "Search": {
+      "type": "object",
+      "properties": {
+        "keyboards": { "type": "array", "items": { "$ref": "#/definitions/SearchKeyboard" } },
+        "context": { "$ref": "#/definitions/Context" }
+      },
+      "required": ["keyboards","context"]
+    },
+
+    "Context": {
+      "type": "object",
+      "properties": {
+        "range": { "type": "string" },
+        "text": { "type": "string" },
+        "platform": { "type": "string", "enum": ["android", "ios", "linux", "macos", "web", "windows"] },
+        "pageSize": { "type": "number" },
+        "pageNumber": { "type": "number" },
+        "totalRows": { "type": "number" },
+        "totalPages": { "type": "number" }
+      },
+      "required": ["range", "text", "pageSize", "pageNumber", "totalRows", "totalPages"],
+      "additionalProperties": false
+    },
+
+    "SearchKeyboard": {
+      "allOf": [
+        { "$ref": "/keyboard_info.source/1.0.6/keyboard_info.source.json#/definitions/KeyboardInfo" },
+        {
+          "properties": {
+            "match": {
+              "type": "object",
+              "properties": {
+                "name": { "oneOf": [ { "type": "string" }, { "type": "null"} ] },
+                "type": { "type": "string", "enum": [
+                  "keyboard", "keyboard_id", "description", "legacy_keyboard_id",
+                  "language", "language_bcp47_tag",
+                  "country", "country_iso3166_code",
+                  "script", "script_iso15924_code"
+                ] },
+                "tag": { "type": "string" },
+                "weight": { "type": "number" },
+                "downloads": { "type": "number" },
+                "finalWeight": { "type": "number" }
+              },
+              "required": ["name","type","weight","downloads","finalWeight"],
+              "additionalProperties": false
+            }
+          },
+          "required": ["match"]
+        }
+      ]
+    }
+  }
+}
