@@ -458,11 +458,12 @@ AS
         row_number() over(
           partition by keyboard_id
           order by
-            weight desc, -- primary order
+            sum(weight) desc, -- primary order
             match_name,  -- helps sort shorter matches earlier
             match_type   -- allows consistent results for equal weight+name
           ) as roworder
       from @tt_keyboard
+      group by keyboard_id, match_type, match_tag, match_name
     ) temp inner join
     t_keyboard k on temp.keyboard_id = k.keyboard_id left join
     t_keyboard_downloads kd on temp.keyboard_id = kd.keyboard_id
