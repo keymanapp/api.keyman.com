@@ -301,8 +301,27 @@ CREATE TABLE t_dbdatasources (
   date INT NULL
 );
 
+-- drops obsolete t_keyboard_downloads from current schema,
+-- which is different to the kstats schema version below
 DROP TABLE IF EXISTS t_keyboard_downloads;
-CREATE TABLE t_keyboard_downloads (
-  keyboard_id NVARCHAR(260) NOT NULL,
-  count INT NOT NULL
-)
+GO
+
+--add a new schema for kstats here so we can use it in search.sql
+IF SCHEMA_ID('kstats') IS NULL
+BEGIN
+	EXEC sp_executesql N'CREATE SCHEMA kstats'
+END
+GO
+
+IF OBJECT_ID('kstats.t_keyboard_downloads', 'U') IS NULL
+BEGIN
+  CREATE TABLE kstats.t_keyboard_downloads (
+    keyboard_id NVARCHAR(260) NOT NULL,
+    statdate DATE,
+    count INT NOT NULL
+  )
+
+  CREATE INDEX ix_keyboard_downloads ON kstats.t_keyboard_downloads (
+    keyboard_id, statdate
+  ) INCLUDE (count)
+END

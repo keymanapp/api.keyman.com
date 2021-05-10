@@ -4,7 +4,6 @@
   require_once('build_standards_data_script.inc.php');
   require_once('build_keyboards_script.inc.php');
   require_once('build_models_script.inc.php');
-  require_once(__DIR__ . '/build_analytics.inc.php');
 
   function reportTime() {
     global $report_last_time;
@@ -46,9 +45,6 @@
       $builder = new build_models_sql($DBDataSources, $schema);
       $builder->execute($data_path, $do_force) || fail("Unable to build lexical models data scripts");
 
-      $builder = new build_analytics_sql($DBDataSources, $schema);
-      $builder->execute($data_path) || fail("Unable to build analytics data scripts");
-
       $this->buildDBDataSources($data_path, $DBDataSources);
 
       global $mssql_create_database;
@@ -72,14 +68,17 @@
       $this->sqlrun("${data_path}keyboards.sql");
       $this->sqlrun("${data_path}models.sql");
 
-      if(file_exists("${data_path}analytics.sql"))
-        $this->sqlrun("${data_path}analytics.sql");
-
       $this->sqlrun(dirname(__FILE__)."/search-prepare-data.sql");
       $this->sqlrun(dirname(__FILE__)."/indexes.sql");
 
       $this->sqlrun(dirname(__FILE__)."/full-text-indexes.sql", false, false);
       $this->sqlrun(dirname(__FILE__)."/search-queries.sql");
+
+      // Run scripts for all views automatically
+      $scripts = glob(__DIR__ . '/v_*.sql');
+      foreach($scripts as $script) {
+        $this->sqlrun($script);
+      }
 
       // All scripts with sp_ prefixes will be automatically run
       // TODO: progressively move all stored procedures to this structure
@@ -90,6 +89,7 @@
 
       $this->sqlrun(dirname(__FILE__)."/model-queries.sql");
       $this->sqlrun(dirname(__FILE__)."/legacy-queries.sql");
+      $this->sqlrun(dirname(__FILE__)."/legacy-statistics.sql");
 
       $this->sqlrun("${data_path}dbdatasources.sql");
       return true;
@@ -121,8 +121,10 @@
       $this->reportTime();
       build_log("Running $sql");
       $s = file_get_contents($sql);
-      $s = str_replace('$keyboards', $dci->getDatabase(), $s);
-      $s = str_replace('$schema', $this->schema, $s);
+
+      /* Replace k0 and keyboards_database tokens in schema files to help intellisense */
+      $s = str_replace('keyboards_database', $dci->getDatabase(), $s);
+      $s = str_replace('k0', $this->schema, $s);
 
       $s = preg_split('/^\s*GO\s*$/m', $s);
 
