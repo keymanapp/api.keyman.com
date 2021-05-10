@@ -57,6 +57,7 @@
                 "tag": "km",
                 "weight": 210,
                 "downloads": 37,
+                "totalDownloads": 37,
                 "finalWeight": 973.89309354254101
             }
         },
@@ -143,6 +144,7 @@
                 "tag": "km",
                 "weight": 356,
                 "downloads": 3,
+                "totalDownloads": 3,
                 "finalWeight": 849.52079255868114
             }
         },
@@ -190,6 +192,7 @@
                 "tag": "km",
                 "weight": 185,
                 "downloads": 21,
+                "totalDownloads": 21,
                 "finalWeight": 756.84285387128853
             }
         },
@@ -239,6 +242,7 @@
                 "tag": "km",
                 "weight": 185,
                 "downloads": 1,
+                "totalDownloads": 1,
                 "finalWeight": 313.23222840358989
             }
         },
@@ -286,6 +290,7 @@
                 "type": "description",
                 "weight": 10,
                 "downloads": 1,
+                "totalDownloads": 1,
                 "finalWeight": 16.931471805599454
             }
         },
@@ -335,6 +340,7 @@
                 "tag": "km",
                 "weight": 210,
                 "downloads": 0,
+                "totalDownloads": 0,
                 "finalWeight": 210.0
             }
         },
@@ -378,6 +384,7 @@
                 "tag": "km",
                 "weight": 185,
                 "downloads": 0,
+                "totalDownloads": 0,
                 "finalWeight": 185.0
             }
         }

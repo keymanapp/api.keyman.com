@@ -91,6 +91,9 @@
       $this->sqlrun(dirname(__FILE__)."/legacy-queries.sql");
       $this->sqlrun(dirname(__FILE__)."/legacy-statistics.sql");
 
+      if(file_exists($DBDataSources->mockAnalyticsSqlFile))
+        $this->sqlrun($DBDataSources->mockAnalyticsSqlFile);
+
       $this->sqlrun("${data_path}dbdatasources.sql");
       return true;
     }

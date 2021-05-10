@@ -102,6 +102,7 @@
                 "tag": "tig-ethi",
                 "weight": 30,
                 "downloads": 470,
+                "totalDownloads": 470,
                 "finalWeight": 214.64574282049253
             }
         },
@@ -166,6 +167,7 @@
                 "tag": "ti-ethi-er",
                 "weight": 30,
                 "downloads": 234,
+                "totalDownloads": 234,
                 "finalWeight": 193.78756542432478
             }
         },
@@ -233,6 +235,7 @@
                 "tag": "ti-et",
                 "weight": 30,
                 "downloads": 226,
+                "totalDownloads": 226,
                 "finalWeight": 192.74850052444208
             }
         },
@@ -331,6 +334,7 @@
                 "tag": "tig-ethi",
                 "weight": 30,
                 "downloads": 149,
+                "totalDownloads": 149,
                 "finalWeight": 180.31905882288765
             }
         },
@@ -382,6 +386,7 @@
                 "tag": "ti",
                 "weight": 30,
                 "downloads": 0,
+                "totalDownloads": 0,
                 "finalWeight": 30.0
             }
         },
@@ -433,6 +438,7 @@
                 "tag": "ti",
                 "weight": 30,
                 "downloads": 0,
+                "totalDownloads": 0,
                 "finalWeight": 30.0
             }
         },
@@ -517,6 +523,7 @@
                 "tag": "ti",
                 "weight": 30,
                 "downloads": 0,
+                "totalDownloads": 0,
                 "finalWeight": 30.0
             }
         },
@@ -566,6 +573,7 @@
                 "tag": "ti",
                 "weight": 30,
                 "downloads": 0,
+                "totalDownloads": 0,
                 "finalWeight": 30.0
             }
         },
@@ -615,6 +623,7 @@
                 "tag": "ti",
                 "weight": 30,
                 "downloads": 0,
+                "totalDownloads": 0,
                 "finalWeight": 30.0
             }
         },
@@ -658,6 +667,7 @@
                 "tag": "ti",
                 "weight": 30,
                 "downloads": 0,
+                "totalDownloads": 0,
                 "finalWeight": 30.0
             }
         }
