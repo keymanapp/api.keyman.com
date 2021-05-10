@@ -20,10 +20,25 @@
     fail('POST required');
   }
 
+  if(!isset($_REQUEST['key'])) {
+    fail('key parameter must be set');
+  }
+
+  // Note: we don't currently unit-test this one
+  if(KeymanHosts::Instance()->Tier() === KeymanHosts::TIER_DEVELOPMENT)
+    $key = 'local';
+  else
+    $key = $_ENV['API_KEYMAN_COM_INCREMENT_DOWNLOAD_KEY'];
+
+  if($_REQUEST['key'] !== $key) {
+    fail('Invalid key');
+  }
+
   if(!isset($_REQUEST['id'])) {
     fail('id parameter must be set');
   }
   $id = $_REQUEST['id'];
+
 
   /**
    * POST https://api.keyman.com/increment-download/id
@@ -34,6 +49,7 @@
    * https://api.keyman.com/schemas/increment-download.json is JSON schema
    *
    * @param id    the identifier of the keyboard to increment
+   * @param key   internal key to allow endpoint to run
    */
 
   $json = \Keyman\Site\com\keyman\api\Keyboard::execute($mssql, $id);
