@@ -19,7 +19,7 @@ BEGIN
 
   UPDATE kstats.t_keyboard_downloads
     WITH (UPDLOCK, SERIALIZABLE) -- ensure that this statement is atomic with following INSERT
-    SET count = count + 1, @count = count
+    SET count = count + 1, @count = count + 1
     WHERE keyboard_id = @prmKeyboardID AND statdate = @date;
 
   IF @@ROWCOUNT = 0
