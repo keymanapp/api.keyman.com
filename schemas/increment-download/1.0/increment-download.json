@@ -1,0 +1,19 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema",
+  "$ref": "#/definitions/increment-download",
+
+  "definitions": {
+    "increment-download": {
+      "type": "object",
+      "required": [
+        "keyboard_id",
+        "count"
+      ],
+      "additionalProperties": true,
+      "properties": {
+        "keyboard_id": { "type": "string" },
+        "count": { "type": "integer" }
+      }
+    }
+  }
+}

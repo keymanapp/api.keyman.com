@@ -308,6 +308,7 @@
           'type' => $row['match_type'],
           'weight' => floatval($row['match_weight']),
           'downloads' => intval($row['download_count']),
+          'totalDownloads' => intval($row['total_download_count']),
           'finalWeight' => floatval($row['final_weight'])
         ];
 

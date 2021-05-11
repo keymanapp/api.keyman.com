@@ -48,4 +48,3 @@ CREATE NONCLUSTERED INDEX ix_keyboard_langtag_tag
 ON [t_keyboard_langtag] ([tag])
 INCLUDE ([keyboard_id])
 
-CREATE INDEX ix_keyboard_downloads ON t_keyboard_downloads (keyboard_id) INCLUDE (count)

@@ -45,6 +45,7 @@
                 "tag": { "type": "string" },
                 "weight": { "type": "number" },
                 "downloads": { "type": "number" },
+                "totalDownloads": { "type": "number" },
                 "finalWeight": { "type": "number" }
               },
               "required": ["name","type","weight","downloads","finalWeight"],

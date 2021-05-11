@@ -1,447 +1,448 @@
-INSERT t_keyboard_downloads (keyboard_id, count) SELECT N'(not set)', 119
-INSERT t_keyboard_downloads (keyboard_id, count) SELECT N'acoli', 1
-INSERT t_keyboard_downloads (keyboard_id, count) SELECT N'afro', 15
-INSERT t_keyboard_downloads (keyboard_id, count) SELECT N'aksarabali_panlex', 83
-INSERT t_keyboard_downloads (keyboard_id, count) SELECT N'amazigh_lat.kmn', 1
-INSERT t_keyboard_downloads (keyboard_id, count) SELECT N'anii_2015_fr_pack2', 12
-INSERT t_keyboard_downloads (keyboard_id, count) SELECT N'arabic_izza', 10
-INSERT t_keyboard_downloads (keyboard_id, count) SELECT N'aramaic_hebrew', 22
-INSERT t_keyboard_downloads (keyboard_id, count) SELECT N'armenian', 21
-INSERT t_keyboard_downloads (keyboard_id, count) SELECT N'armenian unicode', 2
-INSERT t_keyboard_downloads (keyboard_id, count) SELECT N'balochi_inpage', 3
-INSERT t_keyboard_downloads (keyboard_id, count) SELECT N'balochi_latin', 1
-INSERT t_keyboard_downloads (keyboard_id, count) SELECT N'balochi_persian', 10
-INSERT t_keyboard_downloads (keyboard_id, count) SELECT N'balochi_phonetic', 4
-INSERT t_keyboard_downloads (keyboard_id, count) SELECT N'balochi_scientific', 3
-INSERT t_keyboard_downloads (keyboard_id, count) SELECT N'balochi_urdu', 8
-INSERT t_keyboard_downloads (keyboard_id, count) SELECT N'bangla_joy', 20
-INSERT t_keyboard_downloads (keyboard_id, count) SELECT N'bangla_munir', 104
-INSERT t_keyboard_downloads (keyboard_id, count) SELECT N'bangla_probhat', 120
-INSERT t_keyboard_downloads (keyboard_id, count) SELECT N'basic_kbda1', 220
-INSERT t_keyboard_downloads (keyboard_id, count) SELECT N'basic_kbda2', 6
-INSERT t_keyboard_downloads (keyboard_id, count) SELECT N'basic_kbda3', 6
-INSERT t_keyboard_downloads (keyboard_id, count) SELECT N'basic_kbdal', 29
-INSERT t_keyboard_downloads (keyboard_id, count) SELECT N'basic_kbdarme', 1
-INSERT t_keyboard_downloads (keyboard_id, count) SELECT N'basic_kbdarmph', 19
-INSERT t_keyboard_downloads (keyboard_id, count) SELECT N'basic_kbdarmty', 4
-INSERT t_keyboard_downloads (keyboard_id, count) SELECT N'basic_kbdarmw', 9
-INSERT t_keyboard_downloads (keyboard_id, count) SELECT N'basic_kbdaze', 1
-INSERT t_keyboard_downloads (keyboard_id, count) SELECT N'basic_kbdazel', 26
-INSERT t_keyboard_downloads (keyboard_id, count) SELECT N'basic_kbdazst', 2
-INSERT t_keyboard_downloads (keyboard_id, count) SELECT N'basic_kbdbe', 2
-INSERT t_keyboard_downloads (keyboard_id, count) SELECT N'basic_kbdbene', 3
-INSERT t_keyboard_downloads (keyboard_id, count) SELECT N'basic_kbdbgph', 48
-INSERT t_keyboard_downloads (keyboard_id, count) SELECT N'basic_kbdbgph1', 5
-INSERT t_keyboard_downloads (keyboard_id, count) SELECT N'basic_kbdblr', 3
-INSERT t_keyboard_downloads (keyboard_id, count) SELECT N'basic_kbdbr', 4
-INSERT t_keyboard_downloads (keyboard_id, count) SELECT N'basic_kbdbu', 1
-INSERT t_keyboard_downloads (keyboard_id, count) SELECT N'basic_kbdbug', 1
-INSERT t_keyboard_downloads (keyboard_id, count) SELECT N'basic_kbdcan', 1
-INSERT t_keyboard_downloads (keyboard_id, count) SELECT N'basic_kbdcher', 1
-INSERT t_keyboard_downloads (keyboard_id, count) SELECT N'basic_kbdcherp', 4
-INSERT t_keyboard_downloads (keyboard_id, count) SELECT N'basic_kbdcz1', 6
-INSERT t_keyboard_downloads (keyboard_id, count) SELECT N'basic_kbdda', 1
-INSERT t_keyboard_downloads (keyboard_id, count) SELECT N'basic_kbddv', 2
-INSERT t_keyboard_downloads (keyboard_id, count) SELECT N'basic_kbdest', 7
-INSERT t_keyboard_downloads (keyboard_id, count) SELECT N'basic_kbdfa', 1
-INSERT t_keyboard_downloads (keyboard_id, count) SELECT N'basic_kbdfar', 2
-INSERT t_keyboard_downloads (keyboard_id, count) SELECT N'basic_kbdfi', 2
-INSERT t_keyboard_downloads (keyboard_id, count) SELECT N'basic_kbdfr', 240
-INSERT t_keyboard_downloads (keyboard_id, count) SELECT N'basic_kbdfthrk', 11
-INSERT t_keyboard_downloads (keyboard_id, count) SELECT N'basic_kbdgeo', 2
-INSERT t_keyboard_downloads (keyboard_id, count) SELECT N'basic_kbdgeoer', 2
-INSERT t_keyboard_downloads (keyboard_id, count) SELECT N'basic_kbdgeooa', 1
-INSERT t_keyboard_downloads (keyboard_id, count) SELECT N'basic_kbdgeoqw', 586
-INSERT t_keyboard_downloads (keyboard_id, count) SELECT N'basic_kbdgkl', 2
-INSERT t_keyboard_downloads (keyboard_id, count) SELECT N'basic_kbdgn', 7
-INSERT t_keyboard_downloads (keyboard_id, count) SELECT N'basic_kbdgr', 17
-INSERT t_keyboard_downloads (keyboard_id, count) SELECT N'basic_kbdgr1', 1
-INSERT t_keyboard_downloads (keyboard_id, count) SELECT N'basic_kbdgthc', 3
-INSERT t_keyboard_downloads (keyboard_id, count) SELECT N'basic_kbdhau', 1
-INSERT t_keyboard_downloads (keyboard_id, count) SELECT N'basic_kbdhe220', 3
-INSERT t_keyboard_downloads (keyboard_id, count) SELECT N'basic_kbdheb', 22
-INSERT t_keyboard_downloads (keyboard_id, count) SELECT N'basic_kbdhebl3', 8
-INSERT t_keyboard_downloads (keyboard_id, count) SELECT N'basic_kbdhela2', 6
-INSERT t_keyboard_downloads (keyboard_id, count) SELECT N'basic_kbdhept', 1
-INSERT t_keyboard_downloads (keyboard_id, count) SELECT N'basic_kbdhu', 5
-INSERT t_keyboard_downloads (keyboard_id, count) SELECT N'basic_kbdhu1', 24
-INSERT t_keyboard_downloads (keyboard_id, count) SELECT N'basic_kbdibo', 12
-INSERT t_keyboard_downloads (keyboard_id, count) SELECT N'basic_kbdic', 1
-INSERT t_keyboard_downloads (keyboard_id, count) SELECT N'basic_kbdinasa', 13
-INSERT t_keyboard_downloads (keyboard_id, count) SELECT N'basic_kbdinbe2', 61
-INSERT t_keyboard_downloads (keyboard_id, count) SELECT N'basic_kbdinben', 6
-INSERT t_keyboard_downloads (keyboard_id, count) SELECT N'basic_kbdindev', 98
-INSERT t_keyboard_downloads (keyboard_id, count) SELECT N'basic_kbdinguj', 5
-INSERT t_keyboard_downloads (keyboard_id, count) SELECT N'basic_kbdinhin', 23
-INSERT t_keyboard_downloads (keyboard_id, count) SELECT N'basic_kbdinkan', 2
-INSERT t_keyboard_downloads (keyboard_id, count) SELECT N'basic_kbdinmal', 216
-INSERT t_keyboard_downloads (keyboard_id, count) SELECT N'basic_kbdinmar', 35
-INSERT t_keyboard_downloads (keyboard_id, count) SELECT N'basic_kbdinori', 4
-INSERT t_keyboard_downloads (keyboard_id, count) SELECT N'basic_kbdinpun', 1
-INSERT t_keyboard_downloads (keyboard_id, count) SELECT N'basic_kbdintam', 42
-INSERT t_keyboard_downloads (keyboard_id, count) SELECT N'basic_kbdintel', 3
-INSERT t_keyboard_downloads (keyboard_id, count) SELECT N'basic_kbdinuk2', 5
-INSERT t_keyboard_downloads (keyboard_id, count) SELECT N'basic_kbdir', 1
-INSERT t_keyboard_downloads (keyboard_id, count) SELECT N'basic_kbdit', 1
-INSERT t_keyboard_downloads (keyboard_id, count) SELECT N'basic_kbdit142', 4
-INSERT t_keyboard_downloads (keyboard_id, count) SELECT N'basic_kbdjav', 1
-INSERT t_keyboard_downloads (keyboard_id, count) SELECT N'basic_kbdkhmr', 1
-INSERT t_keyboard_downloads (keyboard_id, count) SELECT N'basic_kbdkni', 21
-INSERT t_keyboard_downloads (keyboard_id, count) SELECT N'basic_kbdkurd', 24
-INSERT t_keyboard_downloads (keyboard_id, count) SELECT N'basic_kbdla', 8
-INSERT t_keyboard_downloads (keyboard_id, count) SELECT N'basic_kbdlao', 11
-INSERT t_keyboard_downloads (keyboard_id, count) SELECT N'basic_kbdlt1', 5
-INSERT t_keyboard_downloads (keyboard_id, count) SELECT N'basic_kbdlt2', 2
-INSERT t_keyboard_downloads (keyboard_id, count) SELECT N'basic_kbdlv1', 22
-INSERT t_keyboard_downloads (keyboard_id, count) SELECT N'basic_kbdlvst', 4
-INSERT t_keyboard_downloads (keyboard_id, count) SELECT N'basic_kbdmac', 140
-INSERT t_keyboard_downloads (keyboard_id, count) SELECT N'basic_kbdmacst', 1
-INSERT t_keyboard_downloads (keyboard_id, count) SELECT N'basic_kbdmlt47', 22
-INSERT t_keyboard_downloads (keyboard_id, count) SELECT N'basic_kbdmlt48', 87
-INSERT t_keyboard_downloads (keyboard_id, count) SELECT N'basic_kbdmon', 466
-INSERT t_keyboard_downloads (keyboard_id, count) SELECT N'basic_kbdmonmo', 30
-INSERT t_keyboard_downloads (keyboard_id, count) SELECT N'basic_kbdmonst', 11
-INSERT t_keyboard_downloads (keyboard_id, count) SELECT N'basic_kbdmyan', 69
-INSERT t_keyboard_downloads (keyboard_id, count) SELECT N'basic_kbdne', 4
-INSERT t_keyboard_downloads (keyboard_id, count) SELECT N'basic_kbdnepr', 6
-INSERT t_keyboard_downloads (keyboard_id, count) SELECT N'basic_kbdnko', 5
-INSERT t_keyboard_downloads (keyboard_id, count) SELECT N'basic_kbdno', 11
-INSERT t_keyboard_downloads (keyboard_id, count) SELECT N'basic_kbdntl', 1
-INSERT t_keyboard_downloads (keyboard_id, count) SELECT N'basic_kbdogham', 8
-INSERT t_keyboard_downloads (keyboard_id, count) SELECT N'basic_kbdolch', 3
-INSERT t_keyboard_downloads (keyboard_id, count) SELECT N'basic_kbdoldit', 4
-INSERT t_keyboard_downloads (keyboard_id, count) SELECT N'basic_kbdosm', 1
-INSERT t_keyboard_downloads (keyboard_id, count) SELECT N'basic_kbdphags', 3
-INSERT t_keyboard_downloads (keyboard_id, count) SELECT N'basic_kbdpl', 1
-INSERT t_keyboard_downloads (keyboard_id, count) SELECT N'basic_kbdpl1', 3
-INSERT t_keyboard_downloads (keyboard_id, count) SELECT N'basic_kbdpo', 2
-INSERT t_keyboard_downloads (keyboard_id, count) SELECT N'basic_kbdropr', 3
-INSERT t_keyboard_downloads (keyboard_id, count) SELECT N'basic_kbdrost', 56
-INSERT t_keyboard_downloads (keyboard_id, count) SELECT N'basic_kbdru', 29
-INSERT t_keyboard_downloads (keyboard_id, count) SELECT N'basic_kbdrum', 12
-INSERT t_keyboard_downloads (keyboard_id, count) SELECT N'basic_kbdsf', 2
-INSERT t_keyboard_downloads (keyboard_id, count) SELECT N'basic_kbdsl1', 10
-INSERT t_keyboard_downloads (keyboard_id, count) SELECT N'basic_kbdsn1', 102
-INSERT t_keyboard_downloads (keyboard_id, count) SELECT N'basic_kbdsp', 7
-INSERT t_keyboard_downloads (keyboard_id, count) SELECT N'basic_kbdsw', 10
-INSERT t_keyboard_downloads (keyboard_id, count) SELECT N'basic_kbdsw09', 233
-INSERT t_keyboard_downloads (keyboard_id, count) SELECT N'basic_kbdsyr1', 6
-INSERT t_keyboard_downloads (keyboard_id, count) SELECT N'basic_kbdsyr2', 6
-INSERT t_keyboard_downloads (keyboard_id, count) SELECT N'basic_kbdtaile', 5
-INSERT t_keyboard_downloads (keyboard_id, count) SELECT N'basic_kbdtajik', 10
-INSERT t_keyboard_downloads (keyboard_id, count) SELECT N'basic_kbdtam99', 73
-INSERT t_keyboard_downloads (keyboard_id, count) SELECT N'basic_kbdth0', 5
-INSERT t_keyboard_downloads (keyboard_id, count) SELECT N'basic_kbdth2', 13
-INSERT t_keyboard_downloads (keyboard_id, count) SELECT N'basic_kbdtifi2', 2
-INSERT t_keyboard_downloads (keyboard_id, count) SELECT N'basic_kbdtiprd', 9
-INSERT t_keyboard_downloads (keyboard_id, count) SELECT N'basic_kbdtuf', 1
-INSERT t_keyboard_downloads (keyboard_id, count) SELECT N'basic_kbdtuq', 113
-INSERT t_keyboard_downloads (keyboard_id, count) SELECT N'basic_kbdturme', 7
-INSERT t_keyboard_downloads (keyboard_id, count) SELECT N'basic_kbduk', 3
-INSERT t_keyboard_downloads (keyboard_id, count) SELECT N'basic_kbdukx', 1
-INSERT t_keyboard_downloads (keyboard_id, count) SELECT N'basic_kbdur', 1
-INSERT t_keyboard_downloads (keyboard_id, count) SELECT N'basic_kbdur1', 1
-INSERT t_keyboard_downloads (keyboard_id, count) SELECT N'basic_kbdurdu', 37
-INSERT t_keyboard_downloads (keyboard_id, count) SELECT N'basic_kbdus', 4
-INSERT t_keyboard_downloads (keyboard_id, count) SELECT N'basic_kbdusa', 4
-INSERT t_keyboard_downloads (keyboard_id, count) SELECT N'basic_kbdusr', 1
-INSERT t_keyboard_downloads (keyboard_id, count) SELECT N'basic_kbdusx', 5
-INSERT t_keyboard_downloads (keyboard_id, count) SELECT N'basic_kbduzb', 5
-INSERT t_keyboard_downloads (keyboard_id, count) SELECT N'basic_kbdyak', 9
-INSERT t_keyboard_downloads (keyboard_id, count) SELECT N'basic_kbdyba', 36
-INSERT t_keyboard_downloads (keyboard_id, count) SELECT N'basic_kbdycc', 163
-INSERT t_keyboard_downloads (keyboard_id, count) SELECT N'basic_kbdycl', 107
-INSERT t_keyboard_downloads (keyboard_id, count) SELECT N'basiclao', 2
-INSERT t_keyboard_downloads (keyboard_id, count) SELECT N'bj_cree_east', 35
-INSERT t_keyboard_downloads (keyboard_id, count) SELECT N'bj_oji_cree', 4
-INSERT t_keyboard_downloads (keyboard_id, count) SELECT N'bu', 52
-INSERT t_keyboard_downloads (keyboard_id, count) SELECT N'buang', 2
-INSERT t_keyboard_downloads (keyboard_id, count) SELECT N'burushaski_girminas', 3
-INSERT t_keyboard_downloads (keyboard_id, count) SELECT N'cabecar', 1
-INSERT t_keyboard_downloads (keyboard_id, count) SELECT N'camazert', 6
-INSERT t_keyboard_downloads (keyboard_id, count) SELECT N'cherokee-nation-unicode', 2
-INSERT t_keyboard_downloads (keyboard_id, count) SELECT N'cherokee6', 10
-INSERT t_keyboard_downloads (keyboard_id, count) SELECT N'clavbur9', 33
-INSERT t_keyboard_downloads (keyboard_id, count) SELECT N'coptic_greek', 124
-INSERT t_keyboard_downloads (keyboard_id, count) SELECT N'coptic_qwerty', 19
-INSERT t_keyboard_downloads (keyboard_id, count) SELECT N'creekeysdesktop3', 23
-INSERT t_keyboard_downloads (keyboard_id, count) SELECT N'cs-pinyin', 605
-INSERT t_keyboard_downloads (keyboard_id, count) SELECT N'deseret', 10
-INSERT t_keyboard_downloads (keyboard_id, count) SELECT N'devu-mikes', 7
-INSERT t_keyboard_downloads (keyboard_id, count) SELECT N'dlia25bas', 21
-INSERT t_keyboard_downloads (keyboard_id, count) SELECT N'easy_chakma', 230
-INSERT t_keyboard_downloads (keyboard_id, count) SELECT N'ekwbamuni', 1
-INSERT t_keyboard_downloads (keyboard_id, count) SELECT N'ekwtamil99uni', 5122
-INSERT t_keyboard_downloads (keyboard_id, count) SELECT N'el_dinka', 294
-INSERT t_keyboard_downloads (keyboard_id, count) SELECT N'el_harari_latin', 2
-INSERT t_keyboard_downloads (keyboard_id, count) SELECT N'el_naija', 8
-INSERT t_keyboard_downloads (keyboard_id, count) SELECT N'el_nuer', 223
-INSERT t_keyboard_downloads (keyboard_id, count) SELECT N'el_pasifika', 1
-INSERT t_keyboard_downloads (keyboard_id, count) SELECT N'el_yolngu', 23
-INSERT t_keyboard_downloads (keyboard_id, count) SELECT N'embera_north', 4
-INSERT t_keyboard_downloads (keyboard_id, count) SELECT N'english_shavian_igc', 11
-INSERT t_keyboard_downloads (keyboard_id, count) SELECT N'esperantohx', 4
-INSERT t_keyboard_downloads (keyboard_id, count) SELECT N'farsi_unicode', 23
-INSERT t_keyboard_downloads (keyboard_id, count) SELECT N'farsiman', 2
-INSERT t_keyboard_downloads (keyboard_id, count) SELECT N'fv_all', 1
-INSERT t_keyboard_downloads (keyboard_id, count) SELECT N'fv_blackfoot', 2
-INSERT t_keyboard_downloads (keyboard_id, count) SELECT N'fv_eastern_canadian_inuktitut', 12
-INSERT t_keyboard_downloads (keyboard_id, count) SELECT N'fv_halqemeylem', 1
-INSERT t_keyboard_downloads (keyboard_id, count) SELECT N'fv_hlgaagilda_xaayda_kil', 3
-INSERT t_keyboard_downloads (keyboard_id, count) SELECT N'fv_hulquminum', 9
-INSERT t_keyboard_downloads (keyboard_id, count) SELECT N'fv_ktunaxa', 10
-INSERT t_keyboard_downloads (keyboard_id, count) SELECT N'fv_kwakwala', 13
-INSERT t_keyboard_downloads (keyboard_id, count) SELECT N'fv_kwakwala_liqwala', 6
-INSERT t_keyboard_downloads (keyboard_id, count) SELECT N'fv_moose_cree', 1
-INSERT t_keyboard_downloads (keyboard_id, count) SELECT N'fv_nisgaa', 1
-INSERT t_keyboard_downloads (keyboard_id, count) SELECT N'fv_nlekepmxcin', 3
-INSERT t_keyboard_downloads (keyboard_id, count) SELECT N'fv_northern_east_cree', 1
-INSERT t_keyboard_downloads (keyboard_id, count) SELECT N'fv_nsilxcen', 3
-INSERT t_keyboard_downloads (keyboard_id, count) SELECT N'fv_nuucaanul', 16
-INSERT t_keyboard_downloads (keyboard_id, count) SELECT N'fv_plains_cree', 15
-INSERT t_keyboard_downloads (keyboard_id, count) SELECT N'fv_secwepemctsin', 5
-INSERT t_keyboard_downloads (keyboard_id, count) SELECT N'fv_sencoten', 19
-INSERT t_keyboard_downloads (keyboard_id, count) SELECT N'fv_severn_ojibwa', 4
-INSERT t_keyboard_downloads (keyboard_id, count) SELECT N'fv_swampy_cree', 14
-INSERT t_keyboard_downloads (keyboard_id, count) SELECT N'fv_uwikala', 2
-INSERT t_keyboard_downloads (keyboard_id, count) SELECT N'galaxie_greek_hebrew_mnemonic', 137
-INSERT t_keyboard_downloads (keyboard_id, count) SELECT N'galaxie_greek_hebrew_positional', 3
-INSERT t_keyboard_downloads (keyboard_id, count) SELECT N'galaxie_greek_mnemonic', 5
-INSERT t_keyboard_downloads (keyboard_id, count) SELECT N'galaxie_greek_positional', 3
-INSERT t_keyboard_downloads (keyboard_id, count) SELECT N'galaxie_hebrew_mnemonic', 6
-INSERT t_keyboard_downloads (keyboard_id, count) SELECT N'galaxie_hebrew_positional', 1
-INSERT t_keyboard_downloads (keyboard_id, count) SELECT N'gandhari-keyboard-2.7', 46
-INSERT t_keyboard_downloads (keyboard_id, count) SELECT N'garpsinhala', 3570
-INSERT t_keyboard_downloads (keyboard_id, count) SELECT N'gff_amh_powerpack_7', 2
-INSERT t_keyboard_downloads (keyboard_id, count) SELECT N'gff_amharic', 5254
-INSERT t_keyboard_downloads (keyboard_id, count) SELECT N'gff_geez', 27
-INSERT t_keyboard_downloads (keyboard_id, count) SELECT N'gff_gurage', 8
-INSERT t_keyboard_downloads (keyboard_id, count) SELECT N'gff_gurage_and_amharic', 7
-INSERT t_keyboard_downloads (keyboard_id, count) SELECT N'gff_musnad', 72
-INSERT t_keyboard_downloads (keyboard_id, count) SELECT N'gff_tigrinya_eritrea', 234
-INSERT t_keyboard_downloads (keyboard_id, count) SELECT N'gff_tigrinya_ethiopia', 226
-INSERT t_keyboard_downloads (keyboard_id, count) SELECT N'gff-awn-powerpack-7', 8
-INSERT t_keyboard_downloads (keyboard_id, count) SELECT N'gff-gez-powerpack-7', 199
-INSERT t_keyboard_downloads (keyboard_id, count) SELECT N'gff-sgw-powerpack-7', 3
-INSERT t_keyboard_downloads (keyboard_id, count) SELECT N'ghana', 32
-INSERT t_keyboard_downloads (keyboard_id, count) SELECT N'ghanakeyboards', 389
-INSERT t_keyboard_downloads (keyboard_id, count) SELECT N'gondi_gunjala', 1
-INSERT t_keyboard_downloads (keyboard_id, count) SELECT N'gondi_tel', 1
-INSERT t_keyboard_downloads (keyboard_id, count) SELECT N'greek polytonic sa', 85
-INSERT t_keyboard_downloads (keyboard_id, count) SELECT N'greekclassical', 174
-INSERT t_keyboard_downloads (keyboard_id, count) SELECT N'grkpoly2', 100
-INSERT t_keyboard_downloads (keyboard_id, count) SELECT N'hararab', 3
-INSERT t_keyboard_downloads (keyboard_id, count) SELECT N'harethi', 5
-INSERT t_keyboard_downloads (keyboard_id, count) SELECT N'haroi', 3
-INSERT t_keyboard_downloads (keyboard_id, count) SELECT N'hausa_kano', 7
-INSERT t_keyboard_downloads (keyboard_id, count) SELECT N'heidelberginputsolution', 97
-INSERT t_keyboard_downloads (keyboard_id, count) SELECT N'hi-keyboard', 1
-INSERT t_keyboard_downloads (keyboard_id, count) SELECT N'hieroglyphic', 190
-INSERT t_keyboard_downloads (keyboard_id, count) SELECT N'hindi_modular', 1
-INSERT t_keyboard_downloads (keyboard_id, count) SELECT N'indonesia', 17
-INSERT t_keyboard_downloads (keyboard_id, count) SELECT N'ipatotal', 116
-INSERT t_keyboard_downloads (keyboard_id, count) SELECT N'iroquoian', 2
-INSERT t_keyboard_downloads (keyboard_id, count) SELECT N'isis', 15
-INSERT t_keyboard_downloads (keyboard_id, count) SELECT N'isis_bangla', 18
-INSERT t_keyboard_downloads (keyboard_id, count) SELECT N'isis_devanagari', 10
-INSERT t_keyboard_downloads (keyboard_id, count) SELECT N'isis_gujarati', 4
-INSERT t_keyboard_downloads (keyboard_id, count) SELECT N'isis_kannada', 7
-INSERT t_keyboard_downloads (keyboard_id, count) SELECT N'isis_malayalam', 36
-INSERT t_keyboard_downloads (keyboard_id, count) SELECT N'isis_oriya', 1
-INSERT t_keyboard_downloads (keyboard_id, count) SELECT N'isis_tamil', 138
-INSERT t_keyboard_downloads (keyboard_id, count) SELECT N'isis_telugu', 2
-INSERT t_keyboard_downloads (keyboard_id, count) SELECT N'itrans_bengali', 8
-INSERT t_keyboard_downloads (keyboard_id, count) SELECT N'itrans_devanagari_hindi', 36
-INSERT t_keyboard_downloads (keyboard_id, count) SELECT N'itrans_devanagari_sanskrit_vedic', 85
-INSERT t_keyboard_downloads (keyboard_id, count) SELECT N'itrans_gujarati', 15
-INSERT t_keyboard_downloads (keyboard_id, count) SELECT N'itrans_gurmukhi', 10
-INSERT t_keyboard_downloads (keyboard_id, count) SELECT N'itrans_odia', 22
-INSERT t_keyboard_downloads (keyboard_id, count) SELECT N'itrans_roman', 4
-INSERT t_keyboard_downloads (keyboard_id, count) SELECT N'jawa', 37
-INSERT t_keyboard_downloads (keyboard_id, count) SELECT N'jorai', 10
-INSERT t_keyboard_downloads (keyboard_id, count) SELECT N'kayan', 5
-INSERT t_keyboard_downloads (keyboard_id, count) SELECT N'kbda1', 2
-INSERT t_keyboard_downloads (keyboard_id, count) SELECT N'kbdal', 1
-INSERT t_keyboard_downloads (keyboard_id, count) SELECT N'kbdazel', 1
-INSERT t_keyboard_downloads (keyboard_id, count) SELECT N'kbdfr', 2
-INSERT t_keyboard_downloads (keyboard_id, count) SELECT N'kbdgeoqw', 1
-INSERT t_keyboard_downloads (keyboard_id, count) SELECT N'kbdindev', 1
-INSERT t_keyboard_downloads (keyboard_id, count) SELECT N'kbdmlt48', 3
-INSERT t_keyboard_downloads (keyboard_id, count) SELECT N'kbdmon', 1
-INSERT t_keyboard_downloads (keyboard_id, count) SELECT N'kbdsw09', 2
-INSERT t_keyboard_downloads (keyboard_id, count) SELECT N'kbdurdu', 8
-INSERT t_keyboard_downloads (keyboard_id, count) SELECT N'kbdycc', 1
-INSERT t_keyboard_downloads (keyboard_id, count) SELECT N'keymancolombia', 2
-INSERT t_keyboard_downloads (keyboard_id, count) SELECT N'khmer_angkor', 37
-INSERT t_keyboard_downloads (keyboard_id, count) SELECT N'klallam', 1
-INSERT t_keyboard_downloads (keyboard_id, count) SELECT N'km_cree', 55
-INSERT t_keyboard_downloads (keyboard_id, count) SELECT N'km_ojibwasyllabics', 5
-INSERT t_keyboard_downloads (keyboard_id, count) SELECT N'km_ojicreesyllabics', 8
-INSERT t_keyboard_downloads (keyboard_id, count) SELECT N'kmhmu_2008', 1
-INSERT t_keyboard_downloads (keyboard_id, count) SELECT N'korda', 39
-INSERT t_keyboard_downloads (keyboard_id, count) SELECT N'korean_morse', 1
-INSERT t_keyboard_downloads (keyboard_id, count) SELECT N'krung', 1
-INSERT t_keyboard_downloads (keyboard_id, count) SELECT N'lahu', 26
-INSERT t_keyboard_downloads (keyboard_id, count) SELECT N'lao_2008_basic', 3
-INSERT t_keyboard_downloads (keyboard_id, count) SELECT N'lao_2008_rapid', 1
-INSERT t_keyboard_downloads (keyboard_id, count) SELECT N'laounicodebasic_on_thaikbd', 2
-INSERT t_keyboard_downloads (keyboard_id, count) SELECT N'lazuri', 10
-INSERT t_keyboard_downloads (keyboard_id, count) SELECT N'libtralo', 8
-INSERT t_keyboard_downloads (keyboard_id, count) SELECT N'lingfilsemitica', 13
-INSERT t_keyboard_downloads (keyboard_id, count) SELECT N'lushootseed', 10
-INSERT t_keyboard_downloads (keyboard_id, count) SELECT N'lushootseed_u', 6
-INSERT t_keyboard_downloads (keyboard_id, count) SELECT N'malar_braille', 5
-INSERT t_keyboard_downloads (keyboard_id, count) SELECT N'malar_malayalam', 28
-INSERT t_keyboard_downloads (keyboard_id, count) SELECT N'malar_malayalam_inscript', 33
-INSERT t_keyboard_downloads (keyboard_id, count) SELECT N'malta', 1
-INSERT t_keyboard_downloads (keyboard_id, count) SELECT N'maltese', 18
-INSERT t_keyboard_downloads (keyboard_id, count) SELECT N'mandaic_phonetic', 6
-INSERT t_keyboard_downloads (keyboard_id, count) SELECT N'mbsindhi', 188
-INSERT t_keyboard_downloads (keyboard_id, count) SELECT N'mongolian_cyrillic_qwerty', 47
-INSERT t_keyboard_downloads (keyboard_id, count) SELECT N'moore', 25
-INSERT t_keyboard_downloads (keyboard_id, count) SELECT N'mozhi', 4
-INSERT t_keyboard_downloads (keyboard_id, count) SELECT N'mozhi_malayalam', 931
-INSERT t_keyboard_downloads (keyboard_id, count) SELECT N'mozhi51', 3
-INSERT t_keyboard_downloads (keyboard_id, count) SELECT N'mro_phonetic', 40
-INSERT t_keyboard_downloads (keyboard_id, count) SELECT N'multi_pak_phonetic', 13
-INSERT t_keyboard_downloads (keyboard_id, count) SELECT N'nailangs', 2
-INSERT t_keyboard_downloads (keyboard_id, count) SELECT N'naskapi_u', 2
-INSERT t_keyboard_downloads (keyboard_id, count) SELECT N'naskeysdesktop', 2
-INSERT t_keyboard_downloads (keyboard_id, count) SELECT N'nko', 17
-INSERT t_keyboard_downloads (keyboard_id, count) SELECT N'nlci_devanagari_winscript', 1
-INSERT t_keyboard_downloads (keyboard_id, count) SELECT N'nlci_gujarati_winscript', 3
-INSERT t_keyboard_downloads (keyboard_id, count) SELECT N'nlci_kannada_winscript', 2
-INSERT t_keyboard_downloads (keyboard_id, count) SELECT N'nlci_malayalam_winscript', 2
-INSERT t_keyboard_downloads (keyboard_id, count) SELECT N'nlci_oriya_winscript', 8
-INSERT t_keyboard_downloads (keyboard_id, count) SELECT N'nlci_tamil_winscript', 16
-INSERT t_keyboard_downloads (keyboard_id, count) SELECT N'nlci_telugu_winscript', 1
-INSERT t_keyboard_downloads (keyboard_id, count) SELECT N'nrc_crk_cans', 4
-INSERT t_keyboard_downloads (keyboard_id, count) SELECT N'nuer13', 9
-INSERT t_keyboard_downloads (keyboard_id, count) SELECT N'obolo_qwerty', 1
-INSERT t_keyboard_downloads (keyboard_id, count) SELECT N'okanaganu', 4
-INSERT t_keyboard_downloads (keyboard_id, count) SELECT N'orviet10', 3
-INSERT t_keyboard_downloads (keyboard_id, count) SELECT N'orvietviqr10', 3
-INSERT t_keyboard_downloads (keyboard_id, count) SELECT N'osage_nation', 7
-INSERT t_keyboard_downloads (keyboard_id, count) SELECT N'persian_phonetic', 23
-INSERT t_keyboard_downloads (keyboard_id, count) SELECT N'persian11', 152
-INSERT t_keyboard_downloads (keyboard_id, count) SELECT N'phoneticmalayalam', 28
-INSERT t_keyboard_downloads (keyboard_id, count) SELECT N'phonyrus', 2
-INSERT t_keyboard_downloads (keyboard_id, count) SELECT N'pinyin', 7
-INSERT t_keyboard_downloads (keyboard_id, count) SELECT N'pothana', 11
-INSERT t_keyboard_downloads (keyboard_id, count) SELECT N'rac_aer', 1
-INSERT t_keyboard_downloads (keyboard_id, count) SELECT N'rac_arabic', 1
-INSERT t_keyboard_downloads (keyboard_id, count) SELECT N'rac_balti', 1
-INSERT t_keyboard_downloads (keyboard_id, count) SELECT N'rac_burushaski', 1
-INSERT t_keyboard_downloads (keyboard_id, count) SELECT N'rac_indus_kohistani', 2
-INSERT t_keyboard_downloads (keyboard_id, count) SELECT N'rac_kashmir_shina', 6
-INSERT t_keyboard_downloads (keyboard_id, count) SELECT N'rac_khowar', 2
-INSERT t_keyboard_downloads (keyboard_id, count) SELECT N'rac_pahari', 1
-INSERT t_keyboard_downloads (keyboard_id, count) SELECT N'rac_pashto', 2
-INSERT t_keyboard_downloads (keyboard_id, count) SELECT N'rac_saraiki', 1
-INSERT t_keyboard_downloads (keyboard_id, count) SELECT N'rac_sindhi', 1
-INSERT t_keyboard_downloads (keyboard_id, count) SELECT N'rac_urdu', 1
-INSERT t_keyboard_downloads (keyboard_id, count) SELECT N'rac_uyghur', 5
-INSERT t_keyboard_downloads (keyboard_id, count) SELECT N'rac_yidgha', 8
-INSERT t_keyboard_downloads (keyboard_id, count) SELECT N'rawang', 29
-INSERT t_keyboard_downloads (keyboard_id, count) SELECT N'rawangu7', 1
-INSERT t_keyboard_downloads (keyboard_id, count) SELECT N'rohingya_arab', 24
-INSERT t_keyboard_downloads (keyboard_id, count) SELECT N'russian-tajik', 16
-INSERT t_keyboard_downloads (keyboard_id, count) SELECT N'sabdalipi_assamese', 225
-INSERT t_keyboard_downloads (keyboard_id, count) SELECT N'sanskrit csx', 2
-INSERT t_keyboard_downloads (keyboard_id, count) SELECT N'sanskrit unicode', 14
-INSERT t_keyboard_downloads (keyboard_id, count) SELECT N'santali_latin', 10
-INSERT t_keyboard_downloads (keyboard_id, count) SELECT N'saraiki', 1
-INSERT t_keyboard_downloads (keyboard_id, count) SELECT N'shan', 38
-INSERT t_keyboard_downloads (keyboard_id, count) SELECT N'sil_arabic_phonetic', 71
-INSERT t_keyboard_downloads (keyboard_id, count) SELECT N'sil_bari', 10
-INSERT t_keyboard_downloads (keyboard_id, count) SELECT N'sil_bengali_phonetic', 7
-INSERT t_keyboard_downloads (keyboard_id, count) SELECT N'sil_boonkit', 1
-INSERT t_keyboard_downloads (keyboard_id, count) SELECT N'sil_cameroon_azerty', 57
-INSERT t_keyboard_downloads (keyboard_id, count) SELECT N'sil_cameroon_qwerty', 66
-INSERT t_keyboard_downloads (keyboard_id, count) SELECT N'sil_cipher_music', 3
-INSERT t_keyboard_downloads (keyboard_id, count) SELECT N'sil_devanagari_phonetic', 40
-INSERT t_keyboard_downloads (keyboard_id, count) SELECT N'sil_dzongkha', 5
-INSERT t_keyboard_downloads (keyboard_id, count) SELECT N'sil_eastern_congo', 28
-INSERT t_keyboard_downloads (keyboard_id, count) SELECT N'sil_el_ethiopian_latin', 6
-INSERT t_keyboard_downloads (keyboard_id, count) SELECT N'sil_ethiopic', 470
-INSERT t_keyboard_downloads (keyboard_id, count) SELECT N'sil_ethiopic_power_g', 149
-INSERT t_keyboard_downloads (keyboard_id, count) SELECT N'sil_euro_latin', 92
-INSERT t_keyboard_downloads (keyboard_id, count) SELECT N'sil_greek_polytonic', 38
-INSERT t_keyboard_downloads (keyboard_id, count) SELECT N'sil_hebr_grek_trans', 33
-INSERT t_keyboard_downloads (keyboard_id, count) SELECT N'sil_hebrew', 53
-INSERT t_keyboard_downloads (keyboard_id, count) SELECT N'sil_hmd_plrd', 1
-INSERT t_keyboard_downloads (keyboard_id, count) SELECT N'sil_indic_roman', 6
-INSERT t_keyboard_downloads (keyboard_id, count) SELECT N'sil_ipa', 626
-INSERT t_keyboard_downloads (keyboard_id, count) SELECT N'sil_kayah_kali', 12
-INSERT t_keyboard_downloads (keyboard_id, count) SELECT N'sil_kayah_latn', 1
-INSERT t_keyboard_downloads (keyboard_id, count) SELECT N'sil_kayah_mymr', 44
-INSERT t_keyboard_downloads (keyboard_id, count) SELECT N'sil_khmer', 3
-INSERT t_keyboard_downloads (keyboard_id, count) SELECT N'sil_kmhmu', 17
-INSERT t_keyboard_downloads (keyboard_id, count) SELECT N'sil_lepcha', 9
-INSERT t_keyboard_downloads (keyboard_id, count) SELECT N'sil_limbu_phonetic', 1
-INSERT t_keyboard_downloads (keyboard_id, count) SELECT N'sil_limbu_typewriter', 21
-INSERT t_keyboard_downloads (keyboard_id, count) SELECT N'sil_lisu_basic', 7
-INSERT t_keyboard_downloads (keyboard_id, count) SELECT N'sil_mali_azerty', 21
-INSERT t_keyboard_downloads (keyboard_id, count) SELECT N'sil_mali_qwerty', 10
-INSERT t_keyboard_downloads (keyboard_id, count) SELECT N'sil_mali_qwertz', 3
-INSERT t_keyboard_downloads (keyboard_id, count) SELECT N'sil_myanmar_my3', 2085
-INSERT t_keyboard_downloads (keyboard_id, count) SELECT N'sil_myanmar_mywinext', 234
-INSERT t_keyboard_downloads (keyboard_id, count) SELECT N'sil_nigeria_dot', 23
-INSERT t_keyboard_downloads (keyboard_id, count) SELECT N'sil_nigeria_underline', 1
-INSERT t_keyboard_downloads (keyboard_id, count) SELECT N'sil_nubian', 25
-INSERT t_keyboard_downloads (keyboard_id, count) SELECT N'sil_pan_africa_mnemonic', 4
-INSERT t_keyboard_downloads (keyboard_id, count) SELECT N'sil_pan_africa_positional', 3
-INSERT t_keyboard_downloads (keyboard_id, count) SELECT N'sil_philippines', 1
-INSERT t_keyboard_downloads (keyboard_id, count) SELECT N'sil_shan', 2
-INSERT t_keyboard_downloads (keyboard_id, count) SELECT N'sil_tai_dam', 10
-INSERT t_keyboard_downloads (keyboard_id, count) SELECT N'sil_tawallammat', 5
-INSERT t_keyboard_downloads (keyboard_id, count) SELECT N'sil_tchad', 11
-INSERT t_keyboard_downloads (keyboard_id, count) SELECT N'sil_torwali', 2
-INSERT t_keyboard_downloads (keyboard_id, count) SELECT N'sil_tunisian', 3
-INSERT t_keyboard_downloads (keyboard_id, count) SELECT N'sil_uganda_tanzania', 9
-INSERT t_keyboard_downloads (keyboard_id, count) SELECT N'sil_yi', 3
-INSERT t_keyboard_downloads (keyboard_id, count) SELECT N'sil_yoruba_bar', 27
-INSERT t_keyboard_downloads (keyboard_id, count) SELECT N'sil_yoruba_dot', 10
-INSERT t_keyboard_downloads (keyboard_id, count) SELECT N'sil_yoruba8', 124
-INSERT t_keyboard_downloads (keyboard_id, count) SELECT N'sil_yupik_cyrillic', 3
-INSERT t_keyboard_downloads (keyboard_id, count) SELECT N'sipon phonetic sinhala', 37
-INSERT t_keyboard_downloads (keyboard_id, count) SELECT N'soqotri_arabic', 1
-INSERT t_keyboard_downloads (keyboard_id, count) SELECT N'sundanese', 230
-INSERT t_keyboard_downloads (keyboard_id, count) SELECT N'sundanese_latin', 5
-INSERT t_keyboard_downloads (keyboard_id, count) SELECT N'swanalekha_malayalam', 141
-INSERT t_keyboard_downloads (keyboard_id, count) SELECT N'syriac_arabic', 10
-INSERT t_keyboard_downloads (keyboard_id, count) SELECT N'syriac_aramaic', 64
-INSERT t_keyboard_downloads (keyboard_id, count) SELECT N'syriac_phonetic', 19
-INSERT t_keyboard_downloads (keyboard_id, count) SELECT N'taigi_poj', 1
-INSERT t_keyboard_downloads (keyboard_id, count) SELECT N'teggargrent_lat', 2
-INSERT t_keyboard_downloads (keyboard_id, count) SELECT N'tem_kdh', 5
-INSERT t_keyboard_downloads (keyboard_id, count) SELECT N'tengwar', 21
-INSERT t_keyboard_downloads (keyboard_id, count) SELECT N'thai-uni', 97
-INSERT t_keyboard_downloads (keyboard_id, count) SELECT N'thamizha anjal', 15
-INSERT t_keyboard_downloads (keyboard_id, count) SELECT N'thamizha bamini', 21
-INSERT t_keyboard_downloads (keyboard_id, count) SELECT N'thamizha tamil99', 1
-INSERT t_keyboard_downloads (keyboard_id, count) SELECT N'thamizha typewriter', 2
-INSERT t_keyboard_downloads (keyboard_id, count) SELECT N'thamizha_anjal_paangu', 180
-INSERT t_keyboard_downloads (keyboard_id, count) SELECT N'thamizha_bamini', 383
-INSERT t_keyboard_downloads (keyboard_id, count) SELECT N'thamizha_new_typewriter', 440
-INSERT t_keyboard_downloads (keyboard_id, count) SELECT N'thamizha_tamil99_ext', 17
-INSERT t_keyboard_downloads (keyboard_id, count) SELECT N'tibetan_direct_input', 30
-INSERT t_keyboard_downloads (keyboard_id, count) SELECT N'tibetan_ewts', 12
-INSERT t_keyboard_downloads (keyboard_id, count) SELECT N'tlingit_u', 2
-INSERT t_keyboard_downloads (keyboard_id, count) SELECT N'tohono_oodham', 1
-INSERT t_keyboard_downloads (keyboard_id, count) SELECT N'tsciianjal', 19
-INSERT t_keyboard_downloads (keyboard_id, count) SELECT N'turkmen_cyrl', 2
-INSERT t_keyboard_downloads (keyboard_id, count) SELECT N'urdu_phonetic', 118
-INSERT t_keyboard_downloads (keyboard_id, count) SELECT N'urdu_phonetic_crulp', 3
-INSERT t_keyboard_downloads (keyboard_id, count) SELECT N'vm_tamil', 90
-INSERT t_keyboard_downloads (keyboard_id, count) SELECT N'vm_tamil_modular', 29
-INSERT t_keyboard_downloads (keyboard_id, count) SELECT N'vm_tamil_typewriter', 172
-INSERT t_keyboard_downloads (keyboard_id, count) SELECT N'wakhi_anglicized', 109
-INSERT t_keyboard_downloads (keyboard_id, count) SELECT N'wakhi_cyrillic', 5
-INSERT t_keyboard_downloads (keyboard_id, count) SELECT N'warang_citi', 8
-INSERT t_keyboard_downloads (keyboard_id, count) SELECT N'winmacdene', 1
-INSERT t_keyboard_downloads (keyboard_id, count) SELECT N'yiddish_pasekh', 58
-INSERT t_keyboard_downloads (keyboard_id, count) SELECT N'yoruba1_u', 9
-INSERT t_keyboard_downloads (keyboard_id, count) SELECT N'yoruba2_u', 6
-INSERT t_keyboard_downloads (keyboard_id, count) SELECT N'yoruba8', 3
-INSERT t_keyboard_downloads (keyboard_id, count) SELECT N'yorubaok', 6
+DELETE FROM kstats.t_keyboard_downloads
+ INSERT kstats.t_keyboard_downloads (keyboard_id, statdate, count) SELECT N'(not set)', GETDATE(), 119
+ INSERT kstats.t_keyboard_downloads (keyboard_id, statdate, count) SELECT N'acoli', GETDATE(), 1
+ INSERT kstats.t_keyboard_downloads (keyboard_id, statdate, count) SELECT N'afro', GETDATE(), 15
+ INSERT kstats.t_keyboard_downloads (keyboard_id, statdate, count) SELECT N'aksarabali_panlex', GETDATE(), 83
+ INSERT kstats.t_keyboard_downloads (keyboard_id, statdate, count) SELECT N'amazigh_lat.kmn', GETDATE(), 1
+ INSERT kstats.t_keyboard_downloads (keyboard_id, statdate, count) SELECT N'anii_2015_fr_pack2', GETDATE(), 12
+ INSERT kstats.t_keyboard_downloads (keyboard_id, statdate, count) SELECT N'arabic_izza', GETDATE(), 10
+ INSERT kstats.t_keyboard_downloads (keyboard_id, statdate, count) SELECT N'aramaic_hebrew', GETDATE(), 22
+ INSERT kstats.t_keyboard_downloads (keyboard_id, statdate, count) SELECT N'armenian', GETDATE(), 21
+ INSERT kstats.t_keyboard_downloads (keyboard_id, statdate, count) SELECT N'armenian unicode', GETDATE(), 2
+ INSERT kstats.t_keyboard_downloads (keyboard_id, statdate, count) SELECT N'balochi_inpage', GETDATE(), 3
+ INSERT kstats.t_keyboard_downloads (keyboard_id, statdate, count) SELECT N'balochi_latin', GETDATE(), 1
+ INSERT kstats.t_keyboard_downloads (keyboard_id, statdate, count) SELECT N'balochi_persian', GETDATE(), 10
+ INSERT kstats.t_keyboard_downloads (keyboard_id, statdate, count) SELECT N'balochi_phonetic', GETDATE(), 4
+ INSERT kstats.t_keyboard_downloads (keyboard_id, statdate, count) SELECT N'balochi_scientific', GETDATE(), 3
+ INSERT kstats.t_keyboard_downloads (keyboard_id, statdate, count) SELECT N'balochi_urdu', GETDATE(), 8
+ INSERT kstats.t_keyboard_downloads (keyboard_id, statdate, count) SELECT N'bangla_joy', GETDATE(), 20
+ INSERT kstats.t_keyboard_downloads (keyboard_id, statdate, count) SELECT N'bangla_munir', GETDATE(), 104
+ INSERT kstats.t_keyboard_downloads (keyboard_id, statdate, count) SELECT N'bangla_probhat', GETDATE(), 120
+ INSERT kstats.t_keyboard_downloads (keyboard_id, statdate, count) SELECT N'basic_kbda1', GETDATE(), 220
+ INSERT kstats.t_keyboard_downloads (keyboard_id, statdate, count) SELECT N'basic_kbda2', GETDATE(), 6
+ INSERT kstats.t_keyboard_downloads (keyboard_id, statdate, count) SELECT N'basic_kbda3', GETDATE(), 6
+ INSERT kstats.t_keyboard_downloads (keyboard_id, statdate, count) SELECT N'basic_kbdal', GETDATE(), 29
+ INSERT kstats.t_keyboard_downloads (keyboard_id, statdate, count) SELECT N'basic_kbdarme', GETDATE(), 1
+ INSERT kstats.t_keyboard_downloads (keyboard_id, statdate, count) SELECT N'basic_kbdarmph', GETDATE(), 19
+ INSERT kstats.t_keyboard_downloads (keyboard_id, statdate, count) SELECT N'basic_kbdarmty', GETDATE(), 4
+ INSERT kstats.t_keyboard_downloads (keyboard_id, statdate, count) SELECT N'basic_kbdarmw', GETDATE(), 9
+ INSERT kstats.t_keyboard_downloads (keyboard_id, statdate, count) SELECT N'basic_kbdaze', GETDATE(), 1
+ INSERT kstats.t_keyboard_downloads (keyboard_id, statdate, count) SELECT N'basic_kbdazel', GETDATE(), 26
+ INSERT kstats.t_keyboard_downloads (keyboard_id, statdate, count) SELECT N'basic_kbdazst', GETDATE(), 2
+ INSERT kstats.t_keyboard_downloads (keyboard_id, statdate, count) SELECT N'basic_kbdbe', GETDATE(), 2
+ INSERT kstats.t_keyboard_downloads (keyboard_id, statdate, count) SELECT N'basic_kbdbene', GETDATE(), 3
+ INSERT kstats.t_keyboard_downloads (keyboard_id, statdate, count) SELECT N'basic_kbdbgph', GETDATE(), 48
+ INSERT kstats.t_keyboard_downloads (keyboard_id, statdate, count) SELECT N'basic_kbdbgph1', GETDATE(), 5
+ INSERT kstats.t_keyboard_downloads (keyboard_id, statdate, count) SELECT N'basic_kbdblr', GETDATE(), 3
+ INSERT kstats.t_keyboard_downloads (keyboard_id, statdate, count) SELECT N'basic_kbdbr', GETDATE(), 4
+ INSERT kstats.t_keyboard_downloads (keyboard_id, statdate, count) SELECT N'basic_kbdbu', GETDATE(), 1
+ INSERT kstats.t_keyboard_downloads (keyboard_id, statdate, count) SELECT N'basic_kbdbug', GETDATE(), 1
+ INSERT kstats.t_keyboard_downloads (keyboard_id, statdate, count) SELECT N'basic_kbdcan', GETDATE(), 1
+ INSERT kstats.t_keyboard_downloads (keyboard_id, statdate, count) SELECT N'basic_kbdcher', GETDATE(), 1
+ INSERT kstats.t_keyboard_downloads (keyboard_id, statdate, count) SELECT N'basic_kbdcherp', GETDATE(), 4
+ INSERT kstats.t_keyboard_downloads (keyboard_id, statdate, count) SELECT N'basic_kbdcz1', GETDATE(), 6
+ INSERT kstats.t_keyboard_downloads (keyboard_id, statdate, count) SELECT N'basic_kbdda', GETDATE(), 1
+ INSERT kstats.t_keyboard_downloads (keyboard_id, statdate, count) SELECT N'basic_kbddv', GETDATE(), 2
+ INSERT kstats.t_keyboard_downloads (keyboard_id, statdate, count) SELECT N'basic_kbdest', GETDATE(), 7
+ INSERT kstats.t_keyboard_downloads (keyboard_id, statdate, count) SELECT N'basic_kbdfa', GETDATE(), 1
+ INSERT kstats.t_keyboard_downloads (keyboard_id, statdate, count) SELECT N'basic_kbdfar', GETDATE(), 2
+ INSERT kstats.t_keyboard_downloads (keyboard_id, statdate, count) SELECT N'basic_kbdfi', GETDATE(), 2
+ INSERT kstats.t_keyboard_downloads (keyboard_id, statdate, count) SELECT N'basic_kbdfr', GETDATE(), 240
+ INSERT kstats.t_keyboard_downloads (keyboard_id, statdate, count) SELECT N'basic_kbdfthrk', GETDATE(), 11
+ INSERT kstats.t_keyboard_downloads (keyboard_id, statdate, count) SELECT N'basic_kbdgeo', GETDATE(), 2
+ INSERT kstats.t_keyboard_downloads (keyboard_id, statdate, count) SELECT N'basic_kbdgeoer', GETDATE(), 2
+ INSERT kstats.t_keyboard_downloads (keyboard_id, statdate, count) SELECT N'basic_kbdgeooa', GETDATE(), 1
+ INSERT kstats.t_keyboard_downloads (keyboard_id, statdate, count) SELECT N'basic_kbdgeoqw', GETDATE(), 586
+ INSERT kstats.t_keyboard_downloads (keyboard_id, statdate, count) SELECT N'basic_kbdgkl', GETDATE(), 2
+ INSERT kstats.t_keyboard_downloads (keyboard_id, statdate, count) SELECT N'basic_kbdgn', GETDATE(), 7
+ INSERT kstats.t_keyboard_downloads (keyboard_id, statdate, count) SELECT N'basic_kbdgr', GETDATE(), 17
+ INSERT kstats.t_keyboard_downloads (keyboard_id, statdate, count) SELECT N'basic_kbdgr1', GETDATE(), 1
+ INSERT kstats.t_keyboard_downloads (keyboard_id, statdate, count) SELECT N'basic_kbdgthc', GETDATE(), 3
+ INSERT kstats.t_keyboard_downloads (keyboard_id, statdate, count) SELECT N'basic_kbdhau', GETDATE(), 1
+ INSERT kstats.t_keyboard_downloads (keyboard_id, statdate, count) SELECT N'basic_kbdhe220', GETDATE(), 3
+ INSERT kstats.t_keyboard_downloads (keyboard_id, statdate, count) SELECT N'basic_kbdheb', GETDATE(), 22
+ INSERT kstats.t_keyboard_downloads (keyboard_id, statdate, count) SELECT N'basic_kbdhebl3', GETDATE(), 8
+ INSERT kstats.t_keyboard_downloads (keyboard_id, statdate, count) SELECT N'basic_kbdhela2', GETDATE(), 6
+ INSERT kstats.t_keyboard_downloads (keyboard_id, statdate, count) SELECT N'basic_kbdhept', GETDATE(), 1
+ INSERT kstats.t_keyboard_downloads (keyboard_id, statdate, count) SELECT N'basic_kbdhu', GETDATE(), 5
+ INSERT kstats.t_keyboard_downloads (keyboard_id, statdate, count) SELECT N'basic_kbdhu1', GETDATE(), 24
+ INSERT kstats.t_keyboard_downloads (keyboard_id, statdate, count) SELECT N'basic_kbdibo', GETDATE(), 12
+ INSERT kstats.t_keyboard_downloads (keyboard_id, statdate, count) SELECT N'basic_kbdic', GETDATE(), 1
+ INSERT kstats.t_keyboard_downloads (keyboard_id, statdate, count) SELECT N'basic_kbdinasa', GETDATE(), 13
+ INSERT kstats.t_keyboard_downloads (keyboard_id, statdate, count) SELECT N'basic_kbdinbe2', GETDATE(), 61
+ INSERT kstats.t_keyboard_downloads (keyboard_id, statdate, count) SELECT N'basic_kbdinben', GETDATE(), 6
+ INSERT kstats.t_keyboard_downloads (keyboard_id, statdate, count) SELECT N'basic_kbdindev', GETDATE(), 98
+ INSERT kstats.t_keyboard_downloads (keyboard_id, statdate, count) SELECT N'basic_kbdinguj', GETDATE(), 5
+ INSERT kstats.t_keyboard_downloads (keyboard_id, statdate, count) SELECT N'basic_kbdinhin', GETDATE(), 23
+ INSERT kstats.t_keyboard_downloads (keyboard_id, statdate, count) SELECT N'basic_kbdinkan', GETDATE(), 2
+ INSERT kstats.t_keyboard_downloads (keyboard_id, statdate, count) SELECT N'basic_kbdinmal', GETDATE(), 216
+ INSERT kstats.t_keyboard_downloads (keyboard_id, statdate, count) SELECT N'basic_kbdinmar', GETDATE(), 35
+ INSERT kstats.t_keyboard_downloads (keyboard_id, statdate, count) SELECT N'basic_kbdinori', GETDATE(), 4
+ INSERT kstats.t_keyboard_downloads (keyboard_id, statdate, count) SELECT N'basic_kbdinpun', GETDATE(), 1
+ INSERT kstats.t_keyboard_downloads (keyboard_id, statdate, count) SELECT N'basic_kbdintam', GETDATE(), 42
+ INSERT kstats.t_keyboard_downloads (keyboard_id, statdate, count) SELECT N'basic_kbdintel', GETDATE(), 3
+ INSERT kstats.t_keyboard_downloads (keyboard_id, statdate, count) SELECT N'basic_kbdinuk2', GETDATE(), 5
+ INSERT kstats.t_keyboard_downloads (keyboard_id, statdate, count) SELECT N'basic_kbdir', GETDATE(), 1
+ INSERT kstats.t_keyboard_downloads (keyboard_id, statdate, count) SELECT N'basic_kbdit', GETDATE(), 1
+ INSERT kstats.t_keyboard_downloads (keyboard_id, statdate, count) SELECT N'basic_kbdit142', GETDATE(), 4
+ INSERT kstats.t_keyboard_downloads (keyboard_id, statdate, count) SELECT N'basic_kbdjav', GETDATE(), 1
+ INSERT kstats.t_keyboard_downloads (keyboard_id, statdate, count) SELECT N'basic_kbdkhmr', GETDATE(), 1
+ INSERT kstats.t_keyboard_downloads (keyboard_id, statdate, count) SELECT N'basic_kbdkni', GETDATE(), 21
+ INSERT kstats.t_keyboard_downloads (keyboard_id, statdate, count) SELECT N'basic_kbdkurd', GETDATE(), 24
+ INSERT kstats.t_keyboard_downloads (keyboard_id, statdate, count) SELECT N'basic_kbdla', GETDATE(), 8
+ INSERT kstats.t_keyboard_downloads (keyboard_id, statdate, count) SELECT N'basic_kbdlao', GETDATE(), 11
+ INSERT kstats.t_keyboard_downloads (keyboard_id, statdate, count) SELECT N'basic_kbdlt1', GETDATE(), 5
+ INSERT kstats.t_keyboard_downloads (keyboard_id, statdate, count) SELECT N'basic_kbdlt2', GETDATE(), 2
+ INSERT kstats.t_keyboard_downloads (keyboard_id, statdate, count) SELECT N'basic_kbdlv1', GETDATE(), 22
+ INSERT kstats.t_keyboard_downloads (keyboard_id, statdate, count) SELECT N'basic_kbdlvst', GETDATE(), 4
+ INSERT kstats.t_keyboard_downloads (keyboard_id, statdate, count) SELECT N'basic_kbdmac', GETDATE(), 140
+ INSERT kstats.t_keyboard_downloads (keyboard_id, statdate, count) SELECT N'basic_kbdmacst', GETDATE(), 1
+ INSERT kstats.t_keyboard_downloads (keyboard_id, statdate, count) SELECT N'basic_kbdmlt47', GETDATE(), 22
+ INSERT kstats.t_keyboard_downloads (keyboard_id, statdate, count) SELECT N'basic_kbdmlt48', GETDATE(), 87
+ INSERT kstats.t_keyboard_downloads (keyboard_id, statdate, count) SELECT N'basic_kbdmon', GETDATE(), 466
+ INSERT kstats.t_keyboard_downloads (keyboard_id, statdate, count) SELECT N'basic_kbdmonmo', GETDATE(), 30
+ INSERT kstats.t_keyboard_downloads (keyboard_id, statdate, count) SELECT N'basic_kbdmonst', GETDATE(), 11
+ INSERT kstats.t_keyboard_downloads (keyboard_id, statdate, count) SELECT N'basic_kbdmyan', GETDATE(), 69
+ INSERT kstats.t_keyboard_downloads (keyboard_id, statdate, count) SELECT N'basic_kbdne', GETDATE(), 4
+ INSERT kstats.t_keyboard_downloads (keyboard_id, statdate, count) SELECT N'basic_kbdnepr', GETDATE(), 6
+ INSERT kstats.t_keyboard_downloads (keyboard_id, statdate, count) SELECT N'basic_kbdnko', GETDATE(), 5
+ INSERT kstats.t_keyboard_downloads (keyboard_id, statdate, count) SELECT N'basic_kbdno', GETDATE(), 11
+ INSERT kstats.t_keyboard_downloads (keyboard_id, statdate, count) SELECT N'basic_kbdntl', GETDATE(), 1
+ INSERT kstats.t_keyboard_downloads (keyboard_id, statdate, count) SELECT N'basic_kbdogham', GETDATE(), 8
+ INSERT kstats.t_keyboard_downloads (keyboard_id, statdate, count) SELECT N'basic_kbdolch', GETDATE(), 3
+ INSERT kstats.t_keyboard_downloads (keyboard_id, statdate, count) SELECT N'basic_kbdoldit', GETDATE(), 4
+ INSERT kstats.t_keyboard_downloads (keyboard_id, statdate, count) SELECT N'basic_kbdosm', GETDATE(), 1
+ INSERT kstats.t_keyboard_downloads (keyboard_id, statdate, count) SELECT N'basic_kbdphags', GETDATE(), 3
+ INSERT kstats.t_keyboard_downloads (keyboard_id, statdate, count) SELECT N'basic_kbdpl', GETDATE(), 1
+ INSERT kstats.t_keyboard_downloads (keyboard_id, statdate, count) SELECT N'basic_kbdpl1', GETDATE(), 3
+ INSERT kstats.t_keyboard_downloads (keyboard_id, statdate, count) SELECT N'basic_kbdpo', GETDATE(), 2
+ INSERT kstats.t_keyboard_downloads (keyboard_id, statdate, count) SELECT N'basic_kbdropr', GETDATE(), 3
+ INSERT kstats.t_keyboard_downloads (keyboard_id, statdate, count) SELECT N'basic_kbdrost', GETDATE(), 56
+ INSERT kstats.t_keyboard_downloads (keyboard_id, statdate, count) SELECT N'basic_kbdru', GETDATE(), 29
+ INSERT kstats.t_keyboard_downloads (keyboard_id, statdate, count) SELECT N'basic_kbdrum', GETDATE(), 12
+ INSERT kstats.t_keyboard_downloads (keyboard_id, statdate, count) SELECT N'basic_kbdsf', GETDATE(), 2
+ INSERT kstats.t_keyboard_downloads (keyboard_id, statdate, count) SELECT N'basic_kbdsl1', GETDATE(), 10
+ INSERT kstats.t_keyboard_downloads (keyboard_id, statdate, count) SELECT N'basic_kbdsn1', GETDATE(), 102
+ INSERT kstats.t_keyboard_downloads (keyboard_id, statdate, count) SELECT N'basic_kbdsp', GETDATE(), 7
+ INSERT kstats.t_keyboard_downloads (keyboard_id, statdate, count) SELECT N'basic_kbdsw', GETDATE(), 10
+ INSERT kstats.t_keyboard_downloads (keyboard_id, statdate, count) SELECT N'basic_kbdsw09', GETDATE(), 233
+ INSERT kstats.t_keyboard_downloads (keyboard_id, statdate, count) SELECT N'basic_kbdsyr1', GETDATE(), 6
+ INSERT kstats.t_keyboard_downloads (keyboard_id, statdate, count) SELECT N'basic_kbdsyr2', GETDATE(), 6
+ INSERT kstats.t_keyboard_downloads (keyboard_id, statdate, count) SELECT N'basic_kbdtaile', GETDATE(), 5
+ INSERT kstats.t_keyboard_downloads (keyboard_id, statdate, count) SELECT N'basic_kbdtajik', GETDATE(), 10
+ INSERT kstats.t_keyboard_downloads (keyboard_id, statdate, count) SELECT N'basic_kbdtam99', GETDATE(), 73
+ INSERT kstats.t_keyboard_downloads (keyboard_id, statdate, count) SELECT N'basic_kbdth0', GETDATE(), 5
+ INSERT kstats.t_keyboard_downloads (keyboard_id, statdate, count) SELECT N'basic_kbdth2', GETDATE(), 13
+ INSERT kstats.t_keyboard_downloads (keyboard_id, statdate, count) SELECT N'basic_kbdtifi2', GETDATE(), 2
+ INSERT kstats.t_keyboard_downloads (keyboard_id, statdate, count) SELECT N'basic_kbdtiprd', GETDATE(), 9
+ INSERT kstats.t_keyboard_downloads (keyboard_id, statdate, count) SELECT N'basic_kbdtuf', GETDATE(), 1
+ INSERT kstats.t_keyboard_downloads (keyboard_id, statdate, count) SELECT N'basic_kbdtuq', GETDATE(), 113
+ INSERT kstats.t_keyboard_downloads (keyboard_id, statdate, count) SELECT N'basic_kbdturme', GETDATE(), 7
+ INSERT kstats.t_keyboard_downloads (keyboard_id, statdate, count) SELECT N'basic_kbduk', GETDATE(), 3
+ INSERT kstats.t_keyboard_downloads (keyboard_id, statdate, count) SELECT N'basic_kbdukx', GETDATE(), 1
+ INSERT kstats.t_keyboard_downloads (keyboard_id, statdate, count) SELECT N'basic_kbdur', GETDATE(), 1
+ INSERT kstats.t_keyboard_downloads (keyboard_id, statdate, count) SELECT N'basic_kbdur1', GETDATE(), 1
+ INSERT kstats.t_keyboard_downloads (keyboard_id, statdate, count) SELECT N'basic_kbdurdu', GETDATE(), 37
+ INSERT kstats.t_keyboard_downloads (keyboard_id, statdate, count) SELECT N'basic_kbdus', GETDATE(), 4
+ INSERT kstats.t_keyboard_downloads (keyboard_id, statdate, count) SELECT N'basic_kbdusa', GETDATE(), 4
+ INSERT kstats.t_keyboard_downloads (keyboard_id, statdate, count) SELECT N'basic_kbdusr', GETDATE(), 1
+ INSERT kstats.t_keyboard_downloads (keyboard_id, statdate, count) SELECT N'basic_kbdusx', GETDATE(), 5
+ INSERT kstats.t_keyboard_downloads (keyboard_id, statdate, count) SELECT N'basic_kbduzb', GETDATE(), 5
+ INSERT kstats.t_keyboard_downloads (keyboard_id, statdate, count) SELECT N'basic_kbdyak', GETDATE(), 9
+ INSERT kstats.t_keyboard_downloads (keyboard_id, statdate, count) SELECT N'basic_kbdyba', GETDATE(), 36
+ INSERT kstats.t_keyboard_downloads (keyboard_id, statdate, count) SELECT N'basic_kbdycc', GETDATE(), 163
+ INSERT kstats.t_keyboard_downloads (keyboard_id, statdate, count) SELECT N'basic_kbdycl', GETDATE(), 107
+ INSERT kstats.t_keyboard_downloads (keyboard_id, statdate, count) SELECT N'basiclao', GETDATE(), 2
+ INSERT kstats.t_keyboard_downloads (keyboard_id, statdate, count) SELECT N'bj_cree_east', GETDATE(), 35
+ INSERT kstats.t_keyboard_downloads (keyboard_id, statdate, count) SELECT N'bj_oji_cree', GETDATE(), 4
+ INSERT kstats.t_keyboard_downloads (keyboard_id, statdate, count) SELECT N'bu', GETDATE(), 52
+ INSERT kstats.t_keyboard_downloads (keyboard_id, statdate, count) SELECT N'buang', GETDATE(), 2
+ INSERT kstats.t_keyboard_downloads (keyboard_id, statdate, count) SELECT N'burushaski_girminas', GETDATE(), 3
+ INSERT kstats.t_keyboard_downloads (keyboard_id, statdate, count) SELECT N'cabecar', GETDATE(), 1
+ INSERT kstats.t_keyboard_downloads (keyboard_id, statdate, count) SELECT N'camazert', GETDATE(), 6
+ INSERT kstats.t_keyboard_downloads (keyboard_id, statdate, count) SELECT N'cherokee-nation-unicode', GETDATE(), 2
+ INSERT kstats.t_keyboard_downloads (keyboard_id, statdate, count) SELECT N'cherokee6', GETDATE(), 10
+ INSERT kstats.t_keyboard_downloads (keyboard_id, statdate, count) SELECT N'clavbur9', GETDATE(), 33
+ INSERT kstats.t_keyboard_downloads (keyboard_id, statdate, count) SELECT N'coptic_greek', GETDATE(), 124
+ INSERT kstats.t_keyboard_downloads (keyboard_id, statdate, count) SELECT N'coptic_qwerty', GETDATE(), 19
+ INSERT kstats.t_keyboard_downloads (keyboard_id, statdate, count) SELECT N'creekeysdesktop3', GETDATE(), 23
+ INSERT kstats.t_keyboard_downloads (keyboard_id, statdate, count) SELECT N'cs-pinyin', GETDATE(), 605
+ INSERT kstats.t_keyboard_downloads (keyboard_id, statdate, count) SELECT N'deseret', GETDATE(), 10
+ INSERT kstats.t_keyboard_downloads (keyboard_id, statdate, count) SELECT N'devu-mikes', GETDATE(), 7
+ INSERT kstats.t_keyboard_downloads (keyboard_id, statdate, count) SELECT N'dlia25bas', GETDATE(), 21
+ INSERT kstats.t_keyboard_downloads (keyboard_id, statdate, count) SELECT N'easy_chakma', GETDATE(), 230
+ INSERT kstats.t_keyboard_downloads (keyboard_id, statdate, count) SELECT N'ekwbamuni', GETDATE(), 1
+ INSERT kstats.t_keyboard_downloads (keyboard_id, statdate, count) SELECT N'ekwtamil99uni', GETDATE(), 5122
+ INSERT kstats.t_keyboard_downloads (keyboard_id, statdate, count) SELECT N'el_dinka', GETDATE(), 294
+ INSERT kstats.t_keyboard_downloads (keyboard_id, statdate, count) SELECT N'el_harari_latin', GETDATE(), 2
+ INSERT kstats.t_keyboard_downloads (keyboard_id, statdate, count) SELECT N'el_naija', GETDATE(), 8
+ INSERT kstats.t_keyboard_downloads (keyboard_id, statdate, count) SELECT N'el_nuer', GETDATE(), 223
+ INSERT kstats.t_keyboard_downloads (keyboard_id, statdate, count) SELECT N'el_pasifika', GETDATE(), 1
+ INSERT kstats.t_keyboard_downloads (keyboard_id, statdate, count) SELECT N'el_yolngu', GETDATE(), 23
+ INSERT kstats.t_keyboard_downloads (keyboard_id, statdate, count) SELECT N'embera_north', GETDATE(), 4
+ INSERT kstats.t_keyboard_downloads (keyboard_id, statdate, count) SELECT N'english_shavian_igc', GETDATE(), 11
+ INSERT kstats.t_keyboard_downloads (keyboard_id, statdate, count) SELECT N'esperantohx', GETDATE(), 4
+ INSERT kstats.t_keyboard_downloads (keyboard_id, statdate, count) SELECT N'farsi_unicode', GETDATE(), 23
+ INSERT kstats.t_keyboard_downloads (keyboard_id, statdate, count) SELECT N'farsiman', GETDATE(), 2
+ INSERT kstats.t_keyboard_downloads (keyboard_id, statdate, count) SELECT N'fv_all', GETDATE(), 1
+ INSERT kstats.t_keyboard_downloads (keyboard_id, statdate, count) SELECT N'fv_blackfoot', GETDATE(), 2
+ INSERT kstats.t_keyboard_downloads (keyboard_id, statdate, count) SELECT N'fv_eastern_canadian_inuktitut', GETDATE(), 12
+ INSERT kstats.t_keyboard_downloads (keyboard_id, statdate, count) SELECT N'fv_halqemeylem', GETDATE(), 1
+ INSERT kstats.t_keyboard_downloads (keyboard_id, statdate, count) SELECT N'fv_hlgaagilda_xaayda_kil', GETDATE(), 3
+ INSERT kstats.t_keyboard_downloads (keyboard_id, statdate, count) SELECT N'fv_hulquminum', GETDATE(), 9
+ INSERT kstats.t_keyboard_downloads (keyboard_id, statdate, count) SELECT N'fv_ktunaxa', GETDATE(), 10
+ INSERT kstats.t_keyboard_downloads (keyboard_id, statdate, count) SELECT N'fv_kwakwala', GETDATE(), 13
+ INSERT kstats.t_keyboard_downloads (keyboard_id, statdate, count) SELECT N'fv_kwakwala_liqwala', GETDATE(), 6
+ INSERT kstats.t_keyboard_downloads (keyboard_id, statdate, count) SELECT N'fv_moose_cree', GETDATE(), 1
+ INSERT kstats.t_keyboard_downloads (keyboard_id, statdate, count) SELECT N'fv_nisgaa', GETDATE(), 1
+ INSERT kstats.t_keyboard_downloads (keyboard_id, statdate, count) SELECT N'fv_nlekepmxcin', GETDATE(), 3
+ INSERT kstats.t_keyboard_downloads (keyboard_id, statdate, count) SELECT N'fv_northern_east_cree', GETDATE(), 1
+ INSERT kstats.t_keyboard_downloads (keyboard_id, statdate, count) SELECT N'fv_nsilxcen', GETDATE(), 3
+ INSERT kstats.t_keyboard_downloads (keyboard_id, statdate, count) SELECT N'fv_nuucaanul', GETDATE(), 16
+ INSERT kstats.t_keyboard_downloads (keyboard_id, statdate, count) SELECT N'fv_plains_cree', GETDATE(), 15
+ INSERT kstats.t_keyboard_downloads (keyboard_id, statdate, count) SELECT N'fv_secwepemctsin', GETDATE(), 5
+ INSERT kstats.t_keyboard_downloads (keyboard_id, statdate, count) SELECT N'fv_sencoten', GETDATE(), 19
+ INSERT kstats.t_keyboard_downloads (keyboard_id, statdate, count) SELECT N'fv_severn_ojibwa', GETDATE(), 4
+ INSERT kstats.t_keyboard_downloads (keyboard_id, statdate, count) SELECT N'fv_swampy_cree', GETDATE(), 14
+ INSERT kstats.t_keyboard_downloads (keyboard_id, statdate, count) SELECT N'fv_uwikala', GETDATE(), 2
+ INSERT kstats.t_keyboard_downloads (keyboard_id, statdate, count) SELECT N'galaxie_greek_hebrew_mnemonic', GETDATE(), 137
+ INSERT kstats.t_keyboard_downloads (keyboard_id, statdate, count) SELECT N'galaxie_greek_hebrew_positional', GETDATE(), 3
+ INSERT kstats.t_keyboard_downloads (keyboard_id, statdate, count) SELECT N'galaxie_greek_mnemonic', GETDATE(), 5
+ INSERT kstats.t_keyboard_downloads (keyboard_id, statdate, count) SELECT N'galaxie_greek_positional', GETDATE(), 3
+ INSERT kstats.t_keyboard_downloads (keyboard_id, statdate, count) SELECT N'galaxie_hebrew_mnemonic', GETDATE(), 6
+ INSERT kstats.t_keyboard_downloads (keyboard_id, statdate, count) SELECT N'galaxie_hebrew_positional', GETDATE(), 1
+ INSERT kstats.t_keyboard_downloads (keyboard_id, statdate, count) SELECT N'gandhari-keyboard-2.7', GETDATE(), 46
+ INSERT kstats.t_keyboard_downloads (keyboard_id, statdate, count) SELECT N'garpsinhala', GETDATE(), 3570
+ INSERT kstats.t_keyboard_downloads (keyboard_id, statdate, count) SELECT N'gff_amh_powerpack_7', GETDATE(), 2
+ INSERT kstats.t_keyboard_downloads (keyboard_id, statdate, count) SELECT N'gff_amharic', GETDATE(), 5254
+ INSERT kstats.t_keyboard_downloads (keyboard_id, statdate, count) SELECT N'gff_geez', GETDATE(), 27
+ INSERT kstats.t_keyboard_downloads (keyboard_id, statdate, count) SELECT N'gff_gurage', GETDATE(), 8
+ INSERT kstats.t_keyboard_downloads (keyboard_id, statdate, count) SELECT N'gff_gurage_and_amharic', GETDATE(), 7
+ INSERT kstats.t_keyboard_downloads (keyboard_id, statdate, count) SELECT N'gff_musnad', GETDATE(), 72
+ INSERT kstats.t_keyboard_downloads (keyboard_id, statdate, count) SELECT N'gff_tigrinya_eritrea', GETDATE(), 234
+ INSERT kstats.t_keyboard_downloads (keyboard_id, statdate, count) SELECT N'gff_tigrinya_ethiopia', GETDATE(), 226
+ INSERT kstats.t_keyboard_downloads (keyboard_id, statdate, count) SELECT N'gff-awn-powerpack-7', GETDATE(), 8
+ INSERT kstats.t_keyboard_downloads (keyboard_id, statdate, count) SELECT N'gff-gez-powerpack-7', GETDATE(), 199
+ INSERT kstats.t_keyboard_downloads (keyboard_id, statdate, count) SELECT N'gff-sgw-powerpack-7', GETDATE(), 3
+ INSERT kstats.t_keyboard_downloads (keyboard_id, statdate, count) SELECT N'ghana', GETDATE(), 32
+ INSERT kstats.t_keyboard_downloads (keyboard_id, statdate, count) SELECT N'ghanakeyboards', GETDATE(), 389
+ INSERT kstats.t_keyboard_downloads (keyboard_id, statdate, count) SELECT N'gondi_gunjala', GETDATE(), 1
+ INSERT kstats.t_keyboard_downloads (keyboard_id, statdate, count) SELECT N'gondi_tel', GETDATE(), 1
+ INSERT kstats.t_keyboard_downloads (keyboard_id, statdate, count) SELECT N'greek polytonic sa', GETDATE(), 85
+ INSERT kstats.t_keyboard_downloads (keyboard_id, statdate, count) SELECT N'greekclassical', GETDATE(), 174
+ INSERT kstats.t_keyboard_downloads (keyboard_id, statdate, count) SELECT N'grkpoly2', GETDATE(), 100
+ INSERT kstats.t_keyboard_downloads (keyboard_id, statdate, count) SELECT N'hararab', GETDATE(), 3
+ INSERT kstats.t_keyboard_downloads (keyboard_id, statdate, count) SELECT N'harethi', GETDATE(), 5
+ INSERT kstats.t_keyboard_downloads (keyboard_id, statdate, count) SELECT N'haroi', GETDATE(), 3
+ INSERT kstats.t_keyboard_downloads (keyboard_id, statdate, count) SELECT N'hausa_kano', GETDATE(), 7
+ INSERT kstats.t_keyboard_downloads (keyboard_id, statdate, count) SELECT N'heidelberginputsolution', GETDATE(), 97
+ INSERT kstats.t_keyboard_downloads (keyboard_id, statdate, count) SELECT N'hi-keyboard', GETDATE(), 1
+ INSERT kstats.t_keyboard_downloads (keyboard_id, statdate, count) SELECT N'hieroglyphic', GETDATE(), 190
+ INSERT kstats.t_keyboard_downloads (keyboard_id, statdate, count) SELECT N'hindi_modular', GETDATE(), 1
+ INSERT kstats.t_keyboard_downloads (keyboard_id, statdate, count) SELECT N'indonesia', GETDATE(), 17
+ INSERT kstats.t_keyboard_downloads (keyboard_id, statdate, count) SELECT N'ipatotal', GETDATE(), 116
+ INSERT kstats.t_keyboard_downloads (keyboard_id, statdate, count) SELECT N'iroquoian', GETDATE(), 2
+ INSERT kstats.t_keyboard_downloads (keyboard_id, statdate, count) SELECT N'isis', GETDATE(), 15
+ INSERT kstats.t_keyboard_downloads (keyboard_id, statdate, count) SELECT N'isis_bangla', GETDATE(), 18
+ INSERT kstats.t_keyboard_downloads (keyboard_id, statdate, count) SELECT N'isis_devanagari', GETDATE(), 10
+ INSERT kstats.t_keyboard_downloads (keyboard_id, statdate, count) SELECT N'isis_gujarati', GETDATE(), 4
+ INSERT kstats.t_keyboard_downloads (keyboard_id, statdate, count) SELECT N'isis_kannada', GETDATE(), 7
+ INSERT kstats.t_keyboard_downloads (keyboard_id, statdate, count) SELECT N'isis_malayalam', GETDATE(), 36
+ INSERT kstats.t_keyboard_downloads (keyboard_id, statdate, count) SELECT N'isis_oriya', GETDATE(), 1
+ INSERT kstats.t_keyboard_downloads (keyboard_id, statdate, count) SELECT N'isis_tamil', GETDATE(), 138
+ INSERT kstats.t_keyboard_downloads (keyboard_id, statdate, count) SELECT N'isis_telugu', GETDATE(), 2
+ INSERT kstats.t_keyboard_downloads (keyboard_id, statdate, count) SELECT N'itrans_bengali', GETDATE(), 8
+ INSERT kstats.t_keyboard_downloads (keyboard_id, statdate, count) SELECT N'itrans_devanagari_hindi', GETDATE(), 36
+ INSERT kstats.t_keyboard_downloads (keyboard_id, statdate, count) SELECT N'itrans_devanagari_sanskrit_vedic', GETDATE(), 85
+ INSERT kstats.t_keyboard_downloads (keyboard_id, statdate, count) SELECT N'itrans_gujarati', GETDATE(), 15
+ INSERT kstats.t_keyboard_downloads (keyboard_id, statdate, count) SELECT N'itrans_gurmukhi', GETDATE(), 10
+ INSERT kstats.t_keyboard_downloads (keyboard_id, statdate, count) SELECT N'itrans_odia', GETDATE(), 22
+ INSERT kstats.t_keyboard_downloads (keyboard_id, statdate, count) SELECT N'itrans_roman', GETDATE(), 4
+ INSERT kstats.t_keyboard_downloads (keyboard_id, statdate, count) SELECT N'jawa', GETDATE(), 37
+ INSERT kstats.t_keyboard_downloads (keyboard_id, statdate, count) SELECT N'jorai', GETDATE(), 10
+ INSERT kstats.t_keyboard_downloads (keyboard_id, statdate, count) SELECT N'kayan', GETDATE(), 5
+ INSERT kstats.t_keyboard_downloads (keyboard_id, statdate, count) SELECT N'kbda1', GETDATE(), 2
+ INSERT kstats.t_keyboard_downloads (keyboard_id, statdate, count) SELECT N'kbdal', GETDATE(), 1
+ INSERT kstats.t_keyboard_downloads (keyboard_id, statdate, count) SELECT N'kbdazel', GETDATE(), 1
+ INSERT kstats.t_keyboard_downloads (keyboard_id, statdate, count) SELECT N'kbdfr', GETDATE(), 2
+ INSERT kstats.t_keyboard_downloads (keyboard_id, statdate, count) SELECT N'kbdgeoqw', GETDATE(), 1
+ INSERT kstats.t_keyboard_downloads (keyboard_id, statdate, count) SELECT N'kbdindev', GETDATE(), 1
+ INSERT kstats.t_keyboard_downloads (keyboard_id, statdate, count) SELECT N'kbdmlt48', GETDATE(), 3
+ INSERT kstats.t_keyboard_downloads (keyboard_id, statdate, count) SELECT N'kbdmon', GETDATE(), 1
+ INSERT kstats.t_keyboard_downloads (keyboard_id, statdate, count) SELECT N'kbdsw09', GETDATE(), 2
+ INSERT kstats.t_keyboard_downloads (keyboard_id, statdate, count) SELECT N'kbdurdu', GETDATE(), 8
+ INSERT kstats.t_keyboard_downloads (keyboard_id, statdate, count) SELECT N'kbdycc', GETDATE(), 1
+ INSERT kstats.t_keyboard_downloads (keyboard_id, statdate, count) SELECT N'keymancolombia', GETDATE(), 2
+ INSERT kstats.t_keyboard_downloads (keyboard_id, statdate, count) SELECT N'khmer_angkor', GETDATE(), 37
+ INSERT kstats.t_keyboard_downloads (keyboard_id, statdate, count) SELECT N'klallam', GETDATE(), 1
+ INSERT kstats.t_keyboard_downloads (keyboard_id, statdate, count) SELECT N'km_cree', GETDATE(), 55
+ INSERT kstats.t_keyboard_downloads (keyboard_id, statdate, count) SELECT N'km_ojibwasyllabics', GETDATE(), 5
+ INSERT kstats.t_keyboard_downloads (keyboard_id, statdate, count) SELECT N'km_ojicreesyllabics', GETDATE(), 8
+ INSERT kstats.t_keyboard_downloads (keyboard_id, statdate, count) SELECT N'kmhmu_2008', GETDATE(), 1
+ INSERT kstats.t_keyboard_downloads (keyboard_id, statdate, count) SELECT N'korda', GETDATE(), 39
+ INSERT kstats.t_keyboard_downloads (keyboard_id, statdate, count) SELECT N'korean_morse', GETDATE(), 1
+ INSERT kstats.t_keyboard_downloads (keyboard_id, statdate, count) SELECT N'krung', GETDATE(), 1
+ INSERT kstats.t_keyboard_downloads (keyboard_id, statdate, count) SELECT N'lahu', GETDATE(), 26
+ INSERT kstats.t_keyboard_downloads (keyboard_id, statdate, count) SELECT N'lao_2008_basic', GETDATE(), 3
+ INSERT kstats.t_keyboard_downloads (keyboard_id, statdate, count) SELECT N'lao_2008_rapid', GETDATE(), 1
+ INSERT kstats.t_keyboard_downloads (keyboard_id, statdate, count) SELECT N'laounicodebasic_on_thaikbd', GETDATE(), 2
+ INSERT kstats.t_keyboard_downloads (keyboard_id, statdate, count) SELECT N'lazuri', GETDATE(), 10
+ INSERT kstats.t_keyboard_downloads (keyboard_id, statdate, count) SELECT N'libtralo', GETDATE(), 8
+ INSERT kstats.t_keyboard_downloads (keyboard_id, statdate, count) SELECT N'lingfilsemitica', GETDATE(), 13
+ INSERT kstats.t_keyboard_downloads (keyboard_id, statdate, count) SELECT N'lushootseed', GETDATE(), 10
+ INSERT kstats.t_keyboard_downloads (keyboard_id, statdate, count) SELECT N'lushootseed_u', GETDATE(), 6
+ INSERT kstats.t_keyboard_downloads (keyboard_id, statdate, count) SELECT N'malar_braille', GETDATE(), 5
+ INSERT kstats.t_keyboard_downloads (keyboard_id, statdate, count) SELECT N'malar_malayalam', GETDATE(), 28
+ INSERT kstats.t_keyboard_downloads (keyboard_id, statdate, count) SELECT N'malar_malayalam_inscript', GETDATE(), 33
+ INSERT kstats.t_keyboard_downloads (keyboard_id, statdate, count) SELECT N'malta', GETDATE(), 1
+ INSERT kstats.t_keyboard_downloads (keyboard_id, statdate, count) SELECT N'maltese', GETDATE(), 18
+ INSERT kstats.t_keyboard_downloads (keyboard_id, statdate, count) SELECT N'mandaic_phonetic', GETDATE(), 6
+ INSERT kstats.t_keyboard_downloads (keyboard_id, statdate, count) SELECT N'mbsindhi', GETDATE(), 188
+ INSERT kstats.t_keyboard_downloads (keyboard_id, statdate, count) SELECT N'mongolian_cyrillic_qwerty', GETDATE(), 47
+ INSERT kstats.t_keyboard_downloads (keyboard_id, statdate, count) SELECT N'moore', GETDATE(), 25
+ INSERT kstats.t_keyboard_downloads (keyboard_id, statdate, count) SELECT N'mozhi', GETDATE(), 4
+ INSERT kstats.t_keyboard_downloads (keyboard_id, statdate, count) SELECT N'mozhi_malayalam', GETDATE(), 931
+ INSERT kstats.t_keyboard_downloads (keyboard_id, statdate, count) SELECT N'mozhi51', GETDATE(), 3
+ INSERT kstats.t_keyboard_downloads (keyboard_id, statdate, count) SELECT N'mro_phonetic', GETDATE(), 40
+ INSERT kstats.t_keyboard_downloads (keyboard_id, statdate, count) SELECT N'multi_pak_phonetic', GETDATE(), 13
+ INSERT kstats.t_keyboard_downloads (keyboard_id, statdate, count) SELECT N'nailangs', GETDATE(), 2
+ INSERT kstats.t_keyboard_downloads (keyboard_id, statdate, count) SELECT N'naskapi_u', GETDATE(), 2
+ INSERT kstats.t_keyboard_downloads (keyboard_id, statdate, count) SELECT N'naskeysdesktop', GETDATE(), 2
+ INSERT kstats.t_keyboard_downloads (keyboard_id, statdate, count) SELECT N'nko', GETDATE(), 17
+ INSERT kstats.t_keyboard_downloads (keyboard_id, statdate, count) SELECT N'nlci_devanagari_winscript', GETDATE(), 1
+ INSERT kstats.t_keyboard_downloads (keyboard_id, statdate, count) SELECT N'nlci_gujarati_winscript', GETDATE(), 3
+ INSERT kstats.t_keyboard_downloads (keyboard_id, statdate, count) SELECT N'nlci_kannada_winscript', GETDATE(), 2
+ INSERT kstats.t_keyboard_downloads (keyboard_id, statdate, count) SELECT N'nlci_malayalam_winscript', GETDATE(), 2
+ INSERT kstats.t_keyboard_downloads (keyboard_id, statdate, count) SELECT N'nlci_oriya_winscript', GETDATE(), 8
+ INSERT kstats.t_keyboard_downloads (keyboard_id, statdate, count) SELECT N'nlci_tamil_winscript', GETDATE(), 16
+ INSERT kstats.t_keyboard_downloads (keyboard_id, statdate, count) SELECT N'nlci_telugu_winscript', GETDATE(), 1
+ INSERT kstats.t_keyboard_downloads (keyboard_id, statdate, count) SELECT N'nrc_crk_cans', GETDATE(), 4
+ INSERT kstats.t_keyboard_downloads (keyboard_id, statdate, count) SELECT N'nuer13', GETDATE(), 9
+ INSERT kstats.t_keyboard_downloads (keyboard_id, statdate, count) SELECT N'obolo_qwerty', GETDATE(), 1
+ INSERT kstats.t_keyboard_downloads (keyboard_id, statdate, count) SELECT N'okanaganu', GETDATE(), 4
+ INSERT kstats.t_keyboard_downloads (keyboard_id, statdate, count) SELECT N'orviet10', GETDATE(), 3
+ INSERT kstats.t_keyboard_downloads (keyboard_id, statdate, count) SELECT N'orvietviqr10', GETDATE(), 3
+ INSERT kstats.t_keyboard_downloads (keyboard_id, statdate, count) SELECT N'osage_nation', GETDATE(), 7
+ INSERT kstats.t_keyboard_downloads (keyboard_id, statdate, count) SELECT N'persian_phonetic', GETDATE(), 23
+ INSERT kstats.t_keyboard_downloads (keyboard_id, statdate, count) SELECT N'persian11', GETDATE(), 152
+ INSERT kstats.t_keyboard_downloads (keyboard_id, statdate, count) SELECT N'phoneticmalayalam', GETDATE(), 28
+ INSERT kstats.t_keyboard_downloads (keyboard_id, statdate, count) SELECT N'phonyrus', GETDATE(), 2
+ INSERT kstats.t_keyboard_downloads (keyboard_id, statdate, count) SELECT N'pinyin', GETDATE(), 7
+ INSERT kstats.t_keyboard_downloads (keyboard_id, statdate, count) SELECT N'pothana', GETDATE(), 11
+ INSERT kstats.t_keyboard_downloads (keyboard_id, statdate, count) SELECT N'rac_aer', GETDATE(), 1
+ INSERT kstats.t_keyboard_downloads (keyboard_id, statdate, count) SELECT N'rac_arabic', GETDATE(), 1
+ INSERT kstats.t_keyboard_downloads (keyboard_id, statdate, count) SELECT N'rac_balti', GETDATE(), 1
+ INSERT kstats.t_keyboard_downloads (keyboard_id, statdate, count) SELECT N'rac_burushaski', GETDATE(), 1
+ INSERT kstats.t_keyboard_downloads (keyboard_id, statdate, count) SELECT N'rac_indus_kohistani', GETDATE(), 2
+ INSERT kstats.t_keyboard_downloads (keyboard_id, statdate, count) SELECT N'rac_kashmir_shina', GETDATE(), 6
+ INSERT kstats.t_keyboard_downloads (keyboard_id, statdate, count) SELECT N'rac_khowar', GETDATE(), 2
+ INSERT kstats.t_keyboard_downloads (keyboard_id, statdate, count) SELECT N'rac_pahari', GETDATE(), 1
+ INSERT kstats.t_keyboard_downloads (keyboard_id, statdate, count) SELECT N'rac_pashto', GETDATE(), 2
+ INSERT kstats.t_keyboard_downloads (keyboard_id, statdate, count) SELECT N'rac_saraiki', GETDATE(), 1
+ INSERT kstats.t_keyboard_downloads (keyboard_id, statdate, count) SELECT N'rac_sindhi', GETDATE(), 1
+ INSERT kstats.t_keyboard_downloads (keyboard_id, statdate, count) SELECT N'rac_urdu', GETDATE(), 1
+ INSERT kstats.t_keyboard_downloads (keyboard_id, statdate, count) SELECT N'rac_uyghur', GETDATE(), 5
+ INSERT kstats.t_keyboard_downloads (keyboard_id, statdate, count) SELECT N'rac_yidgha', GETDATE(), 8
+ INSERT kstats.t_keyboard_downloads (keyboard_id, statdate, count) SELECT N'rawang', GETDATE(), 29
+ INSERT kstats.t_keyboard_downloads (keyboard_id, statdate, count) SELECT N'rawangu7', GETDATE(), 1
+ INSERT kstats.t_keyboard_downloads (keyboard_id, statdate, count) SELECT N'rohingya_arab', GETDATE(), 24
+ INSERT kstats.t_keyboard_downloads (keyboard_id, statdate, count) SELECT N'russian-tajik', GETDATE(), 16
+ INSERT kstats.t_keyboard_downloads (keyboard_id, statdate, count) SELECT N'sabdalipi_assamese', GETDATE(), 225
+ INSERT kstats.t_keyboard_downloads (keyboard_id, statdate, count) SELECT N'sanskrit csx', GETDATE(), 2
+ INSERT kstats.t_keyboard_downloads (keyboard_id, statdate, count) SELECT N'sanskrit unicode', GETDATE(), 14
+ INSERT kstats.t_keyboard_downloads (keyboard_id, statdate, count) SELECT N'santali_latin', GETDATE(), 10
+ INSERT kstats.t_keyboard_downloads (keyboard_id, statdate, count) SELECT N'saraiki', GETDATE(), 1
+ INSERT kstats.t_keyboard_downloads (keyboard_id, statdate, count) SELECT N'shan', GETDATE(), 38
+ INSERT kstats.t_keyboard_downloads (keyboard_id, statdate, count) SELECT N'sil_arabic_phonetic', GETDATE(), 71
+ INSERT kstats.t_keyboard_downloads (keyboard_id, statdate, count) SELECT N'sil_bari', GETDATE(), 10
+ INSERT kstats.t_keyboard_downloads (keyboard_id, statdate, count) SELECT N'sil_bengali_phonetic', GETDATE(), 7
+ INSERT kstats.t_keyboard_downloads (keyboard_id, statdate, count) SELECT N'sil_boonkit', GETDATE(), 1
+ INSERT kstats.t_keyboard_downloads (keyboard_id, statdate, count) SELECT N'sil_cameroon_azerty', GETDATE(), 57
+ INSERT kstats.t_keyboard_downloads (keyboard_id, statdate, count) SELECT N'sil_cameroon_qwerty', GETDATE(), 66
+ INSERT kstats.t_keyboard_downloads (keyboard_id, statdate, count) SELECT N'sil_cipher_music', GETDATE(), 3
+ INSERT kstats.t_keyboard_downloads (keyboard_id, statdate, count) SELECT N'sil_devanagari_phonetic', GETDATE(), 40
+ INSERT kstats.t_keyboard_downloads (keyboard_id, statdate, count) SELECT N'sil_dzongkha', GETDATE(), 5
+ INSERT kstats.t_keyboard_downloads (keyboard_id, statdate, count) SELECT N'sil_eastern_congo', GETDATE(), 28
+ INSERT kstats.t_keyboard_downloads (keyboard_id, statdate, count) SELECT N'sil_el_ethiopian_latin', GETDATE(), 6
+ INSERT kstats.t_keyboard_downloads (keyboard_id, statdate, count) SELECT N'sil_ethiopic', GETDATE(), 470
+ INSERT kstats.t_keyboard_downloads (keyboard_id, statdate, count) SELECT N'sil_ethiopic_power_g', GETDATE(), 149
+ INSERT kstats.t_keyboard_downloads (keyboard_id, statdate, count) SELECT N'sil_euro_latin', GETDATE(), 92
+ INSERT kstats.t_keyboard_downloads (keyboard_id, statdate, count) SELECT N'sil_greek_polytonic', GETDATE(), 38
+ INSERT kstats.t_keyboard_downloads (keyboard_id, statdate, count) SELECT N'sil_hebr_grek_trans', GETDATE(), 33
+ INSERT kstats.t_keyboard_downloads (keyboard_id, statdate, count) SELECT N'sil_hebrew', GETDATE(), 53
+ INSERT kstats.t_keyboard_downloads (keyboard_id, statdate, count) SELECT N'sil_hmd_plrd', GETDATE(), 1
+ INSERT kstats.t_keyboard_downloads (keyboard_id, statdate, count) SELECT N'sil_indic_roman', GETDATE(), 6
+ INSERT kstats.t_keyboard_downloads (keyboard_id, statdate, count) SELECT N'sil_ipa', GETDATE(), 626
+ INSERT kstats.t_keyboard_downloads (keyboard_id, statdate, count) SELECT N'sil_kayah_kali', GETDATE(), 12
+ INSERT kstats.t_keyboard_downloads (keyboard_id, statdate, count) SELECT N'sil_kayah_latn', GETDATE(), 1
+ INSERT kstats.t_keyboard_downloads (keyboard_id, statdate, count) SELECT N'sil_kayah_mymr', GETDATE(), 44
+ INSERT kstats.t_keyboard_downloads (keyboard_id, statdate, count) SELECT N'sil_khmer', GETDATE(), 3
+ INSERT kstats.t_keyboard_downloads (keyboard_id, statdate, count) SELECT N'sil_kmhmu', GETDATE(), 17
+ INSERT kstats.t_keyboard_downloads (keyboard_id, statdate, count) SELECT N'sil_lepcha', GETDATE(), 9
+ INSERT kstats.t_keyboard_downloads (keyboard_id, statdate, count) SELECT N'sil_limbu_phonetic', GETDATE(), 1
+ INSERT kstats.t_keyboard_downloads (keyboard_id, statdate, count) SELECT N'sil_limbu_typewriter', GETDATE(), 21
+ INSERT kstats.t_keyboard_downloads (keyboard_id, statdate, count) SELECT N'sil_lisu_basic', GETDATE(), 7
+ INSERT kstats.t_keyboard_downloads (keyboard_id, statdate, count) SELECT N'sil_mali_azerty', GETDATE(), 21
+ INSERT kstats.t_keyboard_downloads (keyboard_id, statdate, count) SELECT N'sil_mali_qwerty', GETDATE(), 10
+ INSERT kstats.t_keyboard_downloads (keyboard_id, statdate, count) SELECT N'sil_mali_qwertz', GETDATE(), 3
+ INSERT kstats.t_keyboard_downloads (keyboard_id, statdate, count) SELECT N'sil_myanmar_my3', GETDATE(), 2085
+ INSERT kstats.t_keyboard_downloads (keyboard_id, statdate, count) SELECT N'sil_myanmar_mywinext', GETDATE(), 234
+ INSERT kstats.t_keyboard_downloads (keyboard_id, statdate, count) SELECT N'sil_nigeria_dot', GETDATE(), 23
+ INSERT kstats.t_keyboard_downloads (keyboard_id, statdate, count) SELECT N'sil_nigeria_underline', GETDATE(), 1
+ INSERT kstats.t_keyboard_downloads (keyboard_id, statdate, count) SELECT N'sil_nubian', GETDATE(), 25
+ INSERT kstats.t_keyboard_downloads (keyboard_id, statdate, count) SELECT N'sil_pan_africa_mnemonic', GETDATE(), 4
+ INSERT kstats.t_keyboard_downloads (keyboard_id, statdate, count) SELECT N'sil_pan_africa_positional', GETDATE(), 3
+ INSERT kstats.t_keyboard_downloads (keyboard_id, statdate, count) SELECT N'sil_philippines', GETDATE(), 1
+ INSERT kstats.t_keyboard_downloads (keyboard_id, statdate, count) SELECT N'sil_shan', GETDATE(), 2
+ INSERT kstats.t_keyboard_downloads (keyboard_id, statdate, count) SELECT N'sil_tai_dam', GETDATE(), 10
+ INSERT kstats.t_keyboard_downloads (keyboard_id, statdate, count) SELECT N'sil_tawallammat', GETDATE(), 5
+ INSERT kstats.t_keyboard_downloads (keyboard_id, statdate, count) SELECT N'sil_tchad', GETDATE(), 11
+ INSERT kstats.t_keyboard_downloads (keyboard_id, statdate, count) SELECT N'sil_torwali', GETDATE(), 2
+ INSERT kstats.t_keyboard_downloads (keyboard_id, statdate, count) SELECT N'sil_tunisian', GETDATE(), 3
+ INSERT kstats.t_keyboard_downloads (keyboard_id, statdate, count) SELECT N'sil_uganda_tanzania', GETDATE(), 9
+ INSERT kstats.t_keyboard_downloads (keyboard_id, statdate, count) SELECT N'sil_yi', GETDATE(), 3
+ INSERT kstats.t_keyboard_downloads (keyboard_id, statdate, count) SELECT N'sil_yoruba_bar', GETDATE(), 27
+ INSERT kstats.t_keyboard_downloads (keyboard_id, statdate, count) SELECT N'sil_yoruba_dot', GETDATE(), 10
+ INSERT kstats.t_keyboard_downloads (keyboard_id, statdate, count) SELECT N'sil_yoruba8', GETDATE(), 124
+ INSERT kstats.t_keyboard_downloads (keyboard_id, statdate, count) SELECT N'sil_yupik_cyrillic', GETDATE(), 3
+ INSERT kstats.t_keyboard_downloads (keyboard_id, statdate, count) SELECT N'sipon phonetic sinhala', GETDATE(), 37
+ INSERT kstats.t_keyboard_downloads (keyboard_id, statdate, count) SELECT N'soqotri_arabic', GETDATE(), 1
+ INSERT kstats.t_keyboard_downloads (keyboard_id, statdate, count) SELECT N'sundanese', GETDATE(), 230
+ INSERT kstats.t_keyboard_downloads (keyboard_id, statdate, count) SELECT N'sundanese_latin', GETDATE(), 5
+ INSERT kstats.t_keyboard_downloads (keyboard_id, statdate, count) SELECT N'swanalekha_malayalam', GETDATE(), 141
+ INSERT kstats.t_keyboard_downloads (keyboard_id, statdate, count) SELECT N'syriac_arabic', GETDATE(), 10
+ INSERT kstats.t_keyboard_downloads (keyboard_id, statdate, count) SELECT N'syriac_aramaic', GETDATE(), 64
+ INSERT kstats.t_keyboard_downloads (keyboard_id, statdate, count) SELECT N'syriac_phonetic', GETDATE(), 19
+ INSERT kstats.t_keyboard_downloads (keyboard_id, statdate, count) SELECT N'taigi_poj', GETDATE(), 1
+ INSERT kstats.t_keyboard_downloads (keyboard_id, statdate, count) SELECT N'teggargrent_lat', GETDATE(), 2
+ INSERT kstats.t_keyboard_downloads (keyboard_id, statdate, count) SELECT N'tem_kdh', GETDATE(), 5
+ INSERT kstats.t_keyboard_downloads (keyboard_id, statdate, count) SELECT N'tengwar', GETDATE(), 21
+ INSERT kstats.t_keyboard_downloads (keyboard_id, statdate, count) SELECT N'thai-uni', GETDATE(), 97
+ INSERT kstats.t_keyboard_downloads (keyboard_id, statdate, count) SELECT N'thamizha anjal', GETDATE(), 15
+ INSERT kstats.t_keyboard_downloads (keyboard_id, statdate, count) SELECT N'thamizha bamini', GETDATE(), 21
+ INSERT kstats.t_keyboard_downloads (keyboard_id, statdate, count) SELECT N'thamizha tamil99', GETDATE(), 1
+ INSERT kstats.t_keyboard_downloads (keyboard_id, statdate, count) SELECT N'thamizha typewriter', GETDATE(), 2
+ INSERT kstats.t_keyboard_downloads (keyboard_id, statdate, count) SELECT N'thamizha_anjal_paangu', GETDATE(), 180
+ INSERT kstats.t_keyboard_downloads (keyboard_id, statdate, count) SELECT N'thamizha_bamini', GETDATE(), 383
+ INSERT kstats.t_keyboard_downloads (keyboard_id, statdate, count) SELECT N'thamizha_new_typewriter', GETDATE(), 440
+ INSERT kstats.t_keyboard_downloads (keyboard_id, statdate, count) SELECT N'thamizha_tamil99_ext', GETDATE(), 17
+ INSERT kstats.t_keyboard_downloads (keyboard_id, statdate, count) SELECT N'tibetan_direct_input', GETDATE(), 30
+ INSERT kstats.t_keyboard_downloads (keyboard_id, statdate, count) SELECT N'tibetan_ewts', GETDATE(), 12
+ INSERT kstats.t_keyboard_downloads (keyboard_id, statdate, count) SELECT N'tlingit_u', GETDATE(), 2
+ INSERT kstats.t_keyboard_downloads (keyboard_id, statdate, count) SELECT N'tohono_oodham', GETDATE(), 1
+ INSERT kstats.t_keyboard_downloads (keyboard_id, statdate, count) SELECT N'tsciianjal', GETDATE(), 19
+ INSERT kstats.t_keyboard_downloads (keyboard_id, statdate, count) SELECT N'turkmen_cyrl', GETDATE(), 2
+ INSERT kstats.t_keyboard_downloads (keyboard_id, statdate, count) SELECT N'urdu_phonetic', GETDATE(), 118
+ INSERT kstats.t_keyboard_downloads (keyboard_id, statdate, count) SELECT N'urdu_phonetic_crulp', GETDATE(), 3
+ INSERT kstats.t_keyboard_downloads (keyboard_id, statdate, count) SELECT N'vm_tamil', GETDATE(), 90
+ INSERT kstats.t_keyboard_downloads (keyboard_id, statdate, count) SELECT N'vm_tamil_modular', GETDATE(), 29
+ INSERT kstats.t_keyboard_downloads (keyboard_id, statdate, count) SELECT N'vm_tamil_typewriter', GETDATE(), 172
+ INSERT kstats.t_keyboard_downloads (keyboard_id, statdate, count) SELECT N'wakhi_anglicized', GETDATE(), 109
+ INSERT kstats.t_keyboard_downloads (keyboard_id, statdate, count) SELECT N'wakhi_cyrillic', GETDATE(), 5
+ INSERT kstats.t_keyboard_downloads (keyboard_id, statdate, count) SELECT N'warang_citi', GETDATE(), 8
+ INSERT kstats.t_keyboard_downloads (keyboard_id, statdate, count) SELECT N'winmacdene', GETDATE(), 1
+ INSERT kstats.t_keyboard_downloads (keyboard_id, statdate, count) SELECT N'yiddish_pasekh', GETDATE(), 58
+ INSERT kstats.t_keyboard_downloads (keyboard_id, statdate, count) SELECT N'yoruba1_u', GETDATE(), 9
+ INSERT kstats.t_keyboard_downloads (keyboard_id, statdate, count) SELECT N'yoruba2_u', GETDATE(), 6
+ INSERT kstats.t_keyboard_downloads (keyboard_id, statdate, count) SELECT N'yoruba8', GETDATE(), 3
+ INSERT kstats.t_keyboard_downloads (keyboard_id, statdate, count) SELECT N'yorubaok', GETDATE(), 6
