@@ -28,7 +28,7 @@
   if(KeymanHosts::Instance()->Tier() === KeymanHosts::TIER_DEVELOPMENT)
     $key = 'local';
   else
-    $key = $_ENV['API_KEYMAN_COM_INCREMENT_DOWNLOAD_KEY'];
+    $key = $_SERVER['API_KEYMAN_COM_INCREMENT_DOWNLOAD_KEY'];
 
   if($_REQUEST['key'] !== $key) {
     fail('Invalid key');
