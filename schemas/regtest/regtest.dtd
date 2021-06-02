@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!ELEMENT regressiontest (info, events)>
+<!ELEMENT info (version, systemkeyboard, keyboard, beginmode)>
+<!ELEMENT version (#PCDATA)>
+<!ELEMENT systemkeyboard (#PCDATA)>
+<!ELEMENT keyboard (#PCDATA)>
+<!ELEMENT beginmode (#PCDATA)>
+<!ELEMENT events (event+)>
+<!ELEMENT event (key, postcontext?)>
+<!ELEMENT key (shiftstate?, vkey)>
+<!ELEMENT shiftstate (shift?, ctrl?, rctrl?, alt?, altgr?, caps?)>
+<!ELEMENT shift EMPTY>
+<!ELEMENT ctrl EMPTY>
+<!ELEMENT rctrl EMPTY>
+<!ELEMENT alt EMPTY>
+<!ELEMENT altgr EMPTY>
+<!ELEMENT caps EMPTY>
+<!ELEMENT vkey (#PCDATA)>
+<!ELEMENT postcontext ((text | deadkey)+)>
+<!-- data in text and deadkey must not have extraneous space formatting as it will be read exactly as is -->
+<!ELEMENT deadkey (#PCDATA)>
+<!ELEMENT text (#PCDATA)>
