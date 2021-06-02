@@ -20,3 +20,4 @@
 <!-- data in text and deadkey must not have extraneous space formatting as it will be read exactly as is -->
 <!ELEMENT deadkey (#PCDATA)>
 <!ELEMENT text (#PCDATA)>
+<!ATTLIST text xml:space CDATA #IMPLIED>
