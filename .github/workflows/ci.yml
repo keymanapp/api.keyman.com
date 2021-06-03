@@ -89,7 +89,7 @@ jobs:
     # Install SQL Server Developer Edition with FullText Search module
     #
     - name: Download and install SQL Server Express
-      shell: cmd
+      shell: powershell
       run: |
         Choco-Install -PackageName sql-server-2019 --no-progress --params "'/IGNOREPENDINGREBOOT /INSTANCEID=KEYMANAPI /INSTANCENAME=KEYMANAPI /SAPWD=Password1! /SECURITYMODE=SQL /UPDATEENABLED=FALSE /FEATURES=SQLENGINE,FULLTEXT'"
 
