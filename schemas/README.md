@@ -185,3 +185,12 @@ Documentation at https://help.keyman.com/developer/cloud/package-version
 
 ## 2020-11-17 1.0
 * Initial version 1.0 (alpha)
+
+------------------------------------------------------------
+
+# kps
+
+* kps.xsd
+
+## 2021-07-19 7.0
+* Initial version 7.0
