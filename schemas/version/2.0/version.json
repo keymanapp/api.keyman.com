@@ -8,7 +8,10 @@
       "properties": {
         "platform": { "type": "string",  "enum": ["windows", "mac", "android", "ios", "web", "linux"] },
         "level": { "type": "string", "enum": ["stable", "alpha", "beta"] },
-        "version": { "type": "string" }
+        "version": { "type": "string" },
+        "alpha": { "type": "string" },
+        "beta": { "type": "string" },
+        "stable": { "type": "string" }
       }
     }
   }

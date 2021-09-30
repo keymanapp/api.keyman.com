@@ -28,7 +28,30 @@ final class VersionTest extends ApiTestCase
     // This will throw an exception if it does not pass
     $schema->in($ver);
 
+    // Test 'all' schema
+    $ver = $Version->executeAll($platform);
+    $this->assertNotEmpty($ver);
+
+    // TODO(lowpri): find a way to skip this by emitting clean JSON object from execute()
+    $ver = json_decode(json_encode($ver));
+
+    // This will throw an exception if it does not pass
+    $schema->in($ver);
+
     // Once we get here we know this test has passed so make PHPUnit happy
     $this->assertTrue(true);
+  }
+
+  public function testWebResultWorksWithSKeymanCom(): void {
+    $Version = new \Keyman\Site\com\keyman\api\Version();
+
+    // both downloads.keyman.com and s.keyman.com have 13.0.107 available
+    $ver = $Version->execute('web', 'stable');
+    $this->assertEquals('13.0.107', $ver['version']);
+
+    // fixture from downloads.keyman.com has 14.0.100
+    // fixture from s.keyman.com ends at 14.0.99
+    $ver = $Version->execute('web', 'alpha');
+    $this->assertEquals('14.0.99', $ver['version']);
   }
 }
