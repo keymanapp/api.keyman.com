@@ -4,15 +4,60 @@
 
   "definitions": {
     "version": {
+      "oneOf": [
+        { "$ref": "#/definitions/platform-tier" },
+        { "$ref": "#/definitions/platform-all" },
+        { "$ref": "#/definitions/platform-error" }
+      ]
+    },
+
+    "version-string": {
+      "type": "string",
+      "pattern": "^[0-9]+\\.[0-9]+\\.[0-9]+(\\.[0-9]+)?$"
+    },
+
+    "platform-string": {
+      "type": "string",
+      "enum": ["windows", "mac", "android", "ios", "web", "linux"]
+    },
+
+    "tier-string": {
+      "type": "string",
+      "enum": ["stable", "alpha", "beta"]
+    },
+
+    "platform-tier": {
       "type": "object",
       "properties": {
-        "platform": { "type": "string",  "enum": ["windows", "mac", "android", "ios", "web", "linux"] },
-        "level": { "type": "string", "enum": ["stable", "alpha", "beta"] },
-        "version": { "type": "string" },
-        "alpha": { "type": "string" },
-        "beta": { "type": "string" },
-        "stable": { "type": "string" }
-      }
+        "platform": { "$ref": "#/definitions/platform-string" },
+        "level": { "$ref": "#/definitions/tier-string" },
+        "version": { "$ref": "#/definitions/version-string" }
+      },
+      "required": ["platform", "level", "version"],
+      "additionalProperties": false
+    },
+
+    "platform-all": {
+      "type": "object",
+      "properties": {
+        "platform": { "$ref": "#/definitions/platform-string" },
+        "alpha": { "$ref": "#/definitions/version-string" },
+        "beta": { "$ref": "#/definitions/version-string" },
+        "stable": { "$ref": "#/definitions/version-string" }
+      },
+      "required": ["platform", "alpha", "beta", "stable"],
+      "additionalProperties": false
+    },
+
+    "platform-error": {
+      "type": "object",
+      "properties": {
+        "platform": { "$ref": "#/definitions/platform-string" },
+        "level": { "$ref": "#/definitions/tier-string" },
+        "error": { "type": "string" }
+      },
+      "required": ["platform", "error"],
+      "additionalProperties": false
     }
   }
 }

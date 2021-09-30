@@ -59,6 +59,10 @@
       $versions = $json->$platform;
       if($versions === NULL) return NULL;
 
+      // There any not currently any situations where we may not have a given tier for a given platform;
+      // In the past, there was. It is possible that if we introduce a new platform, we may have a gap
+      // which would make this result not validate, but I think it's low priority.
+
       if($platform == 'web') {
         if(isset($versions->alpha)) $versions->alpha = $this->getSKeymanComLatestVersion($versions->alpha);
         if(isset($versions->beta)) $versions->beta = $this->getSKeymanComLatestVersion($versions->beta);
