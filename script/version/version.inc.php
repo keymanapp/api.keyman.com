@@ -18,4 +18,16 @@
 
       return $verdata;
     }
+
+    function executeAll($platform) {
+      $keymanVersion = new \keymanversion();
+
+      $ver = $keymanVersion->getVersions($platform);
+      if (is_object($ver)) {
+        $ver->platform = $platform;
+        return $ver;
+      } else {
+        return NULL;
+      }
+    }
   }

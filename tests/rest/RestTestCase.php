@@ -83,7 +83,8 @@ class RestTestCase extends ApiTestCase
     // Now validate against the versioned schema file
     $schema = TestUtils::LoadJSONSchema($schema);
 
-    $json = $response->getBody();
+    $json = json_decode($response->getBody()->getContents());
+    $response->getBody()->seek(0);
     $this->assertNotFalse($json);
 
     // This will throw an exception if it does not pass
