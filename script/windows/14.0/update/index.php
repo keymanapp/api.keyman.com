@@ -26,6 +26,15 @@
     if(substr($id, 0, 8) == 'package_')	{
       $PackageID = iconv("CP1252", "UTF-8", substr($id, 8, strlen($id)));
       $packages[$PackageID] = $version;
+    } else if(substr($id, 0, 10) == 'packageid_')	{
+      // PHP has a 'feature' where it silently converts space, period and other characters in
+      // incoming parameter names into underscores. So we need to pass these in parameter
+      // values instead of names. It would be nice if the tools didn't get in our way!
+      $PackageID = iconv("CP1252", "UTF-8", $version);
+      $pvid = 'packageversion_'.substr($id, 10);
+      if(isset($_REQUEST[$pvid])) {
+        $packages[$PackageID] = $_REQUEST[$pvid];
+      }
     }
   }
 

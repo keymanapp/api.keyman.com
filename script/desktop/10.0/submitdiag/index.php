@@ -62,6 +62,10 @@
     die_errors($uploads->message);
   }
 
+  if(!isset($uploads->url)) {
+    die_errors("File was not uploaded successfully. Please contact SIL for further assistance.");
+  }
+
   $upload_url = $uploads->url;
 
   $data = [
@@ -107,6 +111,10 @@
     if(!$response = curl_exec($ch)) {
       die_errors(curl_error($ch));
       exit;
+    }
+    $http_code = curl_getinfo($ch, CURLINFO_RESPONSE_CODE);
+    if($http_code != 200) {
+      die_errors("Error $http_code posting to server");
     }
     curl_close($ch);
     return json_decode($response);

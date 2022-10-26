@@ -361,7 +361,7 @@ AS
     tlt.weight,
     tlt.match_name,
     tlt.match_type,
-    $schema.f_keyboard_search_bcp47_for_keyboard(k.keyboard_id, tlt.tag) as match_tag
+    k0.f_keyboard_search_bcp47_for_keyboard(k.keyboard_id, tlt.tag) as match_tag  /* k0 will be replaced with current schema at build */
   from
     t_keyboard k inner join
     t_keyboard_langtag lt on k.keyboard_id = lt.keyboard_id inner join
@@ -447,7 +447,9 @@ AS
     k.platform_linux,
     k.deprecated,
     k.obsolete,
-    k.keyboard_info
+    k.keyboard_info,
+    kdt.count total_download_count
+
   from
     (
       select
@@ -466,7 +468,8 @@ AS
       group by keyboard_id, match_type, match_tag, match_name
     ) temp inner join
     t_keyboard k on temp.keyboard_id = k.keyboard_id left join
-    t_keyboard_downloads kd on temp.keyboard_id = kd.keyboard_id
+    v_keyboard_downloads_month kd on temp.keyboard_id = kd.keyboard_id left join
+    v_keyboard_downloads_total kdt on k.keyboard_id = kdt.keyboard_id
   where
     temp.roworder = 1 and
     (k.obsolete = 0 or @prmObsolete = 1)
@@ -531,7 +534,9 @@ AS
     k.platform_linux,
     k.deprecated,
     k.obsolete,
-    k.keyboard_info
+    k.keyboard_info,
+    kdt.count total_download_count
+
   from
     (
       select
@@ -549,7 +554,8 @@ AS
       from @tt_keyboard
     ) temp inner join
     t_keyboard k on temp.keyboard_id = k.keyboard_id left join
-    t_keyboard_downloads kd on temp.keyboard_id = kd.keyboard_id
+    v_keyboard_downloads_month kd on temp.keyboard_id = kd.keyboard_id left join
+    v_keyboard_downloads_total kdt on k.keyboard_id = kdt.keyboard_id
   where
     temp.roworder = 1 and
     (k.obsolete = 0 or @prmObsolete = 1)

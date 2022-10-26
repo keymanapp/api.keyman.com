@@ -42,7 +42,7 @@ jobs:
         Enable-WindowsOptionalFeature -Online -FeatureName IIS-CGI -NoRestart
         Enable-WindowsOptionalFeature -Online -FeatureName IIS-ISAPIExtensions -NoRestart
         Enable-WindowsOptionalFeature -Online -FeatureName IIS-ISAPIFilter -NoRestart
-        choco install --no-progress urlrewrite
+        Choco-Install -PackageName urlrewrite -ArgumentList "--no-progress"
         Import-Module WebAdministration
         New-WebAppPool -name "NewWebSiteAppPool"  -force
         New-WebSite -name "NewWebSite" -PhysicalPath "$ENV:GITHUB_WORKSPACE" -ApplicationPool "NewWebSiteAppPool" -port 8888 -force
@@ -89,9 +89,9 @@ jobs:
     # Install SQL Server Developer Edition with FullText Search module
     #
     - name: Download and install SQL Server Express
-      shell: cmd
+      shell: powershell
       run: |
-        choco install sql-server-2019 --no-progress --params "'/IGNOREPENDINGREBOOT /INSTANCEID=KEYMANAPI /INSTANCENAME=KEYMANAPI /SAPWD=Password1! /SECURITYMODE=SQL /UPDATEENABLED=FALSE /FEATURES=SQLENGINE,FULLTEXT'"
+        Choco-Install -PackageName sql-server-2019 -ArgumentList "--no-progress", "--params", "'/IGNOREPENDINGREBOOT /INSTANCEID=KEYMANAPI /INSTANCENAME=KEYMANAPI /SAPWD=Password1! /SECURITYMODE=SQL /UPDATEENABLED=FALSE /FEATURES=SQLENGINE,FULLTEXT'"
 
     #
     # Install website PHP dependencies

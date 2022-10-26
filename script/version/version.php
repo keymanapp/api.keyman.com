@@ -9,26 +9,36 @@
   allow_cors();
 
   /**
-   * https://api.keyman.com/version?platform=p-string&level=l-string
-   * https://api.keyman.com/version/platform/level
+   * https://api.keyman.com/version?platform=$platform&level=$level
+   * https://api.keyman.com/version/$platform/$level
    *
-   * Returns the latest version object for Keyman product 'platform' and release tier 'level'.
+   * Returns the latest version object for Keyman product 'platform' and release
+   * tier 'level'.
    *
-   * If no parameters given, a legacy version string "473" that corresponds to the
-   * last legacy stable web version 2.0.473 is returned.
+   * If no parameters given, a legacy version string "473" that corresponds to
+   * the last legacy stable web version 2.0.473 is returned.
+   *
+   * Note: we normally use the term 'tier' instead of 'level'. This API was
+   *       written before we standardized on 'tier'.
    *
    * https://api.keyman.com/schemas/version.json is JSON schema
    *
-   * @param platform    p-string  string of Keyman platform: android, ios, linux, mac, windows, web.
-   * If not provided, the platform 'web' will be used.
-   * @param level       l-string  string of release tier: stable, beta, alpha.
-   * If not provided, the level 'stable' will be used.
+   * @param platform    string of Keyman platform: 'android', 'ios', 'linux',
+   *                    'mac', 'windows', 'web'. If not provided, the platform
+   *                    'web' will be used.
+   * @param level       string of release tier: 'stable', 'beta', 'alpha', or
+   *                    'all'. If not provided, the tier 'stable' will be used.
+   *
+   * For 'stable', 'beta' and 'alpha' tiers, the data returned will be of the
+   * format:
+   *
+   *   { "platform": "$platform", "level": "$level", "version": "$version" }
+   *
+   * For 'all' tier, the data returned will be of the format:
+   *
+   *   { "platform": "$platform", "alpha": "$alphaVersion",
+   *     "beta": "$betaVersion", "stable": "$stableVersion" }
    */
-
-  if (isset($_REQUEST['command']) && $_REQUEST['command'] == 'cache') {
-    // We'll refresh the backend cache, without testing the JSON data first
-    $keymanVersion->recache();
-  }
 
   if (empty($_REQUEST['level']) && empty($_REQUEST['platform'])) {
     // respond with legacy stable web version
@@ -47,8 +57,8 @@
   */
   if (!empty($_REQUEST['level'])) {
     $level = $_REQUEST['level'];
-    if (!preg_match('/^(stable|beta|alpha)$/', $level)) {
-      fail('Invalid level parameter - stable, beta, or alpha expected');
+    if (!preg_match('/^(stable|beta|alpha|all)$/', $level)) {
+      fail('Invalid level parameter - stable, beta, alpha or all expected');
     }
   } else {
     $level = 'stable';
@@ -65,5 +75,8 @@
 
   $version = new \Keyman\Site\com\keyman\api\Version();
 
-  $ver = $version->execute($platform, $level);
+  if($level == 'all')
+    $ver = $version->executeAll($platform);
+  else
+    $ver = $version->execute($platform, $level);
   echo json_encode($ver, JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES);

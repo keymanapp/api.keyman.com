@@ -64,6 +64,7 @@
                 "type": "keyboard",
                 "weight": 60,
                 "downloads": 37,
+                "totalDownloads": 37,
                 "finalWeight": 278.25516958358315
             }
         },
@@ -110,6 +111,7 @@
                 "type": "keyboard",
                 "weight": 35,
                 "downloads": 21,
+                "totalDownloads": 21,
                 "finalWeight": 143.18648586754105
             }
         },
@@ -195,6 +197,7 @@
                 "type": "keyboard",
                 "weight": 35,
                 "downloads": 3,
+                "totalDownloads": 3,
                 "finalWeight": 83.520302639196174
             }
         },
@@ -243,6 +246,7 @@
                 "type": "keyboard",
                 "weight": 35,
                 "downloads": 1,
+                "totalDownloads": 1,
                 "finalWeight": 59.260151319598087
             }
         },
@@ -290,6 +294,7 @@
                 "type": "description",
                 "weight": 5,
                 "downloads": 1,
+                "totalDownloads": 1,
                 "finalWeight": 8.465735902799727
             }
         },
@@ -338,6 +343,7 @@
                 "type": "keyboard",
                 "weight": 60,
                 "downloads": 0,
+                "totalDownloads": 0,
                 "finalWeight": 60.0
             }
         },
@@ -380,6 +386,7 @@
                 "type": "keyboard",
                 "weight": 35,
                 "downloads": 0,
+                "totalDownloads": 0,
                 "finalWeight": 35.0
             }
         }
