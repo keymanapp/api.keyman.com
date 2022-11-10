@@ -140,7 +140,10 @@
   }
 
   function generate_username_from_email($email) {
-    return substr(preg_replace('/[^a-zA-Z0-9_-]/', '_', $email), 0, 20);
+    $email = substr(preg_replace('/[^a-zA-Z0-9_-]/', '_', $email), 0, 20);
+    $lastch = substr($email, -1);
+    if($lastch == '_' || $lastch == '-') $email = substr($email, 0, 19) . 'x';
+    return $email;
   }
 
   function die_errors($msg) {
