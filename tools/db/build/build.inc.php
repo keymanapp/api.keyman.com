@@ -184,7 +184,7 @@
       $dci = new DatabaseConnectionInfo();
       $tries = 1;
       while(true) {
-        build_log("Attempting to wake database server (attempt $tries/5)");
+        build_log("Attempting to wake database server at " . $dci->getConnectionString() . " (attempt $tries/5)");
         try {
           new PDO($dci->getMasterConnectionString(), $dci->getUser(), $dci->getPassword(), [ "CharacterSet" => "UTF-8" ]);
           return true;
