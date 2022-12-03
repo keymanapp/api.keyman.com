@@ -87,7 +87,7 @@ if builder_start_action start; then
   # Start the Docker container
   if [ ! -z $(_get_docker_image_id) ]; then
     #docker run -e "ACCEPT_EULA=Y" -e "MSSQL_SA_PASSWORD=yourStrong(!)Password" -p 8058:80 -d mcr.microsoft.com/mssql/server:2022-latest
-    docker run -e "ACCEPT_EULA=Y" -e "MSSQL_SA_PASSWORD=yourStrong(!)Password" -p 8058:1433 -d api-keyman-website
+    docker run -e "ACCEPT_EULA=Y" -e "MSSQL_SA_PASSWORD=yourStrong(!)Password" -e "MSSQL_PID=standard" -p 8058:1433 -d api-keyman-website
   else
     echo "${COLOR_RED}ERROR: Docker container doesn't exist. Run ./build.sh build first${COLOR_RESET}"
     builder_finish_action fail start
