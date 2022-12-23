@@ -3,8 +3,7 @@
   if(!isset($_SERVER['argv'])) {
     if(!isset($_REQUEST['Username']) || !isset($_REQUEST['Title']) || !isset($_REQUEST['Body']) || !isset($_FILES['File']))
     {
-      echo "<error>Invalid parameters</error>";
-      exit;
+      die_errors("Invalid parameters");
     }
 
     $Username = iconv('CP1252', 'UTF-8//TRANSLIT', $_REQUEST['Username']);
@@ -114,7 +113,7 @@
     }
     $http_code = curl_getinfo($ch, CURLINFO_RESPONSE_CODE);
     if($http_code != 200) {
-      die_errors("Error $http_code posting to server");
+      die_errors("Error $http_code posting to server: " . $response);
     }
     curl_close($ch);
     return json_decode($response);
@@ -148,8 +147,9 @@
 
   function die_errors($msg) {
     if(isset($msg)) {
+      \Sentry\captureMessage("submitdiag failed with message $msg", \Sentry\Severity::error());
       $msg = iconv('UTF-8//TRANSLIT', 'CP1252', $msg);
-      echo "<error>{$msg}</error>";
+      echo "<error>$msg</error>";
       exit;
     }
   }
