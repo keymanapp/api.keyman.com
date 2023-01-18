@@ -44,8 +44,18 @@ builder_parse "$@"
 cd "$REPO_ROOT"
 
 if builder_start_action configure; then
-  #composer install
-  
+  # Skip if link already exists
+  if [ -L vendor ]; then
+    echo "Skipping because vendor already exists"
+  else
+    # Create link to vendor/ folder
+    API_CONTAINER=$(_get_docker_container_id)
+    if [ ! -z "$API_CONTAINER" ]; then
+      docker exec -i $API_CONTAINER sh -c "ln -s /var/www/vendor vendor && chown -R www-data:www-data vendor"
+    else
+      echo "No Docker container to configure"
+    fi
+  fi
   builder_finish_action success configure
 fi
 
