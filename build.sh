@@ -44,18 +44,7 @@ builder_parse "$@"
 cd "$REPO_ROOT"
 
 if builder_start_action configure; then
-  # Skip if link already exists
-  if [ -L vendor ]; then
-    echo "Skipping because vendor already exists"
-  else
-    # Create link to vendor/ folder
-    API_CONTAINER=$(_get_docker_container_id)
-    if [ ! -z "$API_CONTAINER" ]; then
-      docker exec -i $API_CONTAINER sh -c "ln -s /var/www/vendor vendor && chown -R www-data:www-data vendor"
-    else
-      echo "No Docker container to configure"
-    fi
-  fi
+  # Nothing to do 
   builder_finish_action success configure
 fi
 
@@ -96,11 +85,39 @@ fi
 if builder_start_action start; then
   # Start the Docker container
   if [ ! -z $(_get_docker_image_id) ]; then
-    #docker run -e "ACCEPT_EULA=Y" -e "MSSQL_SA_PASSWORD=yourStrong(!)Password" -p 8058:80 -d mcr.microsoft.com/mssql/server:2022-latest
-    docker run -e "ACCEPT_EULA=Y" -e "MSSQL_SA_PASSWORD=yourStrong(!)Password" -e "MSSQL_PID=standard" -p 8058:1433 -d api-keyman-website
+    # Setup database
+    #docker run -e "ACCEPT_EULA=Y" -e "MSSQL_SA_PASSWORD=yourStrong(!)Password" -e "MSSQL_PID=standard" -p 8058:1433 -d api-keyman-website
+    #builder_finish_action success start
+    #exit
+    # debugging - finish early
+
+
+    if [[ $OSTYPE =~ msys|cygwin ]]; then
+      # Windows needs leading slashes for path
+      #docker run -e "ACCEPT_EULA=Y" -e "MSSQL_SA_PASSWORD=yourStrong(!)Password" -p 8058:80 -d mcr.microsoft.com/mssql/server:2022-latest
+      #docker run -d -e "ACCEPT_EULA=Y" -e "MSSQL_SA_PASSWORD=yourStrong(!)Password" -e "MSSQL_PID=standard" -p 8058:1433 -p 8058:80 -v //$(pwd):/var/www/html/ -e S_KEYMAN_COM=localhost:8054 api-keyman-website
+      docker run -d -e "ACCEPT_EULA=Y" -e "MSSQL_SA_PASSWORD=yourStrong(!)Password" -e "MSSQL_PID=standard" --expose 1433 --expose 80 -p 8058 -v //$(pwd):/var/www/html/ -e S_KEYMAN_COM=localhost:8054 api-keyman-website
+    else
+      docker run -d -e "ACCEPT_EULA=Y" -e "MSSQL_SA_PASSWORD=yourStrong(!)Password" -e "MSSQL_PID=standard" --expose 1433 --expose 80 -p 8058 -v $(pwd):/var/www/html/ -e S_KEYMAN_COM=localhost:8054 api-keyman-website
+    fi
   else
     echo "${COLOR_RED}ERROR: Docker container doesn't exist. Run ./build.sh build first${COLOR_RESET}"
     builder_finish_action fail start
+  fi
+
+  # Skip if link already exists
+  if [ -L vendor ]; then
+    echo "Link to vendor/ already exists"
+  else
+    # Create link to vendor/ folder
+    API_CONTAINER=$(_get_docker_container_id)
+    echo "API_CONTAINER: ${API_CONTAINER}"
+    if [ ! -z "$API_CONTAINER" ]; then
+      echo "making link"
+      docker exec -i $API_CONTAINER sh -c "ln -s /var/www/vendor vendor && chown -R www-data:www-data vendor"
+    else
+      echo "No Docker container running to create link to vendor/"
+    fi
   fi
 
   builder_finish_action success start
