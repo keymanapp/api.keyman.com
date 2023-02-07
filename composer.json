@@ -14,11 +14,11 @@
     "scripts": {
       "test": [
         "Composer\\Config::disableProcessTimeout",
-        "vendor\\bin\\phpunit --testdox"
+        "vendor/bin/phpunit --testdox"
       ],
       "build": [
         "Composer\\Config::disableProcessTimeout",
-        "php tools\\db\\build\\build_cli.php"
+        "php ./tools/db/build/build_cli.php"
       ],
       "lint": "find . -name '*.php' | grep -v '/vendor/' | xargs -n 1 php -l"
     }

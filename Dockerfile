@@ -40,7 +40,26 @@ FROM php:7.4-apache
 COPY resources/keyman-site.conf /etc/apache2/conf-available/
 RUN chown -R www-data:www-data /var/www/html/
 
-COPY --from=composer-builder /composer/vendor /var/www/vendor
-RUN a2enmod rewrite; a2enconf keyman-site
+# Install SQL drivers
+# https://learn.microsoft.com/en-us/sql/connect/php/installation-tutorial-linux-mac?view=sql-server-ver16
+#RUN add-apt-repository ppa:ondrej/php -y \
+#    apt-get update \
+#    apt-get install php7.4 php7.4-dev php7.4-xml -y --allow-unauthenticated
 
-# build.sh configure later needed to create link to vendor/
+# TODO: declare lsb_release
+RUN curl https://packages.microsoft.com/keys/microsoft.asc | apt-key add - \
+    curl https://packages.microsoft.com/config/ubuntu/$(lsb_release -rs)/prod.list > /etc/apt/sources.list.d/mssql-release.list \
+    apt-get update \
+    ACCEPT_EULA=Y apt-get install -y msodbcsql18 \
+    apt-get install -y unixodbc-dev
+
+RUN pecl install sqlsrv \
+    pecl install pdo_sqlsrv \
+    printf "; priority=20\nextension=sqlsrv.so\n" > /etc/php/7.4/mods-available/sqlsrv.ini \
+    printf "; priority=30\nextension=pdo_sqlsrv.so\n" > /etc/php/7.4/mods-available/pdo_sqlsrv.ini \
+    phpenmod -v 7.4 sqlsrv pdo_sqlsrv
+
+COPY --from=composer-builder /composer/vendor /var/www/vendor
+# RUN ls -l /var/www/ &&  php /var/www/html/tools/db/build/build_cli.php
+RUN a2enmod rewrite; a2enconf keyman-site \
+    service apache2 restart

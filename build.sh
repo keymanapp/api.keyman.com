@@ -24,6 +24,7 @@ function _stop_docker_container() {
   API_CONTAINER=$(_get_docker_container_id)
   if [ ! -z "$API_CONTAINER" ]; then
     docker container stop $API_CONTAINER
+    docker container stop api-keyman-com-database
   else
     echo "No Docker container to stop"
   fi
@@ -44,7 +45,9 @@ builder_parse "$@"
 cd "$REPO_ROOT"
 
 if builder_start_action configure; then
-  # Nothing to do 
+  # Setup DB
+
+  
   builder_finish_action success configure
 fi
 
@@ -96,7 +99,7 @@ if builder_start_action start; then
 
     if [[ $OSTYPE =~ msys|cygwin ]]; then
       # Windows needs leading slashes for path
-      docker run -e "ACCEPT_EULA=Y" -e "MSSQL_SA_PASSWORD=yourStrong(!)Password" -p 8058:80 -d mcr.microsoft.com/mssql/server:2022-latest
+      docker run -e "ACCEPT_EULA=Y" -e "MSSQL_SA_PASSWORD=yourStrong(!)Password" -p 8058:1433 -d mcr.microsoft.com/mssql/server:2022-latest
 
       # TODO: sort out ports to run DB and site
       #docker run -d -e "ACCEPT_EULA=Y" -e "MSSQL_SA_PASSWORD=yourStrong(!)Password" -e "MSSQL_PID=standard" -p 8058:1433 -p 8058:80 -v //$(pwd):/var/www/html/ -e S_KEYMAN_COM=localhost:8054 api-keyman-website
@@ -104,13 +107,21 @@ if builder_start_action start; then
     else
       if [ $DB_DUCKY == true ]; then
         echo "Setting up DB"
-        docker run -e "ACCEPT_EULA=Y" -e "MSSQL_SA_PASSWORD=yourStrong(!)Password" -p 8058:80 -d mcr.microsoft.com/mssql/server:2022-latest
-
+        #docker run -e "ACCEPT_EULA=Y" -e "MSSQL_SA_PASSWORD=yourStrong(!)Password" -p 8058:80 -d mcr.microsoft.com/mssql/server:2022-latest
+        docker run -e "ACCEPT_EULA=Y" -e "MSSQL_SA_PASSWORD=yourStrong(!)Password" -p 8099:1433 -d mcr.microsoft.com/mssql/server:2022-latest --name api-keyman-com-database
         # TODO: sort out ports to run DB and site
         # docker run -d -e "ACCEPT_EULA=Y" -e "MSSQL_SA_PASSWORD=yourStrong(!)Password" -e "MSSQL_PID=standard" --expose 1433 --expose 80 -p 8058 -v $(pwd):/var/www/html/ -e S_KEYMAN_COM=localhost:8054 api-keyman-website
-      else
-        echo "Skipping DB. Spooling site"
-        docker run -d -p 8058:80 -v $(pwd):/var/www/html/ -e S_KEYMAN_COM=localhost:8054 api-keyman-website
+        #else
+        echo "Spooling up site"
+        docker run -d -p 8098:80 -v $(pwd):/var/www/html/ \
+          -e S_KEYMAN_COM=localhost:8054 \
+          -e 'api_keyman_com_mssql_pw=yourStrong(!)Password' \
+          -e api_keyman_com_mssql_user=sa \
+          -e api_keyman_com_mssqldb=keyboards \
+          -e 'api_keyman_com_mssqlconninfo=sqlsrv:Server=localhost,8099;Database=' \
+          --name api-keyman-com \
+          api-keyman-website
+        docker exec -i api-keyman-com sh -c "php /var/www/html/tools/db/build/build_cli.php"
       fi
     fi
   else
