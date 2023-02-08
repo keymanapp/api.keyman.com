@@ -129,18 +129,4 @@
       }
       return $sql;
     }
-
-
-    private function process_globalvar($obj) {
-      return '';
-    }
-
-    private function process_phonvar($obj) {
-      return '';
-    }
-
-    private function process_version($obj) {
-      return '';
-    }
-
   }
