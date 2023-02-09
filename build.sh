@@ -30,14 +30,15 @@ function _stop_docker_container() {
   fi
 }
 
-builder_describe \
-  "Setup api.keyman.com site to run via Docker." \
-  configure \
-  clean \
-  build \
-  start \
-  stop \
-  test \
+builder_describe "Setup api.keyman.com site to run via Docker." \
+  "configure" \
+  "clean" \
+  "build" \
+  "start" \
+  "stop" \
+  "test" \
+  ":db   Build the database" \
+  ":app  Build the site"
 
 builder_parse "$@"
 
@@ -108,7 +109,12 @@ if builder_start_action start; then
       if [ $DB_DUCKY == true ]; then
         echo "Setting up DB"
         #docker run -e "ACCEPT_EULA=Y" -e "MSSQL_SA_PASSWORD=yourStrong(!)Password" -p 8058:80 -d mcr.microsoft.com/mssql/server:2022-latest
-        docker run -e "ACCEPT_EULA=Y" -e "MSSQL_SA_PASSWORD=yourStrong(!)Password" -p 8099:1433 -d mcr.microsoft.com/mssql/server:2022-latest --name api-keyman-com-database
+        docker run -d -p 8099:1433 \
+          -e "ACCEPT_EULA=Y" \
+          -e "MSSQL_SA_PASSWORD=yourStrong(!)Password" \
+          --name 'api-keyman-com-database' \
+          mcr.microsoft.com/mssql/server:2022-latest #api-keyman-database #mcr.microsoft.com/mssql/server:2022-latest 
+
         # TODO: sort out ports to run DB and site
         # docker run -d -e "ACCEPT_EULA=Y" -e "MSSQL_SA_PASSWORD=yourStrong(!)Password" -e "MSSQL_PID=standard" --expose 1433 --expose 80 -p 8058 -v $(pwd):/var/www/html/ -e S_KEYMAN_COM=localhost:8054 api-keyman-website
         #else
@@ -117,10 +123,13 @@ if builder_start_action start; then
           -e S_KEYMAN_COM=localhost:8054 \
           -e 'api_keyman_com_mssql_pw=yourStrong(!)Password' \
           -e api_keyman_com_mssql_user=sa \
-          -e api_keyman_com_mssqldb=keyboards \
           -e 'api_keyman_com_mssqlconninfo=sqlsrv:Server=localhost,8099;Database=' \
-          --name api-keyman-com \
+          -e api_keyman_com_mssql_create_database=true \
+          -e api_keyman_com_mssqldb=keyboards \
+          --name 'api-keyman-com' \
           api-keyman-website
+
+        echo "Site attempting to connect to DB"
         docker exec -i api-keyman-com sh -c "php /var/www/html/tools/db/build/build_cli.php"
       fi
     fi
@@ -131,7 +140,7 @@ if builder_start_action start; then
 
   # Skip if link already exists
   if [ -L vendor ]; then
-    echo "Link to vendor/ already exists"
+    echo "\nLink to vendor/ already exists"
   else
     # Create link to vendor/ folder
     API_CONTAINER=$(_get_docker_container_id)
