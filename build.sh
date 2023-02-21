@@ -23,7 +23,7 @@ function _get_docker_container_id() {
 function _stop_docker_container() {
   API_CONTAINER=$(_get_docker_container_id)
   if [ ! -z "$API_CONTAINER" ]; then
-    docker container stop $API_CONTAINER
+    docker container stop api-keyman-com
     docker container stop api-keyman-com-database
   else
     echo "No Docker container to stop"
@@ -58,7 +58,8 @@ if builder_start_action clean; then
 
   API_CONTAINER=$(_get_docker_container_id)
   if [ ! -z "$API_CONTAINER" ]; then
-    docker container rm $API_CONTAINER
+    docker container rm api-keyman-com
+    docker container rm api-keyman-com-database
   else
     echo "No Docker container to clean"
   fi
@@ -88,51 +89,42 @@ fi
 
 if builder_start_action start; then
   # Start the Docker container
-  DB_DUCKY=true
 
   if [ ! -z $(_get_docker_image_id) ]; then
     # Setup database
     #docker run -e "ACCEPT_EULA=Y" -e "MSSQL_SA_PASSWORD=yourStrong(!)Password" -e "MSSQL_PID=standard" -p 8058:1433 -d api-keyman-website
-    #builder_finish_action success start
-    #exit
-    # debugging - finish early
-
+    echo "Setting up DB container"
+    #docker run -e "ACCEPT_EULA=Y" -e "MSSQL_SA_PASSWORD=yourStrong(!)Password" -p 8058:80 -d mcr.microsoft.com/mssql/server:2022-latest
+    docker run -d -p 8099:1433 \
+      -e "ACCEPT_EULA=Y" \
+      -e "MSSQL_SA_PASSWORD=yourStrong(!)Password" \
+      --name 'api-keyman-com-database' \
+      mcr.microsoft.com/mssql/server:2022-latest #api-keyman-database #mcr.microsoft.com/mssql/server:2022-latest 
 
     if [[ $OSTYPE =~ msys|cygwin ]]; then
       # Windows needs leading slashes for path
-      docker run -e "ACCEPT_EULA=Y" -e "MSSQL_SA_PASSWORD=yourStrong(!)Password" -p 8058:1433 -d mcr.microsoft.com/mssql/server:2022-latest
-
-      # TODO: sort out ports to run DB and site
-      #docker run -d -e "ACCEPT_EULA=Y" -e "MSSQL_SA_PASSWORD=yourStrong(!)Password" -e "MSSQL_PID=standard" -p 8058:1433 -p 8058:80 -v //$(pwd):/var/www/html/ -e S_KEYMAN_COM=localhost:8054 api-keyman-website
-      #docker run -d -e "ACCEPT_EULA=Y" -e "MSSQL_SA_PASSWORD=yourStrong(!)Password" -e "MSSQL_PID=standard" --expose 1433 --expose 80 -p 8058 -v //$(pwd):/var/www/html/ -e S_KEYMAN_COM=localhost:8054 api-keyman-website
+      SITE_HTML="//$(pwd):/var/www/html/"
     else
-      if [ $DB_DUCKY == true ]; then
-        echo "Setting up DB"
-        #docker run -e "ACCEPT_EULA=Y" -e "MSSQL_SA_PASSWORD=yourStrong(!)Password" -p 8058:80 -d mcr.microsoft.com/mssql/server:2022-latest
-        docker run -d -p 8099:1433 \
-          -e "ACCEPT_EULA=Y" \
-          -e "MSSQL_SA_PASSWORD=yourStrong(!)Password" \
-          --name 'api-keyman-com-database' \
-          mcr.microsoft.com/mssql/server:2022-latest #api-keyman-database #mcr.microsoft.com/mssql/server:2022-latest 
-
-        # TODO: sort out ports to run DB and site
-        # docker run -d -e "ACCEPT_EULA=Y" -e "MSSQL_SA_PASSWORD=yourStrong(!)Password" -e "MSSQL_PID=standard" --expose 1433 --expose 80 -p 8058 -v $(pwd):/var/www/html/ -e S_KEYMAN_COM=localhost:8054 api-keyman-website
-        #else
-        echo "Spooling up site"
-        docker run -d -p 8098:80 -v $(pwd):/var/www/html/ \
-          -e S_KEYMAN_COM=localhost:8054 \
-          -e 'api_keyman_com_mssql_pw=yourStrong(!)Password' \
-          -e api_keyman_com_mssql_user=sa \
-          -e 'api_keyman_com_mssqlconninfo=sqlsrv:Server=localhost,8099;Database=' \
-          -e api_keyman_com_mssql_create_database=true \
-          -e api_keyman_com_mssqldb=keyboards \
-          --name 'api-keyman-com' \
-          api-keyman-website
-
-        echo "Site attempting to connect to DB"
-        docker exec -i api-keyman-com sh -c "php /var/www/html/tools/db/build/build_cli.php"
-      fi
+      SITE_HTML="$(pwd):/var/www/html/"
     fi
+
+    # docker run -e "ACCEPT_EULA=Y" -e "MSSQL_SA_PASSWORD=yourStrong(!)Password" -p 8058:1433 -d mcr.microsoft.com/mssql/server:2022-latest
+
+    # TODO: sort out ports to run DB and site
+    #docker run -d -e "ACCEPT_EULA=Y" -e "MSSQL_SA_PASSWORD=yourStrong(!)Password" -e "MSSQL_PID=standard" -p 8058:1433 -p 8058:80 -v //$(pwd):/var/www/html/ -e S_KEYMAN_COM=localhost:8054 api-keyman-website
+    #docker run -d -e "ACCEPT_EULA=Y" -e "MSSQL_SA_PASSWORD=yourStrong(!)Password" -e "MSSQL_PID=standard" --expose 1433 --expose 80 -p 8058 -v //$(pwd):/var/www/html/ -e S_KEYMAN_COM=localhost:8054 api-keyman-website
+
+    echo "Spooling up site container"
+    docker run -d -p 8098:80 -v ${SITE_HTML} \
+      -e S_KEYMAN_COM=localhost:8054 \
+      -e 'api_keyman_com_mssql_pw=yourStrong(!)Password' \
+      -e api_keyman_com_mssql_user=sa \
+      -e 'api_keyman_com_mssqlconninfo=sqlsrv:Server=localhost,8099;Database=' \
+      -e api_keyman_com_mssql_create_database=true \
+      -e api_keyman_com_mssqldb=keyboards \
+      --name 'api-keyman-com' \
+      api-keyman-website
+
   else
     echo "${COLOR_RED}ERROR: Docker container doesn't exist. Run ./build.sh build first${COLOR_RESET}"
     builder_finish_action fail start
@@ -152,6 +144,9 @@ if builder_start_action start; then
       echo "No Docker container running to create link to vendor/"
     fi
   fi
+
+  echo "Site attempting to connect to DB"
+  docker exec -i api-keyman-com sh -c "php /var/www/html/tools/db/build/build_cli.php"
 
   builder_finish_action success start
 fi

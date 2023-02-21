@@ -42,11 +42,8 @@ RUN chown -R www-data:www-data /var/www/html/
 
 # Install SQL drivers
 # https://learn.microsoft.com/en-us/sql/connect/php/installation-tutorial-linux-mac?view=sql-server-ver16
-#RUN add-apt-repository ppa:ondrej/php -y \
-#    apt-get update \
-#    apt-get install php7.4 php7.4-dev php7.4-xml -y --allow-unauthenticated
-
-RUN apt-get update && apt-get install -y gnupg
+# https://stackoverflow.com/a/72176870
+RUN apt-get update && apt-get install -y gnupg2
 
 # Adding custom MS repo
 RUN curl https://packages.microsoft.com/keys/microsoft.asc | apt-key add - 
@@ -55,16 +52,9 @@ RUN curl https://packages.microsoft.com/config/ubuntu/22.04/prod.list > /etc/apt
 ## Install SQL Server drivers
 RUN apt-get update && ACCEPT_EULA=Y apt-get install -y msodbcsql18 unixodbc-dev
 
-RUN pecl install sqlsrv pdo_sqlsrv \
-    #printf "; priority=20\nextension=sqlsrv.so\n" > /etc/php/7.4/mods-available/sqlsrv.ini \
-    #printf "; priority=30\nextension=pdo_sqlsrv.so\n" > /etc/php/7.4/mods-available/pdo_sqlsrv.ini \
-
-    # Don't we need these 2?
-    #echo "extension=pdo_sqlsrv.so" > /etc/php/7.4/mods-available/pdo_sqlsrv.ini && \
-    #echo "extension=sqlsrv.so" > /etc/php/7.4/mods-available/sqlsrv.ini && \
-    docker-php-ext-enable sqlsrv pdo_sqlsrv \
-    phpenmod -v 7.4 sqlsrv pdo_sqlsrv
-#            phpenmod pdo_sqlsrv sqlsrv && \
+RUN pecl install sqlsrv pdo_sqlsrv
+RUN docker-php-ext-install pdo pdo_mysql
+RUN docker-php-ext-enable sqlsrv pdo_sqlsrv pdo pdo_mysql
 COPY --from=composer-builder /composer/vendor /var/www/vendor
 # RUN ls -l /var/www/ &&  php /var/www/html/tools/db/build/build_cli.php
 RUN a2enmod rewrite; a2enconf keyman-site \
