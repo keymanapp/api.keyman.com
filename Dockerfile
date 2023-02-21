@@ -7,8 +7,8 @@ apt-get update --fix-missing && \
 apt-get install -y gnupg2 && \
 apt-get install -yq curl apt-transport-https && \
 curl https://packages.microsoft.com/keys/microsoft.asc | tac | tac | apt-key add - && \
-curl https://packages.microsoft.com/config/ubuntu/20.04/mssql-server-2019.list | tac | tac | tee /etc/apt/sources.list.d/mssql-server.list && \
-#curl https://packages.microsoft.com/config/ubuntu/22.04/mssql-server-2022.list | tac | tac | tee /etc/apt/sources.list.d/mssql-server.list && \
+#curl https://packages.microsoft.com/config/ubuntu/20.04/mssql-server-2019.list | tac | tac | tee /etc/apt/sources.list.d/mssql-server.list && \
+curl https://packages.microsoft.com/config/ubuntu/22.04/mssql-server-2022.list | tac | tac | tee /etc/apt/sources.list.d/mssql-server.list && \
 apt-get update
 
 RUN apt-get install -y mssql-server-fts
@@ -49,13 +49,15 @@ RUN apt-get update && apt-get install -y gnupg2
 RUN curl https://packages.microsoft.com/keys/microsoft.asc | apt-key add - 
 RUN curl https://packages.microsoft.com/config/ubuntu/22.04/prod.list > /etc/apt/sources.list.d/mssql-release.list
 
-## Install SQL Server drivers
-RUN apt-get update && ACCEPT_EULA=Y apt-get -y --no-install-recommends install msodbcsql18 unixodbc-dev
+## Install SQL Server drivers and Zip
+RUN apt-get update && ACCEPT_EULA=Y apt-get -y --no-install-recommends install msodbcsql18 unixodbc-dev zip libzip-dev
 RUN pecl install sqlsrv 
 RUN pecl install pdo_sqlsrv
-RUN docker-php-ext-install pdo pdo_mysql
+RUN docker-php-ext-install pdo pdo_mysql zip
 RUN docker-php-ext-enable sqlsrv pdo_sqlsrv pdo pdo_mysql
 COPY --from=composer-builder /composer/vendor /var/www/vendor
+
+# This is handled in build.sh start
 # RUN ls -l /var/www/ &&  php /var/www/html/tools/db/build/build_cli.php
 RUN a2enmod rewrite; a2enconf keyman-site \
 #    service apache2 restart
