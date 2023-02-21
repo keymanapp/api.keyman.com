@@ -29,12 +29,11 @@
       $sql = '';
       $n = 0;
       foreach($json as $obj) {
-        switch($obj->tag) {
-          case '_globalvar': $sql .= $this->process_globalvar($obj); break;
-          case '_phonvar': $sql .= $this->process_phonvar($obj); break;
-          case '_version': $sql .= $this->process_version($obj); break;
-          default: $sql .= $this->process_entry($obj); break;
+        if(substr($obj->tag, 0, 1) == '_') {
+          // _globalvar, _phonvar, _version, _conformance, other reserved metadata tags
+          continue;
         }
+        $sql .= $this->process_entry($obj);
         if((++$n) % 100 == 0) $sql .= "\nGO\n";
       }
 
@@ -130,18 +129,4 @@
       }
       return $sql;
     }
-
-
-    private function process_globalvar($obj) {
-      return '';
-    }
-
-    private function process_phonvar($obj) {
-      return '';
-    }
-
-    private function process_version($obj) {
-      return '';
-    }
-
   }
