@@ -21,7 +21,6 @@ function _get_docker_image_id() {
     IMAGE_NAME="api-keyman-database"
   fi
 
-  #echo "Getting image for ${IMAGE_NAME}"
   echo "$(docker images -q ${IMAGE_NAME})"
 }
 
@@ -34,7 +33,6 @@ function _get_docker_container_id() {
     ANCESTOR="api-keyman-database"
   fi
 
-  #echo "Getting container ID with ancestor=${ANCESTOR}"
   echo "$(docker ps -a -q --filter ancestor=${ANCESTOR})"
 }
 
