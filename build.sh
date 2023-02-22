@@ -39,19 +39,18 @@ function _get_docker_container_id() {
 }
 
 function _stop_docker_container() {
-  API_CONTAINER=$(_get_docker_container_id :db)
-
-  if [ ! -z "$API_CONTAINER" ]; then
-    docker container stop api-keyman-com-database
+  if [[ "$1" == ":db" ]]; then
+    API_CONTAINER=$(_get_docker_container_id :db)
+    CONTAINER_NAME="api-keyman-com-database"
   else
-    echo "No Docker database container to stop"
+    API_CONTAINER=$(_get_docker_container_id :app)
+    CONTAINER_NAME="api-keyman-com"
   fi
 
-  API_CONTAINER=$(_get_docker_container_id)
   if [ ! -z "$API_CONTAINER" ]; then
-    docker container stop api-keyman-com
+    docker container stop ${CONTAINER_NAME}
   else
-    echo "No Docker app container to stop"
+    echo "No Docker $1 container to stop"
   fi
 }
 
@@ -96,18 +95,30 @@ if builder_start_action clean; then
   builder_finish_action success clean
 fi
 
-if builder_start_action stop; then
-  # Stop the Docker container
-  _stop_docker_container
-  builder_finish_action success stop
+if builder_start_action stop:db; then
+  # Stop the Docker database container
+  _stop_docker_container :db
+  builder_finish_action success stop:db
 fi
 
-if builder_start_action build; then
+if builder_start_action stop:app; then
+  # Stop the Docker app container
+  _stop_docker_container :app
+  builder_finish_action success stop:app
+fi
+
+if builder_start_action build:db; then
   # Download docker image. --mount option requires BuildKit  
   DOCKER_BUILDKIT=1 docker build -t api-keyman-database -f mssql.Dockerfile .
+
+  builder_finish_action success build:db
+fi
+
+if builder_start_action build:app; then
+  # Download docker image. --mount option requires BuildKit  
   DOCKER_BUILDKIT=1 docker build -t api-keyman-website .
 
-  builder_finish_action success build
+  builder_finish_action success build:app
 fi
 
 if builder_start_action start:db; then
