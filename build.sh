@@ -82,6 +82,7 @@ fi
 
 if builder_start_action build; then
   # Download docker image. --mount option requires BuildKit  
+  DOCKER_BUILDKIT=1 docker build -t api-keyman-database -f mssql.Dockerfile .
   DOCKER_BUILDKIT=1 docker build -t api-keyman-website .
 
   builder_finish_action success build
@@ -95,9 +96,10 @@ if builder_start_action start; then
     echo "Setting up DB container"
     docker run --rm -d -p 8099:1433 \
       -e "ACCEPT_EULA=Y" \
+      -e "MSSQL_AGENT_ENABLED=true" \
       -e "MSSQL_SA_PASSWORD=yourStrong(\!)Password" \
       --name 'api-keyman-com-database' \
-      mcr.microsoft.com/mssql/server:2022-latest #api-keyman-database #mcr.microsoft.com/mssql/server:2022-latest 
+      api-keyman-database
 
     if [[ $OSTYPE =~ msys|cygwin ]]; then
       # Windows needs leading slashes for path
@@ -109,10 +111,9 @@ if builder_start_action start; then
     echo "Spooling up site container"
     docker run --rm -d -p 8098:80 -v ${SITE_HTML} \
       -e S_KEYMAN_COM=localhost:8054 \
-      -e MSSQL_AGENT_ENABLED=true \
       -e 'api_keyman_com_mssql_pw=yourStrong(\\!)Password' \
       -e api_keyman_com_mssql_user=sa \
-      -e 'api_keyman_com_mssqlconninfo=sqlsrv:Server=172.17.0.2,1433;Trust Server Certificate=true;Encrypt=false;Database=' \
+      -e 'api_keyman_com_mssqlconninfo=sqlsrv:Server=172.17.0.2,1433;TrustServerCertificate=true;Encrypt=false;Database=' \
       -e api_keyman_com_mssql_create_database=true \
       -e api_keyman_com_mssqldb=keyboards \
       --name 'api-keyman-com' \
