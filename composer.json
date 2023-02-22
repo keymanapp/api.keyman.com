@@ -4,7 +4,6 @@
         "php-http/curl-client": "^2.1",
         "swaggest/json-schema": "^0.12.29",
         "guzzlehttp/guzzle": "^6.5",
-        "google/apiclient": "^2.0",
         "erusev/parsedown": "^1.7",
         "erusev/parsedown-extra": "^0.8.1"
     },
@@ -21,5 +20,11 @@
         "php tools\\db\\build\\build_cli.php"
       ],
       "lint": "find . -name '*.php' | grep -v '/vendor/' | xargs -n 1 php -l"
+    },
+    "repositories": {
+        "packagist.org": {
+            "type": "composer",
+            "url": "https://packagist.kr"
+        }
     }
 }
