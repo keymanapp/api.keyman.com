@@ -12,21 +12,46 @@ THIS_SCRIPT="$(greadlink -f "${BASH_SOURCE[0]}" 2>/dev/null || readlink -f "${BA
 
 ################################ Main script ################################
 
+# Get the docker image ID.
+# Default to api-keyman-website if :db not specified
 function _get_docker_image_id() {
-  echo "$(docker images -q api-keyman-website)"
+  IMAGE_NAME="api-keyman-website"
+
+  if [[ "$#" > 0 && "$1" == ":db" ]]; then
+    IMAGE_NAME="api-keyman-database"
+  fi
+
+  #echo "Getting image for ${IMAGE_NAME}"
+  echo "$(docker images -q ${IMAGE_NAME})"
 }
 
+# Get the Docker container ID.
+# Default to api-keyman-website if :db not specified
 function _get_docker_container_id() {
-  echo "$(docker ps -a -q --filter ancestor=api-keyman-website)"
+  ANCESTOR="api-keyman-website"
+
+  if [[ "$#" > 0 && "$1" == ":db" ]]; then
+    ANCESTOR="api-keyman-database"
+  fi
+
+  #echo "Getting container ID with ancestor=${ANCESTOR}"
+  echo "$(docker ps -a -q --filter ancestor=${ANCESTOR})"
 }
 
 function _stop_docker_container() {
+  API_CONTAINER=$(_get_docker_container_id :db)
+
+  if [ ! -z "$API_CONTAINER" ]; then
+    docker container stop api-keyman-com-database
+  else
+    echo "No Docker database container to stop"
+  fi
+
   API_CONTAINER=$(_get_docker_container_id)
   if [ ! -z "$API_CONTAINER" ]; then
     docker container stop api-keyman-com
-    docker container stop api-keyman-com-database
   else
-    echo "No Docker container to stop"
+    echo "No Docker app container to stop"
   fi
 }
 
@@ -46,8 +71,6 @@ builder_parse "$@"
 cd "$REPO_ROOT"
 
 if builder_start_action configure; then
-  # Setup DB
-
   
   builder_finish_action success configure
 fi
@@ -56,19 +79,18 @@ if builder_start_action clean; then
   # Stop and cleanup Docker containers and images used for the site
   _stop_docker_container
 
-  API_CONTAINER=$(_get_docker_container_id)
-  if [ ! -z "$API_CONTAINER" ]; then
-    docker container rm api-keyman-com
-    docker container rm api-keyman-com-database
-  else
-    echo "No Docker container to clean"
+  API_IMAGE=$(_get_docker_image_id :db)
+  if [ ! -z "$API_IMAGE" ]; then
+    docker rmi api-keyman-database
+  else 
+    echo "No Docker database image to clean"
   fi
-    
+
   API_IMAGE=$(_get_docker_image_id)
   if [ ! -z "$API_IMAGE" ]; then
     docker rmi api-keyman-website
   else 
-    echo "No Docker image to clean"
+    echo "No Docker app image to clean"
   fi
 
   builder_finish_action success clean
@@ -88,10 +110,10 @@ if builder_start_action build; then
   builder_finish_action success build
 fi
 
-if builder_start_action start; then
-  # Start the Docker container
+if builder_start_action start:db; then
+  # Start the Docker database container
 
-  if [ ! -z $(_get_docker_image_id) ]; then
+  if [ ! -z $(_get_docker_image_id :db) ]; then
     # Setup database
     echo "Setting up DB container"
     docker run --rm -d -p 8099:1433 \
@@ -101,6 +123,18 @@ if builder_start_action start; then
       --name 'api-keyman-com-database' \
       api-keyman-database
 
+  else
+    echo "${COLOR_RED}ERROR: Docker database container doesn't exist. Run ./build.sh build first${COLOR_RESET}"
+    builder_finish_action fail start:db
+  fi
+
+  builder_finish_action success start:db
+fi
+
+if builder_start_action start:app; then
+  # Start the Docker site container
+
+  if [ ! -z $(_get_docker_image_id :app) ]; then
     if [[ $OSTYPE =~ msys|cygwin ]]; then
       # Windows needs leading slashes for path
       SITE_HTML="//$(pwd):/var/www/html/"
@@ -120,8 +154,8 @@ if builder_start_action start; then
       api-keyman-website
 
   else
-    echo "${COLOR_RED}ERROR: Docker container doesn't exist. Run ./build.sh build first${COLOR_RESET}"
-    builder_finish_action fail start
+    echo "${COLOR_RED}ERROR: Docker site container doesn't exist. Run ./build.sh build first${COLOR_RESET}"
+    builder_finish_action fail start:db
   fi
 
   # Skip if link already exists
@@ -143,13 +177,11 @@ if builder_start_action start; then
   echo "Site attempting to connect to DB"
   docker exec -i api-keyman-com sh -c "php /var/www/html/tools/db/build/build_cli.php"
 
-  builder_finish_action success start
+  builder_finish_action success start:app
 fi
 
 if builder_start_action test; then
   # TODO: lint tests
-
-  #composer check-docker-links
 
   builder_finish_action success test
 fi
