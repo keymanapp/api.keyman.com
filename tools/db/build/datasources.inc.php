@@ -15,10 +15,9 @@
     public const ETHNOLOGUE_COUNTRY_CODES_TAB = __DIR__ . '/../../../static-data/ethnologue_country_codes.tab'; // 'https://www.ethnologue.com/sites/default/files/CountryCodes.tab';
     public const ETHNOLOGUE_LANGUAGE_INDEX_TAB = __DIR__ . '/../../../static-data/ethnologue_language_index.tab'; // 'https://www.ethnologue.com/sites/default/files/LanguageIndex.tab';
 
-    //define('LANGTAGS', 'https://ldml.api.sil.org/langtags.json');
-    // 2020-05-25: LANGTAGS 1.1.1 is currently in staging. Once it hits release, use link above instead.
-    // We want the windows and suppress tags which are only in 1.1.1
-    public const LANGTAGS = 'https://raw.githubusercontent.com/silnrsi/langtags/master/pub/langtags.json';
+    // public const LANGTAGS = 'https://raw.githubusercontent.com/silnrsi/langtags/master/pub/langtags.json';
+    // We want the windows and suppress tags which are only in 1.1.1+
+    public const LANGTAGS = 'https://ldml.api.sil.org/langtags.json';
 
     public const URI_KEYBOARD_INFO_ZIP = 'https://downloads.keyman.com/data/keyboard_info.zip';
     public const URI_MODEL_INFO_ZIP = 'https://downloads.keyman.com/data/model_info.zip';
