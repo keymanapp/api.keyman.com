@@ -192,10 +192,10 @@
         }
         catch( PDOException $e ) {
           $tries++;
-          sleep(10);
           if($tries > $max_tries) {
             die( "Unable to wake database server after $max_tries attempts: " . $e->getMessage() );
           }
+          sleep(10);
         }
       }
     }
