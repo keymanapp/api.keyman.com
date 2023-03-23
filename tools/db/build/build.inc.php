@@ -183,16 +183,18 @@
     function wakeUpDatabaseServer() {
       $dci = new DatabaseConnectionInfo();
       $tries = 1;
+      $max_tries = 5;
       while(true) {
-        build_log("Attempting to wake database server at " . $dci->getConnectionString() . " (attempt $tries/5)");
+        build_log("Attempting to wake database server at " . $dci->getConnectionString() . " (attempt $tries/$max_tries)");
         try {
           new PDO($dci->getMasterConnectionString(), $dci->getUser(), $dci->getPassword(), [ "CharacterSet" => "UTF-8" ]);
           return true;
         }
         catch( PDOException $e ) {
           $tries++;
-          if($tries > 5) {
-            die( "Unable to wake database server after 5 attempts: " . $e->getMessage() );
+          sleep(10);
+          if($tries > $max_tries) {
+            die( "Unable to wake database server after $max_tries attempts: " . $e->getMessage() );
           }
         }
       }
