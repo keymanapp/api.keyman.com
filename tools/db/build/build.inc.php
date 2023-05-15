@@ -183,7 +183,7 @@
     function wakeUpDatabaseServer() {
       $dci = new DatabaseConnectionInfo();
       $tries = 1;
-      $max_tries = 5;
+      $max_tries = 15;
       while(true) {
         build_log("Attempting to wake database server at " . $dci->getConnectionString() . " (attempt $tries/$max_tries)");
         try {
