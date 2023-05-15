@@ -1,0 +1,32 @@
+# Rewrite old schema endpoints
+
+# keyboard_info.distribution.json
+RewriteRule "^keyboard_info\.distribution\.json$" "/schemas/keyboard_info.distribution/1.0.6/keyboard_info.distribution.json" [END]
+
+# keyboard_info.source.json
+RewriteRule "^keyboard_info\.source\.json$" "/schemas/keyboard_info.source/1.0.6/keyboard_info.source.json" [END]
+
+# keyboard_json.json
+RewriteRule "^keyboard_json\.json$" "/schemas/keyboard_json/1.0/keyboard_json.json" [END]
+
+# model_info.distribution.json"
+RewriteRule "^model_info\.distribution\.json$" "/schemas/model_info.distribution/1.0.1/model_info.distribution.json" [END]
+
+# model_info.source.json
+RewriteRule "^model_info\.source\.json$" "/schemas/model_info.source/1.0.1/model_info.source.json" [END]
+
+# model-search.json
+RewriteRule "^model-search\.json$" "/schemas/model-search/1.0.1/model-search.json" [END]
+
+#package.json
+RewriteRule "^package\.json$" "/schemas/package/1.1.0/package.json" [END]
+
+
+#package-version.json
+RewriteRule "^package-version\.json$" "/schemas/package-version/1.0.1/package-version.json" [END]
+
+#search.json"
+RewriteRule "^search\.json$" "/schemas/search/1.0.2/search.json" [END]
+
+# "version.json"
+RewriteRule "^version\.json$" "/schemas/version/2.0/version.json" [END]

@@ -152,12 +152,14 @@ if builder_start_action start:app; then
       SITE_HTML="$(pwd):/var/www/html/"
     fi
 
+    db_ip=$(docker inspect -f '{{range.NetworkSettings.Networks}}{{.IPAddress}}{{end}}' api-keyman-com-database)
+
     builder_echo "Spooling up site container"
     docker run --rm -d -p 8098:80 -v ${SITE_HTML} \
       -e S_KEYMAN_COM=localhost:8054 \
       -e 'api_keyman_com_mssql_pw=yourStrong(\\!)Password' \
       -e api_keyman_com_mssql_user=sa \
-      -e 'api_keyman_com_mssqlconninfo=sqlsrv:Server=172.17.0.2,1433;TrustServerCertificate=true;Encrypt=false;Database=' \
+      -e 'api_keyman_com_mssqlconninfo=sqlsrv:Server='$db_ip',1433;TrustServerCertificate=true;Encrypt=false;Database=' \
       -e api_keyman_com_mssql_create_database=true \
       -e api_keyman_com_mssqldb=keyboards \
       --name 'api-keyman-com' \
