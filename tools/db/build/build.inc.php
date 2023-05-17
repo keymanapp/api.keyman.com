@@ -191,6 +191,7 @@
           return true;
         }
         catch( PDOException $e ) {
+          echo "Failed to connect: " . $e->getMessage();
           $tries++;
           if($tries > $max_tries) {
             die( "Unable to wake database server after $max_tries attempts: " . $e->getMessage() );
