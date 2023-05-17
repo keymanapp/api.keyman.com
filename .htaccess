@@ -21,7 +21,7 @@ RewriteRule "^search/2\.0" "/script/search/2.0/search.php" [END]
 # rule name="/search" stopProcessing="true"
 RewriteRule "^search(/1\.0)?" "/script/search/1.0/search.php" [END]
 
-# Rewrites for /script folder: /keyboard 
+# Rewrites for /script folder: /keyboard
 
 # rule name="/keyboard" stopProcessing="true"
 RewriteRule "^keyboard/(.*)$" "/script/keyboard/keyboard.php?id=$1" [END]
@@ -39,7 +39,7 @@ RewriteRule "^increment-download/(.*)$" "/script/increment-download/increment-do
 
 ##### Rewrites for /script folder: /model
 
-# rule name="/model?q=..." stopProcessing="true" 
+# rule name="/model?q=..." stopProcessing="true"
 RewriteRule "^model(/)?$" "/script/model-search/model-search.php" [END]
 
 # rule name="/model" stopProcessing="true"
@@ -48,7 +48,7 @@ RewriteRule "^model/(.*)$" "/script/model/model.php?id=$1" [END]
 ##### Rewrites for /script folder: /version
 
 # rule name="/version/platform/level" stopProcessing="true"
-RewriteRule "^version(\/([^/]+)(\/([^/]+))?)?$" "/script/version/version.php?platform=$2&amp;level=$4" [END]
+RewriteRule "^version(\/([^/]+)(\/([^/]+))?)?$" "/script/version/version.php?platform=$2&level=$4" [END]
 
 # rule name="/version" stopProcessing="true"
 RewriteRule "^version(\/)?$" "/script/version/version.php" [END]
@@ -56,46 +56,46 @@ RewriteRule "^version(\/)?$" "/script/version/version.php" [END]
 # rule name="/package-version[/1.0]" stopProcessing="true" TODO appendQueryString="true"
 RewriteRule "^package-version(\/1\.0)?(\/)?$" "/script/package-version/package-version.php" [END]
 
-##### Rewrites for /script folder: /cloud to /script/legacy/... 
+##### Rewrites for /script folder: /cloud to /script/legacy/...
 
 # rule name="Language + keyboard map 4.0" stopProcessing="true"
-RewriteRule "cloud/(4\.0\/)languages(\/([a-z0-9-]{2,}))(\/([a-z0-9_]+))" "/script/legacy/legacy40.php?context=language&amp;languageid=$3&amp;keyboardid=$5" [END]
+RewriteRule "cloud/(4\.0\/)languages(\/([a-z0-9-]{2,}))(\/([a-z0-9_]+))" "/script/legacy/legacy40.php?context=language&languageid=$3&keyboardid=$5" [QSA,END]
 
 # rule name="Language map 4.0" stopProcessing="true"
-RewriteRule "cloud/(4\.0\/)languages(\/([a-z0-9-]{2,}))?" "/script/legacy/legacy40.php?context=language&amp;languageid=$3" [END]
+RewriteRule "cloud/(4\.0\/)languages(\/([a-z0-9-]{2,}))?" "/script/legacy/legacy40.php?context=language&languageid=$3" [QSA,END]
 
 # rule name="Keyboard + Language Map 4.0" stopProcessing="true"
-RewriteRule "cloud/(4\.0\/)keyboards(\/([a-z0-9_]+))(\/([a-z0-9-]{2,}))" "/script/legacy/legacy40.php?context=keyboard&amp;keyboardid=$3&amp;languageid=$5" [END]
+RewriteRule "cloud/(4\.0\/)keyboards(\/([a-z0-9_]+))(\/([a-z0-9-]{2,}))" "/script/legacy/legacy40.php?context=keyboard&keyboardid=$3&languageid=$5" [QSA,END]
 
 # rule name="Keyboard map 4.0" stopProcessing="true"
-RewriteRule "cloud/(4\.0\/)keyboards(\/([a-z0-9_]+))?" "/script/legacy/legacy40.php?context=keyboard&amp;keyboardid=$3" [END]
+RewriteRule "cloud/(4\.0\/)keyboards(\/([a-z0-9_]+))?" "/script/legacy/legacy40.php?context=keyboard&keyboardid=$3" [QSA,END]
 
 # rule name="Language + keyboard map 3.0" stopProcessing="true"
-RewriteRule "cloud/(3\.0\/)languages(\/([a-z0-9-]{2,}))(\/([a-z0-9_]+))" "/script/legacy/legacy30.php?context=language&amp;languageid=$3&amp;keyboardid=$5" [END]
+RewriteRule "cloud/(3\.0\/)languages(\/([a-z0-9-]{2,}))(\/([a-z0-9_]+))" "/script/legacy/legacy30.php?context=language&languageid=$3&keyboardid=$5" [END]
 
 # rule name="Language map 3.0" stopProcessing="true"
-RewriteRule ="cloud/(3\.0\/)languages(\/([a-z0-9-]{2,}))?" "/script/legacy/legacy30.php?context=language&amp;languageid=$3" [END]
+RewriteRule "cloud/(3\.0\/)languages(\/([a-z0-9-]{2,}))?" "/script/legacy/legacy30.php?context=language&languageid=$3" [END]
 
 # rule name="Keyboard + Language Map 3.0" stopProcessing="true"
-RewriteRule "cloud/(3\.0\/)keyboards(\/([a-z0-9_]+))(\/([a-z0-9-]{2,}))" "/script/legacy/legacy30.php?context=keyboard&amp;keyboardid=$3&amp;languageid=$5" [END]
+RewriteRule "cloud/(3\.0\/)keyboards(\/([a-z0-9_]+))(\/([a-z0-9-]{2,}))" "/script/legacy/legacy30.php?context=keyboard&keyboardid=$3&languageid=$5" [END]
 
 # rule name="Keyboard map 3.0" stopProcessing="true"
-RewriteRule "cloud/(3\.0\/)keyboards(\/([a-z0-9_]+))?" "/script/legacy/legacy30.php?context=keyboard&amp;keyboardid=$3" [END]
+RewriteRule "cloud/(3\.0\/)keyboards(\/([a-z0-9_]+))?" "/script/legacy/legacy30.php?context=keyboard&keyboardid=$3" [END]
 
 # rule name="Language map 2.0" stopProcessing="true"
-RewriteRule "cloud/(2\.0\/)languages(\/([a-z0-9-]{2,}))?" "/script/legacy/legacy20.php?context=language&amp;languageid=$3" [END]
+RewriteRule "cloud/(2\.0\/)languages(\/([a-z0-9-]{2,}))?" "/script/legacy/legacy20.php?context=language&languageid=$3" [END]
 
 # rule name="Keyboard + Language Map 2.0" stopProcessing="true"
-RewriteRule "cloud/(2\.0\/)keyboards(\/([a-z0-9_]+))(\/([a-z0-9-]{2,}))" "/script/legacy/legacy20.php?context=keyboard&amp;keyboardid=$3&amp;languageid=$5" [END]
+RewriteRule "cloud/(2\.0\/)keyboards(\/([a-z0-9_]+))(\/([a-z0-9-]{2,}))" "/script/legacy/legacy20.php?context=keyboard&keyboardid=$3&languageid=$5" [END]
 
 # rule name="Keyboard map 2.0" stopProcessing="true"
-RewriteRule "cloud/(2\.0\/)keyboards(\/([a-z0-9_]+))?" "/script/legacy/legacy20.php?context=keyboard&amp;keyboardid=$3" [END]
+RewriteRule "cloud/(2\.0\/)keyboards(\/([a-z0-9_]+))?" "/script/legacy/legacy20.php?context=keyboard&keyboardid=$3" [END]
 
 # rule name="Language map" stopProcessing="true"
-RewriteRule "cloud/(1\.0\/)?languages(\/([a-z0-9-]{2,}))?" "/script/legacy/legacy10.php?context=language&amp;languageid=$3" [END]
+RewriteRule "cloud/(1\.0\/)?languages(\/([a-z0-9-]{2,}))?" "/script/legacy/legacy10.php?context=language&languageid=$3" [END]
 
 # rule name="Keyboard map" stopProcessing="true"
-RewriteRule "cloud/(1\.0\/)?keyboards(\/([a-z0-9_]+))?" "/script/legacy/legacy10.php?context=keyboard&amp;keyboardid=$3" [END]
+RewriteRule "cloud/(1\.0\/)?keyboards(\/([a-z0-9_]+))?" "/script/legacy/legacy10.php?context=keyboard&keyboardid=$3" [END]
 
 ##### Rewrites for /hooks
 

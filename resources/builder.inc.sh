@@ -558,7 +558,6 @@ builder_has_action() {
 function builder_run_action() {
   local action=$1
   shift
-  echo "builder_run_action $action $@"
   if builder_start_action $action; then
     ($@)
     builder_finish_action success $action
