@@ -23,8 +23,8 @@ builder_parse "$@"
 cd "$REPO_ROOT"
 
 declare -A DOCKER_IMAGE DOCKER_CONTAINER
-DOCKER_IMAGE[app]=api-keyman-com-website
-DOCKER_IMAGE[db]=api-keyman-com-database
+DOCKER_IMAGE[app]=api-keyman-com-app
+DOCKER_IMAGE[db]=api-keyman-com-db
 DOCKER_CONTAINER[app]=${DOCKER_IMAGE[app]}
 DOCKER_CONTAINER[db]=${DOCKER_IMAGE[db]}
 
