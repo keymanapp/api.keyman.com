@@ -7,7 +7,7 @@
   use Swaggest\JsonSchema\Context;
 
   class TestUtils {
-    private const DefaultHostname = 'http://api.keyman.com.local';
+    private const DefaultHostname = 'http://127.0.0.1:8098';
 
     static function LoadJSONSchema($filename) {
       $options = new Context();
