@@ -124,7 +124,6 @@ if builder_start_action start:app; then
 
     builder_echo "Spooling up site container"
     docker run --rm -d -p 8098:80 -v ${SITE_HTML} \
-      -e S_KEYMAN_COM=localhost:8054 \
       -e 'api_keyman_com_mssql_pw=yourStrong(\!)Password' \
       -e api_keyman_com_mssql_user=sa \
       -e 'api_keyman_com_mssqlconninfo=sqlsrv:Server='$db_ip',1433;TrustServerCertificate=true;Encrypt=false;Database=' \
@@ -155,4 +154,7 @@ if builder_start_action start:app; then
   builder_finish_action success start:app
 fi
 
-builder_run_action test # TODO lint tests
+if builder_start_action test:app; then
+  docker exec -i ${DOCKER_IMAGE[app]} sh -c "php /var/www/html/vendor/bin/phpunit --testdox"
+  builder_finish_action success test:app
+fi
