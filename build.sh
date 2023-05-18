@@ -1,9 +1,4 @@
 #!/usr/bin/env bash
-#
-# Setup api.keyman.com site to run via Docker.
-#
-set -eu
-
 ## START STANDARD BUILD SCRIPT INCLUDE
 # adjust relative paths as necessary
 THIS_SCRIPT="$(readlink -f "${BASH_SOURCE[0]}")"
@@ -11,46 +6,6 @@ THIS_SCRIPT="$(readlink -f "${BASH_SOURCE[0]}")"
 ## END STANDARD BUILD SCRIPT INCLUDE
 
 ################################ Main script ################################
-
-# Get the docker image ID.
-# Default to api-keyman-website if :db not specified
-function _get_docker_image_id() {
-  IMAGE_NAME="api-keyman-website"
-
-  if [[ "$#" > 0 && "$1" == ":db" ]]; then
-    IMAGE_NAME="api-keyman-database"
-  fi
-
-  echo "$(docker images -q ${IMAGE_NAME})"
-}
-
-# Get the Docker container ID.
-# Default to api-keyman-website if :db not specified
-function _get_docker_container_id() {
-  ANCESTOR="api-keyman-website"
-
-  if [[ "$#" > 0 && "$1" == ":db" ]]; then
-    ANCESTOR="api-keyman-database"
-  fi
-
-  echo "$(docker ps -a -q --filter ancestor=${ANCESTOR})"
-}
-
-function _stop_docker_container() {
-  if [[ "$#" > 0 && "$1" == ":db" ]]; then
-    API_CONTAINER=$(_get_docker_container_id :db)
-    CONTAINER_NAME="api-keyman-com-database"
-  else
-    API_CONTAINER=$(_get_docker_container_id :app)
-    CONTAINER_NAME="api-keyman-com"
-  fi
-
-  if [ ! -z "$API_CONTAINER" ]; then
-    docker container stop ${CONTAINER_NAME}
-  else
-    echo "No Docker $1 container to stop"
-  fi
-}
 
 builder_describe "Setup api.keyman.com site to run via Docker." \
   "configure" \
@@ -67,72 +22,81 @@ builder_parse "$@"
 # This script runs from its own folder
 cd "$REPO_ROOT"
 
-if builder_start_action configure; then
-  
-  builder_finish_action success configure
-fi
+declare -A DOCKER_IMAGE DOCKER_CONTAINER
+DOCKER_IMAGE[app]=api-keyman-com-website
+DOCKER_IMAGE[db]=api-keyman-com-database
+DOCKER_CONTAINER[app]=${DOCKER_IMAGE[app]}
+DOCKER_CONTAINER[db]=${DOCKER_IMAGE[db]}
 
-if builder_start_action clean; then
-  # Stop and cleanup Docker containers and images used for the site
-  _stop_docker_container :db
-  _stop_docker_container :app
+# Get the docker image ID for input parameter
+function _get_docker_image_id() {
+  echo "$(docker images -q ${DOCKER_IMAGE[$1]})"
+}
 
-  API_IMAGE=$(_get_docker_image_id :db)
-  if [ ! -z "$API_IMAGE" ]; then
-    docker rmi api-keyman-database
-  else 
-    builder_echo "No Docker database image to clean"
+# Get the Docker container ID for input parameter
+function _get_docker_container_id() {
+  echo "$(docker ps -a -q --filter ancestor=${DOCKER_CONTAINER[$1]})"
+}
+
+function _stop_docker_container() {
+  local API_CONTAINER=$(_get_docker_container_id $1)
+  local CONTAINER_NAME=${DOCKER_CONTAINER[$1]}
+
+  if [ ! -z "$API_CONTAINER" ]; then
+    docker container stop ${CONTAINER_NAME}
+  else
+    builder_echo "No Docker $1 container to stop"
   fi
+}
 
-  API_IMAGE=$(_get_docker_image_id)
+function _delete_docker_image() {
+  builder_echo "Stopping running container for $1"
+  _stop_docker_container $1
+  local API_IMAGE=$(_get_docker_image_id $1)
   if [ ! -z "$API_IMAGE" ]; then
-    docker rmi api-keyman-website
-  else 
-    builder_echo "No Docker app image to clean"
+    builder_echo "Removing image $API_IMAGE for $1"
+    docker rmi "$API_IMAGE"
+  else
+    builder_echo "No Docker $1 image to delete"
   fi
+}
 
-  builder_finish_action success clean
-fi
+builder_run_action configure # no action
 
-if builder_start_action stop:db; then
-  # Stop the Docker database container
-  _stop_docker_container :db
-  builder_finish_action success stop:db
-fi
+# Stop and cleanup Docker containers and images used for the site
 
-if builder_start_action stop:app; then
-  # Stop the Docker app container
-  _stop_docker_container :app
-  builder_finish_action success stop:app
-fi
+builder_run_action clean:db _delete_docker_image db
+builder_run_action clean:app _delete_docker_image app
 
+# Stop the Docker containers
+builder_run_action stop:db _stop_docker_container db
+builder_run_action stop:app _stop_docker_container app
+
+# Build the Docker containers
 if builder_start_action build:db; then
-  # Download docker image. --mount option requires BuildKit  
-  DOCKER_BUILDKIT=1 docker build -t api-keyman-database -f mssql.Dockerfile .
-
+  # Download docker image. --mount option requires BuildKit
+  DOCKER_BUILDKIT=1 docker build -t ${DOCKER_IMAGE[db]} -f mssql.Dockerfile .
   builder_finish_action success build:db
 fi
 
 if builder_start_action build:app; then
-  # Download docker image. --mount option requires BuildKit  
-  DOCKER_BUILDKIT=1 docker build -t api-keyman-website .
-
+  # Download docker image. --mount option requires BuildKit
+  DOCKER_BUILDKIT=1 docker build -t ${DOCKER_CONTAINER[app]} .
   builder_finish_action success build:app
 fi
 
 if builder_start_action start:db; then
   # Start the Docker database container
 
-  if [ ! -z $(_get_docker_image_id :db) ]; then
+  if [ ! -z $(_get_docker_image_id db) ]; then
     # Setup database
     builder_echo "Setting up DB container"
     docker run --rm -d -p 8099:1433 \
       -e "ACCEPT_EULA=Y" \
       -e "MSSQL_AGENT_ENABLED=true" \
       -e "MSSQL_SA_PASSWORD=yourStrong(\!)Password" \
-      --name 'api-keyman-com-database' \
-      api-keyman-database
-
+      --name ${DOCKER_IMAGE[db]} \
+      ${DOCKER_CONTAINER[db]}
   else
     builder_echo error "ERROR: Docker database container doesn't exist. Run ./build.sh build first"
     builder_finish_action fail start:db
@@ -144,7 +108,11 @@ fi
 if builder_start_action start:app; then
   # Start the Docker site container
 
-  if [ ! -z $(_get_docker_image_id :app) ]; then
+  if [ -d vendor ]; then
+    builder_die "vendor folder is in the way. Please delete it"
+  fi
+
+  if [ ! -z $(_get_docker_image_id app) ]; then
     if [[ $OSTYPE =~ msys|cygwin ]]; then
       # Windows needs leading slashes for path
       SITE_HTML="//$(pwd):/var/www/html/"
@@ -152,18 +120,18 @@ if builder_start_action start:app; then
       SITE_HTML="$(pwd):/var/www/html/"
     fi
 
-    db_ip=$(docker inspect -f '{{range.NetworkSettings.Networks}}{{.IPAddress}}{{end}}' api-keyman-com-database)
+    db_ip=$(docker inspect -f '{{range.NetworkSettings.Networks}}{{.IPAddress}}{{end}}' ${DOCKER_IMAGE[db]})
 
     builder_echo "Spooling up site container"
     docker run --rm -d -p 8098:80 -v ${SITE_HTML} \
       -e S_KEYMAN_COM=localhost:8054 \
-      -e 'api_keyman_com_mssql_pw=yourStrong(\\!)Password' \
+      -e 'api_keyman_com_mssql_pw=yourStrong(\!)Password' \
       -e api_keyman_com_mssql_user=sa \
       -e 'api_keyman_com_mssqlconninfo=sqlsrv:Server='$db_ip',1433;TrustServerCertificate=true;Encrypt=false;Database=' \
       -e api_keyman_com_mssql_create_database=true \
       -e api_keyman_com_mssqldb=keyboards \
-      --name 'api-keyman-com' \
-      api-keyman-website
+      --name ${DOCKER_IMAGE[app]} \
+      ${DOCKER_CONTAINER[app]}
 
   else
     builder_echo error "ERROR: Docker site container doesn't exist. Run ./build.sh build first"
@@ -174,26 +142,17 @@ if builder_start_action start:app; then
   if [ -L vendor ]; then
     builder_echo "\nLink to vendor/ already exists"
   else
+    # TODO: handle vendor/ folder in the way
     # Create link to vendor/ folder
-    API_CONTAINER=$(_get_docker_container_id)
-    builder_echo "API_CONTAINER: ${API_CONTAINER}"
-    if [ ! -z "$API_CONTAINER" ]; then
-      builder_echo "making link"
-      docker exec -i $API_CONTAINER sh -c "ln -s /var/www/vendor vendor && chown -R www-data:www-data vendor"
-    else
-      builder_echo "No Docker container running to create link to vendor/"
-    fi
+    builder_echo "making link for vendor/ folder"
+    docker exec -i ${DOCKER_IMAGE[app]} sh -c "ln -s /var/www/vendor vendor && chown -R www-data:www-data vendor"
   fi
 
   sleep 15;
   builder_echo "Sleep 15 before attempting to connect to DB"
-  docker exec -i api-keyman-com sh -c "php /var/www/html/tools/db/build/build_cli.php"
+  docker exec -i ${DOCKER_IMAGE[app]} sh -c "php /var/www/html/tools/db/build/build_cli.php"
 
   builder_finish_action success start:app
 fi
 
-if builder_start_action test; then
-  # TODO: lint tests
-
-  builder_finish_action success test
-fi
+builder_run_action test # TODO lint tests
