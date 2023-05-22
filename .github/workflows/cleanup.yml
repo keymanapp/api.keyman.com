@@ -1,0 +1,57 @@
+name: Prune images
+on:
+  workflow_run:
+    workflows: [Docker-build]
+    types: [completed]
+
+jobs:
+  prune:
+    runs-on: ubuntu-latest
+    steps:
+    - name: prune-staging-api
+      uses: vlaurin/action-ghcr-prune@v0.5.0
+      with:
+        token: ${{ secrets.GITHUB_TOKEN }}
+        organization: keymanapp
+        container: api-keyman-com-app
+        dry-run: true
+        keep-younger-than: 7
+        keep-last: 3
+        prune-tags-regexes: staging
+        prune-untagged: true
+
+    - name: prune-staging-db
+      uses: vlaurin/action-ghcr-prune@v0.5.0
+      with:
+        token: ${{ secrets.GITHUB_TOKEN }}
+        organization: keymanapp
+        container: api-keyman-com-db
+        dry-run: true
+        keep-younger-than: 7
+        keep-last: 3
+        prune-tags-regexes: staging
+        prune-untagged: true
+
+    - name: prune-production-api
+      uses: vlaurin/action-ghcr-prune@v0.5.0
+      with:
+        token: ${{ secrets.GITHUB_TOKEN }}
+        organization: keymanapp
+        container: api-keyman-com-app
+        dry-run: true
+        keep-younger-than: 7
+        keep-last: 3
+        prune-tags-regexes: master
+        prune-untagged: true
+
+    - name: prune-production-db
+      uses: vlaurin/action-ghcr-prune@v0.5.0
+      with:
+        token: ${{ secrets.GITHUB_TOKEN }}
+        organization: keymanapp
+        container: api-keyman-com-db
+        dry-run: true
+        keep-younger-than: 7
+        keep-last: 3
+        prune-tags-regexes: master
+        prune-untagged: true
