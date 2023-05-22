@@ -43,8 +43,75 @@ namespace Keyman\Site\com\keyman\api\tests {
       $this->assertTrue(true);
     }
 
+    public function print_debug_sql() {
+      $sql = "
+      SET NOCOUNT ON;
+      declare @prmIDSearchText nvarchar(64)='khmer'
+      declare @prmSearchText nvarchar(64)='khmer'
+      declare @prmPlatform nvarchar(64)=null
+      declare @prmPageSize int = 10
+      declare @prmPageNumber int = 1
+      declare @prmObsolete bit= 1
+
+        declare @tt_langtag k1.tt_keyboard_search_langtag
+        declare @tt_keyboard k1.tt_keyboard_search_keyboard
+
+        declare @q NVARCHAR(131) = '\"khmer*\"'
+        declare @likeid NVARCHAR(385) = CASE WHEN @prmIDSearchText='' THEN '' ELSE REPLACE(@prmIDSearchText, '_', '[_]')+'%' END
+
+        declare @weight_langtag INT = 10
+        declare @weight_country INT = 1
+        declare @weight_script INT = 5
+        declare @weight_keyboard INT = 30
+        declare @weight_keyboard_id INT = 25
+        declare @weight_keyboard_description INT = 5
+        declare @weight_factor_exact_match INT = 3
+
+        -- #
+        -- # Search across language names, country names and script names
+        -- #
+
+        insert @tt_langtag select * from k1.f_keyboard_search_langtag_by_language(@prmSearchText, @q, @weight_factor_exact_match, @weight_langtag)
+        insert @tt_langtag select * from k1.f_keyboard_search_langtag_by_country(@prmSearchText, @q, @weight_factor_exact_match, @weight_country)
+        insert @tt_langtag select * from k1.f_keyboard_search_langtag_by_script(@prmSearchText, @q, @weight_factor_exact_match, @weight_script)
+
+        -- #
+        -- # Search across keyboards
+        -- #
+
+        insert @tt_keyboard select * from k1.f_keyboard_search(@prmSearchText, @q, @prmPlatform, @weight_factor_exact_match, @weight_keyboard)
+        insert @tt_keyboard select * from k1.f_keyboard_search_by_id(@prmSearchText, @likeid, @prmPlatform, @weight_factor_exact_match, @weight_keyboard_id)
+        insert @tt_keyboard select * from k1.f_keyboard_search_by_description(@prmSearchText, @q, @prmPlatform, @weight_factor_exact_match, @weight_keyboard_description)
+
+        -- #
+        -- # Add all langtag, country and script matches to the keyboards temp table, with appropriate weights
+        -- #
+
+        insert @tt_keyboard select * from k1.f_keyboard_search_keyboards_from_langtags(@prmPlatform, @tt_langtag)
+
+        -- #
+        -- # Build final list of results; two result sets: summary data and current page result
+        -- #
+
+        SET NOCOUNT OFF;
+
+        -- select * from k1.f_keyboard_search_statistics(@prmPageSize, @prmPageNumber, @prmObsolete, @tt_keyboard)
+        select * from k1.f_keyboard_search_results(@prmPageSize, @prmPageNumber, @prmObsolete, @tt_keyboard)
+      select * from @tt_keyboard where keyboard_id='sil_khmer'
+      select * from @tt_langtag
+
+      ";
+
+      $stmt = $this->mssql->query($sql);
+      $data = $stmt->fetchAll();
+      var_dump($data);
+    }
+
     public function testSimpleSearchResultContentsConsistent()
     {
+
+      $this->print_debug_sql();
+
       $json = $this->s->GetSearchMatches(null, 'khmer', 1, 1);
       $json = json_decode(json_encode($json));
       $this->schema->in($json);
