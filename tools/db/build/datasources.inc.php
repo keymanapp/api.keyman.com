@@ -2,8 +2,8 @@
   // Data sources
 
   class DBDataSources {
-    // http://www-01.sil.org/iso639-3/iso-639-3.tab <-- for iso639-3 -> iso639-1 mappings
-    // http://www-01.sil.org/iso639-3/iso-639-3_Name_Index.tab <-- for language name index
+    // https://iso639-3.sil.org/sites/iso639-3/files/downloads/iso-639-3.tab <-- for iso639-3 -> iso639-1 mappings
+    // https://iso639-3.sil.org/sites/iso639-3/files/downloads/iso-639-3_Name_Index.tab <-- for language name index
     // https://www.iana.org/assignments/language-subtag-registry/language-subtag-registry <-- for language subtag registry
     public const URI_LANGUAGE_SUBTAG_REGISTRY = 'https://www.iana.org/assignments/language-subtag-registry/language-subtag-registry';
     public const URI_ISO639_3_TAB = 'https://iso639-3.sil.org/sites/iso639-3/files/downloads/iso-639-3.tab';
