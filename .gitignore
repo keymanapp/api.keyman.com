@@ -1,6 +1,6 @@
 /.data/
 **/.idea/**/*.xml
 **/*.iml
-/vendor/
+vendor*
 /node_modules/
 .vscode/

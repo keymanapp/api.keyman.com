@@ -10,15 +10,17 @@ namespace {
   require_once(dirname(__FILE__) . '/../../_common/KeymanHosts.php');
   use \Keyman\Site\Common\KeymanHosts;
 
-  if (!isset($mssqlpw))
-    $mssqlpw = isset($_SERVER['api_keyman_com_mssql_pw']) ? $_SERVER['api_keyman_com_mssql_pw'] : null;
-  if (!isset($mssqluser))
-    $mssqluser = isset($_SERVER['api_keyman_com_mssql_user']) ? $_SERVER['api_keyman_com_mssql_user'] : null;
+  $env = getenv();
 
-  if (!isset($mssqldb)) $mssqldb = $_SERVER['api_keyman_com_mssqldb'];
-  if (!isset($mssqlconninfo)) $mssqlconninfo = $_SERVER['api_keyman_com_mssqlconninfo'];
-  if (!isset($mssql_create_database) && isset($_SERVER['api_keyman_com_mssql_create_database']))
-    $mssql_create_database = $_SERVER['api_keyman_com_mssql_create_database'];
+  if (!isset($mssqlpw))
+    $mssqlpw = isset($env['api_keyman_com_mssql_pw']) ? $env['api_keyman_com_mssql_pw'] : null;
+  if (!isset($mssqluser))
+    $mssqluser = isset($env['api_keyman_com_mssql_user']) ? $env['api_keyman_com_mssql_user'] : null;
+
+  if (!isset($mssqldb)) $mssqldb = $env['api_keyman_com_mssqldb'];
+  if (!isset($mssqlconninfo)) $mssqlconninfo = $env['api_keyman_com_mssqlconninfo'];
+  if (!isset($mssql_create_database) && isset($env['api_keyman_com_mssql_create_database']))
+    $mssql_create_database = $env['api_keyman_com_mssql_create_database'];
 
   class DatabaseConnectionInfo
   {
