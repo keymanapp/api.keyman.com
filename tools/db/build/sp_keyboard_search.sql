@@ -460,7 +460,7 @@ AS
         row_number() over(
           partition by keyboard_id
           order by
-            sum(weight) desc, -- primary order
+            weight desc, -- primary order
             match_name,  -- helps sort shorter matches earlier
             match_type   -- allows consistent results for equal weight+name
           ) as roworder
