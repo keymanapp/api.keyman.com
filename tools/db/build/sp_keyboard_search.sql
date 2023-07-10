@@ -460,15 +460,12 @@ AS
         row_number() over(
           partition by keyboard_id
           order by
-            weight desc, -- primary order
+            sum(weight) desc, -- primary order
             match_name,  -- helps sort shorter matches earlier
             match_type   -- allows consistent results for equal weight+name
           ) as roworder
-      from (
-        select keyboard_id, sum(weight) weight, name, match_name, match_type, match_tag
-        from @tt_keyboard
-	      group by keyboard_id, name, match_name, match_type, match_tag
-      ) tt_keyboard_summed_weights -- @tt_keyboard
+      from @tt_keyboard
+      group by keyboard_id, match_name, match_type, match_tag
     ) temp inner join
     t_keyboard k on temp.keyboard_id = k.keyboard_id left join
     v_keyboard_downloads_month kd on temp.keyboard_id = kd.keyboard_id left join
