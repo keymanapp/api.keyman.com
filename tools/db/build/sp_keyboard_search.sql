@@ -465,7 +465,7 @@ AS
             match_type   -- allows consistent results for equal weight+name
           ) as roworder
       from @tt_keyboard
-      group by keyboard_id, match_type, match_tag, match_name
+      group by keyboard_id, match_name, match_type, match_tag
     ) temp inner join
     t_keyboard k on temp.keyboard_id = k.keyboard_id left join
     v_keyboard_downloads_month kd on temp.keyboard_id = kd.keyboard_id left join
