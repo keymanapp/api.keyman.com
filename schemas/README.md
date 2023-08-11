@@ -1,16 +1,19 @@
 # keyboard_info
 
-* **keyboard_info.source.json**
-* **keyboard_info.distribution.json**
+* **keyboard_info.schema.json**
 
 Documentation at https://help.keyman.com/developer/cloud/keyboard_info
 
 New versions should be deployed to
-- **keymanapp/keyman/windows/src/global/inst/data/keyboard_info**
-- **keymanapp/keyboards/tools**
-- **keymanapp/keyboards-starter/tools**
+- **keymanapp/common/schemas/keyboard_info**
 
 # .keyboard_info version history
+
+## 2023-08-11 2.0 stable
+* Removed legacyId, documentationFilename, documentationFileSize. Source vs distribution keyboard_info distinction is removed.
+
+## 2019-09-06 1.0.6 stable
+* No changes (see api.keyman.com#36 and api.keyman.com#59. Reverted in 2020-06-10.).
 
 ## 2018-11-26 1.0.5 stable
 * Add deprecated field - true if the keyboard is deprecated (generated at deployment time).
