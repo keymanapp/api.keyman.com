@@ -91,7 +91,7 @@ if builder_start_action start:db; then
   if [ ! -z $(_get_docker_image_id db) ]; then
     # Setup database
     builder_echo "Setting up DB container"
-    docker run --rm -d -p 8099:1433 \
+    docker run --rm -d -p 8059:1433 \
       -e "ACCEPT_EULA=Y" \
       -e "MSSQL_AGENT_ENABLED=true" \
       -e "MSSQL_SA_PASSWORD=yourStrong(\!)Password" \
@@ -123,7 +123,7 @@ if builder_start_action start:app; then
     db_ip=$(docker inspect -f '{{range.NetworkSettings.Networks}}{{.IPAddress}}{{end}}' ${DOCKER_IMAGE[db]})
 
     builder_echo "Spooling up site container"
-    docker run --rm -d -p 8098:80 -v ${SITE_HTML} \
+    docker run --rm -d -p 8058:80 -v ${SITE_HTML} \
       -e 'api_keyman_com_mssql_pw=yourStrong(\!)Password' \
       -e api_keyman_com_mssql_user=sa \
       -e 'api_keyman_com_mssqlconninfo=sqlsrv:Server='$db_ip',1433;TrustServerCertificate=true;Encrypt=false;Database=' \
