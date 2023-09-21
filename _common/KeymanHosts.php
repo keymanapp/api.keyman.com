@@ -112,9 +112,9 @@
       } else if($this->tier == KeymanHosts::TIER_TEST) {
         $this->s_keyman_com = "https://s.keyman.com";
         $this->api_keyman_com = "http://host.docker.internal:8058"; // Unique for api.keyman.com
-        $this->help_keyman_com = "https://help.keyman.com";
+        $this->help_keyman_com = "https://help.keyman-staging.com";
         $this->downloads_keyman_com = "https://downloads.keyman.com";
-        $this->keyman_com = "https://keyman.com";
+        $this->keyman_com = "https://keyman-staging.com";
         $this->keymanweb_com = "https://keymanweb.com";
         $this->r_keymanweb_com = "https://r.keymanweb.com";
       } else if($this->tier == KeymanHosts::TIER_DEVELOPMENT) {
