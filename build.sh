@@ -1,9 +1,12 @@
 #!/usr/bin/env bash
-## START STANDARD BUILD SCRIPT INCLUDE
-# adjust relative paths as necessary
-THIS_SCRIPT="$(readlink -f "${BASH_SOURCE[0]}")"
-. "${THIS_SCRIPT%/*}/resources/builder.inc.sh"
-## END STANDARD BUILD SCRIPT INCLUDE
+## START STANDARD SITE BUILD SCRIPT INCLUDE
+readonly THIS_SCRIPT="$(readlink -f "${BASH_SOURCE[0]}")"
+readonly BOOTSTRAP="$(dirname "$THIS_SCRIPT")/resources/bootstrap.inc.sh"
+readonly BOOTSTRAP_VERSION=v0.2
+[ -f "$BOOTSTRAP" ] && source "$BOOTSTRAP" || source <(curl -fs https://raw.githubusercontent.com/keymanapp/shared-sites/$BOOTSTRAP_VERSION/bootstrap.inc.sh)
+## END STANDARD SITE BUILD SCRIPT INCLUDE
+
+# TODO: refactor common docker calls
 
 ################################ Main script ################################
 
@@ -18,9 +21,6 @@ builder_describe "Setup api.keyman.com site to run via Docker." \
   ":app  Build the site"
 
 builder_parse "$@"
-
-# This script runs from its own folder
-cd "$REPO_ROOT"
 
 declare -A DOCKER_IMAGE DOCKER_CONTAINER
 DOCKER_IMAGE[app]=api-keyman-com-app
@@ -61,7 +61,7 @@ function _delete_docker_image() {
   fi
 }
 
-builder_run_action configure # no action
+builder_run_action configure bootstrap_configure
 
 # Stop and cleanup Docker containers and images used for the site
 
