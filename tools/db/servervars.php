@@ -10,6 +10,22 @@ namespace {
   require_once(dirname(__FILE__) . '/../../_common/KeymanHosts.php');
   use \Keyman\Site\Common\KeymanHosts;
 
+  function SetKeymanHostsForTest() {
+    if(KeymanHosts::Instance()->Tier() == KeymanHosts::TIER_TEST) {
+      // TEST tier requires specific overrides just for api.keyman.com and
+      // keyman.com in order for tests to pass.
+      //
+      // * api.keyman.com needs to point to our spun-up instance of the site so
+      //   that we can actually make valid REST calls.
+      // * keyman.com needs to be keyman-staging.com so that the test fixtures
+      //   match (this could be cleaned up in the future)
+      KeymanHosts::Instance()->OverrideHost('api_keyman_com', "http://host.docker.internal:8058");
+      KeymanHosts::Instance()->OverrideHost('keyman_com', "https://keyman-staging.com");
+    }
+  }
+
+  SetKeymanHostsForTest();
+
   $env = getenv();
 
   if (!isset($mssqlpw))
