@@ -4,6 +4,7 @@
   require_once(__DIR__ . '/version.inc.php');
   require_once __DIR__ . '/../../tools/autoload.php';
   use Keyman\Site\Common\KeymanHosts;
+  require_once __DIR__ . '/../../tools/db/servervars.php';
 
   define("LEGACY_WEB_STABLE_VERSION", "473"); // Corresponds to the last legacy stable web version 2.0.473
   allow_cors();
