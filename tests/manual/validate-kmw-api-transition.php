@@ -6,7 +6,7 @@
   
   if(sizeof($params) > 0 && ($params[0] == '-l' || $params[0] == '--local')) {
     array_shift($params);
-    $api_root = "http://api.keyman.com.local";
+    $api_root = "http://api.keyman.com.localhost";
   } else {
     $api_root = "https://api.keyman.com";
   }

@@ -29,6 +29,7 @@ class ApiTestCase extends TestCase
       file_put_contents(self::TIER_TXT, KeymanHosts::TIER_TEST);
       self::$wroteTierTxt = true;
       KeymanHosts::Rebuild();
+      SetKeymanHostsForTest();
     }
   }
 

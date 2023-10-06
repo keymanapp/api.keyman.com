@@ -20,7 +20,7 @@ final class ModelTest extends TestCase
 
   public function testSimpleResultValidatesAgainstSchema(): void
   {
-    //http://api.keyman.com.local/model/gff.am.gff_amharic
+    //http://api.keyman.com.localhost/model/gff.am.gff_amharic
     $schema = TestUtils::LoadJSONSchema(ModelTest::SchemaFilename);
     $mssql = \Keyman\Site\com\keyman\api\Tools\DB\DBConnect::Connect();
 
