@@ -149,7 +149,12 @@ if builder_start_action start:app; then
 
   sleep 15;
   builder_echo "Sleep 15 before attempting to connect to DB"
-  docker exec -i ${DOCKER_IMAGE[app]} sh -c "php /var/www/html/tools/db/build/build_cli.php"
+
+  # If we know we are immediately going to run tests, there's no need to build
+  # the database and then rebuild it again as a test database!
+  if ! builder_has_action test:app; then
+    docker exec -i ${DOCKER_IMAGE[app]} sh -c "php /var/www/html/tools/db/build/build_cli.php"
+  fi
 
   builder_finish_action success start:app
 fi
