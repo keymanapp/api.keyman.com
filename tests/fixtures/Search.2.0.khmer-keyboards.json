@@ -305,6 +305,7 @@
             "authorName": "Andrew Cunningham",
             "license": "freeware",
             "lastModifiedDate": "2007-02-08T13:43:29Z",
+            "links": [],
             "packageFilename": "khmer10.kmp",
             "encodings": [
                 "unicode"
@@ -322,7 +323,9 @@
                 "android": "basic",
                 "macos": "full"
             },
+            "legacyId": 401,
             "jsFilename": "khmer10.js",
+            "documentationFilename": "khmer10.html",
             "languages": {
                 "km": {
                     "displayName": "Central Khmer",
@@ -332,6 +335,7 @@
             "sourcePath": "legacy/k/khmer10",
             "jsFileSize": 11824,
             "packageFileSize": 110008,
+            "documentationFileSize": 22745,
             "helpLink": "https://help.keyman.com/keyboard/khmer10",
             "deprecated": true,
             "match": {
@@ -350,6 +354,7 @@
             "authorName": "Tavultesoft",
             "license": "freeware",
             "lastModifiedDate": "2013-02-18T11:24:02Z",
+            "links": [],
             "packageFilename": "kbdkhmr.kmp",
             "encodings": [
                 "unicode"
@@ -365,6 +370,7 @@
                 "windows": "full",
                 "macos": "full"
             },
+            "legacyId": 545,
             "languages": {
                 "km": {
                     "displayName": "Central Khmer",

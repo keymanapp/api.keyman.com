@@ -19,6 +19,7 @@
             },
             "authorName": "SIL International",
             "license": "mit",
+            "legacyId": 711,
             "languages": {
                 "am": {
                     "displayName": "Amharic",
@@ -244,6 +245,7 @@
             "description": "This keyboard was developed to input Ethiopic Saba Fidel scripts using the keyboarding sequences found in the \"Power Ge'ez (Phonetic)\" keyboard from Concepts Data Systems. The \"SIL Ethiopic Power-G\" keyboard is designed to work with the Abyssinica SIL font (version 1.200). However, unless you need to use the newest Unicode 6.0 Ethiopic codepoints (for Basketo, Gumuz and Gamo-Gofa-Dawro) or the Private Use Area (PUA) characters in this font, you can use this keyboard with any Ethiopic Unicode font.",
             "authorName": "SIL Ethiopia",
             "license": "mit",
+            "legacyId": 706,
             "languages": {
                 "am": {
                     "displayName": "Amharic",
@@ -343,6 +345,12 @@
             "authorName": "The Ge'ez Frontier Foundation",
             "license": "freeware",
             "lastModifiedDate": "2012-11-16T15:40:56Z",
+            "links": [
+                {
+                    "name": "Principles and Specification for Mnemonic Ethiopic Keyboards",
+                    "url": "http://keyboards.ethiopic.org/specification/"
+                }
+            ],
             "packageFilename": "gff-tir-er-powerpack-7.kmp",
             "encodings": [
                 "unicode"
@@ -359,6 +367,8 @@
                 "windows": "full",
                 "macos": "full"
             },
+            "legacyId": 459,
+            "documentationFilename": "tigrinyaertyping-english.pdf",
             "languages": {
                 "ti": {
                     "displayName": "Tigrinya",
@@ -368,6 +378,7 @@
             "authorEmail": "keyboards@ethiopic.org",
             "sourcePath": "legacy/gff/gff-tir-er-powerpack-7",
             "packageFileSize": 2463289,
+            "documentationFileSize": 232912,
             "deprecated": true,
             "match": {
                 "name": "\u1275\u130d\u122d\u129b",
@@ -386,6 +397,12 @@
             "authorName": "The Ge'ez Frontier Foundation",
             "license": "freeware",
             "lastModifiedDate": "2012-11-16T15:41:08Z",
+            "links": [
+                {
+                    "name": "Principles and Specification for Mnemonic Ethiopic Keyboards",
+                    "url": "http://keyboards.ethiopic.org/specification/"
+                }
+            ],
             "packageFilename": "gff-tir-et-powerpack-7.kmp",
             "encodings": [
                 "unicode"
@@ -401,6 +418,8 @@
                 "windows": "full",
                 "macos": "full"
             },
+            "legacyId": 460,
+            "documentationFilename": "tigrinyaettyping-english.pdf",
             "languages": {
                 "ti": {
                     "displayName": "Tigrinya",
@@ -410,6 +429,7 @@
             "authorEmail": "keyboards@ethiopic.org",
             "sourcePath": "legacy/gff/gff-tir-et-powerpack-7",
             "packageFileSize": 2466716,
+            "documentationFileSize": 236697,
             "minKeymanVersion": "8.0",
             "deprecated": true,
             "match": {
@@ -429,6 +449,7 @@
             "authorName": "SIL International and Hans Schaumberger",
             "license": "freeware",
             "lastModifiedDate": "2014-08-08T16:37:39Z",
+            "links": [],
             "packageFilename": "silethiopicv1.3k7.kmp",
             "encodings": [
                 "unicode"
@@ -443,6 +464,8 @@
                 "windows": "full",
                 "macos": "full"
             },
+            "legacyId": 691,
+            "documentationFilename": "readme.html",
             "languages": {
                 "am": {
                     "displayName": "Amharic",
@@ -492,6 +515,7 @@
             "authorEmail": "computer_ethiopia@sil.org",
             "sourcePath": "legacy/s/silethiopicv1.3k7",
             "packageFileSize": 1054813,
+            "documentationFileSize": 218410,
             "deprecated": true,
             "match": {
                 "name": "\u1275\u130d\u122d\u129b",
@@ -510,6 +534,12 @@
             "authorName": "Ge'ez Frontier Foundation",
             "license": "freeware",
             "lastModifiedDate": "2014-08-08T16:48:26Z",
+            "links": [
+                {
+                    "name": "Amharic and Tigrigna Keyboards Homepage",
+                    "url": "http://keyman.com/amharic/"
+                }
+            ],
             "packageFilename": "tir-er-uni.kmp",
             "encodings": [
                 "unicode"
@@ -526,6 +556,7 @@
                 "windows": "full",
                 "macos": "full"
             },
+            "legacyId": 406,
             "languages": {
                 "ti": {
                     "displayName": "Tigrinya",
@@ -553,6 +584,12 @@
             "authorName": "Ge'ez Frontier Foundation",
             "license": "freeware",
             "lastModifiedDate": "2014-08-08T16:48:34Z",
+            "links": [
+                {
+                    "name": "Amharic and Tigrigna Keyboards Homepage",
+                    "url": "http://keyman.com/amharic/"
+                }
+            ],
             "packageFilename": "tir-et-uni.kmp",
             "encodings": [
                 "unicode"
@@ -569,6 +606,7 @@
                 "windows": "full",
                 "macos": "full"
             },
+            "legacyId": 407,
             "languages": {
                 "ti": {
                     "displayName": "Tigrinya",
