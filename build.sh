@@ -152,7 +152,7 @@ if builder_start_action start:app; then
 
   # If we know we are immediately going to run tests, there's no need to build
   # the database and then rebuild it again as a test database!
-  if ! builder_has_action test:app; then
+  if [[ ! -f tier.txt ]] || [[ $(<tier.txt) != TIER_TEST ]]; then
     docker exec -i ${DOCKER_IMAGE[app]} sh -c "php /var/www/html/tools/db/build/build_cli.php"
   fi
 
