@@ -5,12 +5,24 @@
 Documentation at https://help.keyman.com/developer/cloud/keyboard_info
 
 New versions should be deployed to
-- **keymanapp/common/schemas/keyboard_info**
+- **keymanapp/keyman:common/schemas/keyboard_info**
 
 # .keyboard_info version history
 
-## 2023-08-11 2.0 stable
-* Removed legacyId, documentationFilename, documentationFileSize. Source vs distribution keyboard_info distinction is removed.
+## 2023-10-12 2.0 stable
+* Removed:
+  - `.documentationFilename`
+  - `.documentationFileSize`
+  - `.legacyId`
+    `.links`
+    `.related[].note`
+    `.languages[].example`
+  Added:
+  - `.languages[].examples[]`
+  Modified:
+  - `.languages[].font`, `.languages[].oskFont`: `.source` is `[string]`
+  - Source .keyboard_info files are no longer needed, so source vs distribution
+    keyboard_info distinction is removed
 
 ## 2019-09-06 1.0.6 stable
 * No changes (see api.keyman.com#36 and api.keyman.com#59. Reverted in 2020-06-10.).
