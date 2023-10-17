@@ -41,7 +41,7 @@ RUN docker-php-ext-install pdo pdo_mysql zip
 RUN docker-php-ext-enable sqlsrv pdo_sqlsrv pdo pdo_mysql
 COPY --from=composer-builder /composer/vendor /var/www/vendor
 
-# This is handled in build.sh start
+# This is handled in init-container.sh
 # RUN ls -l /var/www/ &&  php /var/www/html/tools/db/build/build_cli.php
-RUN a2enmod rewrite; a2enconf keyman-site \
+RUN a2enmod rewrite; a2enconf keyman-site 
 #    service apache2 restart
