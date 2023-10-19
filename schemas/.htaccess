@@ -1,7 +1,6 @@
-# Rewrite old schema endpoints
-
-# keyboard_info.schema.json
-RewriteRule "^keyboard_info\.schema\.json$" "/schemas/keyboard_info/2.0/keyboard_info.schema.json" [END]
+# Rewrite old schema endpoints: note, all future references should be to the
+# versioned schema files rather than to the base, so we will not add extra
+# redirects here for new schemas
 
 # keyboard_info.distribution.json (deprecated by keyboard_info.schema.json)
 RewriteRule "^keyboard_info\.distribution\.json$" "/schemas/keyboard_info.distribution/1.0.6/keyboard_info.distribution.json" [END]
@@ -21,17 +20,25 @@ RewriteRule "^model_info\.source\.json$" "/schemas/model_info.source/1.0.1/model
 # model-search.json
 RewriteRule "^model-search\.json$" "/schemas/model-search/1.0.1/model-search.json" [END]
 
-#package.json
-RewriteRule "^package\.json$" "/schemas/package/1.1.0/package.json" [END]
+# package.json (renamed to kmp.schema.json)
 
-#package-version.json
+# note: package.json has been renamed to kmp.schema.json to reduce confusion with
+# NPM's standard filename, and these redirects added to keep things clear
+RewriteRule "^package\.json$" "/schemas/package/1.1.0/kmp.schema.json" [END]
+
+RewriteRule "^package/1\.0/package\.json$"    "/schemas/kmp/1.0/kmp.schema.json" [END]
+RewriteRule "^package/1\.0\.1/package\.json$" "/schemas/kmp/1.0.1/kmp.schema.json" [END]
+RewriteRule "^package/1\.0\.2/package\.json$" "/schemas/kmp/1.0.2/kmp.schema.json" [END]
+RewriteRule "^package/1\.1\.0/package\.json$" "/schemas/kmp/1.1.0/kmp.schema.json" [END]
+
+# package-version.json
 RewriteRule "^package-version\.json$" "/schemas/package-version/1.0.1/package-version.json" [END]
 
-#search.json
+# search.json
 RewriteRule "^search\.json$" "/schemas/search/3.0/search.json" [END]
 
-#version.json
+# version.json
 RewriteRule "^version\.json$" "/schemas/version/2.0/version.json" [END]
 
-#windows-update.json
+# windows-update.json
 RewriteRule "^windows-update\.json$" "/schemas/windows-update/17.0/windows-update.json" [END]
