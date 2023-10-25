@@ -1,8 +1,15 @@
 # kmp.schema.json
 
+* kmp.json file format, metadata included in Keyman .kmp package files
+
 Documentation at https://help.keyman.com/developer/current-version/reference/file-types/metadata
 
-# version history
+# kmp.schema.json version history
+
+## 2023-10-19 2.0
+* Add relatedPackages, options.licenseFile, options.welcomeFile,
+  keyboard.examples, keyboard.webOskFonts, keyboard.webDisplayFonts,
+  info.description (all of these formerly were stored in .keyboard_info)
 
 ## 2019-01-31 1.1.0
 * Add lexicalModels properties (note: `version` is optional and currently unused)
