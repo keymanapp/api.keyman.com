@@ -11,12 +11,13 @@
   use Keyman\Site\Common\KeymanHosts;
 
   $mssql = Keyman\Site\com\keyman\api\Tools\DB\DBConnect::Connect();
+  $env = getenv();
 
   header('Link: <' . KeymanHosts::Instance()->api_keyman_com .'/schemas/increment-download/1.0/increment-download.json#>; rel="describedby"');
 
   $AllowGet = isset($_REQUEST['debug']);
 
-  if(!$AllowGet && $_SERVER['REQUEST_METHOD'] != 'POST') {
+  if(!$AllowGet && $env['REQUEST_METHOD'] != 'POST') {
     fail('POST required');
   }
 
@@ -28,7 +29,7 @@
   if(KeymanHosts::Instance()->Tier() === KeymanHosts::TIER_DEVELOPMENT)
     $key = 'local';
   else
-    $key = $_SERVER['API_KEYMAN_COM_INCREMENT_DOWNLOAD_KEY'];
+    $key = $env['API_KEYMAN_COM_INCREMENT_DOWNLOAD_KEY'];
 
   if($_REQUEST['key'] !== $key) {
     fail('Invalid key');
