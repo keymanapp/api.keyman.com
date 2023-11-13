@@ -1,5 +1,7 @@
 <?php
   require_once('../../../../tools/base.inc.php');
+
+  $env = getenv();
   if(!isset($_SERVER['argv'])) {
     if(!isset($_REQUEST['Username']) || !isset($_REQUEST['Title']) || !isset($_REQUEST['Body']) || !isset($_FILES['File']))
     {
@@ -84,9 +86,10 @@
   echo "<result>$topic_id</result>";
 
   function CallDiscourse($path, $data, $method = 'GET', $username = '') {
-    $discourse_key = $_SERVER['api_keyman_com_discourse_key'];
-    $discourse_site = $_SERVER['api_keyman_com_discourse_site'];
-    $discourse_username = $_SERVER['api_keyman_com_discourse_username'];
+    global $env;
+    $discourse_key = $env['api_keyman_com_discourse_key'];
+    $discourse_site = $env['api_keyman_com_discourse_site'];
+    $discourse_username = $env['api_keyman_com_discourse_username'];
 
     if(empty($username)) $username = $discourse_username;
     $url = "$discourse_site$path";

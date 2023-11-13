@@ -24,7 +24,8 @@
     fail('No token');
   }
 
-  if($_REQUEST['token'] != $_SERVER['api_keyman_com_webhook_token']) {
+  $env = getenv();
+  if($_REQUEST['token'] != $env['api_keyman_com_webhook_token']) {
     fail('Invalid token');
   }
 
