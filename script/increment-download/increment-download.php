@@ -17,7 +17,7 @@
 
   $AllowGet = isset($_REQUEST['debug']);
 
-  if(!$AllowGet && $env['REQUEST_METHOD'] != 'POST') {
+  if(!$AllowGet && $_SERVER['REQUEST_METHOD'] != 'POST') {
     fail('POST required');
   }
 

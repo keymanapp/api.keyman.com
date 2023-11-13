@@ -2,7 +2,7 @@
   require_once('../../../../tools/base.inc.php');
   $env = getenv();
 
-  define('CACERT_PATH', $env['DOCUMENT_ROOT'].'/tools/cacert.pem');
+  define('CACERT_PATH', $_SERVER['DOCUMENT_ROOT'].'/tools/cacert.pem');
   if(!isset($_REQUEST['Text']) ||
     !isset($_REQUEST['Details']) ||
     !isset($_REQUEST['Version']) ||
