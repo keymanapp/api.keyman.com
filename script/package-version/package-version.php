@@ -33,7 +33,7 @@
   header('Link: <' . KeymanHosts::Instance()->api_keyman_com . '/schemas/package-version.json#>; rel="describedby"');
 
   $env = getenv();
-  $params = fix_array_params($env['QUERY_STRING']);
+  $params = fix_array_params($_SERVER['QUERY_STRING']);
 
   // Validate parameters
 
