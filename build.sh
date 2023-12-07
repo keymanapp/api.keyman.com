@@ -125,6 +125,12 @@ function start_docker_container_app() {
     SITE_HTML="$(pwd):/var/www/html/"
   fi
 
+  ADD_HOST=
+  if [[ $OSTYPE =~ linux-gnu ]]; then
+    # Linux needs --add-host parameter
+    ADD_HOST="--add-host host.docker.internal:host-gateway"
+  fi
+  
   db_ip=$(docker inspect -f '{{range.NetworkSettings.Networks}}{{.IPAddress}}{{end}}' ${API_KEYMAN_DB_IMAGE_NAME})
 
   builder_echo "Spooling up site container"
@@ -136,6 +142,7 @@ function start_docker_container_app() {
     -e api_keyman_com_mssql_create_database=true \
     -e api_keyman_com_mssqldb=keyboards \
     --name $CONTAINER_DESC \
+    ${ADD_HOST} \
     $CONTAINER_NAME
 
   # Skip if link already exists
