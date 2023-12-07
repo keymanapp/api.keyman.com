@@ -20,7 +20,7 @@ final class ModelSearchTest extends TestCase
 
   public function testSimpleResultValidatesAgainstSchema(): void
   {
-    //http://api.keyman.com.local/model?q=sil
+    //http://api.keyman.com.localhost/model?q=sil
     $schema = TestUtils::LoadJSONSchema(ModelSearchTest::SchemaFilename);
     $mssql = \Keyman\Site\com\keyman\api\Tools\DB\DBConnect::Connect();
 

@@ -1,5 +1,7 @@
 <?php
   require_once('../../../../tools/base.inc.php');
+  $env = getenv();
+
   define('CACERT_PATH', $_SERVER['DOCUMENT_ROOT'].'/tools/cacert.pem');
   if(!isset($_REQUEST['Text']) ||
     !isset($_REQUEST['Details']) ||
@@ -12,8 +14,8 @@
 
   header('Content-Type: text/plain');
 
-  $github_user = $_SERVER['api_keyman_com_github_user'];
-  $github_repo = $_SERVER['api_keyman_com_github_repo'];
+  $github_user = $env['api_keyman_com_github_user'];
+  $github_repo = $env['api_keyman_com_github_repo'];
 
   $crashid = $_REQUEST['CrashID'];
   $text = $_REQUEST['Text'];

@@ -6,6 +6,7 @@ GO
 IF DB_ID('keyboards_database') IS NULL /* keyboards_database will be replaced with predefined database name at build */
 BEGIN
   EXEC('CREATE DATABASE keyboards_database') /* keyboards_database will be replaced with predefined database name at build */
+  EXEC('ALTER DATABASE keyboards_database SET RECOVERY SIMPLE') /* keyboards_database will be replaced with predefined database name at build */
 END
 GO
 

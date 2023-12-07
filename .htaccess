@@ -1,0 +1,143 @@
+# This file is used when running with Apache. Adapted from web.config.
+# NOTE: this is not very well tested...
+
+RewriteEngine on
+RewriteBase /
+
+# Redirect http://api.keyman.com to https://api.keyman.com
+# but only if on a live site (api.keyman.com) and not
+# matching `/.well-known/(.*)$` (for Let's Encrypt)
+<If "%{REQUEST_SCHEME} == 'http' && %{HTTP_HOST} == 'api.keyman.com' && %{REQUEST_URI} !~ m#^/.well-known/(.*)$#" >
+    Redirect "/" "https://api.keyman.com"
+</If>
+
+### TODO: handle appendQueryString="true"
+
+###### Rewrites for /script folder: /search
+
+# rule name="/search/2.0" stopProcessing="true"
+RewriteRule "^search/2\.0" "/script/search/2.0/search.php" [END]
+
+# rule name="/search" stopProcessing="true"
+RewriteRule "^search(/1\.0)?" "/script/search/1.0/search.php" [END]
+
+# Rewrites for /script folder: /keyboard
+
+# rule name="/keyboard" stopProcessing="true"
+RewriteRule "^keyboard/(.*)$" "/script/keyboard/keyboard.php?id=$1" [END]
+
+
+###### Rewrites for /script folder: /increment-download
+
+# rule name="/increment-download" stopProcessing="true"
+# TODO: Conditions
+#<conditions>
+#  <add input="{REQUEST_METHOD}" matchType="Pattern" pattern="POST" ignoreCase="true" />
+#</conditions>
+# RewriteCond
+RewriteRule "^increment-download/(.*)$" "/script/increment-download/increment-download.php?id=$1" [END]
+
+##### Rewrites for /script folder: /model
+
+# rule name="/model?q=..." stopProcessing="true"
+RewriteRule "^model(/)?$" "/script/model-search/model-search.php" [END]
+
+# rule name="/model" stopProcessing="true"
+RewriteRule "^model/(.*)$" "/script/model/model.php?id=$1" [END]
+
+##### Rewrites for /script folder: /version
+
+# rule name="/version/platform/level" stopProcessing="true"
+RewriteRule "^version(\/([^/]+)(\/([^/]+))?)?$" "/script/version/version.php?platform=$2&level=$4" [END]
+
+# rule name="/version" stopProcessing="true"
+RewriteRule "^version(\/)?$" "/script/version/version.php" [END]
+
+# rule name="/package-version[/1.0]" stopProcessing="true" TODO appendQueryString="true"
+RewriteRule "^package-version(\/1\.0)?(\/)?$" "/script/package-version/package-version.php" [END]
+
+##### Rewrites for /script folder: /cloud to /script/legacy/...
+
+# rule name="Language + keyboard map 4.0" stopProcessing="true"
+RewriteRule "cloud/(4\.0\/)languages(\/([a-z0-9-]{2,}))(\/([a-z0-9_]+))" "/script/legacy/legacy40.php?context=language&languageid=$3&keyboardid=$5" [QSA,END]
+
+# rule name="Language map 4.0" stopProcessing="true"
+RewriteRule "cloud/(4\.0\/)languages(\/([a-z0-9-]{2,}))?" "/script/legacy/legacy40.php?context=language&languageid=$3" [QSA,END]
+
+# rule name="Keyboard + Language Map 4.0" stopProcessing="true"
+RewriteRule "cloud/(4\.0\/)keyboards(\/([a-z0-9_]+))(\/([a-z0-9-]{2,}))" "/script/legacy/legacy40.php?context=keyboard&keyboardid=$3&languageid=$5" [QSA,END]
+
+# rule name="Keyboard map 4.0" stopProcessing="true"
+RewriteRule "cloud/(4\.0\/)keyboards(\/([a-z0-9_]+))?" "/script/legacy/legacy40.php?context=keyboard&keyboardid=$3" [QSA,END]
+
+# rule name="Language + keyboard map 3.0" stopProcessing="true"
+RewriteRule "cloud/(3\.0\/)languages(\/([a-z0-9-]{2,}))(\/([a-z0-9_]+))" "/script/legacy/legacy30.php?context=language&languageid=$3&keyboardid=$5" [END]
+
+# rule name="Language map 3.0" stopProcessing="true"
+RewriteRule "cloud/(3\.0\/)languages(\/([a-z0-9-]{2,}))?" "/script/legacy/legacy30.php?context=language&languageid=$3" [END]
+
+# rule name="Keyboard + Language Map 3.0" stopProcessing="true"
+RewriteRule "cloud/(3\.0\/)keyboards(\/([a-z0-9_]+))(\/([a-z0-9-]{2,}))" "/script/legacy/legacy30.php?context=keyboard&keyboardid=$3&languageid=$5" [END]
+
+# rule name="Keyboard map 3.0" stopProcessing="true"
+RewriteRule "cloud/(3\.0\/)keyboards(\/([a-z0-9_]+))?" "/script/legacy/legacy30.php?context=keyboard&keyboardid=$3" [END]
+
+# rule name="Language map 2.0" stopProcessing="true"
+RewriteRule "cloud/(2\.0\/)languages(\/([a-z0-9-]{2,}))?" "/script/legacy/legacy20.php?context=language&languageid=$3" [END]
+
+# rule name="Keyboard + Language Map 2.0" stopProcessing="true"
+RewriteRule "cloud/(2\.0\/)keyboards(\/([a-z0-9_]+))(\/([a-z0-9-]{2,}))" "/script/legacy/legacy20.php?context=keyboard&keyboardid=$3&languageid=$5" [END]
+
+# rule name="Keyboard map 2.0" stopProcessing="true"
+RewriteRule "cloud/(2\.0\/)keyboards(\/([a-z0-9_]+))?" "/script/legacy/legacy20.php?context=keyboard&keyboardid=$3" [END]
+
+# rule name="Language map" stopProcessing="true"
+RewriteRule "cloud/(1\.0\/)?languages(\/([a-z0-9-]{2,}))?" "/script/legacy/legacy10.php?context=language&languageid=$3" [END]
+
+# rule name="Keyboard map" stopProcessing="true"
+RewriteRule "cloud/(1\.0\/)?keyboards(\/([a-z0-9_]+))?" "/script/legacy/legacy10.php?context=keyboard&keyboardid=$3" [END]
+
+##### Rewrites for /hooks
+
+# rule name="/hooks/keyboards-build-success.json" stopProcessing="true"
+RewriteRule "hooks/keyboards-build-success.json" "/script/hooks/keyboards-build-success.php?format=application/json" [END]
+
+
+# rule name="/hooks/keyboards-build-success" stopProcessing="true"
+RewriteRule "hooks/keyboards-build-success" "/script/hooks/keyboards-build-success.php?format=text/plain" [END]
+
+
+##### Keyman for Windows 14.0+ API endpoints
+
+# rule name="windows/14.0+/update" stopProcessing="true"
+RewriteRule "^windows/[1-9][0-9]\.[0-9]/update(.*)" "/script/windows/14.0/update/index.php$1" [END]
+
+
+##### Keyman Desktop 10.0, 11.0, 12.0, etc API endpoints
+
+# rule name="desktop/10.0-13.0/update" stopProcessing="true"
+RewriteRule "^desktop/(10|11|12|13)\.[0-9]/update(.*)" "/script/desktop/10.0/update/index.php$2" [END]
+
+
+# rule name="desktop/10.0/exception" stopProcessing="true"
+# Note: this endpoint is also used by developer
+RewriteRule "^desktop/[1-9][0-9]\.[0-9]/exception(.*)" "/script/desktop/10.0/exception/index.php$2" [END]
+
+
+# rule name="desktop/10.0/isonline" stopProcessing="true"
+RewriteRule "^desktop/[1-9][0-9]\.[0-9]/isonline(/?)$" "/script/desktop/10.0/isonline/index.php" [END]
+
+
+# rule name="desktop/10.0/submitdiag" stopProcessing="true"
+RewriteRule "^desktop/[1-9][0-9]\.[0-9]/submitdiag(/?)$" "/script/desktop/10.0/submitdiag/index.php" [END]
+
+##### Keyman Developer 10.0 - 13.0 API endpoints
+
+# rule name="developer/10.0/update" stopProcessing="true"
+RewriteRule "^developer/(10|11|12|13)\.0/update(.*)" "/script/developer/10.0/update/index.php$2" [END]
+
+
+##### Keyman Developer 14.0+ API endpoints
+
+# rule name="developer/14.0+/update" stopProcessing="true"
+RewriteRule "^developer/[1-9][0-9]\.[0-9]/update(.*)" "/script/developer/14.0/update/index.php$1" [END]

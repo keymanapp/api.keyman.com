@@ -70,7 +70,6 @@
       return
         $this->generate_keyboard_inserts() .
         $this->generate_keyboard_language_inserts() .
-        $this->generate_keyboard_link_inserts() .
         $this->generate_keyboard_related_inserts();
     }
 
@@ -192,14 +191,14 @@ $insert
           {$this->sqlv($keyboard, 'minKeymanVersion')},
           $minKeymanVersion1,
           $minKeymanVersion2,
-          {$this->sqli($keyboard, 'legacyId')},
+          null,
 
           {$this->sqlv($keyboard, 'packageFilename')},
           {$this->sqli($keyboard, 'packageFileSize')},
           {$this->sqlv($keyboard, 'jsFilename')},
           {$this->sqli($keyboard, 'jsFileSize')},
-          {$this->sqlv($keyboard, 'documentationFilename')},
-          {$this->sqli($keyboard, 'documentationFileSize')},
+          null,
+          null,
 
           {$this->sqlb(null, $isRTL)},
           {$this->sqlb(null, $isUnicode)},
@@ -258,37 +257,6 @@ $insert
               {$this->sqlv(null, $region)},
               {$this->sqlv(null, $script)},
               {$this->sqlv($language, 'languageName')});
-
-GO
-
-END;
-        }
-      }
-
-      return $result;
-    }
-
-    /**
-      Generate an SQL script to insert entries in to the t_keyboard_link table
-    */
-    function generate_keyboard_link_inserts() {
-      $insert = <<<END
-        INSERT t_keyboard_link (
-          keyboard_id,
-          url,
-          name
-        ) VALUES
-END;
-
-      $result = '';
-      foreach($this->keyboards as $keyboard) {
-        if(!isset($keyboard->links)) continue;
-        foreach($keyboard->links as $link) {
-          $result .= <<<END
-$insert
-          ({$this->sqlv($keyboard, 'id')},
-          {$this->sqlv($link, 'url')},
-          {$this->sqlv($link, 'name')});
 
 GO
 
