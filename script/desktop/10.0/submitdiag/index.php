@@ -72,7 +72,7 @@
   $data = [
     "title" => "Diagnostic Report from ".$username,
     "raw" => "$Title\n\n$Body\n\nDiagnostic: $upload_url\n",
-    "target_usernames" => "keyman-diagnostics",
+    "target_recipients" => "keyman-diagnostics",
     "archetype" => "private_message"
   ];
 
