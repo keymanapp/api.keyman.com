@@ -2,7 +2,6 @@
   header("Content-Type: text/plain");
 
   // Test db connection. Connect fails if db is not ready
-  require_once(__DIR__ . '/../script/search/2.0/search.inc.php');
   require_once(__DIR__ . '/../tools/db/db.php');
   $mssql = Keyman\Site\com\keyman\api\Tools\DB\DBConnect::Connect();
 
