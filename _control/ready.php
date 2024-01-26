@@ -7,9 +7,19 @@
   $mssql = Keyman\Site\com\keyman\api\Tools\DB\DBConnect::Connect();
 
   // Test db is built
-  $s = new KeyboardSearch($mssql);
-  $json = $s->GetSearchMatches($platform='android', $query='khmer_angkor', $obsolete=FALSE, $pageNumber=1);
-  json_print($json);
+  $stmt = $mssql->prepare('EXEC sp_keyboard_search_by_id ?, ?');
+  $id = 'khmer_angkor';
+  $obsolete = FALSE;
+  $stmt->bindParam(1, $id);
+  $stmt->bindParam(2, $obsolete);
+  try {
+    if ($stmt->execute()) {
+      $data = $stmt->fetchAll(PDO::FETCH_NUM);
+      //json_print($data);
+    };
+  } catch(PDOException $e) {
+    die('Error: ' . $e->getMessage());
+  }
 
   // Test web server ready, and _common files, and vendor files ready
   if (!file_exists(__DIR__ . '/../tools/db/build/cjk/chinese_pinyin_import.sql') &&
