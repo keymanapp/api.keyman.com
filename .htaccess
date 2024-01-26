@@ -13,6 +13,9 @@ RewriteBase /
 
 ### TODO: handle appendQueryString="true"
 
+# Ready
+RewriteRule "^_control/ready$" "_control/ready.php" [END]
+
 ###### Rewrites for /script folder: /search
 
 # rule name="/search/2.0" stopProcessing="true"
