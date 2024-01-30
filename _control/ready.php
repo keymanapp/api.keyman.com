@@ -1,8 +1,11 @@
 <?php
   header("Content-Type: text/plain");
 
-  // Test db connection. Connect fails if db is not ready
   require_once(__DIR__ . '/../tools/db/db.php');
+
+  // Test web server ready, and _common files, and vendor files ready
+
+  // Test db connection. Connect fails if db is not ready
   $mssql = Keyman\Site\com\keyman\api\Tools\DB\DBConnect::Connect();
 
   // Test db is built
@@ -15,15 +18,37 @@
     if ($stmt->execute()) {
       $data = $stmt->fetchAll(PDO::FETCH_NUM);
       //json_print($data);
-    };
+    }
   } catch(PDOException $e) {
     die('Error: ' . $e->getMessage());
   }
 
-  // Test web server ready, and _common files, and vendor files ready
-  if (!file_exists(__DIR__ . '/../tools/db/build/cjk/chinese_pinyin_import.sql') &&
-      !file_exists(__DIR__ . '/../tools/db/build/cjk/japanese_import.sql')) {    
-    die('/tools/db/build/cjk/*_import.sql not ready');
+  // Test chinese_pinyin_import.sql ready with query
+  $stmt = $mssql->prepare(
+    'SELECT pinyin_key, chinese_text, tip FROM kmw_chinese_pinyin WHERE pinyin_key=? ORDER BY frequency DESC, id');
+  $py = 'biguansuoguo';
+  $stmt->bindParam(1, $py);
+  try {
+    if ($stmt->execute()) {
+      $data = $stmt->fetchAll(PDO::FETCH_NUM);
+      //json_print($data);
+    }
+  } catch(PDOException $e) {
+    die('chinese_pinyin_import.sql not ready: ' . $e->getMessage());
+  }
+
+  // Test japanese_import.sql ready with query
+  $stmt = $mssql->prepare(
+    'SELECT DISTINCT kanji, gloss, pri FROM kmw_japanese WHERE (kana=?) ORDER BY pri');
+  $kana = 'あいでし';
+  $stmt->bindParam(1, $kana);
+  try {
+    if ($stmt->execute()) {
+      $data = $stmt->fetchAll(PDO::FETCH_NUM);
+      //json_print($data);
+    }
+  } catch(PDOException $e) {
+    die('japanese_import.sql not ready: ' . $e->getMessage());
   }
 
   if (!file_exists(__DIR__ . '/../tools/db/activeschema.txt')) {
