@@ -1,17 +1,6 @@
-# This file is used when running with Apache. Adapted from web.config.
-# NOTE: this is not very well tested...
 
 RewriteEngine on
 RewriteBase /
-
-# Redirect http://api.keyman.com to https://api.keyman.com
-# but only if on a live site (api.keyman.com) and not
-# matching `/.well-known/(.*)$` (for Let's Encrypt)
-<If "%{REQUEST_SCHEME} == 'http' && %{HTTP_HOST} == 'api.keyman.com' && %{REQUEST_URI} !~ m#^/.well-known/(.*)$#" >
-    Redirect "/" "https://api.keyman.com"
-</If>
-
-### TODO: handle appendQueryString="true"
 
 # Ready
 RewriteRule "^_control/ready$" "_control/ready.php" [END]
