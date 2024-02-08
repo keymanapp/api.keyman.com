@@ -92,11 +92,11 @@ RewriteRule "cloud/(1\.0\/)?keyboards(\/([a-z0-9_]+))?" "/script/legacy/legacy10
 ##### Rewrites for /hooks
 
 # rule name="/hooks/keyboards-build-success.json" stopProcessing="true"
-RewriteRule "hooks/keyboards-build-success.json" "/script/hooks/keyboards-build-success.php?format=application/json" [QSA,END]
+# RewriteRule "^hooks/keyboards-build-success.json" "/script/hooks/keyboards-build-success.php?format=application/json" [QSA,END]
 
 
 # rule name="/hooks/keyboards-build-success" stopProcessing="true"
-RewriteRule "hooks/keyboards-build-success" "/script/hooks/keyboards-build-success.php?format=text/plain" [QSA,END]
+# RewriteRule "^hooks/keyboards-build-success" "/script/hooks/keyboards-build-success.php?format=text/plain" [QSA,END]
 
 
 ##### Keyman for Windows 14.0+ API endpoints
