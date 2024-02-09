@@ -14,12 +14,12 @@ New versions should be deployed to
   - `.documentationFilename`
   - `.documentationFileSize`
   - `.legacyId`
-    `.links`
-    `.related[].note`
-    `.languages[].example`
-  Added:
+  - `.links`
+  - `.related[].note`
+  - `.languages[].example`
+* Added:
   - `.languages[].examples[]`
-  Modified:
+* Modified:
   - `.languages[].font`, `.languages[].oskFont`: `.source` is `[string]`
   - Source .keyboard_info files are no longer needed, so source vs distribution
     keyboard_info distinction is removed
