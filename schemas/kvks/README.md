@@ -12,3 +12,7 @@ Converted using xsd2json. Following structural changes:
 * remove format:double from fontsize, change type to string
 * encoding property changed type to array
 * kvk-key added _ property for base text value
+
+## 2024-02-09 10.0
+
+* Published schema for longstanding format
