@@ -1,6 +1,11 @@
 /.data/
 **/.idea/**/*.xml
 **/*.iml
-/vendor/
+vendor*
 /node_modules/
 .vscode/
+
+# Shared files are bootstrapped:
+resources/bootstrap.inc.sh
+resources/.bootstrap-version
+_common/

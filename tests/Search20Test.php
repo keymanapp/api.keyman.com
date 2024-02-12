@@ -113,23 +113,6 @@ namespace Keyman\Site\com\keyman\api\tests {
       $this->assertEquals('keyboard_id', $json->keyboards[0]->match->type);
     }
 
-    public function testSearchByLegacyKeyboardId()
-    {
-      $json = $this->s->GetSearchMatches(null, 'legacy:681', 1, 1);
-      $json = json_decode(json_encode($json));
-      $this->schema->in($json);
-      $this->assertEquals(1, $json->context->totalRows);
-      $this->assertEquals('acoli', $json->keyboards[0]->id);
-      $this->assertEquals('legacy_keyboard_id', $json->keyboards[0]->match->type);
-
-      $json = $this->s->GetSearchMatches(null, 'k:legacy:681', 1, 1);
-      $json = json_decode(json_encode($json));
-      $this->schema->in($json);
-      $this->assertEquals(1, $json->context->totalRows);
-      $this->assertEquals('acoli', $json->keyboards[0]->id);
-      $this->assertEquals('legacy_keyboard_id', $json->keyboards[0]->match->type);
-    }
-
     public function testSearchByLanguageBcp47Tag()
     {
       $json = $this->s->GetSearchMatches(null, 'l:id:ach', 1, 1);

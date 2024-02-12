@@ -21,14 +21,3 @@
   //$_SERVER['api_keyman_com_discourse_site']='https://community.software.sil.org';
   //$_SERVER['api_keyman_com_discourse_username']=<your discourse login name>;
 
-  // If you report to google analytics, fill in the keyfile here:
-  /*$_SERVER['api_keyman_com_analytics']='
-  {
-    "project_id": "",
-    "private_key_id": "",
-    "private_key": "",
-    "client_email": "",
-    "client_id": "",
-    "client_x509_cert_url": ""
-  }
-  ';*/

@@ -1,5 +1,7 @@
 # api.keyman.com
 
+The following is outdated and will be replaced with Docker/Apache
+
 ## Configuration
 
 Currently, this site runs only on a Windows host with IIS and Microsoft SQL Server.
