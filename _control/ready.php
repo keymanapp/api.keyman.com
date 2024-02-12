@@ -51,14 +51,14 @@
     die('japanese_import.sql not ready: ' . $e->getMessage());
   }
 
-  if (!file_exists(__DIR__ . '/../tools/db/activeschema.txt')) {
-    die('/tools/db/activeschema.txt not ready');
+  if (!file_exists(__DIR__ . '/../.data/activeschema.txt')) {
+    die('/.data/activeschema.txt not ready');
   }
 
   if (!file_exists(__DIR__ . '/../_common/KeymanHosts.php')) {
     die('/_common not ready');
   }
-  
+
   if (!is_dir(__DIR__ . '/../vendor')) {
     die('/vendor not ready');
   }

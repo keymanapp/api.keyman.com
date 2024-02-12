@@ -46,7 +46,7 @@ namespace {
 
     private function filename()
     {
-      return dirname(__FILE__) . '/activeschema.txt';
+      return dirname(__FILE__) . '/../../.data/activeschema.txt';
     }
 
     function __construct()
