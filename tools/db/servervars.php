@@ -59,7 +59,7 @@ namespace {
     }
 
     private function getSchemaPrefix() {
-      return (KeymanHosts::Instance()->Tier() == KeymanHosts::TIER_PRODUCTION) ? 'production_' : '';
+      return '';
     }
 
     function getActiveSchema()
