@@ -2,7 +2,8 @@
 RewriteEngine on
 RewriteBase /
 
-# Ready
+# Control rules
+RewriteRule "^_control/info$" "_control/info.php" [END]
 RewriteRule "^_control/ready$" "_control/ready.php" [END]
 
 ###### Rewrites for /script folder: /search
