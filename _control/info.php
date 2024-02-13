@@ -26,3 +26,6 @@ echo <<<END
 <tr><td>last database build completed</td><td>$date</td></tr>
 </table>
 END;
+
+echo "<p><a href='./alive'>Alive</a></p>";
+echo "<p><a href='./ready'>Ready</a></p>";
