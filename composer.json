@@ -17,7 +17,7 @@
       ],
       "build": [
         "Composer\\Config::disableProcessTimeout",
-        "php ./tools/db/build/build_cli.php"
+        "php ./tools/db/build/build_cli.php -f"
       ],
       "lint": "find . -name '*.php' | grep -v '/vendor/' | xargs -n 1 php -l"
     }
