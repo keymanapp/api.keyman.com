@@ -62,7 +62,7 @@
         $result->platform = 'web';
       }
 
-      $query = $this->CleanQueryString(trim($query));
+      $query = substr(trim($query), 0, 63);
 
       if(preg_match('/^('.implode('|',array_keys(KeyboardSearch::FILTERS)).')(.+)$/', $query, $matches)) {
         $result->text = $matches[2];
@@ -139,7 +139,7 @@
     private function GetSearchQueries(KeyboardSearchResult $result) {
       $result->totalRows = 0;
       $clampTotalRows = 0;
-      $text = $result->text;
+      $text = $this->CleanQueryString($result->text);
       $idtext = $this->QueryStringToIdSearch($text);
 
       switch($result->filter) {
