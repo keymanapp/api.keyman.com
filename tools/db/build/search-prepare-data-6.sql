@@ -8,7 +8,7 @@ SELECT DISTINCT
   null,
   '001', --t.region,
   'World', --t.regionname,
-  kl.description,
+  (select top 1 kl0.description from k0.t_keyboard_language kl0 where kl0.bcp47 = kl.bcp47),
   0,
   kl.script_id,
   kl.bcp47
@@ -17,4 +17,3 @@ FROM
   t_langtag_tag tt ON kl.bcp47 = tt.tag
 WHERE
   tt.tag IS NULL
-
