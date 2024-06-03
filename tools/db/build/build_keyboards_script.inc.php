@@ -249,6 +249,9 @@ END;
         assert(!is_array($keyboard->languages)); // array format was deprecated in 1.0.5, kmcomp should never generate it any more
         foreach($keyboard->languages as $id => $language) {
           $this->parse_bcp47($id, $lang, $region, $script);
+          $langName = empty($language->languageName)
+            ? (empty($language->displayName) ? 'undefined' : $language->displayName)
+            : $language->languageName;
           $result .= <<<END
 $insert
               ({$this->sqlv($keyboard, 'id')},
@@ -256,7 +259,7 @@ $insert
               {$this->sqlv(null, $lang)},
               {$this->sqlv(null, $region)},
               {$this->sqlv(null, $script)},
-              {$this->sqlv($language, 'languageName')});
+              {$this->sqlv(null, $langName)});
 
 GO
 
