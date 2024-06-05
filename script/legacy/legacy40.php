@@ -412,9 +412,9 @@ function getKeyboardInfo($keyboard, $languageid, $allKeyboardLanguages) {
   }
   function keyboardInfoExampleToObject($example) {
     return [
-      'keys' => keyboardInfoExampleKeysToAPI($example->keys),
-      'text' => $example->text,
-      'note' => $example->note
+      'keys' => empty($example->keys) ? '' : keyboardInfoExampleKeysToAPI($example->keys),
+      'text' => empty($example->text) ? '' : $example->text,
+      'note' => empty($example->note) ? '' : $example->note
     ];
   }
 
