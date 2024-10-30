@@ -95,6 +95,7 @@
         $this->sqlrun($script);
       }
 
+      $this->sqlrun(dirname(__FILE__)."/annual-statistics.sql");
       $this->sqlrun(dirname(__FILE__)."/model-queries.sql");
       $this->sqlrun(dirname(__FILE__)."/legacy-queries.sql");
       $this->sqlrun(dirname(__FILE__)."/legacy-statistics.sql");
