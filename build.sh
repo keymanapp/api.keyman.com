@@ -2,7 +2,7 @@
 ## START STANDARD SITE BUILD SCRIPT INCLUDE
 readonly THIS_SCRIPT="$(readlink -f "${BASH_SOURCE[0]}")"
 readonly BOOTSTRAP="$(dirname "$THIS_SCRIPT")/resources/bootstrap.inc.sh"
-readonly BOOTSTRAP_VERSION=v0.8
+readonly BOOTSTRAP_VERSION=v0.11
 [ -f "$BOOTSTRAP" ] && source "$BOOTSTRAP" || source <(curl -fs https://raw.githubusercontent.com/keymanapp/shared-sites/$BOOTSTRAP_VERSION/bootstrap.inc.sh)
 ## END STANDARD SITE BUILD SCRIPT INCLUDE
 
@@ -89,14 +89,14 @@ function start_docker_container_db() {
 
   # Setup database
   builder_echo "Setting up DB container"
-  docker run --rm -d -p $PORT:1433 \
+  docker run -m 2048m --rm -d -p $PORT:1433 \
     -e "ACCEPT_EULA=Y" \
     -e "MSSQL_AGENT_ENABLED=true" \
     -e "MSSQL_SA_PASSWORD=yourStrong(\!)Password" \
     --name $CONTAINER_DESC \
     $CONTAINER_NAME
 
-  builder_echo green "Listening on http://localhost:$PORT"  
+  builder_echo green "SQL Server Listening on localhost:$PORT"
 }
 
 function start_docker_container_app() {
@@ -130,12 +130,12 @@ function start_docker_container_app() {
     # Linux needs --add-host parameter
     ADD_HOST="--add-host host.docker.internal:host-gateway"
   fi
-  
+
   db_ip=$(docker inspect -f '{{range.NetworkSettings.Networks}}{{.IPAddress}}{{end}}' ${API_KEYMAN_DB_IMAGE_NAME})
 
   builder_echo "Spooling up site container"
 
-  docker run --rm -d -p $PORT:80 -v ${SITE_HTML} \
+  docker run --rm -m 200m -d -p $PORT:80 -v ${SITE_HTML} \
     -e 'api_keyman_com_mssql_pw=yourStrong(\!)Password' \
     -e api_keyman_com_mssql_user=sa \
     -e 'api_keyman_com_mssqlconninfo=sqlsrv:Server='$db_ip',1433;TrustServerCertificate=true;Encrypt=false;Database=' \
