@@ -52,7 +52,7 @@
   }
 
   $data = [
-    "type" => "composer",
+    "upload_type" => "composer",
     "username" => $username,
     "files[]" => new cURLFile($DataFilename, 'application/octet-stream', $Filename),
     "synchronous" => 'true'
