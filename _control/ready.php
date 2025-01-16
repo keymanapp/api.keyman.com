@@ -5,6 +5,7 @@
 
   // Test web server ready, and _common files, and vendor files ready
 
+  /* DISABLE database check because we don't need to restart this pod if database is not ready
   // Test db connection. Connect fails if db is not ready
   $mssql = Keyman\Site\com\keyman\api\Tools\DB\DBConnect::Connect();
 
@@ -50,6 +51,7 @@
   } catch(PDOException $e) {
     die('japanese_import.sql not ready: ' . $e->getMessage());
   }
+*/
 
   if (!file_exists(__DIR__ . '/../.data/activeschema.txt')) {
     die('/.data/activeschema.txt not ready');
