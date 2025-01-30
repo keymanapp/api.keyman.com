@@ -68,7 +68,15 @@
       $this->sqlrun("${data_path}keyboards.sql");
       $this->sqlrun("${data_path}models.sql");
 
-      $this->sqlrun(dirname(__FILE__)."/search-prepare-data.sql");
+      $this->sqlrun(dirname(__FILE__)."/search-prepare-data-1.sql");
+      $this->sqlrun(dirname(__FILE__)."/search-prepare-data-2.sql");
+      $this->sqlrun(dirname(__FILE__)."/search-prepare-data-3.sql");
+      $this->sqlrun(dirname(__FILE__)."/search-prepare-data-4.sql");
+      $this->sqlrun(dirname(__FILE__)."/search-prepare-data-5.sql");
+      $this->sqlrun(dirname(__FILE__)."/search-prepare-data-6.sql");
+      $this->sqlrun(dirname(__FILE__)."/search-prepare-data-7.sql");
+      $this->sqlrun(dirname(__FILE__)."/search-prepare-data-8.sql");
+      $this->sqlrun(dirname(__FILE__)."/search-prepare-data-9.sql");
       $this->sqlrun(dirname(__FILE__)."/indexes.sql");
 
       $this->sqlrun(dirname(__FILE__)."/full-text-indexes.sql", false, false);
@@ -87,6 +95,7 @@
         $this->sqlrun($script);
       }
 
+      $this->sqlrun(dirname(__FILE__)."/annual-statistics.sql");
       $this->sqlrun(dirname(__FILE__)."/model-queries.sql");
       $this->sqlrun(dirname(__FILE__)."/legacy-queries.sql");
       $this->sqlrun(dirname(__FILE__)."/legacy-statistics.sql");

@@ -122,7 +122,7 @@ CREATE TABLE t_keyboard_language (
   keyboard_id nvarchar(256),
   bcp47 nvarchar(64),
   language_id nvarchar(3),
-  region_id nchar(2),
+  region_id nvarchar(3),
   script_id nchar(4),
   description nvarchar(256), /* use when bcp47 is broader than lang+reg+scr? */
 
@@ -200,7 +200,7 @@ CREATE TABLE t_model_language (
   model_id nvarchar(256),
   bcp47 nvarchar(64),
   language_id nvarchar(3),
-  region_id nchar(2),
+  region_id nvarchar(3),
   script_id nchar(4),
   description nvarchar(256), /* use when bcp47 is broader than lang+reg+scr? */
 

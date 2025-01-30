@@ -62,7 +62,7 @@
         $result->platform = 'web';
       }
 
-      $query = trim($query);
+      $query = substr(trim($query), 0, 63);
 
       if(preg_match('/^('.implode('|',array_keys(KeyboardSearch::FILTERS)).')(.+)$/', $query, $matches)) {
         $result->text = $matches[2];
@@ -125,7 +125,7 @@
       } else {
         $r = "";
       }
-      return $r;
+      return substr($r, 0, 63);
     }
 
     function QueryStringToIdSearch($text) {
