@@ -23,7 +23,7 @@
     }
 
     protected function GetData($path) {
-      return @file_get_contents(KeymanHosts::Instance()->downloads_keyman_com . "/api" . $path);
+      return @file_get_contents(KeymanHosts::Instance()->SERVER_downloads_keyman_com . "/api" . $path);
     }
 
     public function GetPlatformVersion($platform) {

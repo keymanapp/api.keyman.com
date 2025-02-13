@@ -130,7 +130,7 @@
 
     private function BuildKeyboardResponse($id, $version, $appVersion) {
       $platform = $this->platform;
-      $KeyboardDownload = @file_get_contents(KeymanHosts::Instance()->api_keyman_com."/keyboard/$id");
+      $KeyboardDownload = @file_get_contents(KeymanHosts::Instance()->SERVER_api_keyman_com."/keyboard/$id");
       if($KeyboardDownload === FALSE) {
         // not found
         return FALSE;
@@ -188,7 +188,7 @@
 
     private function BuildKeyboardDownloadPath($id, $version) {
       // TODO: use DownloadsApi
-      $data = @file_get_contents(KeymanHosts::Instance()->downloads_keyman_com . "/api/keyboard/$id");
+      $data = @file_get_contents(KeymanHosts::Instance()->SERVER_downloads_keyman_com . "/api/keyboard/$id");
       if($data === FALSE) {
         return FALSE;
       }
