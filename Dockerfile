@@ -42,3 +42,5 @@ RUN docker-php-ext-enable sqlsrv pdo_sqlsrv pdo pdo_mysql
 COPY --from=composer-builder /composer/vendor /var/www/vendor
 
 RUN a2enmod rewrite; a2enconf keyman-site
+
+RUN sed -i -E 's/(CipherString\s*=\s*DEFAULT@SECLEVEL=)2/\10/' /etc/ssl/openssl.cnf

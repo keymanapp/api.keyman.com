@@ -155,6 +155,7 @@
       }
 
       try {
+        $mssql->setAttribute(PDO::SQLSRV_ATTR_QUERY_TIMEOUT, 1000);
         if($transaction) $mssql->beginTransaction();
 
         foreach($s as $cmd) {
@@ -167,6 +168,7 @@
       } catch(PDOException $e) {
         $ei = $mssql->errorInfo();
         print_r($ei);
+        print_r($cmd);
         fail("Failure: {$e}\n\n");
       }
     }
