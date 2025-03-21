@@ -12,5 +12,7 @@ apt-get update
 
 RUN apt-get install -y mssql-server-fts
 
+RUN sed -i -E 's/(CipherString\s*=\s*DEFAULT@SECLEVEL=)2/\10/' /etc/ssl/openssl.cnf
+
 # Run SQL Server process
-CMD /opt/mssql/bin/sqlservr
+CMD ["/opt/mssql/bin/sqlservr"]
