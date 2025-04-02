@@ -1,6 +1,14 @@
-# kps
+# kps.xsd
 
-* kps.xsd
+* .kps Keyman package file format - XML
+
+## 2025-04-02 18.0
+* Version 18.0 deprecates the following fields, and kmc-package does not use them (#13600):
+  - Keyboards/Keyboard/Version
+  - Keyboards/Keyboard/Name
+  - Keyboards/Keyboard/RTL
+  - LexicalModels/LexicalModel/Name
+  - LexicalModels/LexicalModel/RTL (Note: was never read or written by any Keyman tooling)
 
 ## 2023-10-19 17.0
 * Version 17.0 adds:
@@ -11,9 +19,12 @@
   - Keyboards/Keyboard/Examples - a list of typing examples for the keyboard
   - Keyboards/Keyboard/WebOSKFonts - a list of font filenames (not necessarily in package) suitable for rendering the on screen keyboard
   - Keyboards/Keyboard/WebDisplayFonts - a list of font filenames (not necessarily in package) suitable for use with the keyboard
+* Version 17.0 removes:
+  - LexicalModels/LexicalModel/Version - version information is not stored in the models, but only in the package metadata (was unused)
 
-## 2023-04-21 7.0.1 (not published)
-* Removes LexicalModel.Version, as it was never read or written
+## 2023-04-21 7.0.1
+* Removes LexicalModels/LexicalModel/Version, as it was never read or written
 
 ## 2021-07-19 7.0
 * Initial version 7.0
+
