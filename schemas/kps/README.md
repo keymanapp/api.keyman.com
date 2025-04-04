@@ -3,7 +3,7 @@
 * .kps Keyman package file format - XML
 
 ## 2025-04-02 18.0
-* Version 18.0 deprecates the following fields, and kmc-package does not use them (#13600):
+* Version 18.0 deprecates the following fields, and kmc-package does not use them (@keymanapp/keyman#13600):
   - Keyboards/Keyboard/Version
   - Keyboards/Keyboard/Name
   - Keyboards/Keyboard/RTL
