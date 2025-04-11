@@ -42,7 +42,12 @@
   header('Link: <' . KeymanHosts::Instance()->api_keyman_com . '/schemas/search/2.0/search.json#>; rel="describedby"');
   //header('') TODO: add page information to results
 
-  $query = $_REQUEST['q'];
+  $query = trim($_REQUEST['q']);
+
+  if($query == '') {
+    fail('Query string must not be empty');
+  }
+
   $platform = isset($_REQUEST['platform']) ? $_REQUEST['platform'] : null;
   $obsolete = !empty($_REQUEST['obsolete']);
 

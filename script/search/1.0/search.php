@@ -36,7 +36,11 @@
     fail('Query string must be set');
   }
 
-  $q = $_REQUEST['q'];
+  $q = trim($_REQUEST['q']);
+
+  if($q == '') {
+    fail('Query string must not be empty');
+  }
 
   $s = new KeyboardSearch($mssql);
   if(isset($_REQUEST['platform'])) {
