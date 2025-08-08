@@ -51,13 +51,22 @@ namespace Keyman\Site\com\keyman\api\tests {
       }
 
       $data = $stmt->fetchAll();
-      echo "---@tt_keyboard---\n";
+      echo "\n---@tt_keyboard---\n";
       echo json_encode($data);
 
       $stmt->nextRowset();
 
       $data = $stmt->fetchAll();
-      echo "---@tt_langtag---\n";
+      echo "\n---@tt_langtag---\n";
+      echo json_encode($data);
+
+      $stmt = $this->mssql->prepare("  select top 10 * from t_langtag_name where name like 'khmer%'");
+      if(!$stmt->execute()) {
+        $this->assertEquals(false, true, 'stmt->execute');
+      }
+
+      $data = $stmt->fetchAll();
+      echo "\n---t_langtag_name---\n";
       echo json_encode($data);
 
       $this->assertEquals(false, true, 'debugging');
