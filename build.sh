@@ -38,7 +38,13 @@ function test_docker_container() {
   # Note: ci.yml replicates these
 
   # Run unit tests
-  docker exec $API_KEYMAN_CONTAINER_DESC sh -c "vendor/bin/phpunit --testdox"
+  docker exec $API_KEYMAN_CONTAINER_DESC sh -c "vendor/bin/phpunit --testdox" || FAILCODE=$?
+
+  docker exec $API_KEYMAN_DB_CONTAINER_DESC sh -c "cat /var/opt/mssql/log/SQLFT*"
+
+  if [[ $FAILCODE != 0 ]]; then
+    builder_die "Tests failed with $FAILCODE"
+  fi
 
   # Lint .php files for obvious errors
   docker exec $API_KEYMAN_CONTAINER_DESC sh -c "find . -name '*.php' | grep -v '/vendor/' | xargs -n 1 -d '\\n' php -l"
