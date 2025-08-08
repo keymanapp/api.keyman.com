@@ -4,7 +4,7 @@ on:
 
 jobs:
   triage:
-    if: github.repository == 'keymanapp/status.keyman.com'
+    if: github.repository == 'keymanapp/api.keyman.com'
     runs-on: ubuntu-latest
     steps:
     - name: Update labels based on PR title
