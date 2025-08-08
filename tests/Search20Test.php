@@ -68,6 +68,7 @@ namespace Keyman\Site\com\keyman\api\tests {
       $this->__debug("EXEC sp_keyboard_search_debug 'khmer', 'khmer', null, 1, 1, 10", 2);
       $this->__debug("select top 10 * from t_langtag_name where name like 'khmer%'", 1);
       $this->__debug("select top 10 * from t_langtag_name where CONTAINS(name, 'khmer')", 1);
+      $this->__debug("select top 10 * from t_keyboard where CONTAINS(name, 'khmer')", 1);
       $this->assertEquals(false, true, 'debugging');
     }
 
