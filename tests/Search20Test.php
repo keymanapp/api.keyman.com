@@ -43,6 +43,19 @@ namespace Keyman\Site\com\keyman\api\tests {
       $this->assertTrue(true);
     }
 
+    public function testSimpleSearchResultsDebug()
+    {
+      $stmt = $this->mssql->prepare("EXEC sp_keyboard_search_debug 'khmer', 'khmer', null, 1, 1, 10");
+      if(!$stmt->execute()) {
+        $this->assertEquals(false, true, 'stmt->execute');
+      }
+
+      $data = $stmt->fetchAll();
+      echo json_encode($data); //var_dump($data);
+
+      $this->assertEquals(false, true, 'debugging');
+    }
+
     public function testSimpleSearchResultContentsConsistent()
     {
       $json = $this->s->GetSearchMatches(null, 'khmer', 1, 1);
