@@ -471,7 +471,7 @@ AS
     v_keyboard_downloads_month kd on temp.keyboard_id = kd.keyboard_id left join
     v_keyboard_downloads_total kdt on k.keyboard_id = kdt.keyboard_id
   where
-    temp.roworder = 1 and
+    -- temp.roworder = 1 and
     (k.obsolete = 0 or @prmObsolete = 1)
   order by
     k.obsolete ASC, -- obsolete keyboards always last
