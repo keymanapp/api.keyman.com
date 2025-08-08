@@ -41,6 +41,7 @@ function test_docker_container() {
   docker exec $API_KEYMAN_CONTAINER_DESC sh -c "vendor/bin/phpunit --testdox" || FAILCODE=$?
 
   docker exec $API_KEYMAN_DB_CONTAINER_DESC sh -c "cat /var/opt/mssql/log/SQLFT*"
+  docker exec $API_KEYMAN_DB_CONTAINER_DESC sh -c "cat /var/opt/mssql/log/errorlog*"
 
   if [[ $FAILCODE != 0 ]]; then
     builder_die "Tests failed with $FAILCODE"
