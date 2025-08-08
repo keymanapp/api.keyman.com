@@ -43,32 +43,31 @@ namespace Keyman\Site\com\keyman\api\tests {
       $this->assertTrue(true);
     }
 
+    private function __debug($sql, $rowsets) {
+      $stmt = $this->mssql->prepare($sql);
+      if(!$stmt->execute()) {
+        $this->assertEquals(false, true, 'stmt->execute');
+      }
+
+      echo "\nSQL: $sql\n";
+      $data = $stmt->fetchAll();
+      echo json_encode($data);
+      while($rowsets > 1) {
+        $stmt->nextRowset();
+        $data = $stmt->fetchAll();
+        echo "\n";
+        echo json_encode($data);
+        $rowsets--;
+      }
+      echo "\n";
+      echo "\n";
+    }
+
     public function testSimpleSearchResultsDebug()
     {
-      $stmt = $this->mssql->prepare("EXEC sp_keyboard_search_debug 'khmer', 'khmer', null, 1, 1, 10");
-      if(!$stmt->execute()) {
-        $this->assertEquals(false, true, 'stmt->execute');
-      }
-
-      $data = $stmt->fetchAll();
-      echo "\n---@tt_keyboard---\n";
-      echo json_encode($data);
-
-      $stmt->nextRowset();
-
-      $data = $stmt->fetchAll();
-      echo "\n---@tt_langtag---\n";
-      echo json_encode($data);
-
-      $stmt = $this->mssql->prepare("  select top 10 * from t_langtag_name where name like 'khmer%'");
-      if(!$stmt->execute()) {
-        $this->assertEquals(false, true, 'stmt->execute');
-      }
-
-      $data = $stmt->fetchAll();
-      echo "\n---t_langtag_name---\n";
-      echo json_encode($data);
-
+      $this->__debug("EXEC sp_keyboard_search_debug 'khmer', 'khmer', null, 1, 1, 10", 2);
+      $this->__debug("select top 10 * from t_langtag_name where name like 'khmer%'", 1);
+      $this->__debug("select top 10 * from t_langtag_name where CONTAINS(name, 'khmer')", 1);
       $this->assertEquals(false, true, 'debugging');
     }
 
