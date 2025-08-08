@@ -51,7 +51,14 @@ namespace Keyman\Site\com\keyman\api\tests {
       }
 
       $data = $stmt->fetchAll();
-      echo json_encode($data); //var_dump($data);
+      echo "---@tt_keyboard---\n";
+      echo json_encode($data);
+
+      $stmt->nextRowset();
+
+      $data = $stmt->fetchAll();
+      echo "---@tt_langtag---\n";
+      echo json_encode($data);
 
       $this->assertEquals(false, true, 'debugging');
     }
