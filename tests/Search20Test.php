@@ -43,58 +43,6 @@ namespace Keyman\Site\com\keyman\api\tests {
       $this->assertTrue(true);
     }
 
-    private function __debug($sql, $rowsets) {
-      $stmt = $this->mssql->prepare($sql);
-      if(!$stmt->execute()) {
-        $this->assertEquals(false, true, 'stmt->execute');
-      }
-
-      echo "\nSQL: $sql\n";
-      $data = $stmt->fetchAll();
-      echo json_encode($data);
-      while($rowsets > 1) {
-        $stmt->nextRowset();
-        $data = $stmt->fetchAll();
-        echo "\n";
-        echo json_encode($data);
-        $rowsets--;
-      }
-      echo "\n";
-      echo "\n";
-    }
-
-    public function testSimpleSearchResultsAssessFTComplete()
-    {
-      $stmt = $this->mssql->prepare("select * from sys.fulltext_indexes where has_crawl_completed=0");
-      if(!$stmt->execute()) {
-        $this->assertEquals(false, true, 'stmt->execute');
-      }
-      $data = $stmt->fetchAll();
-
-      while(count($data) > 0) {
-        echo "FT Indexing not complete, waiting 3 seconds\n";
-        echo json_encode($data);
-        sleep(3);
-        if(!$stmt->execute()) {
-          $this->assertEquals(false, true, 'stmt->execute');
-        }
-        $data = $stmt->fetchAll();
-      }
-
-      echo "FT Indexing is now complete\n";
-    }
-
-    public function testSimpleSearchResultsDebug()
-    {
-      // $this->__debug("xp_readerrorlog 0, 1, N'Logging SQL Server messages in file'", 1);
-      $this->__debug("EXEC sp_keyboard_search_debug 'khmer', 'khmer', null, 1, 1, 10", 2);
-      $this->__debug("select top 10 * from t_langtag_name where name like 'khmer%'", 1);
-      $this->__debug("select top 10 * from t_langtag_name where CONTAINS(name, 'khmer')", 1);
-      $this->__debug("select top 10 * from t_keyboard where CONTAINS(name, 'khmer')", 1);
-
-      $this->assertEquals(false, true, 'debugging');
-    }
-
     public function testSimpleSearchResultContentsConsistent()
     {
       $json = $this->s->GetSearchMatches(null, 'khmer', 1, 1);
