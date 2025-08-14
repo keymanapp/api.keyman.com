@@ -82,6 +82,8 @@
       $this->sqlrun(dirname(__FILE__)."/full-text-indexes.sql", false, false);
       $this->sqlrun(dirname(__FILE__)."/search-queries.sql");
 
+      $this->waitForFullTextIndexing();
+
       // Run scripts for all views automatically
       $scripts = glob(__DIR__ . '/v_*.sql');
       foreach($scripts as $script) {
@@ -105,6 +107,41 @@
 
       $this->sqlrun("${data_path}dbdatasources.sql");
       return true;
+    }
+
+    private function waitForFullTextIndexing() {
+      $dci = new DatabaseConnectionInfo();
+
+      try {
+        $mssql = new PDO(
+          $dci->getConnectionString(),
+          $this->schema,
+          $dci->getPassword(),
+          [ "CharacterSet" => "UTF-8" ]);
+        $mssql->setAttribute( PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION );
+        $mssql->setAttribute( PDO::SQLSRV_ATTR_DIRECT_QUERY, true);
+        $mssql->setAttribute( PDO::SQLSRV_ATTR_ENCODING, PDO::SQLSRV_ENCODING_UTF8 );
+      }
+      catch( PDOException $e ) {
+        die( "Error connecting to SQL Server: " . $e->getMessage() );
+      }
+
+      $stmt = $mssql->prepare("select * from sys.fulltext_indexes where has_crawl_completed=0");
+      if(!$stmt->execute()) {
+        die( "Error checking Full Text Indexing status" );
+      }
+      $data = $stmt->fetchAll();
+
+      while(count($data) > 0) {
+        echo "Full Text Indexing not complete, waiting 3 seconds\n";
+        sleep(3);
+        if(!$stmt->execute()) {
+          die( "Error checking Full Text Indexing status" );
+        }
+        $data = $stmt->fetchAll();
+      }
+
+      echo "Full Text Indexing is now complete\n";
     }
 
     function buildDBDataSources($data_path, DBDataSources $DBDataSources) {
