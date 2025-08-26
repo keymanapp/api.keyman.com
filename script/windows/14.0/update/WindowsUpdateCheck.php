@@ -82,7 +82,24 @@
       if(!isset($tiers[$tier])) return FALSE;
       $tierdata = $tiers[$tier];
       if(is_array($tierdata->files)) return FALSE;
+      
+      // --- Custom version check for major 18 and <= 18.0.236 ---
+      // TODO: I need to understand the best way to build upd the return object.
+      // If we include the fixed file in the stable directory we maybe able to access the 
+      // $tierdata->files to help us.
+      $installedParts = explode('.', $InstalledVersion);
+      if($installedParts[0] == '18' && version_compare($InstalledVersion, '18.0.236', '<=')) {
+        $fixNonUpdateUrl = 'https://your.custom.url/path'; // <-- Replace with your actual URL
+        $fixNonUpdateObj = new \stdClass();
+        $fixNonUpdateObj->version = 'NameofFixedURLgoeshere';
+        $fixNonUpdateObj->url = $KeymanHosts::Instance()->downloads_keyman_com . "/windows/stable/{$fixNonUpdateObj->version}/{$fixNonUpdateFileName}";
+        return $customObj;
+      }
+      // --- End custom check ---
 
+  $files = get_object_vars($tierdata->files);
+  foreach($files as $file => $filedata) {
+    // ...existing code...
       $files = get_object_vars($tierdata->files);
       foreach($files as $file => $filedata) {
         // This is currently tied to Windows -- for other platforms we need to change this
