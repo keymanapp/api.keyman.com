@@ -80,7 +80,7 @@
     
     // Check to see if the repair version needs to be sent
     private function RepairVersionCheck($InstalledVersion) {
-      // ...your custom logic..
+   
       // --- Version check for major 18 and <= 18.0.236 ---
       // TODO: I need to understand the best way to build upd the return object.
       // If we include the fixed file in the stable directory we maybe able to access the 
