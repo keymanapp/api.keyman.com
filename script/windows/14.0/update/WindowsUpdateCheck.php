@@ -77,29 +77,46 @@
           fail('Unexpected tier '.$tier, 500);
       }
     }
-
-    private function CheckVersionResponse($tier, $tiers, $InstalledVersion, $regex) {
-      if(!isset($tiers[$tier])) return FALSE;
-      $tierdata = $tiers[$tier];
-      if(is_array($tierdata->files)) return FALSE;
-      
-      // --- Custom version check for major 18 and <= 18.0.236 ---
+    
+    // Check to see if the repair version needs to be sent
+    private function RepairVersionCheck($InstalledVersion) {
+      // ...your custom logic..
+      // --- Version check for major 18 and <= 18.0.236 ---
       // TODO: I need to understand the best way to build upd the return object.
       // If we include the fixed file in the stable directory we maybe able to access the 
       // $tierdata->files to help us.
       $installedParts = explode('.', $InstalledVersion);
       if($installedParts[0] == '18' && version_compare($InstalledVersion, '18.0.236', '<=')) {
-        $fixNonUpdateUrl = 'https://your.custom.url/path'; // <-- Replace with your actual URL
-        $fixNonUpdateObj = new \stdClass();
-        $fixNonUpdateObj->version = 'NameofFixedURLgoeshere';
-        $fixNonUpdateObj->url = $KeymanHosts::Instance()->downloads_keyman_com . "/windows/stable/{$fixNonUpdateObj->version}/{$fixNonUpdateFileName}";
-        return $customObj;
+      
+        $repairVersionObj = new \stdClass();
+        $repairVersionObj->name = "Keyman for Windows";
+        $repairVersionObj->version = "18.0.001_fix";
+        $repairVersionObj->date = "2025-08-27";
+        $repairVersionObj->platform = "win";
+        $repairVersionObj->stability = "stable";
+        $repairVersionObj->file = "keyman-18.0.001_fix.exe";
+        $repairVersionObj->md5 = "9E58343C8E5820676C52B148EFECBEB7";
+        $repairVersionObj->type = "exe";
+        $repairVersionObj->build = "001";
+        $repairVersionObj->size = 111440328; // not sure if needed
+        $repairVersionObj->url = KeymanHosts::Instance()->downloads_keyman_com . "/windows/stable/18.0.001_fix/keyman-18.0.001_fix.exe";
+        return $repairVersionObj;
       }
-      // --- End custom check ---
-
-  $files = get_object_vars($tierdata->files);
-  foreach($files as $file => $filedata) {
-    // ...existing code...
+      return null;
+    }
+    
+    private function CheckVersionResponse($tier, $tiers, $InstalledVersion, $regex) {
+      if(!isset($tiers[$tier])) return FALSE;
+      $tierdata = $tiers[$tier];
+      if(is_array($tierdata->files)) return FALSE;
+      
+      // This is special code to ensure users advance from version 18 stable releases
+      $repairVersionObj = $this->RepairVersionCheck($InstalledVersion);
+      if($repairVersionObj !== null){
+        return $repairVersionObj;
+      }
+      //
+      
       $files = get_object_vars($tierdata->files);
       foreach($files as $file => $filedata) {
         // This is currently tied to Windows -- for other platforms we need to change this
