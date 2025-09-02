@@ -1,11 +1,5 @@
 #!/usr/bin/env bash
 
-uname -a
-
-openssl version
-
-cat /etc/ssl/openssl.cnf
-
 echo "---- Sleep 15 Before Generating DB ----"
 sleep 15;
 
