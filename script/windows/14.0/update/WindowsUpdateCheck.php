@@ -28,7 +28,7 @@
 
       $desktop_update['msi'] = $this->BuildKeymanDesktopVersionResponse($tier, $appVersion, self::MSI_REGEX);
       $desktop_update['setup'] = $this->BuildKeymanDesktopVersionResponse($tier, $appVersion, self::BOOTSTRAP_REGEX);
-      
+
       $desktop_update['bundle'] = $this->RepairVersionCheck($appVersion);
       if(!$desktop_update['bundle']) {
         $desktop_update['bundle'] = $this->BuildKeymanDesktopVersionResponse($tier, $appVersion, self::BUNDLE_REGEX);
@@ -49,12 +49,12 @@
     // https://github.com/keymanapp/keyman/pull/13867
     // https://github.com/keymanapp/keyman/pull/14010
     // https://github.com/keymanapp/keyman/issues/14586
-    // https://github.com/keymanapp/api.keyman.com/issues/293 
+    // https://github.com/keymanapp/api.keyman.com/issues/293
     private function RepairVersionCheck($InstalledVersion) {
 
       $installedParts = explode('.', $InstalledVersion);
       if($installedParts[0] == '18' && version_compare($InstalledVersion, '18.0.236', '<=')) {
-      
+
         $repairVersionObj = new \stdClass();
         $repairVersionObj->name = "Keyman for Windows";
         $repairVersionObj->version = "18.0.240";
@@ -66,7 +66,7 @@
         $repairVersionObj->type = "exe";
         $repairVersionObj->build = "240";
         $repairVersionObj->size = 111440328;
-        $repairVersionObj->url = KeymanHosts::Instance()->downloads_keyman_com . "/windows/stable/repair-14586/18.0.000.exe";
+        $repairVersionObj->url = KeymanHosts::Instance()->downloads_keyman_com . "/windows/stable/18.0.240/repair-14586/keyman-18.0.000.exe";
         return $repairVersionObj;
       }
       return null;
@@ -109,12 +109,12 @@
           fail('Unexpected tier '.$tier, 500);
       }
     }
-    
+
     private function CheckVersionResponse($tier, $tiers, $InstalledVersion, $regex) {
       if(!isset($tiers[$tier])) return FALSE;
       $tierdata = $tiers[$tier];
       if(is_array($tierdata->files)) return FALSE;
-      
+
       $files = get_object_vars($tierdata->files);
       foreach($files as $file => $filedata) {
         // This is currently tied to Windows -- for other platforms we need to change this
