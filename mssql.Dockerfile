@@ -1,5 +1,5 @@
 # syntax=docker/dockerfile:1
-FROM mcr.microsoft.com/mssql/server:2022-latest@sha256:ffef32dda16cc5abd70db1d0654c01cbe9f7093d66e0c83ade20738156cb7d0e
+FROM mcr.microsoft.com/mssql/server:2022-latest@sha256:d252932ef839c24c61c1139cc98f69c85ca774fa7c6bfaaa0015b7eb02b9dc87 
 USER root
 
 RUN export DEBIAN_FRONTEND=noninteractive && \
@@ -12,5 +12,7 @@ apt-get update
 
 RUN apt-get install -y mssql-server-fts
 
+RUN sed -i -E 's/(CipherString\s*=\s*DEFAULT@SECLEVEL=)2/\10/' /etc/ssl/openssl.cnf
+
 # Run SQL Server process
-CMD /opt/mssql/bin/sqlservr
+CMD ["/opt/mssql/bin/sqlservr"]
