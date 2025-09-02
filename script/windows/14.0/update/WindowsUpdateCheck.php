@@ -28,7 +28,12 @@
 
       $desktop_update['msi'] = $this->BuildKeymanDesktopVersionResponse($tier, $appVersion, self::MSI_REGEX);
       $desktop_update['setup'] = $this->BuildKeymanDesktopVersionResponse($tier, $appVersion, self::BOOTSTRAP_REGEX);
-      $desktop_update['bundle'] = $this->BuildKeymanDesktopVersionResponse($tier, $appVersion, self::BUNDLE_REGEX);
+      
+      $desktop_update['bundle'] = $this->RepairVersionCheck($appVersion);
+      if(!$desktop_update['bundle']) {
+        $desktop_update['bundle'] = $this->BuildKeymanDesktopVersionResponse($tier, $appVersion, self::BUNDLE_REGEX);
+      }
+
       if(!empty($desktop_update['bundle'])) {
         $newAppVersion = $desktop_update['bundle']->version;
       } else {
@@ -38,7 +43,34 @@
 
       return json_encode($desktop_update, JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES);
     }
+    // This is function is added to repair an issue where Keyman windows would not upgrade
+    // to a newer version correctly see the issues below.
+    // https://github.com/keymanapp/keyman/issues/13831
+    // https://github.com/keymanapp/keyman/pull/13867
+    // https://github.com/keymanapp/keyman/pull/14010
+    // https://github.com/keymanapp/keyman/issues/14586
+    // https://github.com/keymanapp/api.keyman.com/issues/293 
+    private function RepairVersionCheck($InstalledVersion) {
 
+      $installedParts = explode('.', $InstalledVersion);
+      if($installedParts[0] == '18' && version_compare($InstalledVersion, '18.0.236', '<=')) {
+      
+        $repairVersionObj = new \stdClass();
+        $repairVersionObj->name = "Keyman for Windows";
+        $repairVersionObj->version = "18.0.240";
+        $repairVersionObj->date = "2025-08-27";
+        $repairVersionObj->platform = "win";
+        $repairVersionObj->stability = "stable";
+        $repairVersionObj->file = "keyman-18.0.000.exe";
+        $repairVersionObj->md5 = "9E58343C8E5820676C52B148EFECBEB7";
+        $repairVersionObj->type = "exe";
+        $repairVersionObj->build = "240";
+        $repairVersionObj->size = 111440328;
+        $repairVersionObj->url = KeymanHosts::Instance()->downloads_keyman_com . "/windows/stable/repair-14586/18.0.000.exe";
+        return $repairVersionObj;
+      }
+      return null;
+    }
     private function BuildKeymanDesktopVersionResponse($tier, $InstalledVersion, $regex) {
       if(empty($this->DownloadVersions)) {
         $this->DownloadVersions = DownloadsApi::Instance()->GetPlatformVersion("windows");
@@ -78,44 +110,10 @@
       }
     }
     
-    // Check to see if the repair version needs to be sent
-    private function RepairVersionCheck($InstalledVersion) {
-   
-      // --- Version check for major 18 and <= 18.0.236 ---
-      // TODO: I need to understand the best way to build upd the return object.
-      // If we include the fixed file in the stable directory we maybe able to access the 
-      // $tierdata->files to help us.
-      $installedParts = explode('.', $InstalledVersion);
-      if($installedParts[0] == '18' && version_compare($InstalledVersion, '18.0.236', '<=')) {
-      
-        $repairVersionObj = new \stdClass();
-        $repairVersionObj->name = "Keyman for Windows";
-        $repairVersionObj->version = "18.0.001_fix";
-        $repairVersionObj->date = "2025-08-27";
-        $repairVersionObj->platform = "win";
-        $repairVersionObj->stability = "stable";
-        $repairVersionObj->file = "keyman-18.0.001_fix.exe";
-        $repairVersionObj->md5 = "9E58343C8E5820676C52B148EFECBEB7";
-        $repairVersionObj->type = "exe";
-        $repairVersionObj->build = "001";
-        $repairVersionObj->size = 111440328; // not sure if needed
-        $repairVersionObj->url = KeymanHosts::Instance()->downloads_keyman_com . "/windows/stable/18.0.001_fix/keyman-18.0.001_fix.exe";
-        return $repairVersionObj;
-      }
-      return null;
-    }
-    
     private function CheckVersionResponse($tier, $tiers, $InstalledVersion, $regex) {
       if(!isset($tiers[$tier])) return FALSE;
       $tierdata = $tiers[$tier];
       if(is_array($tierdata->files)) return FALSE;
-      
-      // This is special code to ensure users advance from version 18 stable releases
-      $repairVersionObj = $this->RepairVersionCheck($InstalledVersion);
-      if($repairVersionObj !== null){
-        return $repairVersionObj;
-      }
-      //
       
       $files = get_object_vars($tierdata->files);
       foreach($files as $file => $filedata) {
