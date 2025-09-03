@@ -43,8 +43,9 @@
 
       return json_encode($desktop_update, JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES);
     }
-    // This is function is added to repair an issue where Keyman windows would not upgrade
-    // to a newer version correctly see the issues below.
+    // RepairVersionCheck works around an issue where Keyman for Windows 18.0.235-236 
+    // would not upgrade to a newer version; see the links below for more details.
+    // https://downloads.keyman.com/windows/stable/18.0.240/repair-14586/README.md
     // https://github.com/keymanapp/keyman/issues/13831
     // https://github.com/keymanapp/keyman/pull/13867
     // https://github.com/keymanapp/keyman/pull/14010
