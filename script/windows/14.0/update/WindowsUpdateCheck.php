@@ -28,7 +28,12 @@
 
       $desktop_update['msi'] = $this->BuildKeymanDesktopVersionResponse($tier, $appVersion, self::MSI_REGEX);
       $desktop_update['setup'] = $this->BuildKeymanDesktopVersionResponse($tier, $appVersion, self::BOOTSTRAP_REGEX);
-      $desktop_update['bundle'] = $this->BuildKeymanDesktopVersionResponse($tier, $appVersion, self::BUNDLE_REGEX);
+
+      $desktop_update['bundle'] = $this->RepairVersionCheck($appVersion);
+      if(!$desktop_update['bundle']) {
+        $desktop_update['bundle'] = $this->BuildKeymanDesktopVersionResponse($tier, $appVersion, self::BUNDLE_REGEX);
+      }
+
       if(!empty($desktop_update['bundle'])) {
         $newAppVersion = $desktop_update['bundle']->version;
       } else {
@@ -38,7 +43,35 @@
 
       return json_encode($desktop_update, JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES);
     }
+    // RepairVersionCheck works around an issue where Keyman for Windows 18.0.235-236 
+    // would not upgrade to a newer version; see the links below for more details.
+    // https://downloads.keyman.com/windows/stable/18.0.240/repair-14586/README.md
+    // https://github.com/keymanapp/keyman/issues/13831
+    // https://github.com/keymanapp/keyman/pull/13867
+    // https://github.com/keymanapp/keyman/pull/14010
+    // https://github.com/keymanapp/keyman/issues/14586
+    // https://github.com/keymanapp/api.keyman.com/issues/293
+    private function RepairVersionCheck($InstalledVersion) {
 
+      $installedParts = explode('.', $InstalledVersion);
+      if($installedParts[0] == '18' && version_compare($InstalledVersion, '18.0.236', '<=')) {
+
+        $repairVersionObj = new \stdClass();
+        $repairVersionObj->name = "Keyman for Windows";
+        $repairVersionObj->version = "18.0.240";
+        $repairVersionObj->date = "2025-08-27";
+        $repairVersionObj->platform = "win";
+        $repairVersionObj->stability = "stable";
+        $repairVersionObj->file = "keyman-18.0.000.exe";
+        $repairVersionObj->md5 = "9E58343C8E5820676C52B148EFECBEB7";
+        $repairVersionObj->type = "exe";
+        $repairVersionObj->build = "240";
+        $repairVersionObj->size = 111440328;
+        $repairVersionObj->url = KeymanHosts::Instance()->downloads_keyman_com . "/windows/stable/18.0.240/repair-14586/keyman-18.0.000.exe";
+        return $repairVersionObj;
+      }
+      return null;
+    }
     private function BuildKeymanDesktopVersionResponse($tier, $InstalledVersion, $regex) {
       if(empty($this->DownloadVersions)) {
         $this->DownloadVersions = DownloadsApi::Instance()->GetPlatformVersion("windows");

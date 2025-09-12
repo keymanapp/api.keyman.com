@@ -2,7 +2,7 @@
 ## START STANDARD SITE BUILD SCRIPT INCLUDE
 readonly THIS_SCRIPT="$(readlink -f "${BASH_SOURCE[0]}")"
 readonly BOOTSTRAP="$(dirname "$THIS_SCRIPT")/resources/bootstrap.inc.sh"
-readonly BOOTSTRAP_VERSION=v1.0.2
+readonly BOOTSTRAP_VERSION=v1.0.4
 [ -f "$BOOTSTRAP" ] && source "$BOOTSTRAP" || source <(curl -fs https://raw.githubusercontent.com/keymanapp/shared-sites/$BOOTSTRAP_VERSION/bootstrap.inc.sh)
 ## END STANDARD SITE BUILD SCRIPT INCLUDE
 
@@ -79,12 +79,15 @@ function start_docker_container_db() {
 
   local CONTAINER_ID=$(get_docker_container_id $CONTAINER_NAME)
   if [ ! -z "$CONTAINER_ID" ]; then
-    builder_die "container $CONTAINER_ID has already been started"
+    builder_echo green "SQL Server already started, listening on localhost:$PORT"
+    return 0
   fi
 
   # Start the Docker container
   if [ -z $(get_docker_image_id $IMAGE_NAME) ]; then
-    builder_die "ERROR: Docker container doesn't exist. Run \"./build.sh build\" first"
+    builder_echo yellow "Docker db container doesn't exist. Running \"./build.sh build:db\" first"
+    "$THIS_SCRIPT" build:db
+    builder_echo green "Docker db container has been created successfully"
   fi
 
   # Setup database
@@ -110,12 +113,15 @@ function start_docker_container_app() {
 
   local CONTAINER_ID=$(get_docker_container_id $CONTAINER_NAME)
   if [ ! -z "$CONTAINER_ID" ]; then
-    builder_die "$HOST container $CONTAINER_ID has already been started"
+    builder_echo green "Container $CONTAINER_ID has already been started, listening on http://$HOST:$PORT"
+    return 0
   fi
 
   # Start the Docker container
   if [ -z $(get_docker_image_id $IMAGE_NAME) ]; then
-    builder_die "ERROR: Docker container doesn't exist. Run \"./build.sh build\" first"
+    builder_echo yellow "Docker app container doesn't exist. Running \"./build.sh build:app\" first"
+    "$THIS_SCRIPT" build:app
+    builder_echo green "Docker app container has been created successfully"
   fi
 
   if [[ $OSTYPE =~ msys|cygwin ]]; then
