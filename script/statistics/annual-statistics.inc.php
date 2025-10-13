@@ -21,8 +21,8 @@ class AnnualStatistics {
     $stmt->bindParam(":prmEndDate", $endDate);
 
     $stmt->execute();
-    $data = $stmt->fetchAll()[0];
-    $data = array_filter($data, "Keyman\\Site\\com\\keyman\\api\\filter_columns_by_name", ARRAY_FILTER_USE_KEY );
+    $data = $stmt->fetchAll();
+    //$data = array_filter($data, "Keyman\\Site\\com\\keyman\\api\\filter_columns_by_name", ARRAY_FILTER_USE_KEY );
     return $data;
   }
 }
