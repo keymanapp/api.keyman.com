@@ -46,9 +46,11 @@ final class TestDBDataSources extends \DBDataSources
       // Connect to database. TODO: refactor with DBConnect
       $dci = new \DatabaseConnectionInfo();
 
-      $env = getenv();
-      $force = !empty($env['TEST_REBUILD']);
-      unset($env['TEST_REBUILD']); // wow, but means this only gets run once :)
+      $force = file_exists(__DIR__ . '/../rebuild-test-fixtures.txt');
+      if($force) {
+        \build_log("Rebuilding test fixtures\n");
+        unlink(__DIR__ . '/../rebuild-test-fixtures.txt'); // means this only gets run once
+      }
 
       $schema = $dci->getActiveSchema();
       try {
