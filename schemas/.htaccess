@@ -2,23 +2,34 @@
 # versioned schema files rather than to the base, so we will not add extra
 # redirects here for new schemas
 
+
+# keyboard_info.schema.json (deprecates keyboard_info.source.json, keyboard_info.distribution.json)
+RewriteRule "^keyboard_info\.schema\.json$" "/schemas/keyboard_info/2.0/keyboard_info.schema.json" [END]
+
 # keyboard_info.distribution.json (deprecated by keyboard_info.schema.json)
 RewriteRule "^keyboard_info\.distribution\.json$" "/schemas/keyboard_info.distribution/1.0.6/keyboard_info.distribution.json" [END]
 
 # keyboard_info.source.json (deprecated by keyboard_info.schema.json)
 RewriteRule "^keyboard_info\.source\.json$" "/schemas/keyboard_info.source/1.0.6/keyboard_info.source.json" [END]
 
+
 # keyboard_json.json
 RewriteRule "^keyboard_json\.json$" "/schemas/keyboard_json/1.0/keyboard_json.json" [END]
 
-# model_info.distribution.json"
+
+# model_info.schema.json (deprecates model_info.source.json, model_info.distribution.json)
+RewriteRule "^model_info\.schema\.json$" "/schemas/model_info/2.0/model_info.schema.json" [END]
+
+# model_info.distribution.json" (deprecated by model_info.schema.json)
 RewriteRule "^model_info\.distribution\.json$" "/schemas/model_info.distribution/1.0.1/model_info.distribution.json" [END]
 
-# model_info.source.json
+# model_info.source.json (deprecated by model_info.schema.json)
 RewriteRule "^model_info\.source\.json$" "/schemas/model_info.source/1.0.1/model_info.source.json" [END]
+
 
 # model-search.json
 RewriteRule "^model-search\.json$" "/schemas/model-search/1.0.1/model-search.json" [END]
+
 
 # package.json (renamed to kmp.schema.json)
 
@@ -31,14 +42,18 @@ RewriteRule "^package/1\.0\.1/package\.json$" "/schemas/kmp/1.0.1/kmp.schema.jso
 RewriteRule "^package/1\.0\.2/package\.json$" "/schemas/kmp/1.0.2/kmp.schema.json" [END]
 RewriteRule "^package/1\.1\.0/package\.json$" "/schemas/kmp/1.1.0/kmp.schema.json" [END]
 
+
 # package-version.json
 RewriteRule "^package-version\.json$" "/schemas/package-version/1.0.1/package-version.json" [END]
+
 
 # search.json
 RewriteRule "^search\.json$" "/schemas/search/3.0/search.json" [END]
 
+
 # version.json
 RewriteRule "^version\.json$" "/schemas/version/2.0/version.json" [END]
+
 
 # windows-update.json
 RewriteRule "^windows-update\.json$" "/schemas/windows-update/17.0/windows-update.json" [END]
