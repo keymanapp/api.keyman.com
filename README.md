@@ -1,116 +1,111 @@
 # api.keyman.com
 
-The following is outdated and will be replaced with Docker/Apache
+This is the source for the website https://api.keyman.com/, which hosts the
+database backend for Keyman websites. This site runs on Apache in a Docker
+container, and the database itself runs on SQL Server for Linux in a separate
+container.
 
-## Configuration
+## Other Keyman websites
 
-Currently, this site runs only on a Windows host with IIS and Microsoft SQL Server.
+* **[api.keyman.com]** - database backend for Keyman websites
+* **[help.keyman.com]** - documentation home for Keyman
+* **[keyman.com]** - Keyman home
+* **[keymanweb.com]** - KeymanWeb online keyboard
+* **[s.keyman.com]** - static Javascript, font, and related resources
+* **[website-local-proxy]** - run all Keyman sites on localhost on the same port
 
-## Prerequisites
+## How to run api.keyman.com locally
 
-* Windows
-* Chocolatey
-* PHP 7.4
-* MS SQL Server 2016 or later including FullText Search
+When run locally, this site can be accessed at http://localhost:8058 or
+http://api.keyman.com.localhost:8058.
 
-* `configure.ps1` automatically installs chocolatey, PHP, Composer, SQL Server and PHP-PDO driver
-  for SQL Server. This script is not particularly sophisticated, so for manual config, copy and
-  paste elements from the script.
+**Recommended:** Use [website-local-proxy] to run multiple keyman.com sites
+all from the same port (default port 80).
 
-## Setup
+**Recommended:** Use [shared-sites] to control startup and shutdown of all
+keyman.com sites together.
 
-1. Install the dependencies:
+### Prerequisites
 
-```
-composer install
-```
+The host machine needs the following apps installed:
+* [Git]
+* Bash 5.x (on Windows, you can use Git Bash that comes with [Git])
+* [Docker Desktop]
 
-2. Configure your local environment by copying tools/db/localenv.php.in to tools/db/localenv.php
-   and completing the details therein.
+  <details>
+  <summary>Configuration of Docker on Windows</summary>
 
-3. Build the backend database from live data:
+    On Windows machines, you can setup Docker in two different ways, either of
+    which should work:
+    * [Enable Hyper-V on Windows 11](https://techcommunity.microsoft.com/t5/educator-developer-blog/step-by-step-enabling-hyper-v-for-use-on-windows-11/ba-p/3745905)
+    * [WSL2](https://ubuntu.com/tutorials/install-ubuntu-on-wsl2-on-windows-10#1-overview)
 
-```
-composer build
-```
+  </details>
 
-## Tests
+### Actions
 
-Test suites run with mock data from the tests/data folder. If this data is refreshed, fixtures
-will probably need to be updated accordingly as the data in them will have become stale.
+#### Build the Docker image
 
-To run tests:
+The first time you want to start up the site, or if there have been Docker
+configuration changes, you will need to rebuild the Docker images. Start a bash
+shell, and from this folder, run:
 
-```
-composer test
-```
-
-To force a rebuild of the test database (e.g. if schema changes):
-
-```
-TEST_REBUILD=1 composer test
-```
-
-## Configuring a new Azure Database
-
-1. Create an Azure SQL Server
-2. Create an Azure SQL Database, e.g. called 'keymanapi'
-3. Run the following script on the master database, replacing password as necessary:
-
-```
--- logins for staging
-CREATE LOGIN [k0] WITH PASSWORD=N'password'
-GO
-
-CREATE LOGIN [k1] WITH PASSWORD=N'password'
-GO
-
--- logins for production
-CREATE LOGIN [production_k0] WITH PASSWORD=N'password'
-GO
-
-CREATE LOGIN [production_k1] WITH PASSWORD=N'password'
-GO
+```sh
+./build.sh build
 ```
 
-4. Run the following script on the keymanapi database:
+#### Start the Docker container
 
+To start up the website, in bash, run:
+
+```sh
+./build.sh start --debug
 ```
--- Schemas, users and roles for staging
-CREATE SCHEMA [k0]
-GO
 
-CREATE SCHEMA [k1]
-GO
+Once the container starts, you can access the api.keyman.com site at
+http://localhost:8058 or http://api.keyman.com.localhost:8058
 
-CREATE USER [k0] FOR LOGIN [k0] WITH DEFAULT_SCHEMA=[k0]
-GO
+#### Stop the Docker container
 
-CREATE USER [k1] FOR LOGIN [k1] WITH DEFAULT_SCHEMA=[k1]
-GO
+In bash, run:
 
-ALTER ROLE db_owner ADD MEMBER k0
-GO
-
-ALTER ROLE db_owner ADD MEMBER k1
-GO
-
--- Schemas, users and roles for production
-CREATE SCHEMA [production_k0]
-GO
-
-CREATE SCHEMA [production_k1]
-GO
-
-CREATE USER [production_k0] FOR LOGIN [production_k0] WITH DEFAULT_SCHEMA=[production_k0]
-GO
-
-CREATE USER [production_k1] FOR LOGIN [production_k1] WITH DEFAULT_SCHEMA=[production_k1]
-GO
-
-ALTER ROLE db_owner ADD MEMBER production_k0
-GO
-
-ALTER ROLE db_owner ADD MEMBER production_k1
-GO
+```sh
+./build.sh stop
 ```
+
+#### Remove the Docker container and image
+
+In bash, run:
+
+```sh
+./build.sh clean
+```
+
+#### Running tests
+
+Test suites run with mock data from the tests/data folder. To check APIs, broken
+links and .php file conformance, when the site is running, in bash, run:
+
+```sh
+./build.sh test
+```
+
+To force a rebuild of the test database from the mock data (for example if
+schema changes and this is not automatically detected):
+
+```sh
+./build.sh test --rebuild-test-fixtures
+```
+
+[Git]: https://git-scm.com/downloads
+[Docker Desktop]: https://docs.docker.com/get-docker/
+[api.keyman.com]: https://github.com/keymanapp/api.keyman.com
+[help.keyman.com]: https://github.com/keymanapp/help.keyman.com
+[keyman.com]: https://github.com/keymanapp/keyman.com
+[keymanweb.com]: https://github.com/keymanapp/keymanweb.com
+[s.keyman.com]: https://github.com/keymanapp/s.keyman.com
+[website-local-proxy]: https://github.com/keymanapp/website-local-proxy
+[shared-sites]: https://github.com/keymanapp/shared-sites
+[enable Hyper-V]: https://techcommunity.microsoft.com/t5/educator-developer-blog/step-by-step-enabling-hyper-v-for-use-on-windows-11/ba-p/3745905
+[enable WSL2]: https://ubuntu.com/tutorials/install-ubuntu-on-wsl2-on-windows-10#1-overview
+

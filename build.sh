@@ -28,6 +28,7 @@ builder_describe \
   "start" \
   "stop" \
   "test" \
+  "--rebuild-test-fixtures   Rebuild the test fixtures from live data" \
   ":db   Build the database" \
   ":app  Build the site"
 
@@ -36,6 +37,10 @@ builder_parse "$@"
 function test_docker_container() {
   echo "TIER_TEST" > tier.txt
   # Note: ci.yml replicates these
+
+  if builder_has_option --rebuild-test-fixtures; then
+    touch rebuild-test-fixtures.txt
+  fi
 
   # Run unit tests
   docker exec $API_KEYMAN_CONTAINER_DESC sh -c "vendor/bin/phpunit --testdox"
@@ -92,12 +97,16 @@ function start_docker_container_db() {
 
   # Setup database
   builder_echo "Setting up DB container"
-  docker run -m 2048m --rm -d -p $PORT:1433 \
+  docker run --rm -d -p $PORT:1433 \
     -e "ACCEPT_EULA=Y" \
     -e "MSSQL_AGENT_ENABLED=true" \
     -e "MSSQL_SA_PASSWORD=yourStrong(\!)Password" \
     --name $CONTAINER_DESC \
     $CONTAINER_NAME
+
+  builder_echo "Sleeping for 30 seconds to give database time to spin up"
+  builder_echo "(DB may crash if connected to, too early, on some systems)"
+  sleep 30s
 
   builder_echo green "SQL Server Listening on localhost:$PORT"
 }
@@ -136,6 +145,8 @@ function start_docker_container_app() {
     # Linux needs --add-host parameter
     ADD_HOST="--add-host host.docker.internal:host-gateway"
   fi
+
+  builder_echo "Checking network settings"
 
   db_ip=$(docker inspect -f '{{range.NetworkSettings.Networks}}{{.IPAddress}}{{end}}' ${API_KEYMAN_DB_IMAGE_NAME})
 
