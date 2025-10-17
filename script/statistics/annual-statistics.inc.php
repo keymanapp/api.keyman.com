@@ -22,7 +22,7 @@ class AnnualStatistics {
 
     $stmt->execute();
     $data = $stmt->fetchAll();
-    // $data = array_filter($data, "Keyman\\Site\\com\\keyman\\api\\filter_columns_by_name", ARRAY_FILTER_USE_KEY );
+    //$data = array_filter($data, "Keyman\\Site\\com\\keyman\\api\\filter_columns_by_name", ARRAY_FILTER_USE_KEY );
     return $data;
   }
 }
