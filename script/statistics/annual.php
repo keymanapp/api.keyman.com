@@ -29,4 +29,9 @@
 
   $stats = new \Keyman\Site\com\keyman\api\AnnualStatistics();
   $data = $stats->execute($mssql, $startDate, $endDate);
-  json_print($data);
+  $rows = [];
+  foreach($data as $row) {
+    $rows[$row[0]] = ["Value" => $row[2], "Comment" => $row[1]];
+  }
+
+  json_print($rows);
