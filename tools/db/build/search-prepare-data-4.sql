@@ -14,7 +14,7 @@ SELECT DISTINCT
   null,
   t.region,
   t.regionname,
-  kl.description,
+  t.name,
   0,
   kl.script_id,
   kl.bcp47
