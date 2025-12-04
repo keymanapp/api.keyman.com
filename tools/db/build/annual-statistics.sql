@@ -38,3 +38,23 @@ SELECT
   (select count(*) from k0.t_keyboard_langtag) AS LanguageKeyboardPairs,
   (select count(*) from k0.t_model) AS LexicalModelCount,
   (select sum(count) from kstats.t_keyboard_downloads WHERE statdate >= @prmStartDate AND statdate < @prmEndDate) RawKeyboardDownloadCount
+GO
+
+DROP PROCEDURE IF EXISTS sp_keyboard_downloads_by_month_statistics;
+GO
+
+CREATE PROCEDURE sp_keyboard_downloads_by_month_statistics (
+  @prmStartDate DATE,
+  @prmEndDate DATE
+) AS
+
+  select
+    month(statdate) Month,
+    year(statdate) Year,
+    sum(count) RawKeyboardDownloadCount,
+	sum(count)/day(eomonth(datefromparts(year(statdate),month(statdate),1))) DownloadsPerDay
+  from kstats.t_keyboard_downloads
+  WHERE statdate >= @prmStartDate AND statdate < @prmEndDate
+  group by month(statdate), year(statdate)
+  order by 2, 1
+GO

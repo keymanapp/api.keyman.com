@@ -7,8 +7,19 @@
 
   namespace Keyman\Site\com\keyman\api;
 
-  function filter_columns_by_name($key) {
-    return !is_numeric($key);
+  // strip out repeated columns with numeric keys
+  function filter_columns_by_name($data) {
+    $result = [];
+    foreach($data as $row) {
+      $r = [];
+      foreach($row as $id => $val) {
+        if(!is_numeric($id)) {
+          $r[$id] = intval($val);
+        }
+      }
+      array_push($result, $r);
+    }
+    return $result;
   }
 
 class AnnualStatistics {
@@ -22,7 +33,17 @@ class AnnualStatistics {
 
     $stmt->execute();
     $data = $stmt->fetchAll();
-    //$data = array_filter($data, "Keyman\\Site\\com\\keyman\\api\\filter_columns_by_name", ARRAY_FILTER_USE_KEY );
-    return $data;
+    return filter_columns_by_name($data);
+  }
+
+  function executeDownloadsByMonth($mssql, $startDate, $endDate) {
+    $stmt = $mssql->prepare('EXEC sp_keyboard_downloads_by_month_statistics :prmStartDate, :prmEndDate');
+
+    $stmt->bindParam(":prmStartDate", $startDate);
+    $stmt->bindParam(":prmEndDate", $endDate);
+
+    $stmt->execute();
+    $data = $stmt->fetchAll();
+    return filter_columns_by_name($data);
   }
 }
