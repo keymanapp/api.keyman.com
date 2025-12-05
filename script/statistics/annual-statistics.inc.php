@@ -7,7 +7,8 @@
 
   namespace Keyman\Site\com\keyman\api;
 
-  // strip out repeated columns with numeric keys
+  // strip out repeated columns with numeric keys (by default the results returned
+  // give each column twice, once with a column name, and once with a column index)
   function filter_columns_by_name($data) {
     $result = [];
     foreach($data as $row) {

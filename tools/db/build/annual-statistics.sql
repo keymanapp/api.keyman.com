@@ -52,7 +52,7 @@ CREATE PROCEDURE sp_keyboard_downloads_by_month_statistics (
     month(statdate) Month,
     year(statdate) Year,
     sum(count) RawKeyboardDownloadCount,
-	sum(count)/day(eomonth(datefromparts(year(statdate),month(statdate),1))) DownloadsPerDay
+    sum(count)/day(eomonth(datefromparts(year(statdate),month(statdate),1))) DownloadsPerDay
   from kstats.t_keyboard_downloads
   WHERE statdate >= @prmStartDate AND statdate < @prmEndDate
   group by month(statdate), year(statdate)
