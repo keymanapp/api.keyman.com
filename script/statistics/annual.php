@@ -28,5 +28,7 @@
    */
 
   $stats = new \Keyman\Site\com\keyman\api\AnnualStatistics();
-  $data = $stats->execute($mssql, $startDate, $endDate);
+  $summary = $stats->execute($mssql, $startDate, $endDate);
+  $downloads = $stats->executeDownloadsByMonth($mssql, $startDate, $endDate);
+  $data = ["summary" => $summary, "keyboardDownloadsByMonth" => $downloads];
   json_print($data);
