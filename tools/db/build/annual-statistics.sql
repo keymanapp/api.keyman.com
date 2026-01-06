@@ -22,6 +22,8 @@
     users or keyboards in use, but gives a rough volume.
 */
 
+/* TODO(lowpri): rename these procs to sp_statistics_xxxx */
+
 DROP PROCEDURE IF EXISTS sp_annual_statistics;
 GO
 
@@ -40,6 +42,8 @@ SELECT
   (select sum(count) from kstats.t_keyboard_downloads WHERE statdate >= @prmStartDate AND statdate < @prmEndDate) RawKeyboardDownloadCount
 GO
 
+/* ======================================================================== */
+
 DROP PROCEDURE IF EXISTS sp_keyboard_downloads_by_month_statistics;
 GO
 
@@ -57,4 +61,33 @@ CREATE PROCEDURE sp_keyboard_downloads_by_month_statistics (
   WHERE statdate >= @prmStartDate AND statdate < @prmEndDate
   group by month(statdate), year(statdate)
   order by 2, 1
+GO
+
+/* ======================================================================== */
+
+DROP PROCEDURE IF EXISTS sp_statistics_keyboard_downloads_by_id;
+GO
+
+CREATE PROCEDURE sp_statistics_keyboard_downloads_by_id (
+  @prmStartDate DATE,
+  @prmEndDate DATE
+) AS
+
+  DECLARE @DayCount INT = DATEDIFF(day,@prmStartDate,@prmEndDate) + 1
+
+  SELECT
+    k.keyboard_id,
+    k.name,
+    SUM(count) RawKeyboardDownloadCount,
+	SUM(count)/@DayCount DownloadsPerDay
+  FROM
+    k0.t_keyboard k LEFT JOIN
+    kstats.t_keyboard_downloads d ON d.keyboard_id = k.keyboard_id
+  WHERE
+    (d.statdate >= @prmStartDate AND d.statdate < @prmEndDate) OR (d.keyboard_id IS NULL)
+  GROUP BY
+    k.keyboard_id,
+    k.name
+  ORDER BY
+    k.keyboard_id
 GO
