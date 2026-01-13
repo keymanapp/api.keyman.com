@@ -91,3 +91,24 @@ CREATE PROCEDURE sp_statistics_keyboard_downloads_by_id (
   ORDER BY
     k.keyboard_id
 GO
+
+/* ======================================================================== */
+
+DROP PROCEDURE IF EXISTS sp_app_downloads_by_month_statistics;
+GO
+
+CREATE PROCEDURE sp_app_downloads_by_month_statistics (
+  @prmStartDate DATE,
+  @prmEndDate DATE
+) AS
+  select
+    month(statdate) Month,
+    year(statdate) Year,
+    product Product,
+    sum(count) RawAppDownloadCount,
+    sum(count)/day(eomonth(datefromparts(year(statdate),month(statdate),1))) DownloadsPerDay
+  from kstats.t_app_downloads
+  WHERE statdate >= @prmStartDate AND statdate < @prmEndDate
+  group by month(statdate), year(statdate), product
+  order by 3, 2, 1
+GO
