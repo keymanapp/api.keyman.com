@@ -1,5 +1,6 @@
 /*
  sp_increment_download
+ TODO: rename to sp_keyboard_downloads_increment
 */
 
 DROP PROCEDURE IF EXISTS sp_increment_download;

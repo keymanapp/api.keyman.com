@@ -306,7 +306,10 @@ CREATE TABLE t_dbdatasources (
 DROP TABLE IF EXISTS t_keyboard_downloads;
 GO
 
---add a new schema for kstats here so we can use it in search.sql
+-- tables in the kstats schema are persistent on the production
+-- infrastructure, unlike the other tables in the database, which
+-- are recreated on each deployment.
+
 IF SCHEMA_ID('kstats') IS NULL
 BEGIN
 	EXEC sp_executesql N'CREATE SCHEMA kstats'
@@ -323,5 +326,20 @@ BEGIN
 
   CREATE INDEX ix_keyboard_downloads ON kstats.t_keyboard_downloads (
     keyboard_id, statdate
+  ) INCLUDE (count)
+END
+
+IF OBJECT_ID('kstats.t_app_downloads', 'U') IS NULL
+BEGIN
+  CREATE TABLE kstats.t_app_downloads (
+    product NVARCHAR(64) NOT NULL,  -- "android", "ios", "linux", "macos", "web", "windows", "developer"...
+    version NVARCHAR(64) NOT NULL,  -- "123.456.789"
+    tier NVARCHAR(16) NOT NULL,     -- "alpha", "beta", "stable"
+    statdate DATE,
+    count INT NOT NULL
+  )
+
+  CREATE INDEX ix_app_downloads ON kstats.t_app_downloads (
+    product, version, tier, statdate
   ) INCLUDE (count)
 END
