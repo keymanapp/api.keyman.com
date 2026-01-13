@@ -21,6 +21,10 @@ class AnnualStatistics {
     return $this->_execute('sp_statistics_keyboard_downloads_by_id', $mssql, $startDate, $endDate);
   }
 
+  function executeAppDownloadsByMonth($mssql, $startDate, $endDate) {
+    return $this->_execute('sp_app_downloads_by_month_statistics', $mssql, $startDate, $endDate);
+  }
+
   private function _execute($proc, $mssql, $startDate, $endDate) {
     $stmt = $mssql->prepare("EXEC $proc :prmStartDate, :prmEndDate");
 
