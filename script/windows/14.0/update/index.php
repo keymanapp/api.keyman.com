@@ -1,4 +1,32 @@
 <?php
+  /**
+   * https://api.keyman.com/windows/{majorVersion}/update?version={fullVersion}&package_{id}={packageVersion}...&update={update}&manual={manual}
+   *
+   * Parameters:
+   *  - `majorVersion` is the same as the Keyman release version, "14.0" or
+   *    later
+   *  - `fullVersion` is the currently installed version on the user's computer,
+   *    e.g. "18.0.240.0"
+   *  - `id` is package id, e.g. "khmer_angkor"; more than one package is
+   *    allowed
+   *  - `packageVersion` is the version of that package, e.g. "1.0"
+   *  - `update` should be 0 for a new install (from setup.exe), or 1 for an
+   *    update
+   *  - `manual` should be 0 for automatic update checks, 1 for new install
+   *    (from setup.exe), or where the user presses 'Check for Updates'
+   *
+   *  This returns a JSON object, following the schema at
+   *  /schemas/windows-update/17.0/windows-update.json See example at
+   *  /schemas/windows-update/17.0/sample.json
+   *
+   *  The value for `update` is included in the URL for keyboard package
+   *  download in the JSON, e.g.:
+   *
+   *  `https://keyman.com/go/package/download/sil_ipa?version=2.0.2&platform=windows&tier=stable&update=0`
+   *
+   *  This is so it can be passed into the increment-download API, to allow us
+   *  to track whether updates are from new installs or from existing users.
+   */
   require_once __DIR__ . '/../../../../tools/base.inc.php';
   require_once __DIR__ . '/../../../../tools/util.php';
   require_once __DIR__ . '/../../../../tools/db/db.php';

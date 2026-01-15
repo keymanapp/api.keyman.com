@@ -10,7 +10,7 @@
         "type": "exe",
         "build": "102",
         "size": 68694016,
-        "url": "https://downloads.keyman.com/windows/alpha/14.0.102.0/keymandesktop.msi"
+        "url": "https://keyman-staging.com/go/app/download/windows/14.0.102.0/alpha?url=https%3A%2F%2Fdownloads.keyman.com%2Fwindows%2Falpha%2F14.0.102.0%2Fkeymandesktop.msi"
     },
     "setup": {
         "name": "Keyman Desktop setup bootstrap",
@@ -23,7 +23,7 @@
         "type": "exe",
         "build": "102",
         "size": 4705280,
-        "url": "https://downloads.keyman.com/windows/alpha/14.0.102.0/setup.exe"
+        "url": "https://keyman-staging.com/go/app/download/windows/14.0.102.0/alpha?url=https%3A%2F%2Fdownloads.keyman.com%2Fwindows%2Falpha%2F14.0.102.0%2Fsetup.exe"
     },
     "bundle": {
         "name": "Keyman Desktop",
@@ -36,7 +36,7 @@
         "type": "exe",
         "build": "102",
         "size": 70575440,
-        "url": "https://downloads.keyman.com/windows/alpha/14.0.102.0/keymandesktop-14.0.102.0.exe"
+        "url": "https://keyman-staging.com/go/app/download/windows/14.0.102.0/alpha?url=https%3A%2F%2Fdownloads.keyman.com%2Fwindows%2Falpha%2F14.0.102.0%2Fkeymandesktop-14.0.102.0.exe"
     },
     "keyboards": {
         "khmer_angkor": {

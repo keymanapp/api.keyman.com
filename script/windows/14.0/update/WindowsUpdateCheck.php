@@ -133,7 +133,9 @@
             }
           }
 
-          $filedata->url = KeymanHosts::Instance()->downloads_keyman_com . "/windows/$tier/{$filedata->version}/{$file}";
+          $filedata->url =
+            KeymanHosts::Instance()->keyman_com . "/go/app/download/windows/{$filedata->version}/$tier?url=" .
+            rawurlencode(KeymanHosts::Instance()->downloads_keyman_com . "/windows/$tier/{$filedata->version}/{$file}");
           return $filedata;
         }
       }
