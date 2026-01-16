@@ -2,7 +2,7 @@
 /*
  * Keyman is copyright (C) SIL Global. MIT License.
  *
- * Basic annual statistics for SIL reports
+ * Basic keyboard download statistics for SIL reports
  */
 
   require_once(__DIR__ . '/../../tools/util.php');
@@ -24,13 +24,26 @@
   $endDate = $_REQUEST['endDate'];
 
   /**
-   * https://api.keyman.com/script/statistics/annual.php
+   * https://api.keyman.com/script/statistics/keyboards.php
    */
 
   $stats = new \Keyman\Site\com\keyman\api\AnnualStatistics();
-  $summary = $stats->execute($mssql, $startDate, $endDate);
-  $downloads = $stats->executeDownloadsByMonth($mssql, $startDate, $endDate);
-  $appDownloads = $stats->executeAppDownloadsByMonth($mssql, $startDate, $endDate);
-  $data = ["summary" => $summary, "keyboardDownloadsByMonth" => $downloads, "appDownloadsByMonth" => $appDownloads];
-  json_print($data);
+  $keyboards = $stats->executeKeyboards($mssql, $startDate, $endDate);
 
+  if(isset($_REQUEST['csv'])) {
+    $out = fopen('php://output', 'w');
+
+    if(sizeof($keyboards) > 0) {
+      $data = array_keys($keyboards[0]);
+      fputcsv($out, $data, ',', '"', '');
+      foreach($keyboards as $row) {
+        $data = array_values($row);
+        fputcsv($out, $data, ',', '"', '');
+      }
+    }
+
+    fclose($out);
+  } else {
+    $data = ["keyboards" => $keyboards];
+    json_print($data);
+  }

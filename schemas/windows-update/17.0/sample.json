@@ -1,0 +1,178 @@
+{
+    "msi": {
+        "name": "Keyman for Windows MSI installer",
+        "version": "18.0.245",
+        "date": "2025-12-03",
+        "platform": "win",
+        "stability": "stable",
+        "file": "keymandesktop.msi",
+        "md5": "98EABC9C8F4803B11C5EF2EF64F0D802",
+        "type": "msi",
+        "build": "245",
+        "size": 110870528,
+        "url": "https://downloads.keyman.com/windows/stable/18.0.245/keymandesktop.msi"
+    },
+    "setup": {
+        "name": "Keyman for Windows setup bootstrap",
+        "version": "18.0.245",
+        "date": "2025-12-03",
+        "platform": "win",
+        "stability": "stable",
+        "file": "setup.exe",
+        "md5": "C32FD8926909F1E447BBC72AF8B16380",
+        "type": "exe",
+        "build": "245",
+        "size": 4032904,
+        "url": "https://downloads.keyman.com/windows/stable/18.0.245/setup.exe"
+    },
+    "bundle": {
+        "name": "Keyman for Windows",
+        "version": "18.0.245",
+        "date": "2025-12-03",
+        "platform": "win",
+        "stability": "stable",
+        "file": "keyman-18.0.245.exe",
+        "md5": "2BE0290AF6DF49BA736CEDCE50D1E763",
+        "type": "exe",
+        "build": "245",
+        "size": 111668424,
+        "url": "https://downloads.keyman.com/windows/stable/18.0.245/keyman-18.0.245.exe"
+    },
+    "keyboards": {
+        "khmer_angkor": {
+            "id": "khmer_angkor",
+            "name": "Khmer Angkor",
+            "license": "mit",
+            "authorName": "Makara Sok",
+            "authorEmail": "makara_sok@sil.org",
+            "description": "<p>Khmer Unicode keyboard layout based on the NiDA keyboard layout.\nAutomatically corrects many common keying errors.</p>",
+            "languages": {
+                "km": {
+                    "examples": [
+                        {
+                            "keys": "x j m E r",
+                            "note": "Name of language",
+                            "text": "\u1781\u17d2\u1798\u17c2\u179a"
+                        }
+                    ],
+                    "font": {
+                        "family": "Busra",
+                        "source": [
+                            "Busra-Regular.ttf"
+                        ]
+                    },
+                    "oskFont": {
+                        "family": "KbdKhmr",
+                        "source": [
+                            "KbdKhmr.ttf"
+                        ]
+                    },
+                    "languageName": "Khmer",
+                    "displayName": "Khmer"
+                }
+            },
+            "lastModifiedDate": "2025-12-16T08:51:56.000Z",
+            "packageFilename": "khmer_angkor.kmp",
+            "packageFileSize": 2541924,
+            "jsFilename": "khmer_angkor.js",
+            "jsFileSize": 74154,
+            "packageIncludes": [
+                "visualKeyboard",
+                "welcome",
+                "documentation",
+                "fonts"
+            ],
+            "version": "2.4",
+            "encodings": [
+                "unicode"
+            ],
+            "platformSupport": {
+                "windows": "full",
+                "macos": "full",
+                "linux": "full",
+                "desktopWeb": "full",
+                "ios": "full",
+                "android": "full",
+                "mobileWeb": "full"
+            },
+            "minKeymanVersion": "10.0",
+            "sourcePath": "release/k/khmer_angkor",
+            "helpLink": "https://help.keyman.com/keyboard/khmer_angkor",
+            "related": {
+                "khmer10": {
+                    "deprecates": true
+                },
+                "basic_kbdkni": {
+                    "deprecates": false
+                }
+            },
+            "url": "https://keyman.com/go/package/download/khmer_angkor?version=2.4&platform=windows&tier=stable&update=0"
+        },
+        "sil_ipa": {
+            "id": "sil_ipa",
+            "name": "IPA (SIL)",
+            "license": "mit",
+            "authorName": "Martin Hosken, Lorna Evans",
+            "authorEmail": "fonts@sil.org",
+            "description": "<p>The keyboard layout is described in terms of an IPA chart rather than a\nkeyboard. This is because many base characters are typed as a sequence\nof a letter followed by one of &lt;, &gt; or = which are characters used to\nchange a base character to another base character. Diacritics are typed\nas sequences of an appropriate key.</p>",
+            "languages": {
+                "und-latn": {
+                    "examples": [],
+                    "font": {
+                        "family": "Charis",
+                        "source": [
+                            "Charis-Regular.ttf"
+                        ]
+                    },
+                    "oskFont": {
+                        "family": "Charis",
+                        "source": [
+                            "Charis-Regular.ttf"
+                        ]
+                    },
+                    "languageName": "Undetermined",
+                    "scriptName": "Latin",
+                    "displayName": "Undetermined (Latin)"
+                }
+            },
+            "lastModifiedDate": "2025-06-09T21:19:30.000Z",
+            "packageFilename": "sil_ipa.kmp",
+            "packageFileSize": 3626354,
+            "jsFilename": "sil_ipa.js",
+            "jsFileSize": 88661,
+            "packageIncludes": [
+                "documentation",
+                "welcome",
+                "fonts"
+            ],
+            "version": "2.0.2",
+            "encodings": [
+                "unicode"
+            ],
+            "platformSupport": {
+                "windows": "full",
+                "macos": "full",
+                "linux": "full",
+                "desktopWeb": "full",
+                "ios": "full",
+                "android": "full",
+                "mobileWeb": "full"
+            },
+            "minKeymanVersion": "17.0",
+            "sourcePath": "release/sil/sil_ipa",
+            "helpLink": "https://help.keyman.com/keyboard/sil_ipa",
+            "related": {
+                "ipauni11": {
+                    "deprecates": true
+                },
+                "ipauni111": {
+                    "deprecates": true
+                },
+                "ipa93_km5": {
+                    "deprecates": false
+                }
+            },
+            "url": "https://keyman.com/go/package/download/sil_ipa?version=2.0.2&platform=windows&tier=stable&update=0"
+        }
+    }
+}

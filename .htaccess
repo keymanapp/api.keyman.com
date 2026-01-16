@@ -32,6 +32,10 @@ RewriteRule "^keyboard/(.*)$" "/script/keyboard/keyboard.php?id=$1" [END]
 
 RewriteRule "^increment-download/(.*)$" "/script/increment-download/increment-download.php?id=$1" [END]
 
+#### Rewrites for /script folder: /app-downloads-increment
+
+RewriteRule "^app-downloads-increment/([^/]+)/([^/]+)/(.*)$" "/script/app-downloads-increment/app-downloads-increment.php?product=$1&version=$2&tier=$3" [END]
+
 #### Rewrites for /script folder: /model
 
 RewriteRule "^model(/)?$" "/script/model-search/model-search.php" [END]
