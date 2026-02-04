@@ -1,5 +1,6 @@
 {
   "$schema": "http://json-schema.org/schema#",
+  "$id": "https://github.com/silnrsi/langtags/raw/master/source/langtags_schema.json",
   "$ref": "#/definitions/langtags",
   "definitions": {
     "langtags": {
@@ -8,7 +9,8 @@
         {"$ref": "#/definitions/langtag"},
         {"$ref": "#/definitions/_globalvar"},
         {"$ref": "#/definitions/_phonvar"},
-        {"$ref": "#/definitions/_version"}
+        {"$ref": "#/definitions/_version"},
+        {"$ref": "#/definitions/_conformance"}
       ] },
       "additionalItems": false
     },
@@ -32,8 +34,17 @@
           "items": { "$ref": "#/definitions/bcp47_variant" },
           "additionalItems": false
         },
+        "svariants": {
+          "type": "array",
+          "items": { "$ref": "#/definitions/bcp47_variant" },
+          "additionalItems": false
+        },
         "iso639_3": {
           "$ref": "#/definitions/iso639_3"
+        },
+        "iso639_3extra": {
+            "type": "array",
+            "items": { "type": "string"}
         },
         "region": {
           "$ref": "#/definitions/iso3166_1"
@@ -47,10 +58,8 @@
           "type": "string"
         },
         "iana": {
-          "oneOf": [
-            { "type": "string" },
-            { "type": "array", "items": {"type":"string"} }
-          ]
+          "type": "array",
+          "items": { "type": "string" }
         },
         "name": {
           "type": "string"
@@ -68,6 +77,9 @@
         "nophonvars": {
           "type": "boolean"
         },
+        "obsolete": {
+          "type": "boolean"
+        },
         "script": {
           "$ref": "#/definitions/iso15924"
         },
@@ -82,10 +94,34 @@
         "suppress": {
           "type": "boolean"
         },
+        "unwritten": {
+          "type": "boolean"
+        },
         "windows": {
           "$ref": "#/definitions/bcp47"
         },
-        "rod": { "type": "string"}
+        "rod": { "type": "string"},
+        "rolv": {
+            "type": "array",
+            "items": { "type": "string" }
+        },
+        "macrolang": {
+            "$ref": "#/definitions/bcp47"
+        },
+        "contains": {
+            "type": "array",
+            "items": { "$ref": "#/definitions/bcp47" }
+        },
+        "fallback": {
+            "type": "object",
+            "patternProperties": {
+                "^[a-zA-Z0-9-]+$": {
+                    "type": "array",
+                    "items": { "type": "string" }
+                }
+            },
+             "additionalProperties": false
+        }
       },
       "required": ["full"],
       "additionalProperties": false
@@ -100,7 +136,7 @@
         },
         "variants": {
           "type": "array",
-          "items": { "type": "string" },
+          "items": { "$ref": "#/definitions/bcp47_variant" },
           "additionalItems": false
         }
       },
@@ -117,7 +153,7 @@
         },
         "variants": {
           "type": "array",
-          "items": { "type": "string" },
+          "items": { "$ref": "#/definitions/bcp47_variant" },
           "additionalItems": false
         }
       },
@@ -134,7 +170,7 @@
         },
         "api": {
           "type": "string",
-          "pattern": "^\\d\\.+\\d\\.+\\d+$"
+          "pattern": "^\\d+\\.\\d+(\\.\\d+)?$"
         },
         "date": {
           "type": "string",
@@ -142,6 +178,26 @@
         }
       },
       "required": ["tag", "api", "date"],
+      "additionalProperties": false
+    },
+
+    "_conformance": {
+      "type": "object",
+      "properties": {
+        "tag": {
+          "type": "string",
+          "const": "_conformance"
+        },
+        "regions": {
+          "type": "array",
+          "items": { "$ref": "#/definitions/iso3166_1"}
+        },
+        "scripts": {
+          "type": "array",
+          "items": { "$ref": "#/definitions/iso15924"}
+        }
+      },
+      "required": ["regions", "scripts"],
       "additionalProperties": false
     },
 
@@ -159,7 +215,6 @@
       "type": "string",
       "pattern": "^[a-z]{3}$"
     },
-
     "iso3166_1": {
       "type": "string",
       "pattern": "^([A-Z]{2})|(\\d\\d\\d)$"
