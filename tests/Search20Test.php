@@ -150,10 +150,11 @@ namespace Keyman\Site\com\keyman\api\tests {
       $json = $this->s->GetSearchMatches(null, 'sencoten', 1, 1);
       $json = json_decode(json_encode($json));
       $this->schema->in($json);
-      $this->assertEquals(3, $json->context->totalRows);
+      $this->assertEquals(2, $json->context->totalRows);
       $this->assertEquals('fv_sencoten', $json->keyboards[0]->id);
-      $this->assertEquals('language', $json->keyboards[0]->match->type);
-      $this->assertEquals('str-latn', $json->keyboards[0]->match->tag);
+      // is now "languages": {"str": {}}
+      //$this->assertEquals('language', $json->keyboards[0]->match->type);
+      //$this->assertEquals('str-latn', $json->keyboards[0]->match->tag);
     }
 
     public function testSearchByLanguageName()

@@ -1,12 +1,4 @@
 {
-    "context": {
-        "range": "Keyboards matching '\u1275'",
-        "text": "ት",
-        "pageSize": 10,
-        "pageNumber": 1,
-        "totalRows": 13,
-        "totalPages": 2
-    },
     "keyboards": [
         {
             "id": "sil_ethiopic",
@@ -97,146 +89,13 @@
                 "linux": "full"
             },
             "match": {
-                "name": "\u1275\u130d\u122b\u12ed\u1275",
+                "name": "ትግራይት",
                 "type": "language",
-                "tag": "tig-ethi",
-                "weight": 30,
+                "weight": 60,
                 "downloads": 470,
                 "totalDownloads": 470,
-                "finalWeight": 214.64574282049253
-            }
-        },
-        {
-            "license": "mit",
-            "languages": {
-                "ti-ethi-er": {
-                    "example": {
-                        "keys": "tgrNa",
-                        "text": "\u1275\u130d\u122d\u129b",
-                        "note": "Name of language"
-                    },
-                    "displayName": "Tigrinya (Ethiopic, Eritrea)",
-                    "languageName": "Tigrinya",
-                    "scriptName": "Ethiopic",
-                    "regionName": "Eritrea"
-                }
-            },
-            "description": "An intuitive, easy to use, keyboard for entering Eritrean Tigrinya with standard English keyboards according to the GFF convention for Ethiopic script languages.",
-            "related": {
-                "gff-tir-er-powerpack-7": {
-                    "deprecates": true
-                },
-                "gff_tir_er_7": {
-                    "deprecates": true
-                },
-                "tir_er_uni_ez": {
-                    "deprecates": true
-                },
-                "tir-er-uni": {
-                    "deprecates": true
-                }
-            },
-            "id": "gff_tigrinya_eritrea",
-            "name": "GFF Tigrinya-Eritrean Keyboard",
-            "authorName": "The Ge'ez Frontier Foundation",
-            "authorEmail": "keyboards@ethiopic.org",
-            "lastModifiedDate": "2020-06-12T00:39:25.770Z",
-            "sourcePath": "release/gff/gff_tigrinya_eritrea",
-            "version": "1.3.1",
-            "packageFilename": "gff_tigrinya_eritrea.kmp",
-            "encodings": [
-                "unicode"
-            ],
-            "packageFileSize": 3663562,
-            "packageIncludes": [
-                "documentation",
-                "visualKeyboard",
-                "fonts",
-                "welcome"
-            ],
-            "minKeymanVersion": "9.0",
-            "helpLink": "https://help.keyman.com/keyboard/gff_tigrinya_eritrea",
-            "platformSupport": {
-                "windows": "full",
-                "macos": "full",
-                "linux": "full"
-            },
-            "match": {
-                "name": "\u1275\u130d\u122d\u129b",
-                "type": "language",
-                "tag": "ti-ethi-er",
-                "weight": 30,
-                "downloads": 234,
-                "totalDownloads": 234,
-                "finalWeight": 193.78756542432478
-            }
-        },
-        {
-            "license": "mit",
-            "languages": {
-                "ti-et": {
-                    "example": {
-                        "keys": "tgrNa",
-                        "text": "\u1275\u130d\u122d\u129b",
-                        "note": "Name of language"
-                    },
-                    "displayName": "Tigrinya (Ethiopia)",
-                    "languageName": "Tigrinya",
-                    "regionName": "Ethiopia"
-                }
-            },
-            "description": "An intuitive, easy to use, keyboard for entering Ethiopian Tigrinya with standard English keyboards according to the GFF convention for Ethiopic script languages.",
-            "related": {
-                "gff-tir-et-powerpack-7": {
-                    "deprecates": true
-                },
-                "gff_tir_et_7": {
-                    "deprecates": true
-                },
-                "tir_et_uni_ez": {
-                    "deprecates": true
-                },
-                "tir-et-uni": {
-                    "deprecates": true
-                }
-            },
-            "id": "gff_tigrinya_ethiopia",
-            "name": "GFF Tigrinya-Ethiopia Keyboard",
-            "authorName": "The Ge'ez Frontier Foundation",
-            "authorEmail": "keyboards@ethiopic.org",
-            "lastModifiedDate": "2020-06-12T00:39:26.912Z",
-            "sourcePath": "release/gff/gff_tigrinya_ethiopia",
-            "version": "1.3.11",
-            "packageFilename": "gff_tigrinya_ethiopia.kmp",
-            "jsFilename": "gff_tigrinya_ethiopia.js",
-            "encodings": [
-                "unicode"
-            ],
-            "jsFileSize": 38507,
-            "packageFileSize": 3665864,
-            "packageIncludes": [
-                "documentation",
-                "welcome",
-                "visualKeyboard",
-                "fonts"
-            ],
-            "minKeymanVersion": "10.0",
-            "helpLink": "https://help.keyman.com/keyboard/gff_tigrinya_ethiopia",
-            "platformSupport": {
-                "windows": "full",
-                "macos": "full",
-                "linux": "full",
-                "desktopWeb": "full",
-                "mobileWeb": "full"
-            },
-            "match": {
-                "name": "\u1275\u130d\u122d\u129b",
-                "type": "language",
-                "tag": "ti-et",
-                "weight": 30,
-                "downloads": 226,
-                "totalDownloads": 226,
-                "finalWeight": 192.74850052444208
+                "finalWeight": 429.29148564098506,
+                "tag": "tig-ethi"
             }
         },
         {
@@ -329,13 +188,81 @@
                 "mobileWeb": "full"
             },
             "match": {
-                "name": "\u1275\u130d\u122b\u12ed\u1275",
+                "name": "ትግሬ",
                 "type": "language",
-                "tag": "tig-ethi",
-                "weight": 30,
+                "weight": 60,
                 "downloads": 149,
                 "totalDownloads": 149,
-                "finalWeight": 180.31905882288765
+                "finalWeight": 360.6381176457753,
+                "tag": "tig-ethi"
+            }
+        },
+        {
+            "license": "mit",
+            "languages": {
+                "ti-et": {
+                    "example": {
+                        "keys": "tgrNa",
+                        "text": "ትግርኛ",
+                        "note": "Name of language"
+                    },
+                    "displayName": "Tigrinya (Ethiopia)",
+                    "languageName": "Tigrinya",
+                    "regionName": "Ethiopia"
+                }
+            },
+            "description": "An intuitive, easy to use, keyboard for entering Ethiopian Tigrinya with standard English keyboards according to the GFF convention for Ethiopic script languages.",
+            "related": {
+                "gff-tir-et-powerpack-7": {
+                    "deprecates": true
+                },
+                "gff_tir_et_7": {
+                    "deprecates": true
+                },
+                "tir_et_uni_ez": {
+                    "deprecates": true
+                },
+                "tir-et-uni": {
+                    "deprecates": true
+                }
+            },
+            "id": "gff_tigrinya_ethiopia",
+            "name": "GFF Tigrinya-Ethiopia Keyboard",
+            "authorName": "The Ge'ez Frontier Foundation",
+            "authorEmail": "keyboards@ethiopic.org",
+            "lastModifiedDate": "2020-06-12T00:39:26.912Z",
+            "sourcePath": "release/gff/gff_tigrinya_ethiopia",
+            "version": "1.3.11",
+            "packageFilename": "gff_tigrinya_ethiopia.kmp",
+            "jsFilename": "gff_tigrinya_ethiopia.js",
+            "encodings": [
+                "unicode"
+            ],
+            "jsFileSize": 38507,
+            "packageFileSize": 3665864,
+            "packageIncludes": [
+                "documentation",
+                "welcome",
+                "visualKeyboard",
+                "fonts"
+            ],
+            "minKeymanVersion": "10.0",
+            "helpLink": "https://help.keyman.com/keyboard/gff_tigrinya_ethiopia",
+            "platformSupport": {
+                "windows": "full",
+                "macos": "full",
+                "linux": "full",
+                "desktopWeb": "full",
+                "mobileWeb": "full"
+            },
+            "match": {
+                "name": "ትግርኛ",
+                "type": "language",
+                "weight": 30,
+                "downloads": 226,
+                "totalDownloads": 226,
+                "finalWeight": 192.74850052444208,
+                "tag": "ti-et"
             }
         },
         {
@@ -381,13 +308,13 @@
             "documentationFileSize": 232912,
             "deprecated": true,
             "match": {
-                "name": "\u1275\u130d\u122d\u129b",
+                "name": "ትግርኛ",
                 "type": "language",
-                "tag": "ti",
                 "weight": 30,
                 "downloads": 0,
                 "totalDownloads": 0,
-                "finalWeight": 30.0
+                "finalWeight": 30,
+                "tag": "ti"
             }
         },
         {
@@ -433,13 +360,13 @@
             "minKeymanVersion": "8.0",
             "deprecated": true,
             "match": {
-                "name": "\u1275\u130d\u122d\u129b",
+                "name": "ትግርኛ",
                 "type": "language",
-                "tag": "ti",
                 "weight": 30,
                 "downloads": 0,
                 "totalDownloads": 0,
-                "finalWeight": 30.0
+                "finalWeight": 30,
+                "tag": "ti"
             }
         },
         {
@@ -518,13 +445,13 @@
             "documentationFileSize": 218410,
             "deprecated": true,
             "match": {
-                "name": "\u1275\u130d\u122d\u129b",
+                "name": "ትግርኛ",
                 "type": "language",
-                "tag": "ti",
                 "weight": 30,
                 "downloads": 0,
                 "totalDownloads": 0,
-                "finalWeight": 30.0
+                "finalWeight": 30,
+                "tag": "ti"
             }
         },
         {
@@ -568,13 +495,13 @@
             "packageFileSize": 104216,
             "deprecated": true,
             "match": {
-                "name": "\u1275\u130d\u122d\u129b",
+                "name": "ትግርኛ",
                 "type": "language",
-                "tag": "ti",
                 "weight": 30,
                 "downloads": 0,
                 "totalDownloads": 0,
-                "finalWeight": 30.0
+                "finalWeight": 30,
+                "tag": "ti"
             }
         },
         {
@@ -618,13 +545,13 @@
             "packageFileSize": 104191,
             "deprecated": true,
             "match": {
-                "name": "\u1275\u130d\u122d\u129b",
+                "name": "ትግርኛ",
                 "type": "language",
-                "tag": "ti",
                 "weight": 30,
                 "downloads": 0,
                 "totalDownloads": 0,
-                "finalWeight": 30.0
+                "finalWeight": 30,
+                "tag": "ti"
             }
         },
         {
@@ -662,14 +589,66 @@
             "helpLink": "https://help.keyman.com/keyboard/tir_er_uni_ez",
             "deprecated": true,
             "match": {
-                "name": "\u1275\u130d\u122d\u129b",
+                "name": "ትግርኛ",
                 "type": "language",
-                "tag": "ti",
                 "weight": 30,
                 "downloads": 0,
                 "totalDownloads": 0,
-                "finalWeight": 30.0
+                "finalWeight": 30,
+                "tag": "ti"
+            }
+        },
+        {
+            "id": "tir_et_uni_ez",
+            "name": "Tigrigna.ET EZ",
+            "jsFilename": "tir_et_uni_ez.js",
+            "platformSupport": {
+                "desktopWeb": "full",
+                "ios": "basic",
+                "android": "basic"
+            },
+            "version": "1.0",
+            "license": "mit",
+            "languages": {
+                "ti": {
+                    "font": {
+                        "family": "GeezWeb",
+                        "source": [
+                            "wookianos.ttf",
+                            "ETHIOPI0.eot",
+                            "wookianos.mobileconfig"
+                        ]
+                    },
+                    "displayName": "Tigrinya",
+                    "languageName": "Tigrinya"
+                }
+            },
+            "lastModifiedDate": "2014-03-21T16:22:19Z",
+            "sourcePath": "legacy/t/tir_et_uni_ez",
+            "encodings": [
+                "unicode"
+            ],
+            "jsFileSize": 13816,
+            "minKeymanVersion": "5.0",
+            "helpLink": "https://help.keyman.com/keyboard/tir_et_uni_ez",
+            "deprecated": true,
+            "match": {
+                "name": "ትግርኛ",
+                "type": "language",
+                "weight": 30,
+                "downloads": 0,
+                "totalDownloads": 0,
+                "finalWeight": 30,
+                "tag": "ti"
             }
         }
-   ]
+    ],
+    "context": {
+        "range": "Keyboards matching 'ት'",
+        "text": "ት",
+        "pageSize": 10,
+        "pageNumber": 1,
+        "totalRows": 12,
+        "totalPages": 2
+    }
 }
