@@ -3,7 +3,11 @@
 readonly THIS_SCRIPT="$(readlink -f "${BASH_SOURCE[0]}")"
 readonly BOOTSTRAP="$(dirname "$THIS_SCRIPT")/resources/bootstrap.inc.sh"
 readonly BOOTSTRAP_VERSION=v1.0.10
-[ -f "$BOOTSTRAP" ] && source "$BOOTSTRAP" || source <(curl -fs https://raw.githubusercontent.com/keymanapp/shared-sites/$BOOTSTRAP_VERSION/bootstrap.inc.sh)
+if ! [ -f "$BOOTSTRAP" ] || ! source "$BOOTSTRAP"; then
+  curl -H "Cache-Control: no-cache" --fail --silent --show-error -w "curl: Finished attempt to download %{url}" "https://raw.githubusercontent.com/keymanapp/shared-sites/$BOOTSTRAP_VERSION/bootstrap.inc.sh" -o "$BOOTSTRAP.tmp" || exit 1
+  source "$BOOTSTRAP.tmp"
+  rm -f "$BOOTSTRAP.tmp"
+fi
 ## END STANDARD SITE BUILD SCRIPT INCLUDE
 
 readonly API_KEYMAN_DB_CONTAINER_NAME=api-keyman-com-db
@@ -29,6 +33,9 @@ builder_describe \
   "stop" \
   "test" \
   "--rebuild-test-fixtures   Rebuild the test fixtures from live data" \
+  "--no-unit-test" \
+  "--no-lint" \
+  "--no-link-check" \
   ":db   Build the database" \
   ":app  Build the site"
 
@@ -42,15 +49,22 @@ function test_docker_container() {
     touch rebuild-test-fixtures.txt
   fi
 
-  # Run unit tests
-  docker exec $API_KEYMAN_CONTAINER_DESC sh -c "vendor/bin/phpunit --testdox"
+  if ! builder_has_option --no-unit-test; then
+    # Run unit tests
+    # shellcheck disable=SC2154
+    docker exec $API_KEYMAN_CONTAINER_DESC sh -c "vendor/bin/phpunit --testdox ${builder_extra_params[*]}"
+  fi
 
-  # Lint .php files for obvious errors
-  docker exec $API_KEYMAN_CONTAINER_DESC sh -c "find . -name '*.php' | grep -v '/vendor/' | xargs -n 1 -d '\\n' php -l"
+  if ! builder_has_option --no-lint; then
+    # Lint .php files for obvious errors
+    docker exec $API_KEYMAN_CONTAINER_DESC sh -c "find . -name '*.php' | grep -v '/vendor/' | xargs -n 1 -d '\\n' php -l"
+  fi
 
-  # Check all internal links
-  # NOTE: link checker runs on host rather than in docker image
-  npx broken-link-checker http://localhost:8058 --ordered --recursive --host-requests 10 -e --filter-level 3
+  if ! builder_has_option --no-link-check; then
+    # Check all internal links
+    # NOTE: link checker runs on host rather than in docker image
+    npx broken-link-checker http://localhost:8058 --ordered --recursive --host-requests 10 -e --filter-level 3
+  fi
 
   rm tier.txt
 }

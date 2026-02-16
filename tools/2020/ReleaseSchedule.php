@@ -42,6 +42,7 @@
 
       foreach($schedule as $days => $minutes) {
         if($interval->days <= $days) {
+          // TODO: spread this test across the hour rather than just 'first x minutes of the hour'
           return $currentTime['minutes'] < $minutes;
         }
       }
