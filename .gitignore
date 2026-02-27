@@ -8,7 +8,9 @@ vendor*
 # Shared files are bootstrapped:
 resources/bootstrap.inc.sh
 resources/.bootstrap-version
+resources/.bootstrap-registry
 _common/
 
 # State files
 _control/debug
+_control/release
