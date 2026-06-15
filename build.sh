@@ -2,7 +2,7 @@
 ## START STANDARD SITE BUILD SCRIPT INCLUDE
 readonly THIS_SCRIPT="$(readlink -f "${BASH_SOURCE[0]}")"
 readonly BOOTSTRAP="$(dirname "$THIS_SCRIPT")/resources/bootstrap.inc.sh"
-readonly BOOTSTRAP_VERSION=v1.0.13
+readonly BOOTSTRAP_VERSION=feat/linkinator-and-central-test-script
 if ! [ -f "$BOOTSTRAP" ] || ! source "$BOOTSTRAP"; then
   curl -H "Cache-Control: no-cache" --fail --silent --show-error -w "curl: Finished attempt to download %{url}" "https://raw.githubusercontent.com/keymanapp/shared-sites/$BOOTSTRAP_VERSION/bootstrap.inc.sh" -o "$BOOTSTRAP.tmp" || exit 1
   source "$BOOTSTRAP.tmp"
@@ -32,6 +32,7 @@ builder_describe \
   "start" \
   "stop" \
   "test" \
+  "info" \
   "--rebuild-test-fixtures   Rebuild the test fixtures from live data" \
   "--no-unit-test" \
   "--no-lint" \
@@ -40,34 +41,6 @@ builder_describe \
   ":app  Build the site"
 
 builder_parse "$@"
-
-function test_docker_container() {
-  echo "TIER_TEST" > tier.txt
-  # Note: ci.yml replicates these
-
-  if builder_has_option --rebuild-test-fixtures; then
-    touch rebuild-test-fixtures.txt
-  fi
-
-  if ! builder_has_option --no-unit-test; then
-    # Run unit tests
-    # shellcheck disable=SC2154
-    docker exec $API_KEYMAN_CONTAINER_DESC sh -c "vendor/bin/phpunit --testdox ${builder_extra_params[*]}"
-  fi
-
-  if ! builder_has_option --no-lint; then
-    # Lint .php files for obvious errors
-    docker exec $API_KEYMAN_CONTAINER_DESC sh -c "find . -name '*.php' | grep -v '/vendor/' | xargs -n 1 -d '\\n' php -l"
-  fi
-
-  if ! builder_has_option --no-link-check; then
-    # Check all internal links
-    # NOTE: link checker runs on host rather than in docker image
-    npx broken-link-checker http://localhost:8058 --ordered --recursive --host-requests 10 -e --filter-level 3
-  fi
-
-  rm tier.txt
-}
 
 builder_run_action configure bootstrap_configure
 
@@ -203,4 +176,12 @@ function start_docker_container_app() {
 builder_run_action start:db   start_docker_container_db  $API_KEYMAN_DB_IMAGE_NAME $API_KEYMAN_DB_CONTAINER_NAME $API_KEYMAN_DB_CONTAINER_DESC $PORT_API_KEYMAN_COM_DB
 builder_run_action start:app  start_docker_container_app $API_KEYMAN_IMAGE_NAME $API_KEYMAN_CONTAINER_NAME $API_KEYMAN_CONTAINER_DESC $HOST_API_KEYMAN_COM $PORT_API_KEYMAN_COM
 
-builder_run_action test:app      test_docker_container
+builder_run_action test:app      test_docker_container  $API_KEYMAN_CONTAINER_DESC $PORT_API_KEYMAN_COM /
+
+do_info() {
+  echo "BUILDER_TIER:               $BUILDER_TIER"
+  echo "KEYMAN_VERSION_ENVIRONMENT: $KEYMAN_VERSION_ENVIRONMENT"
+}
+
+builder_run_action info do_info
+

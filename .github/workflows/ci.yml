@@ -5,21 +5,77 @@ on: [pull_request]
 jobs:
   build-test:
     runs-on: ubuntu-latest
+    env:
+      KEYMANHOSTS_TIER: TIER_TEST
+      CONTAINER_DESC: api-keyman-com-app
+      CONTAINER_PORT: 8058
 
     steps:
     - name: Checkout
       uses: actions/checkout@v6.0.2
 
+    # Build the docker image and create link to vendor/ dependencies
     - name: Build the Docker image
       shell: bash
       run: |
         echo "TIER_TEST" > tier.txt
-        ./build.sh build start
+        ./build.sh configure build start --debug
       env:
         fail-fast: true
 
-    - name: Run tests
+    #
+    # Run tests -- these step definitions are NEARLY identical across:
+    #   help.keyman.com, keyman.com, keymanweb.com, api.keyman.com
+    #
+    # No differences on this site
+    #
+    - name: Test setup
       shell: bash
       run: |
-        ./build.sh test
+        source ./_common/tests.inc.sh
+        set -e
+        do_test_record_start_time
+        echo "TEST_START_TIME=${TEST_START_TIME}" >> "$GITHUB_ENV"
 
+    - name: PHP test
+      if: ${{ !cancelled() }}
+      shell: bash
+      run: |
+        source ./_common/tests.inc.sh
+        set -e
+        do_test_unit_tests "$CONTAINER_DESC"
+
+    - name: Lint
+      if: ${{ !cancelled() }}
+      shell: bash
+      run: |
+        source ./_common/tests.inc.sh
+        set -e
+        do_test_lint "$CONTAINER_DESC"
+
+    - name: Check broken links
+      if: ${{ !cancelled() }}
+      shell: bash
+      run: |
+        source ./_common/tests.inc.sh
+        set -e
+        do_test_links "http://localhost:${CONTAINER_PORT}" /
+
+      # We split the reporting of broken links into a separate step for ease of
+      # viewing because the broken links are otherwise hidden in a sea of good
+      # links in a very long report
+
+    - name: Report on broken links
+      if: ${{ !cancelled() }}
+      run: |
+        source ./_common/tests.inc.sh
+        set -e
+        do_test_print_link_report
+
+    - name: Check PHP errors
+      if: ${{ !cancelled() }}
+      shell: bash
+      run: |
+        source ./_common/tests.inc.sh
+        set -e
+        do_test_print_container_error_logs "$CONTAINER_DESC"
