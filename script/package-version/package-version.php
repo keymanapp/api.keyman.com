@@ -8,14 +8,16 @@
    *
    * https://api.keyman.com/schemas/package-version.json is JSON schema for valid responses
    *
-   * @param keyboard   Optional. keyboard id, can be repeated (either with comma or repeated param).
-   * @param model      Optional. model id, can be repeated (either with comma or repeated param).
-   * @param platform   Optional. Filter by platform support for keyboards:
-   *                   android, ios, linux, mac, [web], windows (web does not currently support .kmp)
-   *                   This stops the API returning keyboard packages that are invalid for the target
-   *                   platform. If not supplied, does not filter by platform support.
-   * @return           JSON blob or HTTP/400 (with JSON error) on invalid parameters
-   *                   The valid blob will contain latest version and url for the keyboards/lexical models.
+   * @param keyboard         Optional. keyboard id, can be repeated (either with comma or repeated param).
+   * @param model            Optional. model id, can be repeated (either with comma or repeated param).
+   * @param platform         Optional. Filter by platform support for keyboards:
+   *                         android, ios, linux, mac, [web], windows (web does not currently support .kmp)
+   *                         This stops the API returning keyboard packages that are invalid for the target
+   *                         platform. If not supplied, does not filter by platform support.
+   * @param keyman-version   Optional. Version of Keyman requesting the keyboard, will filter out keyboards
+   *                         that depend on a newer version of Keyman.
+   * @return                 JSON blob or HTTP/400 (with JSON error) on invalid parameters
+   *                         The valid blob will contain latest version and url for the keyboards/lexical models.
    */
 
   require_once('../../tools/util.php');
@@ -39,22 +41,34 @@
   $available_platforms = PackageVersion::available_platforms();
 
   foreach($params as $param => $value) {
-    if(!in_array($param, ['keyboard', 'model', 'platform'])) {
-      fail("Invalid parameter $param");
+    if(!in_array($param, ['keyboard', 'model', 'platform', 'keyman-version'])) {
+      fail("Unrecognized parameter '$param'");
     }
   }
 
   if(isset($params['platform'])) {
     $platform = $params['platform'];
     if(!in_array($platform, $available_platforms)) {
-      fail("Invalid platform $platform");
+      fail("Invalid platform' $platform'");
     }
   }
   else $platform = null;
+
   // Prepare results
 
-  $PackageVersion = new Keyman\Site\com\keyman\api\PackageVersion();
-  $json = $PackageVersion->execute($mssql, $params, $platform);
+  if(isset($params['keyman-version'])) {
+    $keymanVersion = $params['keyman-version'];
+    if(!preg_match('/^(\d+)\.(\d+)\.(\d+)$/', $keymanVersion)) {
+      fail("Invalid keyman-version '$keymanVersion', expected a.b.c format");
+    }
+  }
+  else $keymanVersion = null;
+
+  $keyboards = isset($params['keyboard']) ? $params['keyboard'] : [];
+  $models = isset($params['model']) ? $params['model'] : [];
+
+  $PackageVersion = new Keyman\Site\com\keyman\api\PackageVersion($mssql);
+  $json = $PackageVersion->execute($keyboards, $models, $platform, $keymanVersion);
 
   echo json_encode($json, JSON_UNESCAPED_SLASHES | JSON_PRETTY_PRINT);
 
