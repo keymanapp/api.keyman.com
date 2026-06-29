@@ -49,7 +49,7 @@
   if(isset($params['platform'])) {
     $platform = $params['platform'];
     if(!in_array($platform, $available_platforms)) {
-      fail("Invalid platform' $platform'");
+      fail("Invalid platform '$platform'");
     }
   }
   else $platform = null;

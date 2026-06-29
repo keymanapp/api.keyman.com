@@ -47,7 +47,7 @@ class PackageVersion
     $stmt = $this->mssql->prepare(
       'SELECT
             k.version, k.package_filename,
-            k.platform_android, k.platform_linux, k.platform_macos, k.platform_ios, k.platform_web, k.platform_windows,
+            k.platform_android, k.platform_ios, k.platform_linux, k.platform_macos, k.platform_web, k.platform_windows,
             kr.keyboard_id deprecated_by_keyboard_id, k.min_keyman_version
           FROM
             t_keyboard k LEFT JOIN
