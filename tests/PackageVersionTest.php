@@ -25,8 +25,8 @@ namespace Keyman\Site\com\keyman\api\tests {
       $schema = TestUtils::LoadJSONSchema(PackageVersionTest::SchemaFilename);
       $mssql = \Keyman\Site\com\keyman\api\Tools\DB\DBConnect::Connect();
 
-      $pv = new \Keyman\Site\com\keyman\api\PackageVersion();
-      $json = $pv->execute($mssql, [ 'keyboard' => ['khmer_angkor', 'bar', 'us', 'european2'], ['model' => 'zoo','nrc.en.mtnt'] ], 'windows');
+      $pv = new \Keyman\Site\com\keyman\api\PackageVersion($mssql);
+      $json = $pv->execute(['khmer_angkor', 'bar', 'us', 'european2'], ['zoo','nrc.en.mtnt'], 'windows', '1.0');
 
       // TODO(lowpri): find a way to skip this by emitting clean JSON object from execute()
       $json = json_decode(json_encode($json));
