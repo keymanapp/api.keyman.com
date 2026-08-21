@@ -5,6 +5,8 @@ vendor*
 /node_modules/
 .vscode/
 
+linkinator-results.json
+
 # Shared files are bootstrapped:
 resources/bootstrap.inc.sh
 resources/.bootstrap-version
