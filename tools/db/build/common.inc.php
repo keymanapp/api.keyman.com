@@ -201,7 +201,9 @@
 
         foreach($data as $line) {
           $sql .= "INSERT $table $coldef VALUES(";
-          $row = str_getcsv($line,"\t",'',"");
+          # note that \x7f should be an unused character in the source file as
+          # we don't have enclosures for tab delimited files
+          $row = str_getcsv($line,"\t","\x7f","");
           $comma = '';
           // #143 - ignore extra columns at end of data (if we have column data)
           for($i = 0; $i < sizeof($row) && (!$cols || $i < sizeof($cols)); $i++) {

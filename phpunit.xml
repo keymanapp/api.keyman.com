@@ -5,7 +5,7 @@
             <directory>tests</directory>
         </testsuite>
         <testsuite name="REST API Test Suite">
-            <directory>tests\rest</directory>
+            <directory>tests/rest</directory>
         </testsuite>
     </testsuites>
 </phpunit>
