@@ -26,24 +26,24 @@ RewriteRule "^search(/1\.0)?" "/script/search/1.0/search.php" [END]
 
 #### Rewrites for /script folder: /keyboard
 
-RewriteRule "^keyboard/(.*)$" "/script/keyboard/keyboard.php?id=$1" [END]
+RewriteRule "^keyboard/(.*)$" "/script/keyboard/keyboard.php?id=$1" [BCTLS,END]
 
 #### Rewrites for /script folder: /increment-download
 
-RewriteRule "^increment-download/(.*)$" "/script/increment-download/increment-download.php?id=$1" [END]
+RewriteRule "^increment-download/(.*)$" "/script/increment-download/increment-download.php?id=$1" [BCTLS,END]
 
 #### Rewrites for /script folder: /app-downloads-increment
 
-RewriteRule "^app-downloads-increment/([^/]+)/([^/]+)/(.*)$" "/script/app-downloads-increment/app-downloads-increment.php?product=$1&version=$2&tier=$3" [END]
+RewriteRule "^app-downloads-increment/([^/]+)/([^/]+)/(.*)$" "/script/app-downloads-increment/app-downloads-increment.php?product=$1&version=$2&tier=$3" [BCTLS,END]
 
 #### Rewrites for /script folder: /model
 
 RewriteRule "^model(/)?$" "/script/model-search/model-search.php" [END]
-RewriteRule "^model/(.*)$" "/script/model/model.php?id=$1" [END]
+RewriteRule "^model/(.*)$" "/script/model/model.php?id=$1" [BCTLS,END]
 
 #### Rewrites for /script folder: /version
 
-RewriteRule "^version(\/([^/]+)(\/([^/]+))?)?$" "/script/version/version.php?platform=$2&level=$4" [END]
+RewriteRule "^version(\/([^/]+)(\/([^/]+))?)?$" "/script/version/version.php?platform=$2&level=$4" [BCTLS,END]
 RewriteRule "^version(\/)?$" "/script/version/version.php" [END]
 
 #### Rewrites for /script folder: /package-version

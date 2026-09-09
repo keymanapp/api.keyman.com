@@ -9,7 +9,7 @@ require_once(__DIR__ . '/TestDBBuild.inc.php');
 use Keyman\Site\Common\KeymanHosts;
 use PHPUnit\Framework\TestCase;
 
-class ApiTestCase extends TestCase
+abstract class ApiTestCase extends TestCase
 {
   private const TIER_TXT = __DIR__ . '/../tier.txt';
   private static bool $wroteTierTxt = false;

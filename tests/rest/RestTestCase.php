@@ -11,7 +11,7 @@ use Keyman\Site\com\keyman\api\tests\ApiTestCase;
 use Keyman\Site\Common\KeymanHosts;
 use GuzzleHttp;
 
-class RestTestCase extends ApiTestCase
+abstract class RestTestCase extends ApiTestCase
 {
   protected $http;
 
@@ -70,15 +70,17 @@ class RestTestCase extends ApiTestCase
     $this->assertEquals("*", $cors[0]);
   }
 
-  protected function assertJsonSchemaLinkedAndValidated($response, $schema): void
+  protected function assertJsonSchemaLinkedAndValidated($response, $schema, $useFullVersionedPath = false): void
   {
     $headers = $response->getHeaders();
 
-    // The caller will pass in a versioned schema filename; we want the unversioned equivalent to check the Link header
-    $base_schema = basename($schema);
+    // For legacy APIs, the caller will pass in a versioned schema filename; we
+    // want the unversioned equivalent to check the Link header. For newer APIs,
+    // we always use a fully versioned schema in the Link
+    $base_schema = $useFullVersionedPath ? $schema : ('/' . basename($schema));
     $links = $headers["Link"];
     $this->assertCount(1, $links); // we should only have one Link header, the JSON schema
-    $this->assertEquals("<" . KeymanHosts::Instance()->api_keyman_com . "/schemas/$base_schema#>; rel=\"describedby\"" , $links[0]);
+    $this->assertEquals("<" . KeymanHosts::Instance()->api_keyman_com . "/schemas$base_schema#>; rel=\"describedby\"" , $links[0]);
 
     // Now validate against the versioned schema file
     $schema = TestUtils::LoadJSONSchema($schema);
