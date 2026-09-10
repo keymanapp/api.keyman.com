@@ -34,6 +34,8 @@ builder_describe \
   "stop" \
   "test" \
   "info" \
+  "composer-start  Start a temporary container to maintain composer" \
+  "composer-stop   Stop and cleanup temporary container for maintaining composer" \
   "--rebuild-test-fixtures   Rebuild the test fixtures from live data" \
   "--no-unit-test" \
   "--no-lint" \
@@ -189,3 +191,5 @@ do_info() {
 
 builder_run_action info do_info
 
+builder_run_action composer-start   docker_build_and_start_composer_container
+builder_run_action composer-stop    docker_stop_and_cleanup_composer_container
