@@ -56,13 +56,14 @@ builder_run_action stop:app   stop_docker_container  $API_KEYMAN_IMAGE_NAME $API
 function build_docker_container_db() {
   local IMAGE_NAME=$1
   local CONTAINER_NAME=$2
+  local BUILDER_CONFIGURATION=$3
 
   # Download docker image. --mount option requires BuildKit
   DOCKER_BUILDKIT=1 docker build -t $API_KEYMAN_DB_IMAGE_NAME -f mssql.Dockerfile .
 }
 
-builder_run_action build:db   build_docker_container_db $API_KEYMAN_DB_IMAGE_NAME $API_KEYMAN_DB_CONTAINER_NAME
-builder_run_action build:app  build_docker_container   $API_KEYMAN_IMAGE_NAME $API_KEYMAN_CONTAINER_NAME
+builder_run_action build:db   build_docker_container_db $API_KEYMAN_DB_IMAGE_NAME $API_KEYMAN_DB_CONTAINER_NAME $BUILDER_CONFIGURATION
+builder_run_action build:app  build_docker_container   $API_KEYMAN_IMAGE_NAME $API_KEYMAN_CONTAINER_NAME $BUILDER_CONFIGURATION
 
 # Custom start actions for db and app different from shared-sites
 function start_docker_container_db() {
@@ -71,6 +72,7 @@ function start_docker_container_db() {
   local CONTAINER_DESC=$3
   # HOST not applicable
   local PORT=$4
+  local BUILDER_CONFIGURATION=$5
 
   local CONTAINER_ID=$(get_docker_container_id $CONTAINER_NAME)
   if [ ! -z "$CONTAINER_ID" ]; then
@@ -86,7 +88,7 @@ function start_docker_container_db() {
   fi
 
   # Setup database
-  builder_echo "Setting up DB container"
+  builder_echo "Setting up DB container using $BUILDER_CONFIGURATION configuration"
   docker run --rm -d -p $PORT:1433 \
     -e "ACCEPT_EULA=Y" \
     -e "MSSQL_AGENT_ENABLED=true" \
@@ -107,6 +109,7 @@ function start_docker_container_app() {
   local CONTAINER_DESC=$3
   local HOST=$4
   local PORT=$5
+  local BUILDER_CONFIGURATION=$6
 
   _verify_vendor_is_not_folder
 
@@ -140,7 +143,7 @@ function start_docker_container_app() {
 
   db_ip=$(docker inspect -f '{{range.NetworkSettings.Networks}}{{.IPAddress}}{{end}}' ${API_KEYMAN_DB_IMAGE_NAME})
 
-  builder_echo "Spooling up site container"
+  builder_echo "Spooling up site container using $BUILDER_CONFIGURATION configuration"
 
   docker run --rm -m 200m -d -p $PORT:80 -v ${SITE_HTML} \
     -e 'api_keyman_com_mssql_pw=yourStrong(\!)Password' \
@@ -170,14 +173,14 @@ function start_docker_container_app() {
       builder_die "Docker container appears to have failed to start in order to run init-container.sh script"
     fi
 
-    docker exec -i $CONTAINER_ID sh -c "./resources/init-container.sh"
+    docker exec -i $CONTAINER_ID sh -c "./resources/init-container.sh ${BUILDER_CONFIGURATION}"
   fi
 
   builder_echo green "Listening on http://$HOST:$PORT"
 }
 
-builder_run_action start:db   start_docker_container_db  $API_KEYMAN_DB_IMAGE_NAME $API_KEYMAN_DB_CONTAINER_NAME $API_KEYMAN_DB_CONTAINER_DESC $PORT_API_KEYMAN_COM_DB
-builder_run_action start:app  start_docker_container_app $API_KEYMAN_IMAGE_NAME $API_KEYMAN_CONTAINER_NAME $API_KEYMAN_CONTAINER_DESC $HOST_API_KEYMAN_COM $PORT_API_KEYMAN_COM
+builder_run_action start:db   start_docker_container_db  $API_KEYMAN_DB_IMAGE_NAME $API_KEYMAN_DB_CONTAINER_NAME $API_KEYMAN_DB_CONTAINER_DESC $PORT_API_KEYMAN_COM_DB $BUILDER_CONFIGURATION
+builder_run_action start:app  start_docker_container_app $API_KEYMAN_IMAGE_NAME $API_KEYMAN_CONTAINER_NAME $API_KEYMAN_CONTAINER_DESC $HOST_API_KEYMAN_COM $PORT_API_KEYMAN_COM $BUILDER_CONFIGURATION
 
 builder_run_action test:app      test_docker_container  $API_KEYMAN_CONTAINER_DESC $PORT_API_KEYMAN_COM /
 

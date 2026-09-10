@@ -1,5 +1,7 @@
 #!/usr/bin/env bash
 
+echo "init-container.sh $1"
+
 openssl version
 uname -a
 
