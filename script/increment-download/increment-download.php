@@ -26,7 +26,7 @@
   }
 
   // Note: we don't currently unit-test this one
-  if(KeymanHosts::Instance()->Tier() === KeymanHosts::TIER_DEVELOPMENT)
+  if(KeymanHosts::Instance()->Tier() === KeymanHosts::TIER_DEVELOPMENT || KeymanHosts::Instance()->Tier() === KeymanHosts::TIER_TEST)
     $key = 'local';
   else
     $key = $env['API_KEYMAN_COM_INCREMENT_DOWNLOAD_KEY'];
