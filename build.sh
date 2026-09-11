@@ -62,7 +62,7 @@ function build_docker_container_db() {
 }
 
 builder_run_action build:db   build_docker_container_db $API_KEYMAN_DB_IMAGE_NAME $API_KEYMAN_DB_CONTAINER_NAME
-builder_run_action build:app  build_docker_container   $API_KEYMAN_IMAGE_NAME $API_KEYMAN_CONTAINER_NAME
+builder_run_action build:app  build_docker_container   $API_KEYMAN_IMAGE_NAME $API_KEYMAN_CONTAINER_NAME $BUILDER_CONFIGURATION
 
 # Custom start actions for db and app different from shared-sites
 function start_docker_container_db() {

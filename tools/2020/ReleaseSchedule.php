@@ -15,7 +15,7 @@
      * @param int    currentTime    Unix timestamp of current time
      * @return bool  true if the request should be presented with the upgrade
      */
-    public static function DoesRequestMeetSchedule(string $releaseDate, int $currentTime = null): bool {
+    public static function DoesRequestMeetSchedule(string $releaseDate, ?int $currentTime = null): bool {
       // This is an arbitrary schedule; see for example Chrome's release schedule:
       // https://chromium.googlesource.com/chromium/src/+/master/docs/process/release_cycle.md
       $schedule = [
