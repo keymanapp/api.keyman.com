@@ -1,5 +1,5 @@
 # syntax=docker/dockerfile:1
-FROM mcr.microsoft.com/mssql/server:2022-latest@sha256:d252932ef839c24c61c1139cc98f69c85ca774fa7c6bfaaa0015b7eb02b9dc87 
+FROM mcr.microsoft.com/mssql/server:2022-latest@sha256:0ec7739e1c5ec2f57861facbe1f2b74f1d3e147c7c97edf91eeea920c5944d9c
 USER root
 
 RUN export DEBIAN_FRONTEND=noninteractive && \
