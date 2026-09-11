@@ -11,8 +11,11 @@
   class DeveloperUpdateCheck {
     const SETUP_REGEX = '/^keymandeveloper-.+\.exe/';
 
+    private $mssql;
     private $isManual;
     private $currentTime; // used mainly for unit testing
+
+    public $DownloadVersions;
 
     public function execute($mssql, $tier, $appVersion, $isManual, $currentTime = null) {
 

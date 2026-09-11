@@ -9,13 +9,13 @@
 
       $this->schema = $schema;
 
-      $this->sqlrun("${data_path}cjk_database.sql");
+      $this->sqlrun("{$data_path}cjk_database.sql");
 
       $builder = new build_cjk_data($DBDataSources, $schema);
       $builder->execute($data_path, $do_force) || fail("Unable to build cjk data");
 
-      $this->sqlrun("${data_path}chinese_pinyin_import.sql");
-      $this->sqlrun("${data_path}japanese_import.sql");
+      $this->sqlrun("{$data_path}chinese_pinyin_import.sql");
+      $this->sqlrun("{$data_path}japanese_import.sql");
 
       return true;
     }

@@ -24,6 +24,8 @@
     public $platform;
 
     public $keyboards;
+
+    public $rangetext;
   }
 
   class KeyboardSearch {

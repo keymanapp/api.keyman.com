@@ -14,8 +14,11 @@
     const BOOTSTRAP_REGEX = '/^setup\.exe$/';
     const BUNDLE_REGEX = '/^keyman(desktop)?-.+\.exe/';
 
+    private $mssql;
     private $isManual;
     private $currentTime; // used mainly for unit testing
+
+    public $DownloadVersions = null;
 
     public function execute($mssql, $tier, $appVersion, $packages, $isUpdate, $isManual, $currentTime = null) {
 
@@ -43,7 +46,7 @@
 
       return json_encode($desktop_update, JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES);
     }
-    // RepairVersionCheck works around an issue where Keyman for Windows 18.0.235-236 
+    // RepairVersionCheck works around an issue where Keyman for Windows 18.0.235-236
     // would not upgrade to a newer version; see the links below for more details.
     // https://downloads.keyman.com/windows/stable/18.0.240/repair-14586/README.md
     // https://github.com/keymanapp/keyman/issues/13831
