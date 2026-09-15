@@ -24,7 +24,9 @@ final class TestDBDataSources extends \DBDataSources
     function __construct()
     {
       foreach($this as $field => $value) {
-        $this->$field = $this->fileFromTestDataDir($this->$field);
+        if(!empty($this->$field)) {
+          $this->$field = $this->fileFromTestDataDir($this->$field);
+        }
       }
       $this->mockAnalyticsSqlFile = $this->fileFromTestDataDir("analytics.sql");
     }

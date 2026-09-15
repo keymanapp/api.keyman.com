@@ -58,15 +58,15 @@
 
       $this->sqlrun(dirname(__FILE__)."/search.sql");
       $this->sqlrun(dirname(__FILE__)."/langtags.sql");
-      $this->sqlrun("${data_path}langtags.json.sql");
-      $this->sqlrun("${data_path}language-subtag-registry.sql");
-      $this->sqlrun("${data_path}iso639-3.sql");
-      $this->sqlrun("${data_path}iso639-3-name-index.sql");
-      $this->sqlrun("${data_path}ethnologue_language_codes.sql");
-      $this->sqlrun("${data_path}ethnologue_country_codes.sql");
-      $this->sqlrun("${data_path}ethnologue_language_index.sql");
-      $this->sqlrun("${data_path}keyboards.sql");
-      $this->sqlrun("${data_path}models.sql");
+      $this->sqlrun("{$data_path}langtags.json.sql");
+      $this->sqlrun("{$data_path}language-subtag-registry.sql");
+      $this->sqlrun("{$data_path}iso639-3.sql");
+      $this->sqlrun("{$data_path}iso639-3-name-index.sql");
+      $this->sqlrun("{$data_path}ethnologue_language_codes.sql");
+      $this->sqlrun("{$data_path}ethnologue_country_codes.sql");
+      $this->sqlrun("{$data_path}ethnologue_language_index.sql");
+      $this->sqlrun("{$data_path}keyboards.sql");
+      $this->sqlrun("{$data_path}models.sql");
 
       $this->sqlrun(dirname(__FILE__)."/search-prepare-data-1.sql");
       $this->sqlrun(dirname(__FILE__)."/search-prepare-data-2.sql");
@@ -105,7 +105,7 @@
       if(file_exists($DBDataSources->mockAnalyticsSqlFile))
         $this->sqlrun($DBDataSources->mockAnalyticsSqlFile);
 
-      $this->sqlrun("${data_path}dbdatasources.sql");
+      $this->sqlrun("{$data_path}dbdatasources.sql");
       return true;
     }
 
@@ -151,7 +151,7 @@
         $sql .= "\nINSERT t_dbdatasources SELECT ".sqlv($DBDataSources, $field).", ".sqlv(null, basename($DBDataSources->$field)). ", " . $DBDataSources->downloadDate($value) ."\n";
       }
 
-      file_put_contents("${data_path}dbdatasources.sql", $sql);
+      file_put_contents("{$data_path}dbdatasources.sql", $sql);
     }
 
     function download($url) {

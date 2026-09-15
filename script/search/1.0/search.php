@@ -58,6 +58,7 @@
     public $search; // search query has been entered
     public $rangematch, $isomatch, $allmatch, $regionmatch;
     public $text, $textparts, $searchtext, $region;
+    public $legacy;
   }
 
   class KeyboardSearch {
